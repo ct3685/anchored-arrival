@@ -37,13 +37,11 @@ export const metadata: Metadata = {
     siteName: 'Agent Morgie 00BA',
     locale: 'en_US',
     type: 'website',
-    images: ['/images/main-character.png']
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Agent Morgie 00BA',
     description: 'Double O Badass - Main Character Energy',
-    images: ['/images/main-character.png']
   }
 };
 
