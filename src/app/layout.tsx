@@ -6,6 +6,7 @@ import { theme } from '@/theme/theme';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import MiniPlayer from '@/components/MiniPlayer';
+import SparkleEffect from '@/components/SparkleEffect';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://agentmorgie.netlify.app'),
@@ -48,6 +49,10 @@ export default function RootLayout({
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
           <ThemeProvider theme={theme}>
             <CssBaseline />
+            {/* Global sparkle effects */}
+            <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
+              <SparkleEffect />
+            </div>
             <Navbar />
             <main style={{ minHeight: '100vh' }}>
               {children}

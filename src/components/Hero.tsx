@@ -4,7 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Box, Container, Typography, Button, Stack } from '@mui/material';
 import { motion } from 'motion/react';
-import SparkleEffect from './SparkleEffect';
 import { colors } from '@/theme/theme';
 
 export default function Hero() {
@@ -19,8 +18,6 @@ export default function Hero() {
         overflow: 'hidden',
       }}
     >
-      <SparkleEffect />
-
       {/* Gradient orbs background */}
       <Box
         sx={{
