@@ -38,27 +38,37 @@ export default function SparkleEffect() {
 
   useEffect(() => {
     const createSparkle = (): Sparkle => {
-      const types: ('star' | 'heart' | 'note')[] = ['star', 'heart', 'note'];
+      // Weighted selection: more hearts! (50% hearts, 30% stars, 20% notes)
+      const rand = Math.random();
+      let type: 'star' | 'heart' | 'note';
+      if (rand < 0.5) {
+        type = 'heart';
+      } else if (rand < 0.8) {
+        type = 'star';
+      } else {
+        type = 'note';
+      }
+      
       return {
         id: Math.random(),
         x: Math.random() * 100,
         y: Math.random() * 100,
-        size: Math.random() * 16 + 8,
+        size: Math.random() * 18 + 10, // Slightly bigger
         color: colors[Math.floor(Math.random() * colors.length)],
-        type: types[Math.floor(Math.random() * types.length)],
+        type,
       };
     };
 
-    // Initial sparkles
-    setSparkles(Array.from({ length: 15 }, createSparkle));
+    // Initial sparkles - more of them!
+    setSparkles(Array.from({ length: 25 }, createSparkle));
 
-    // Add new sparkles periodically
+    // Add new sparkles more frequently
     const interval = setInterval(() => {
       setSparkles((prev) => {
-        const newSparkles = [...prev.slice(-20), createSparkle()];
+        const newSparkles = [...prev.slice(-30), createSparkle()];
         return newSparkles;
       });
-    }, 800);
+    }, 500); // Faster spawn rate
 
     return () => clearInterval(interval);
   }, []);
