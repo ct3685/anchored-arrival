@@ -1,8 +1,8 @@
 [build]
   command = "npm run build"
+  publish = ".next"
 
 [build.environment]
   NODE_VERSION = "20"
 
-# Next.js on Netlify uses the automatic runtime adapter
-# No publish directory or redirects needed - handled automatically
+# Next.js runtime handles routing automatically
