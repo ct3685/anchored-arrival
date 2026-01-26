@@ -9,7 +9,7 @@ import MiniPlayer from '@/components/MiniPlayer';
 import SparkleEffect from '@/components/SparkleEffect';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://agentmorgie.netlify.app'),
+  metadataBase: new URL('https://agentmorgie.com'),
   icons: {
     icon: '/images/mvp.png',
     apple: '/images/mvp.png',
@@ -18,9 +18,23 @@ export const metadata: Metadata = {
   description: 'Welcome to the world of Agent Morgie - TikTok Live Creator, Main Character Energy, Live... And Lethal!',
   keywords: ['Agent Morgie', 'TikTok', 'Live Creator', 'realfeelpurpose'],
   authors: [{ name: 'Agent Morgie' }],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     title: 'Agent Morgie 00BA | Double O Badass',
     description: 'Welcome to the world of Agent Morgie - Main Character Energy!',
+    url: '/',
+    siteName: 'Agent Morgie 00BA',
+    locale: 'en_US',
     type: 'website',
     images: ['/images/live-and-lethal.png'],
   },
@@ -45,6 +59,38 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@graph': [
+                {
+                  '@type': 'WebSite',
+                  '@id': 'https://agentmorgie.com/#website',
+                  url: 'https://agentmorgie.com',
+                  name: 'Agent Morgie 00BA',
+                  description: 'Welcome to the world of Agent Morgie - TikTok Live Creator, Main Character Energy, Live... And Lethal!',
+                  inLanguage: 'en-US',
+                },
+                {
+                  '@type': 'Person',
+                  '@id': 'https://agentmorgie.com/#person',
+                  name: 'Agent Morgie',
+                  alternateName: 'Agent Morgie 00BA',
+                  description: 'TikTok Live Creator, Main Character Energy, Double O Badass',
+                  url: 'https://agentmorgie.com',
+                  image: 'https://agentmorgie.com/images/live-and-lethal.png',
+                  sameAs: [
+                    'https://www.tiktok.com/@realfeelpurpose',
+                  ],
+                },
+              ],
+            }),
+          }}
+        />
+      </head>
       <body style={{ margin: 0 }}>
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
           <ThemeProvider theme={theme}>
