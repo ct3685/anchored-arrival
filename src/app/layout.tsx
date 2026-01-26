@@ -5,6 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { theme } from '@/theme/theme';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import MiniPlayer from '@/components/MiniPlayer';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://agentmorgie.netlify.app'),
@@ -48,6 +49,7 @@ export default function RootLayout({
               {children}
             </main>
             <Footer />
+            <MiniPlayer />
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>
