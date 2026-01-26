@@ -12,10 +12,11 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://agentmorgie.com'),
   icons: {
     icon: '/images/mvp.png',
-    apple: '/images/mvp.png',
+    apple: '/images/mvp.png'
   },
   title: 'Agent Morgie 00BA | Double O Badass',
-  description: 'Welcome to the world of Agent Morgie - TikTok Live Creator, Main Character Energy, Live... And Lethal!',
+  description:
+    'Welcome to the world of Agent Morgie - TikTok Live Creator, Main Character Energy, Live... And Lethal!',
   keywords: ['Agent Morgie', 'TikTok', 'Live Creator', 'realfeelpurpose'],
   authors: [{ name: 'Agent Morgie' }],
   robots: {
@@ -23,11 +24,11 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: {
       index: true,
-      follow: true,
-    },
+      follow: true
+    }
   },
   alternates: {
-    canonical: '/',
+    canonical: '/'
   },
   openGraph: {
     title: 'Agent Morgie 00BA | Double O Badass',
@@ -36,27 +37,23 @@ export const metadata: Metadata = {
     siteName: 'Agent Morgie 00BA',
     locale: 'en_US',
     type: 'website',
-    images: ['/images/live-and-lethal.png'],
+    images: ['/images/main-character.png']
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Agent Morgie 00BA',
     description: 'Double O Badass - Main Character Energy',
-    images: ['/images/live-and-lethal.png'],
-  },
+    images: ['/images/main-character.png']
+  }
 };
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#FF69B4',
+  themeColor: '#FF69B4'
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
@@ -69,25 +66,24 @@ export default function RootLayout({
                 {
                   '@type': 'WebSite',
                   '@id': 'https://agentmorgie.com/#website',
-                  url: 'https://agentmorgie.com',
-                  name: 'Agent Morgie 00BA',
-                  description: 'Welcome to the world of Agent Morgie - TikTok Live Creator, Main Character Energy, Live... And Lethal!',
-                  inLanguage: 'en-US',
+                  'url': 'https://agentmorgie.com',
+                  'name': 'Agent Morgie 00BA',
+                  'description':
+                    'Welcome to the world of Agent Morgie - TikTok Live Creator, Main Character Energy, Live... And Lethal!',
+                  'inLanguage': 'en-US'
                 },
                 {
                   '@type': 'Person',
                   '@id': 'https://agentmorgie.com/#person',
-                  name: 'Agent Morgie',
-                  alternateName: 'Agent Morgie 00BA',
-                  description: 'TikTok Live Creator, Main Character Energy, Double O Badass',
-                  url: 'https://agentmorgie.com',
-                  image: 'https://agentmorgie.com/images/live-and-lethal.png',
-                  sameAs: [
-                    'https://www.tiktok.com/@realfeelpurpose',
-                  ],
-                },
-              ],
-            }),
+                  'name': 'Agent Morgie',
+                  'alternateName': 'Agent Morgie 00BA',
+                  'description': 'TikTok Live Creator, Main Character Energy, Double O Badass',
+                  'url': 'https://agentmorgie.com',
+                  'image': 'https://agentmorgie.com/images/main-character.png',
+                  'sameAs': ['https://www.tiktok.com/@realfeelpurpose']
+                }
+              ]
+            })
           }}
         />
       </head>
@@ -100,9 +96,7 @@ export default function RootLayout({
               <SparkleEffect />
             </div>
             <Navbar />
-            <main style={{ minHeight: '100vh' }}>
-              {children}
-            </main>
+            <main style={{ minHeight: '100vh' }}>{children}</main>
             <Footer />
             <MiniPlayer />
           </ThemeProvider>
