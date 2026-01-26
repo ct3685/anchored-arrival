@@ -168,7 +168,7 @@ export default function Hero() {
                 sx={{
                   color: colors.textSecondary,
                   fontWeight: 400,
-                  mb: 4,
+                  mb: 2,
                   fontSize: { xs: '1rem', md: '1.25rem' },
                 }}
               >
@@ -179,7 +179,27 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
+              transition={{ duration: 0.6, delay: 0.7 }}
+            >
+              <Typography
+                variant="body1"
+                sx={{
+                  color: colors.textSecondary,
+                  fontWeight: 400,
+                  mb: 4,
+                  fontSize: { xs: '0.9rem', md: '1rem' },
+                  lineHeight: 1.7,
+                  maxWidth: 450,
+                }}
+              >
+                Candid, community-driven creator focused on real conversations, growth, and connection. TikTok Lives, relatable humor, mindset/faith moments, and everyday lifestyle—building a welcoming space where people can be genuine, have fun, and feel at home.
+              </Typography>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.9 }}
             >
               <Stack
                 direction={{ xs: 'column', sm: 'row' }}
