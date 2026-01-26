@@ -9,6 +9,10 @@ import MiniPlayer from '@/components/MiniPlayer';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://agentmorgie.netlify.app'),
+  icons: {
+    icon: '/images/mvp.png',
+    apple: '/images/mvp.png',
+  },
   title: 'Agent Morgie 00BA | Double O Badass',
   description: 'Welcome to the world of Agent Morgie - TikTok Live Creator, Main Character Energy, Live... And Lethal!',
   keywords: ['Agent Morgie', 'TikTok', 'Live Creator', 'realfeelpurpose'],
