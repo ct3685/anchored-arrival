@@ -1,0 +1,11 @@
+import { Metadata } from 'next';
+import LinkTree from '@/components/LinkTree';
+
+export const metadata: Metadata = {
+  title: 'Links | Agent Morgie 00BA',
+  description: 'Connect with Agent Morgie - TikTok, music, and more!',
+};
+
+export default function LinksPage() {
+  return <LinkTree />;
+}
