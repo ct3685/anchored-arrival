@@ -11,7 +11,7 @@ import {
   CardActionArea,
   IconButton,
   Button,
-  Stack
+  Stack,
 } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
@@ -31,14 +31,16 @@ import {
   trackLightboxNavigate,
   trackImageDownload,
   trackGalleryDownloadAll,
-  trackDownloadError
+  trackDownloadError,
 } from '@/lib/analytics';
 
 interface PhotoGalleryProps {
   images?: ImageData[];
 }
 
-export default function PhotoGallery({ images = galleryImages }: PhotoGalleryProps) {
+export default function PhotoGallery({
+  images = galleryImages,
+}: PhotoGalleryProps) {
   useScrollDepth();
 
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -94,7 +96,10 @@ export default function PhotoGallery({ images = galleryImages }: PhotoGalleryPro
       document.body.removeChild(a);
     } catch (error) {
       console.error('Download failed:', error);
-      trackDownloadError(filename, error instanceof Error ? error.message : 'Unknown error');
+      trackDownloadError(
+        filename,
+        error instanceof Error ? error.message : 'Unknown error'
+      );
     }
   };
 
@@ -110,7 +115,7 @@ export default function PhotoGallery({ images = galleryImages }: PhotoGalleryPro
     src: img.src,
     alt: img.alt,
     title: img.title,
-    description: img.description
+    description: img.description,
   }));
 
   return (
@@ -118,13 +123,15 @@ export default function PhotoGallery({ images = galleryImages }: PhotoGalleryPro
       sx={{
         py: 8,
         minHeight: '100vh',
-        background: `linear-gradient(180deg, ${colors.background} 0%, ${colors.surface} 100%)`
-      }}>
+        background: `linear-gradient(180deg, ${colors.background} 0%, ${colors.surface} 100%)`,
+      }}
+    >
       <Container maxWidth="lg">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}>
+          transition={{ duration: 0.6 }}
+        >
           <Typography
             variant="h2"
             align="center"
@@ -134,11 +141,16 @@ export default function PhotoGallery({ images = galleryImages }: PhotoGalleryPro
               background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.secondary} 100%)`,
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent'
-            }}>
+              WebkitTextFillColor: 'transparent',
+            }}
+          >
             Gallery
           </Typography>
-          <Typography variant="body1" align="center" sx={{ mb: 6, color: colors.textSecondary }}>
+          <Typography
+            variant="body1"
+            align="center"
+            sx={{ mb: 6, color: colors.textSecondary }}
+          >
             The many vibes of Agent Morgie 00BA
           </Typography>
         </motion.div>
@@ -149,37 +161,43 @@ export default function PhotoGallery({ images = galleryImages }: PhotoGalleryPro
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}>
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
                 <Card
                   sx={{
-                    'position': 'relative',
-                    'overflow': 'hidden',
-                    'aspectRatio': '1',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    aspectRatio: '1',
                     '&:hover .overlay': {
-                      opacity: 1
+                      opacity: 1,
                     },
                     '&:hover img': {
-                      transform: 'scale(1.05)'
+                      transform: 'scale(1.05)',
                     },
-                    'transition': 'box-shadow 0.3s ease',
+                    transition: 'box-shadow 0.3s ease',
                     '&:hover': {
-                      boxShadow: `0 0 30px ${colors.primary}44`
-                    }
-                  }}>
-                  <CardActionArea onClick={() => openLightbox(index)} sx={{ height: '100%' }}>
+                      boxShadow: `0 0 30px ${colors.primary}44`,
+                    },
+                  }}
+                >
+                  <CardActionArea
+                    onClick={() => openLightbox(index)}
+                    sx={{ height: '100%' }}
+                  >
                     <Box
                       sx={{
                         position: 'relative',
                         width: '100%',
-                        height: '100%'
-                      }}>
+                        height: '100%',
+                      }}
+                    >
                       <Image
                         src={image.src}
                         alt={image.alt}
                         fill
                         style={{
                           objectFit: 'cover',
-                          transition: 'transform 0.3s ease'
+                          transition: 'transform 0.3s ease',
                         }}
                         sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
                       />
@@ -197,44 +215,59 @@ export default function PhotoGallery({ images = galleryImages }: PhotoGalleryPro
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
-                        p: 2
-                      }}>
-                      <Typography variant="h6" sx={{ color: 'white', fontWeight: 700 }}>
+                        p: 2,
+                      }}
+                    >
+                      <Typography
+                        variant="h6"
+                        sx={{ color: 'white', fontWeight: 700 }}
+                      >
                         {image.title}
                       </Typography>
-                      <Typography variant="body2" sx={{ color: colors.textSecondary }}>
+                      <Typography
+                        variant="body2"
+                        sx={{ color: colors.textSecondary }}
+                      >
                         {image.description}
                       </Typography>
                       <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
                         <IconButton
                           size="small"
                           sx={{
-                            'color': colors.secondary,
-                            'backgroundColor': `${colors.secondary}22`,
+                            color: colors.secondary,
+                            backgroundColor: `${colors.secondary}22`,
                             '&:hover': {
-                              backgroundColor: `${colors.secondary}44`
-                            }
+                              backgroundColor: `${colors.secondary}44`,
+                            },
                           }}
                           onClick={(e) => {
                             e.stopPropagation();
                             openLightbox(index);
-                          }}>
+                          }}
+                        >
                           <ZoomInIcon fontSize="small" />
                         </IconButton>
                         <IconButton
                           size="small"
                           sx={{
-                            'color': colors.primary,
-                            'backgroundColor': `${colors.primary}22`,
+                            color: colors.primary,
+                            backgroundColor: `${colors.primary}22`,
                             '&:hover': {
-                              backgroundColor: `${colors.primary}44`
-                            }
+                              backgroundColor: `${colors.primary}44`,
+                            },
                           }}
                           onClick={(e) => {
                             e.stopPropagation();
-                            const filename = image.src.split('/').pop() || 'image.png';
-                            handleDownload(image.src, filename, image.title, 'card');
-                          }}>
+                            const filename =
+                              image.src.split('/').pop() || 'image.png';
+                            handleDownload(
+                              image.src,
+                              filename,
+                              image.title,
+                              'card'
+                            );
+                          }}
+                        >
                           <DownloadIcon fontSize="small" />
                         </IconButton>
                       </Stack>
@@ -278,16 +311,16 @@ export default function PhotoGallery({ images = galleryImages }: PhotoGalleryPro
             if (index !== previousIndexRef.current) {
               handleLightboxIndexChange(index);
             }
-          }
+          },
         }}
         slides={lightboxSlides}
         plugins={[Zoom, Download]}
         styles={{
-          container: { backgroundColor: `${colors.background}F5` }
+          container: { backgroundColor: `${colors.background}F5` },
         }}
         zoom={{
           maxZoomPixelRatio: 3,
-          scrollToZoom: true
+          scrollToZoom: true,
         }}
       />
     </Box>

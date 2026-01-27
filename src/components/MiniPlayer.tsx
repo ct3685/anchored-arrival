@@ -11,7 +11,7 @@ import {
   Paper,
   Collapse,
   useTheme,
-  useMediaQuery
+  useMediaQuery,
 } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
@@ -24,7 +24,10 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useAudio } from '@/lib/AudioContext';
 import { tracks } from '@/lib/tracks';
 import { colors } from '@/theme/theme';
-import { trackMiniplayerExpand, trackMiniplayerCollapse } from '@/lib/analytics';
+import {
+  trackMiniplayerExpand,
+  trackMiniplayerCollapse,
+} from '@/lib/analytics';
 
 export default function MiniPlayer() {
   const theme = useTheme();
@@ -41,7 +44,7 @@ export default function MiniPlayer() {
     nextTrack,
     prevTrack,
     formatTime,
-    hasMultipleTracks
+    hasMultipleTracks,
   } = useAudio();
 
   const [isExpanded, setIsExpanded] = useState(false);
@@ -71,8 +74,9 @@ export default function MiniPlayer() {
           bottom: 20,
           left: isDesktop ? 'auto' : 20,
           right: 20,
-          zIndex: 1300
-        }}>
+          zIndex: 1300,
+        }}
+      >
         <Paper
           elevation={8}
           sx={{
@@ -84,17 +88,23 @@ export default function MiniPlayer() {
             width: { xs: 'auto', sm: 'fit-content' },
             maxWidth: { xs: '100%', sm: 400 },
             marginLeft: { xs: 0, sm: 'auto' },
-            minWidth: isExpanded ? { xs: '100%', sm: 320 } : { xs: 'auto', sm: 280 },
-            transition: 'min-width 0.3s ease, width 0.3s ease'
-          }}>
+            minWidth: isExpanded
+              ? { xs: '100%', sm: 320 }
+              : { xs: 'auto', sm: 280 },
+            transition: 'min-width 0.3s ease, width 0.3s ease',
+          }}
+        >
           {/* Collapsed View */}
           <Stack direction="row" alignItems="center" spacing={1} sx={{ p: 1 }}>
             {/* Album Art */}
             <motion.div
               animate={isPlaying ? { rotate: 360 } : { rotate: 0 }}
               transition={
-                isPlaying ? { duration: 8, repeat: Infinity, ease: 'linear' } : { duration: 0.3 }
-              }>
+                isPlaying
+                  ? { duration: 8, repeat: Infinity, ease: 'linear' }
+                  : { duration: 0.3 }
+              }
+            >
               <Box
                 sx={{
                   position: 'relative',
@@ -106,9 +116,10 @@ export default function MiniPlayer() {
                   boxShadow: isPlaying
                     ? `0 0 15px ${colors.primary}66`
                     : `0 0 8px ${colors.primary}33`,
-                  transition: 'box-shadow 0.3s ease'
+                  transition: 'box-shadow 0.3s ease',
                 }}
-                onClick={handleExpandToggle}>
+                onClick={handleExpandToggle}
+              >
                 <Image
                   src={currentTrack.cover}
                   alt={currentTrack.title}
@@ -123,12 +134,13 @@ export default function MiniPlayer() {
               onClick={togglePlay}
               size="small"
               sx={{
-                'backgroundColor': `${colors.primary}22`,
-                'color': colors.primary,
+                backgroundColor: `${colors.primary}22`,
+                color: colors.primary,
                 '&:hover': {
-                  backgroundColor: `${colors.primary}44`
-                }
-              }}>
+                  backgroundColor: `${colors.primary}44`,
+                },
+              }}
+            >
               {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
             </IconButton>
 
@@ -142,8 +154,9 @@ export default function MiniPlayer() {
                   flex: 1,
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
-                  textOverflow: 'ellipsis'
-                }}>
+                  textOverflow: 'ellipsis',
+                }}
+              >
                 {currentTrack.title}
               </Typography>
             ) : (
@@ -154,7 +167,8 @@ export default function MiniPlayer() {
             <IconButton
               onClick={handleExpandToggle}
               size="small"
-              sx={{ color: colors.textSecondary, flexShrink: 0 }}>
+              sx={{ color: colors.textSecondary, flexShrink: 0 }}
+            >
               {isExpanded ? <ExpandMoreIcon /> : <ExpandLessIcon />}
             </IconButton>
           </Stack>
@@ -171,13 +185,15 @@ export default function MiniPlayer() {
                   mb: 0.5,
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
-                  textOverflow: 'ellipsis'
-                }}>
+                  textOverflow: 'ellipsis',
+                }}
+              >
                 {currentTrack.title}
               </Typography>
               <Typography
                 variant="caption"
-                sx={{ color: colors.textSecondary, display: 'block', mb: 1 }}>
+                sx={{ color: colors.textSecondary, display: 'block', mb: 1 }}
+              >
                 {currentTrack.artist}
               </Typography>
 
@@ -185,7 +201,8 @@ export default function MiniPlayer() {
               <Stack direction="row" alignItems="center" spacing={1}>
                 <Typography
                   variant="caption"
-                  sx={{ color: colors.textSecondary, fontSize: '0.65rem' }}>
+                  sx={{ color: colors.textSecondary, fontSize: '0.65rem' }}
+                >
                   {formatTime(currentTime)}
                 </Typography>
                 <Slider
@@ -194,19 +211,20 @@ export default function MiniPlayer() {
                   onChange={handleSeek}
                   size="small"
                   sx={{
-                    'color': colors.primary,
+                    color: colors.primary,
                     '& .MuiSlider-thumb': {
                       width: 8,
-                      height: 8
+                      height: 8,
                     },
                     '& .MuiSlider-track': {
-                      background: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`
-                    }
+                      background: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`,
+                    },
                   }}
                 />
                 <Typography
                   variant="caption"
-                  sx={{ color: colors.textSecondary, fontSize: '0.65rem' }}>
+                  sx={{ color: colors.textSecondary, fontSize: '0.65rem' }}
+                >
                   {formatTime(duration)}
                 </Typography>
               </Stack>
@@ -217,28 +235,33 @@ export default function MiniPlayer() {
                 justifyContent="center"
                 alignItems="center"
                 spacing={1}
-                sx={{ mt: 1 }}>
+                sx={{ mt: 1 }}
+              >
                 <IconButton
                   onClick={prevTrack}
                   size="small"
                   sx={{
-                    color: hasMultipleTracks ? colors.secondary : colors.textSecondary,
-                    opacity: hasMultipleTracks ? 1 : 0.5
-                  }}>
+                    color: hasMultipleTracks
+                      ? colors.secondary
+                      : colors.textSecondary,
+                    opacity: hasMultipleTracks ? 1 : 0.5,
+                  }}
+                >
                   <SkipPreviousIcon fontSize="small" />
                 </IconButton>
 
                 <IconButton
                   onClick={togglePlay}
                   sx={{
-                    'width': 40,
-                    'height': 40,
-                    'background': `linear-gradient(135deg, ${colors.primary} 0%, ${colors.accent} 100%)`,
-                    'color': 'white',
+                    width: 40,
+                    height: 40,
+                    background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.accent} 100%)`,
+                    color: 'white',
                     '&:hover': {
-                      background: `linear-gradient(135deg, ${colors.primary} 20%, ${colors.accent} 120%)`
-                    }
-                  }}>
+                      background: `linear-gradient(135deg, ${colors.primary} 20%, ${colors.accent} 120%)`,
+                    },
+                  }}
+                >
                   {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
                 </IconButton>
 
@@ -246,9 +269,12 @@ export default function MiniPlayer() {
                   onClick={nextTrack}
                   size="small"
                   sx={{
-                    color: hasMultipleTracks ? colors.secondary : colors.textSecondary,
-                    opacity: hasMultipleTracks ? 1 : 0.5
-                  }}>
+                    color: hasMultipleTracks
+                      ? colors.secondary
+                      : colors.textSecondary,
+                    opacity: hasMultipleTracks ? 1 : 0.5,
+                  }}
+                >
                   <SkipNextIcon fontSize="small" />
                 </IconButton>
               </Stack>
@@ -261,8 +287,9 @@ export default function MiniPlayer() {
                     color: colors.textSecondary,
                     textAlign: 'center',
                     display: 'block',
-                    mt: 1
-                  }}>
+                    mt: 1,
+                  }}
+                >
                   {currentTrackIndex + 1} / {tracks.length}
                 </Typography>
               )}

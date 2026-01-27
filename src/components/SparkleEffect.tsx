@@ -48,7 +48,7 @@ export default function SparkleEffect() {
       } else {
         type = 'note';
       }
-      
+
       return {
         id: Math.random(),
         x: Math.random() * 100,

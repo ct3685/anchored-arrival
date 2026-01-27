@@ -20,7 +20,10 @@ const gtag = (...args: Parameters<typeof window.gtag>) => {
 };
 
 // Generic event tracker
-export const trackEvent = (eventName: string, params?: Record<string, unknown>) => {
+export const trackEvent = (
+  eventName: string,
+  params?: Record<string, unknown>
+) => {
   gtag('event', eventName, params);
 };
 
@@ -28,11 +31,15 @@ export const trackEvent = (eventName: string, params?: Record<string, unknown>) 
 // NAVIGATION EVENTS
 // ============================================
 
-export const trackNavClick = (linkText: string, linkUrl: string, navType: 'desktop' | 'mobile') => {
+export const trackNavClick = (
+  linkText: string,
+  linkUrl: string,
+  navType: 'desktop' | 'mobile'
+) => {
   trackEvent('nav_click', {
     link_text: linkText,
     link_url: linkUrl,
-    nav_type: navType
+    nav_type: navType,
   });
 };
 
@@ -52,11 +59,15 @@ export const trackLogoClick = () => {
 // HERO EVENTS
 // ============================================
 
-export const trackHeroCTA = (ctaText: string, destination: string, isExternal: boolean) => {
+export const trackHeroCTA = (
+  ctaText: string,
+  destination: string,
+  isExternal: boolean
+) => {
   trackEvent('hero_cta_click', {
     cta_text: ctaText,
     destination: destination,
-    is_external: isExternal
+    is_external: isExternal,
   });
 };
 
@@ -76,7 +87,7 @@ export const trackMusicPlay = (
     track_title: trackTitle,
     artist: artist,
     player_type: playerType,
-    position_seconds: Math.round(positionSeconds)
+    position_seconds: Math.round(positionSeconds),
   });
 };
 
@@ -92,7 +103,7 @@ export const trackMusicPause = (
     track_title: trackTitle,
     position_seconds: Math.round(positionSeconds),
     listen_duration_seconds: Math.round(listenDuration),
-    player_type: playerType
+    player_type: playerType,
   });
 };
 
@@ -106,7 +117,7 @@ export const trackMusicSeek = (
     track_id: trackId,
     from_seconds: Math.round(fromSeconds),
     to_seconds: Math.round(toSeconds),
-    player_type: playerType
+    player_type: playerType,
   });
 };
 
@@ -120,7 +131,7 @@ export const trackMusicTrackComplete = (
     track_id: trackId,
     track_title: trackTitle,
     total_listen_time_seconds: Math.round(totalListenTime),
-    player_type: playerType
+    player_type: playerType,
   });
 };
 
@@ -134,7 +145,7 @@ export const trackMusicMilestone = (
     track_id: trackId,
     track_title: trackTitle,
     milestone: milestone,
-    player_type: playerType
+    player_type: playerType,
   });
 };
 
@@ -148,19 +159,19 @@ export const trackMusicTrackChange = (
     from_track_id: fromTrackId,
     to_track_id: toTrackId,
     to_track_title: toTrackTitle,
-    direction: direction
+    direction: direction,
   });
 };
 
 export const trackMiniplayerExpand = (trackId: string) => {
   trackEvent('miniplayer_expand', {
-    track_id: trackId
+    track_id: trackId,
   });
 };
 
 export const trackMiniplayerCollapse = (trackId: string) => {
   trackEvent('miniplayer_collapse', {
-    track_id: trackId
+    track_id: trackId,
   });
 };
 
@@ -176,21 +187,24 @@ export const trackGalleryImageClick = (
   trackEvent('gallery_image_click', {
     image_title: imageTitle,
     image_index: imageIndex,
-    image_src: imageSrc
+    image_src: imageSrc,
   });
 };
 
 export const trackLightboxOpen = (imageTitle: string, imageIndex: number) => {
   trackEvent('lightbox_open', {
     image_title: imageTitle,
-    image_index: imageIndex
+    image_index: imageIndex,
   });
 };
 
-export const trackLightboxClose = (imageTitle: string, viewDurationSeconds: number) => {
+export const trackLightboxClose = (
+  imageTitle: string,
+  viewDurationSeconds: number
+) => {
   trackEvent('lightbox_close', {
     image_title: imageTitle,
-    view_duration_seconds: Math.round(viewDurationSeconds)
+    view_duration_seconds: Math.round(viewDurationSeconds),
   });
 };
 
@@ -204,7 +218,7 @@ export const trackLightboxNavigate = (
     direction: direction,
     from_image: fromImageTitle,
     to_image: toImageTitle,
-    to_index: toIndex
+    to_index: toIndex,
   });
 };
 
@@ -216,13 +230,13 @@ export const trackImageDownload = (
   trackEvent('image_download', {
     image_title: imageTitle,
     image_src: imageSrc,
-    download_source: source
+    download_source: source,
   });
 };
 
 export const trackGalleryDownloadAll = (imageCount: number) => {
   trackEvent('gallery_download_all', {
-    image_count: imageCount
+    image_count: imageCount,
   });
 };
 
@@ -240,7 +254,7 @@ export const trackLinkClick = (
     link_label: linkLabel,
     link_url: linkUrl,
     link_index: linkIndex,
-    is_external: isExternal
+    is_external: isExternal,
   });
 };
 
@@ -254,7 +268,7 @@ export const trackSocialClick = (
 ) => {
   trackEvent('social_click', {
     platform: platform,
-    location: location
+    location: location,
   });
 };
 
@@ -268,7 +282,7 @@ export const trackScrollDepth = (
 ) => {
   trackEvent('scroll_depth', {
     page_path: pagePath,
-    milestone: milestone
+    milestone: milestone,
   });
 };
 
@@ -279,13 +293,13 @@ export const trackScrollDepth = (
 export const trackAudioError = (trackId: string, errorType: string) => {
   trackEvent('audio_error', {
     track_id: trackId,
-    error_type: errorType
+    error_type: errorType,
   });
 };
 
 export const trackDownloadError = (fileName: string, errorMessage: string) => {
   trackEvent('download_error', {
     file_name: fileName,
-    error_message: errorMessage
+    error_message: errorMessage,
   });
 };

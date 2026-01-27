@@ -35,7 +35,7 @@ const YouTubeIcon = () => (
 // Brand colors for social platforms
 const socialColors = {
   tiktok: '#00F2EA',
-  youtube: '#FF0000'
+  youtube: '#FF0000',
   // snapchat: '#FFFC00', // TEMPORARILY DISABLED
   // instagram: '#E1306C' // TEMPORARILY DISABLED
 };
@@ -50,14 +50,16 @@ export default function Footer() {
         px: 2,
         mt: 'auto',
         backgroundColor: colors.background,
-        borderTop: `1px solid ${colors.primary}22`
-      }}>
+        borderTop: `1px solid ${colors.primary}22`,
+      }}
+    >
       <Container maxWidth="lg">
         <Stack
           direction={{ xs: 'column', sm: 'row' }}
           justifyContent="space-between"
           alignItems="center"
-          spacing={2}>
+          spacing={2}
+        >
           <Typography
             variant="body2"
             sx={{
@@ -65,8 +67,9 @@ export default function Footer() {
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
-              fontWeight: 600
-            }}>
+              fontWeight: 600,
+            }}
+          >
             Agent Morgie 00BA © {new Date().getFullYear()}
           </Typography>
 
@@ -77,13 +80,14 @@ export default function Footer() {
               rel="noopener noreferrer"
               onClick={() => trackSocialClick('tiktok', 'footer')}
               sx={{
-                'color': colors.textSecondary,
-                'transition': 'all 0.3s ease',
+                color: colors.textSecondary,
+                transition: 'all 0.3s ease',
                 '&:hover': {
                   color: socialColors.tiktok,
-                  transform: 'scale(1.1)'
-                }
-              }}>
+                  transform: 'scale(1.1)',
+                },
+              }}
+            >
               <TikTokIcon />
             </IconButton>
             <IconButton
@@ -92,13 +96,14 @@ export default function Footer() {
               rel="noopener noreferrer"
               onClick={() => trackSocialClick('youtube', 'footer')}
               sx={{
-                'color': colors.textSecondary,
-                'transition': 'all 0.3s ease',
+                color: colors.textSecondary,
+                transition: 'all 0.3s ease',
                 '&:hover': {
                   color: socialColors.youtube,
-                  transform: 'scale(1.1)'
-                }
-              }}>
+                  transform: 'scale(1.1)',
+                },
+              }}
+            >
               <YouTubeIcon />
             </IconButton>
             {/* Snapchat IconButton - TEMPORARILY DISABLED */}
@@ -143,16 +148,17 @@ export default function Footer() {
             rel="noopener noreferrer"
             onClick={() => trackSocialClick('tiktok_cam', 'footer')}
             sx={{
-              'display': 'flex',
-              'alignItems': 'center',
-              'gap': 0.5,
-              'color': colors.textSecondary,
-              'textDecoration': 'none',
-              'transition': 'all 0.3s ease',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 0.5,
+              color: colors.textSecondary,
+              textDecoration: 'none',
+              transition: 'all 0.3s ease',
               '&:hover': {
-                color: socialColors.tiktok
-              }
-            }}>
+                color: socialColors.tiktok,
+              },
+            }}
+          >
             <Typography variant="caption" sx={{ color: 'inherit' }}>
               Designed by Cam
             </Typography>

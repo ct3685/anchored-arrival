@@ -13,14 +13,18 @@ export function useScrollDepth() {
     milestonesReached.current = new Set();
 
     const handleScroll = () => {
-      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
       if (scrollHeight <= 0) return;
 
       const scrollPercent = (window.scrollY / scrollHeight) * 100;
       const milestones = [25, 50, 75, 100] as const;
 
       for (const milestone of milestones) {
-        if (scrollPercent >= milestone && !milestonesReached.current.has(milestone)) {
+        if (
+          scrollPercent >= milestone &&
+          !milestonesReached.current.has(milestone)
+        ) {
           milestonesReached.current.add(milestone);
           trackScrollDepth(pathname, milestone);
         }

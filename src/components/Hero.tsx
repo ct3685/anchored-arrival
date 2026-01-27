@@ -51,8 +51,9 @@ export default function Hero() {
         display: 'flex',
         alignItems: 'center',
         background: `radial-gradient(ellipse at center, ${colors.surface} 0%, ${colors.background} 70%)`,
-        overflow: 'hidden'
-      }}>
+        overflow: 'hidden',
+      }}
+    >
       {/* Gradient orbs background */}
       <Box
         sx={{
@@ -63,7 +64,7 @@ export default function Hero() {
           height: 300,
           borderRadius: '50%',
           background: `radial-gradient(circle, ${colors.primary}33 0%, transparent 70%)`,
-          filter: 'blur(60px)'
+          filter: 'blur(60px)',
         }}
       />
       <Box
@@ -75,39 +76,50 @@ export default function Hero() {
           height: 400,
           borderRadius: '50%',
           background: `radial-gradient(circle, ${colors.secondary}33 0%, transparent 70%)`,
-          filter: 'blur(80px)'
+          filter: 'blur(80px)',
         }}
       />
 
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, pt: { xs: 4, md: 0 }, mt: { xs: 0, md: -8 } }}>
+      <Container
+        maxWidth="lg"
+        sx={{
+          position: 'relative',
+          zIndex: 1,
+          pt: { xs: 4, md: 0 },
+          mt: { xs: 0, md: -8 },
+        }}
+      >
         <Stack
           direction={{ xs: 'column', md: 'row' }}
           spacing={4}
           alignItems="center"
-          justifyContent="center">
+          justifyContent="center"
+        >
           {/* Avatar */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
             animate={{ opacity: 1, scale: 1, rotate: 0 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}>
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+          >
             <Box
               sx={{
-                'position': 'relative',
-                'width': { xs: 280, md: 350 },
-                'height': { xs: 280, md: 350 },
+                position: 'relative',
+                width: { xs: 280, md: 350 },
+                height: { xs: 280, md: 350 },
                 '&::before': {
                   content: '""',
                   position: 'absolute',
                   inset: -4,
                   borderRadius: '50%',
                   background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary}, ${colors.accent})`,
-                  animation: 'spin 4.5s linear infinite'
+                  animation: 'spin 4.5s linear infinite',
                 },
                 '@keyframes spin': {
                   '0%': { transform: 'rotate(0deg)' },
-                  '100%': { transform: 'rotate(360deg)' }
-                }
-              }}>
+                  '100%': { transform: 'rotate(360deg)' },
+                },
+              }}
+            >
               <Box
                 sx={{
                   position: 'relative',
@@ -115,8 +127,9 @@ export default function Hero() {
                   height: '100%',
                   borderRadius: '50%',
                   overflow: 'hidden',
-                  border: `4px solid ${colors.background}`
-                }}>
+                  border: `4px solid ${colors.background}`,
+                }}
+              >
                 <Image
                   src="/images/main-character.png"
                   alt="Agent Morgie"
@@ -133,7 +146,8 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}>
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
               <Typography
                 variant="overline"
                 sx={{
@@ -141,8 +155,9 @@ export default function Hero() {
                   letterSpacing: 4,
                   fontWeight: 600,
                   mb: 1,
-                  display: 'block'
-                }}>
+                  display: 'block',
+                }}
+              >
                 WELCOME TO THE WORLD OF
               </Typography>
             </motion.div>
@@ -150,7 +165,8 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}>
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
               <Typography
                 variant="h1"
                 sx={{
@@ -161,8 +177,9 @@ export default function Hero() {
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   mb: 1,
-                  lineHeight: 1.1
-                }}>
+                  lineHeight: 1.1,
+                }}
+              >
                 Agent Morgie
               </Typography>
             </motion.div>
@@ -170,15 +187,17 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}>
+              transition={{ duration: 0.6, delay: 0.5 }}
+            >
               <Typography
                 variant="h2"
                 sx={{
                   fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' },
                   fontWeight: 700,
                   color: colors.gold,
-                  mb: 2
-                }}>
+                  mb: 2,
+                }}
+              >
                 00BA
               </Typography>
             </motion.div>
@@ -186,15 +205,17 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}>
+              transition={{ duration: 0.6, delay: 0.6 }}
+            >
               <Typography
                 variant="h5"
                 sx={{
                   color: colors.textSecondary,
                   fontWeight: 400,
                   mb: 2,
-                  fontSize: { xs: '1rem', md: '1.25rem' }
-                }}>
+                  fontSize: { xs: '1rem', md: '1.25rem' },
+                }}
+              >
                 Double O Badass • Main Character Energy • Live... And Lethal
               </Typography>
             </motion.div>
@@ -202,7 +223,8 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.7 }}>
+              transition={{ duration: 0.6, delay: 0.7 }}
+            >
               <Typography
                 variant="body1"
                 sx={{
@@ -211,11 +233,13 @@ export default function Hero() {
                   mb: 4,
                   fontSize: { xs: '0.9rem', md: '1rem' },
                   lineHeight: 1.7,
-                  maxWidth: 450
-                }}>
-                Candid, community-driven creator focused on real conversations, growth, and
-                connection. TikTok Lives, relatable humor, mindset/faith moments, and everyday
-                lifestyle—building a welcoming space where people can be genuine, have fun, and feel
+                  maxWidth: 450,
+                }}
+              >
+                Candid, community-driven creator focused on real conversations,
+                growth, and connection. TikTok Lives, relatable humor,
+                mindset/faith moments, and everyday lifestyle—building a
+                welcoming space where people can be genuine, have fun, and feel
                 at home.
               </Typography>
             </motion.div>
@@ -223,14 +247,16 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.9 }}>
+              transition={{ duration: 0.6, delay: 0.9 }}
+            >
               <Box sx={{ width: '100%', maxWidth: { xs: '100%', md: 450 } }}>
                 {/* View Gallery - Full Width Featured CTA */}
                 <motion.div
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-                  style={{ marginBottom: 16 }}>
+                  style={{ marginBottom: 16 }}
+                >
                   <Button
                     variant="contained"
                     color="primary"
@@ -239,18 +265,21 @@ export default function Hero() {
                     component={Link}
                     href="/gallery"
                     startIcon={<GalleryIcon />}
-                    onClick={() => trackHeroCTA('View Gallery', '/gallery', false)}
+                    onClick={() =>
+                      trackHeroCTA('View Gallery', '/gallery', false)
+                    }
                     sx={{
-                      'py': 1.5,
-                      'background': `linear-gradient(135deg, ${colors.primary} 0%, ${colors.accent} 100%)`,
-                      'boxShadow': `0 0 20px ${colors.primary}44`,
-                      'backdropFilter': 'blur(8px)',
+                      py: 1.5,
+                      background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.accent} 100%)`,
+                      boxShadow: `0 0 20px ${colors.primary}44`,
+                      backdropFilter: 'blur(8px)',
                       '&:hover': {
                         background: `linear-gradient(135deg, ${colors.primary} 20%, ${colors.accent} 120%)`,
-                        boxShadow: `0 0 30px ${colors.primary}66`
+                        boxShadow: `0 0 30px ${colors.primary}66`,
                       },
-                      'transition': 'all 0.2s ease'
-                    }}>
+                      transition: 'all 0.2s ease',
+                    }}
+                  >
                     View Gallery
                   </Button>
                 </motion.div>
@@ -260,13 +289,15 @@ export default function Hero() {
                   sx={{
                     display: 'grid',
                     gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
-                    gap: 1.5
-                  }}>
+                    gap: 1.5,
+                  }}
+                >
                   {/* TikTok Button */}
                   <motion.div
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
-                    transition={{ type: 'spring', stiffness: 400, damping: 17 }}>
+                    transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+                  >
                     <Button
                       variant="contained"
                       size="large"
@@ -284,16 +315,19 @@ export default function Hero() {
                         trackSocialClick('tiktok', 'hero');
                       }}
                       sx={{
-                        'color': '#fff',
-                        'background': 'linear-gradient(135deg, #00F2EA 0%, #FF0050 100%)',
-                        'backdropFilter': 'blur(8px)',
-                        'boxShadow': '0 0 20px #00F2EA44',
+                        color: '#fff',
+                        background:
+                          'linear-gradient(135deg, #00F2EA 0%, #FF0050 100%)',
+                        backdropFilter: 'blur(8px)',
+                        boxShadow: '0 0 20px #00F2EA44',
                         '&:hover': {
-                          background: 'linear-gradient(135deg, #00F2EA 20%, #FF0050 120%)',
-                          boxShadow: '0 0 30px #FF005066'
+                          background:
+                            'linear-gradient(135deg, #00F2EA 20%, #FF0050 120%)',
+                          boxShadow: '0 0 30px #FF005066',
                         },
-                        'transition': 'all 0.2s ease'
-                      }}>
+                        transition: 'all 0.2s ease',
+                      }}
+                    >
                       TikTok
                     </Button>
                   </motion.div>
@@ -302,7 +336,8 @@ export default function Hero() {
                   <motion.div
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
-                    transition={{ type: 'spring', stiffness: 400, damping: 17 }}>
+                    transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+                  >
                     <Button
                       variant="contained"
                       size="large"
@@ -320,16 +355,19 @@ export default function Hero() {
                         trackSocialClick('youtube', 'hero');
                       }}
                       sx={{
-                        'color': '#fff',
-                        'background': 'linear-gradient(135deg, #FF0000 0%, #FFAA00 100%)',
-                        'backdropFilter': 'blur(8px)',
-                        'boxShadow': '0 0 20px #FF000044',
+                        color: '#fff',
+                        background:
+                          'linear-gradient(135deg, #FF0000 0%, #FFAA00 100%)',
+                        backdropFilter: 'blur(8px)',
+                        boxShadow: '0 0 20px #FF000044',
                         '&:hover': {
-                          background: 'linear-gradient(135deg, #FF0000 20%, #FFAA00 120%)',
-                          boxShadow: '0 0 30px #FFAA0066'
+                          background:
+                            'linear-gradient(135deg, #FF0000 20%, #FFAA00 120%)',
+                          boxShadow: '0 0 30px #FFAA0066',
                         },
-                        'transition': 'all 0.2s ease'
-                      }}>
+                        transition: 'all 0.2s ease',
+                      }}
+                    >
                       YouTube
                     </Button>
                   </motion.div>

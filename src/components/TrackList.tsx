@@ -13,7 +13,7 @@ import {
   TableRow,
   IconButton,
   Paper,
-  Stack
+  Stack,
 } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
@@ -32,7 +32,7 @@ export default function TrackList() {
     togglePlay,
     formatTime,
     currentTime,
-    duration
+    duration,
   } = useAudio();
 
   return (
@@ -40,14 +40,16 @@ export default function TrackList() {
       sx={{
         minHeight: '100vh',
         py: 6,
-        background: `radial-gradient(ellipse at top, ${colors.surface} 0%, ${colors.background} 60%)`
-      }}>
+        background: `radial-gradient(ellipse at top, ${colors.surface} 0%, ${colors.background} 60%)`,
+      }}
+    >
       <Container maxWidth="md">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}>
+          transition={{ duration: 0.6 }}
+        >
           <Stack alignItems="center" spacing={2} sx={{ mb: 6 }}>
             <Typography
               variant="h3"
@@ -57,14 +59,21 @@ export default function TrackList() {
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-                textAlign: 'center'
-              }}>
+                textAlign: 'center',
+              }}
+            >
               Music
             </Typography>
             <Typography
               variant="body1"
-              sx={{ color: colors.textSecondary, textAlign: 'center', maxWidth: 500 }}>
-              Original tracks from Agent Morgie 00BA. Click to play and vibe with us.
+              sx={{
+                color: colors.textSecondary,
+                textAlign: 'center',
+                maxWidth: 500,
+              }}
+            >
+              Original tracks from Agent Morgie 00BA. Click to play and vibe
+              with us.
             </Typography>
           </Stack>
         </motion.div>
@@ -74,7 +83,8 @@ export default function TrackList() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3 }}>
+            transition={{ duration: 0.3 }}
+          >
             <Paper
               elevation={0}
               sx={{
@@ -82,12 +92,14 @@ export default function TrackList() {
                 p: 3,
                 background: `linear-gradient(135deg, ${colors.primary}22 0%, ${colors.secondary}22 100%)`,
                 border: `1px solid ${colors.primary}44`,
-                borderRadius: 3
-              }}>
+                borderRadius: 3,
+              }}
+            >
               <Stack direction="row" spacing={3} alignItems="center">
                 <motion.div
                   animate={{ rotate: 360 }}
-                  transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}>
+                  transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+                >
                   <Box
                     sx={{
                       position: 'relative',
@@ -95,8 +107,9 @@ export default function TrackList() {
                       height: 80,
                       borderRadius: '50%',
                       overflow: 'hidden',
-                      boxShadow: `0 0 20px ${colors.primary}66`
-                    }}>
+                      boxShadow: `0 0 20px ${colors.primary}66`,
+                    }}
+                  >
                     <Image
                       src={currentTrack.cover}
                       alt={currentTrack.title}
@@ -109,25 +122,37 @@ export default function TrackList() {
                   <Typography variant="overline" sx={{ color: colors.gold }}>
                     Now Playing
                   </Typography>
-                  <Typography variant="h6" sx={{ color: 'white', fontWeight: 700 }}>
+                  <Typography
+                    variant="h6"
+                    sx={{ color: 'white', fontWeight: 700 }}
+                  >
                     {currentTrack.title}
                   </Typography>
-                  <Typography variant="body2" sx={{ color: colors.textSecondary }}>
-                    {currentTrack.artist} • {formatTime(currentTime)} / {formatTime(duration)}
+                  <Typography
+                    variant="body2"
+                    sx={{ color: colors.textSecondary }}
+                  >
+                    {currentTrack.artist} • {formatTime(currentTime)} /{' '}
+                    {formatTime(duration)}
                   </Typography>
                 </Box>
                 <IconButton
                   onClick={togglePlay}
                   sx={{
-                    'width': 56,
-                    'height': 56,
-                    'background': `linear-gradient(135deg, ${colors.primary} 0%, ${colors.accent} 100%)`,
-                    'color': 'white',
+                    width: 56,
+                    height: 56,
+                    background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.accent} 100%)`,
+                    color: 'white',
                     '&:hover': {
-                      background: `linear-gradient(135deg, ${colors.primary} 20%, ${colors.accent} 120%)`
-                    }
-                  }}>
-                  {isPlaying ? <PauseIcon fontSize="large" /> : <PlayArrowIcon fontSize="large" />}
+                      background: `linear-gradient(135deg, ${colors.primary} 20%, ${colors.accent} 120%)`,
+                    },
+                  }}
+                >
+                  {isPlaying ? (
+                    <PauseIcon fontSize="large" />
+                  ) : (
+                    <PlayArrowIcon fontSize="large" />
+                  )}
                 </IconButton>
               </Stack>
             </Paper>
@@ -138,15 +163,17 @@ export default function TrackList() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}>
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
           <TableContainer
             component={Paper}
             elevation={0}
             sx={{
               background: `linear-gradient(135deg, ${colors.surface} 0%, ${colors.background} 100%)`,
               border: `1px solid ${colors.primary}33`,
-              borderRadius: 3
-            }}>
+              borderRadius: 3,
+            }}
+          >
             <Table>
               <TableHead>
                 <TableRow>
@@ -154,25 +181,35 @@ export default function TrackList() {
                     sx={{
                       color: colors.textSecondary,
                       borderColor: colors.primary + '33',
-                      width: 60
-                    }}>
+                      width: 60,
+                    }}
+                  >
                     #
                   </TableCell>
                   <TableCell
-                    sx={{ color: colors.textSecondary, borderColor: colors.primary + '33' }}>
+                    sx={{
+                      color: colors.textSecondary,
+                      borderColor: colors.primary + '33',
+                    }}
+                  >
                     Title
                   </TableCell>
                   <TableCell
-                    sx={{ color: colors.textSecondary, borderColor: colors.primary + '33' }}>
+                    sx={{
+                      color: colors.textSecondary,
+                      borderColor: colors.primary + '33',
+                    }}
+                  >
                     Artist
                   </TableCell>
                   <TableCell
                     sx={{
                       color: colors.textSecondary,
                       borderColor: colors.primary + '33',
-                      width: 80
+                      width: 80,
                     }}
-                    align="right">
+                    align="right"
+                  >
                     Play
                   </TableCell>
                 </TableRow>
@@ -187,13 +224,16 @@ export default function TrackList() {
                       key={track.id}
                       onClick={() => selectTrack(index)}
                       sx={{
-                        'cursor': 'pointer',
-                        'backgroundColor': isCurrentTrack ? `${colors.primary}11` : 'transparent',
+                        cursor: 'pointer',
+                        backgroundColor: isCurrentTrack
+                          ? `${colors.primary}11`
+                          : 'transparent',
                         '&:hover': {
-                          backgroundColor: `${colors.primary}22`
+                          backgroundColor: `${colors.primary}22`,
                         },
-                        'transition': 'background-color 0.2s ease'
-                      }}>
+                        transition: 'background-color 0.2s ease',
+                      }}
+                    >
                       <TableCell sx={{ borderColor: colors.primary + '22' }}>
                         <Stack direction="row" alignItems="center" spacing={1}>
                           <Box
@@ -202,8 +242,9 @@ export default function TrackList() {
                               width: 40,
                               height: 40,
                               borderRadius: 1,
-                              overflow: 'hidden'
-                            }}>
+                              overflow: 'hidden',
+                            }}
+                          >
                             <Image
                               src={track.cover}
                               alt={track.title}
@@ -218,29 +259,39 @@ export default function TrackList() {
                           variant="body1"
                           sx={{
                             color: isCurrentTrack ? colors.primary : 'white',
-                            fontWeight: isCurrentTrack ? 700 : 500
-                          }}>
+                            fontWeight: isCurrentTrack ? 700 : 500,
+                          }}
+                        >
                           {track.title}
                         </Typography>
                       </TableCell>
                       <TableCell sx={{ borderColor: colors.primary + '22' }}>
-                        <Typography variant="body2" sx={{ color: colors.textSecondary }}>
+                        <Typography
+                          variant="body2"
+                          sx={{ color: colors.textSecondary }}
+                        >
                           {track.artist}
                         </Typography>
                       </TableCell>
-                      <TableCell sx={{ borderColor: colors.primary + '22' }} align="right">
+                      <TableCell
+                        sx={{ borderColor: colors.primary + '22' }}
+                        align="right"
+                      >
                         <IconButton
                           onClick={(e) => {
                             e.stopPropagation();
                             selectTrack(index);
                           }}
                           sx={{
-                            'color': isTrackPlaying ? colors.primary : colors.textSecondary,
+                            color: isTrackPlaying
+                              ? colors.primary
+                              : colors.textSecondary,
                             '&:hover': {
                               color: colors.primary,
-                              backgroundColor: `${colors.primary}22`
-                            }
-                          }}>
+                              backgroundColor: `${colors.primary}22`,
+                            },
+                          }}
+                        >
                           {isTrackPlaying ? <PauseIcon /> : <PlayArrowIcon />}
                         </IconButton>
                       </TableCell>
@@ -257,15 +308,17 @@ export default function TrackList() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.4 }}>
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
             <Typography
               variant="body2"
               sx={{
                 mt: 4,
                 textAlign: 'center',
                 color: colors.textSecondary,
-                fontStyle: 'italic'
-              }}>
+                fontStyle: 'italic',
+              }}
+            >
               More tracks coming soon... Stay tuned!
             </Typography>
           </motion.div>

@@ -52,7 +52,7 @@ const links: LinkItem[] = [
     gradient: 'linear-gradient(135deg, #00F2EA 0%, #FF0050 100%)',
     hoverGradient: 'linear-gradient(135deg, #00F2EA 20%, #FF0050 120%)',
     glowColor: '#FF0050',
-    textColor: '#fff'
+    textColor: '#fff',
   },
   {
     label: 'YouTube @AgentMorgan1000',
@@ -61,8 +61,8 @@ const links: LinkItem[] = [
     gradient: 'linear-gradient(135deg, #FF0000 0%, #FFAA00 100%)',
     hoverGradient: 'linear-gradient(135deg, #FF0000 20%, #FFAA00 120%)',
     glowColor: '#FFAA00',
-    textColor: '#fff'
-  }
+    textColor: '#fff',
+  },
   // Snapchat - TEMPORARILY DISABLED
   // {
   //   label: 'Snapchat @morg10_yo',
@@ -91,34 +91,37 @@ export default function LinkTree() {
       sx={{
         minHeight: '100vh',
         py: 6,
-        background: `radial-gradient(ellipse at top, ${colors.surface} 0%, ${colors.background} 60%)`
-      }}>
+        background: `radial-gradient(ellipse at top, ${colors.surface} 0%, ${colors.background} 60%)`,
+      }}
+    >
       <Container maxWidth="sm">
         {/* Profile Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}>
+          transition={{ duration: 0.6 }}
+        >
           <Stack alignItems="center" spacing={2} sx={{ mb: 4 }}>
             {/* Avatar */}
             <Box
               sx={{
-                'position': 'relative',
-                'width': 120,
-                'height': 120,
+                position: 'relative',
+                width: 120,
+                height: 120,
                 '&::before': {
                   content: '""',
                   position: 'absolute',
                   inset: -3,
                   borderRadius: '50%',
                   background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary}, ${colors.accent})`,
-                  animation: 'spin 4s linear infinite'
+                  animation: 'spin 4s linear infinite',
                 },
                 '@keyframes spin': {
                   '0%': { transform: 'rotate(0deg)' },
-                  '100%': { transform: 'rotate(360deg)' }
-                }
-              }}>
+                  '100%': { transform: 'rotate(360deg)' },
+                },
+              }}
+            >
               <Box
                 sx={{
                   position: 'relative',
@@ -126,8 +129,9 @@ export default function LinkTree() {
                   height: '100%',
                   borderRadius: '50%',
                   overflow: 'hidden',
-                  border: `3px solid ${colors.background}`
-                }}>
+                  border: `3px solid ${colors.background}`,
+                }}
+              >
                 <Image
                   src="/images/mvp.png"
                   alt="Agent Morgie"
@@ -144,11 +148,15 @@ export default function LinkTree() {
                 background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.secondary} 100%)`,
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent'
-              }}>
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
               Agent Morgie
             </Typography>
-            <Typography variant="body1" sx={{ color: colors.textSecondary, textAlign: 'center' }}>
+            <Typography
+              variant="body1"
+              sx={{ color: colors.textSecondary, textAlign: 'center' }}
+            >
               Double O Badass • TikTok Live Creator
             </Typography>
           </Stack>
@@ -161,13 +169,18 @@ export default function LinkTree() {
               key={link.href}
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.4, delay: index * 0.1 + 0.3 }}>
+              transition={{ duration: 0.4, delay: index * 0.1 + 0.3 }}
+            >
               <Button
                 fullWidth
                 variant="contained"
                 href={link.href}
                 target={link.href.startsWith('http') ? '_blank' : undefined}
-                rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                rel={
+                  link.href.startsWith('http')
+                    ? 'noopener noreferrer'
+                    : undefined
+                }
                 startIcon={link.icon}
                 onClick={() => {
                   const isExternal = link.href.startsWith('http');
@@ -186,22 +199,23 @@ export default function LinkTree() {
                   // }
                 }}
                 sx={{
-                  'py': 2,
-                  'px': 3,
-                  'color': link.textColor,
-                  'background': link.gradient,
-                  'backdropFilter': 'blur(8px)',
-                  'boxShadow': `0 0 20px ${link.glowColor}44`,
-                  'justifyContent': 'flex-start',
-                  'fontSize': '1rem',
-                  'fontWeight': 600,
+                  py: 2,
+                  px: 3,
+                  color: link.textColor,
+                  background: link.gradient,
+                  backdropFilter: 'blur(8px)',
+                  boxShadow: `0 0 20px ${link.glowColor}44`,
+                  justifyContent: 'flex-start',
+                  fontSize: '1rem',
+                  fontWeight: 600,
                   '&:hover': {
                     background: link.hoverGradient,
                     transform: 'translateX(8px)',
-                    boxShadow: `0 0 30px ${link.glowColor}66`
+                    boxShadow: `0 0 30px ${link.glowColor}66`,
                   },
-                  'transition': 'all 0.3s ease'
-                }}>
+                  transition: 'all 0.3s ease',
+                }}
+              >
                 {link.label}
               </Button>
             </motion.div>
@@ -212,15 +226,17 @@ export default function LinkTree() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 1 }}>
+          transition={{ duration: 0.5, delay: 1 }}
+        >
           <Typography
             variant="body2"
             sx={{
               mt: 4,
               textAlign: 'center',
               color: colors.textSecondary,
-              fontStyle: 'italic'
-            }}>
+              fontStyle: 'italic',
+            }}
+          >
             "Live... And Lethal - Morgie&apos;s On a Mission!"
           </Typography>
         </motion.div>

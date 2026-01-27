@@ -4,13 +4,13 @@ import { createTheme } from '@mui/material/styles';
 
 // Agent Morgie 00BA Color Palette
 const colors = {
-  primary: '#FF69B4',      // Hot Pink
-  secondary: '#00D4FF',    // Electric Cyan
-  accent: '#9B59B6',       // Purple
-  neon: '#ADFF2F',         // Green-Yellow (Live & Lethal)
-  gold: '#FFD700',         // Crown/MVP accents
-  background: '#0D0D1A',   // Deep purple-black
-  surface: '#1A1A2E',      // Slightly lighter surface
+  primary: '#FF69B4', // Hot Pink
+  secondary: '#00D4FF', // Electric Cyan
+  accent: '#9B59B6', // Purple
+  neon: '#ADFF2F', // Green-Yellow (Live & Lethal)
+  gold: '#FFD700', // Crown/MVP accents
+  background: '#0D0D1A', // Deep purple-black
+  surface: '#1A1A2E', // Slightly lighter surface
   text: '#FFFFFF',
   textSecondary: '#B8B8D1',
 };

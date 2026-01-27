@@ -7,7 +7,7 @@ import {
   useRef,
   useEffect,
   useCallback,
-  ReactNode
+  ReactNode,
 } from 'react';
 import { tracks, Track } from './tracks';
 import {
@@ -17,7 +17,7 @@ import {
   trackMusicTrackComplete,
   trackMusicMilestone,
   trackMusicTrackChange,
-  trackAudioError
+  trackAudioError,
 } from './analytics';
 
 interface AudioContextType {
@@ -86,9 +86,17 @@ export function AudioProvider({ children }: AudioProviderProps) {
       const milestones = [25, 50, 75, 100] as const;
 
       for (const milestone of milestones) {
-        if (percentage >= milestone && !milestonesReachedRef.current.has(milestone)) {
+        if (
+          percentage >= milestone &&
+          !milestonesReachedRef.current.has(milestone)
+        ) {
           milestonesReachedRef.current.add(milestone);
-          trackMusicMilestone(currentTrack.id, currentTrack.title, milestone, 'global');
+          trackMusicMilestone(
+            currentTrack.id,
+            currentTrack.title,
+            milestone,
+            'global'
+          );
         }
       }
     }
@@ -131,7 +139,12 @@ export function AudioProvider({ children }: AudioProviderProps) {
       audio.removeEventListener('ended', handleEnded);
       audio.removeEventListener('error', handleError);
     };
-  }, [currentTrackIndex, hasMultipleTracks, currentTrack.id, currentTrack.title]);
+  }, [
+    currentTrackIndex,
+    hasMultipleTracks,
+    currentTrack.id,
+    currentTrack.title,
+  ]);
 
   // Update audio source when track changes
   useEffect(() => {
@@ -168,7 +181,13 @@ export function AudioProvider({ children }: AudioProviderProps) {
     if (!audio) return;
 
     audio.play().catch(console.error);
-    trackMusicPlay(currentTrack.id, currentTrack.title, currentTrack.artist, 'global', currentTime);
+    trackMusicPlay(
+      currentTrack.id,
+      currentTrack.title,
+      currentTrack.artist,
+      'global',
+      currentTime
+    );
     setIsPlaying(true);
   }, [currentTrack, currentTime]);
 
@@ -178,7 +197,13 @@ export function AudioProvider({ children }: AudioProviderProps) {
 
     audio.pause();
     const listenDuration = (Date.now() - playStartTimeRef.current) / 1000;
-    trackMusicPause(currentTrack.id, currentTrack.title, currentTime, listenDuration, 'global');
+    trackMusicPause(
+      currentTrack.id,
+      currentTrack.title,
+      currentTime,
+      listenDuration,
+      'global'
+    );
     setIsPlaying(false);
   }, [currentTrack, currentTime]);
 
@@ -245,7 +270,12 @@ export function AudioProvider({ children }: AudioProviderProps) {
       if (index >= 0 && index < tracks.length && index !== currentTrackIndex) {
         const fromTrack = currentTrack;
         const toTrack = tracks[index];
-        trackMusicTrackChange(fromTrack.id, toTrack.id, toTrack.title, 'select');
+        trackMusicTrackChange(
+          fromTrack.id,
+          toTrack.id,
+          toTrack.title,
+          'select'
+        );
         setCurrentTrackIndex(index);
         setIsPlaying(true);
       } else if (index === currentTrackIndex) {
@@ -276,8 +306,10 @@ export function AudioProvider({ children }: AudioProviderProps) {
     prevTrack,
     selectTrack,
     formatTime,
-    hasMultipleTracks
+    hasMultipleTracks,
   };
 
-  return <AudioContext.Provider value={value}>{children}</AudioContext.Provider>;
+  return (
+    <AudioContext.Provider value={value}>{children}</AudioContext.Provider>
+  );
 }

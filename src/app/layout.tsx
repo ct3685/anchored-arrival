@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://agentmorgie.com'),
   icons: {
     icon: '/images/mvp.png',
-    apple: '/images/mvp.png'
+    apple: '/images/mvp.png',
   },
   title: 'Agent Morgie 00BA | Double O Badass',
   description:
@@ -28,34 +28,39 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: {
       index: true,
-      follow: true
-    }
+      follow: true,
+    },
   },
   alternates: {
-    canonical: '/'
+    canonical: '/',
   },
   openGraph: {
     title: 'Agent Morgie 00BA | Double O Badass',
-    description: 'Welcome to the world of Agent Morgie - Main Character Energy!',
+    description:
+      'Welcome to the world of Agent Morgie - Main Character Energy!',
     url: '/',
     siteName: 'Agent Morgie 00BA',
     locale: 'en_US',
-    type: 'website'
+    type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Agent Morgie 00BA',
-    description: 'Double O Badass - Main Character Energy'
-  }
+    description: 'Double O Badass - Main Character Energy',
+  },
 };
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#FF69B4'
+  themeColor: '#FF69B4',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <head>
@@ -68,24 +73,25 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 {
                   '@type': 'WebSite',
                   '@id': 'https://agentmorgie.com/#website',
-                  'url': 'https://agentmorgie.com',
-                  'name': 'Agent Morgie 00BA',
-                  'description':
+                  url: 'https://agentmorgie.com',
+                  name: 'Agent Morgie 00BA',
+                  description:
                     'Welcome to the world of Agent Morgie - TikTok Live Creator, Main Character Energy, Live... And Lethal!',
-                  'inLanguage': 'en-US'
+                  inLanguage: 'en-US',
                 },
                 {
                   '@type': 'Person',
                   '@id': 'https://agentmorgie.com/#person',
-                  'name': 'Agent Morgie',
-                  'alternateName': 'Agent Morgie 00BA',
-                  'description': 'TikTok Live Creator, Main Character Energy, Double O Badass',
-                  'url': 'https://agentmorgie.com',
-                  'image': 'https://agentmorgie.com/images/main-character.png',
-                  'sameAs': ['https://www.tiktok.com/@realfeelpurpose']
-                }
-              ]
-            })
+                  name: 'Agent Morgie',
+                  alternateName: 'Agent Morgie 00BA',
+                  description:
+                    'TikTok Live Creator, Main Character Energy, Double O Badass',
+                  url: 'https://agentmorgie.com',
+                  image: 'https://agentmorgie.com/images/main-character.png',
+                  sameAs: ['https://www.tiktok.com/@realfeelpurpose'],
+                },
+              ],
+            }),
           }}
         />
         <Script
@@ -107,7 +113,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <CssBaseline />
             <AudioProvider>
               {/* Global sparkle effects - z-index 10 to appear above page content but below navbar/player */}
-              <div style={{ position: 'fixed', inset: 0, zIndex: 10, pointerEvents: 'none' }}>
+              <div
+                style={{
+                  position: 'fixed',
+                  inset: 0,
+                  zIndex: 10,
+                  pointerEvents: 'none',
+                }}
+              >
                 <SparkleEffect />
               </div>
               <Navbar />
