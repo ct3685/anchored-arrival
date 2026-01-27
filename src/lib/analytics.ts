@@ -110,18 +110,6 @@ export const trackMusicSeek = (
   });
 };
 
-export const trackMusicVolumeChange = (volumeLevel: number) => {
-  trackEvent('music_volume_change', {
-    volume_level: Math.round(volumeLevel * 100)
-  });
-};
-
-export const trackMusicMuteToggle = (isMuted: boolean) => {
-  trackEvent('music_mute_toggle', {
-    is_muted: isMuted
-  });
-};
-
 export const trackMusicTrackComplete = (
   trackId: string,
   trackTitle: string,
@@ -161,13 +149,6 @@ export const trackMusicTrackChange = (
     to_track_id: toTrackId,
     to_track_title: toTrackTitle,
     direction: direction
-  });
-};
-
-export const trackMusicDownload = (trackId: string, trackTitle: string) => {
-  trackEvent('music_download', {
-    track_id: trackId,
-    track_title: trackTitle
   });
 };
 
@@ -274,6 +255,20 @@ export const trackSocialClick = (
   trackEvent('social_click', {
     platform: platform,
     location: location
+  });
+};
+
+// ============================================
+// SCROLL DEPTH EVENTS
+// ============================================
+
+export const trackScrollDepth = (
+  pagePath: string,
+  milestone: 25 | 50 | 75 | 100
+) => {
+  trackEvent('scroll_depth', {
+    page_path: pagePath,
+    milestone: milestone
   });
 };
 

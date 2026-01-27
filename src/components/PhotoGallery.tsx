@@ -23,6 +23,7 @@ import 'yet-another-react-lightbox/styles.css';
 
 import { galleryImages, ImageData } from '@/lib/images';
 import { colors } from '@/theme/theme';
+import { useScrollDepth } from '@/lib/useScrollDepth';
 import {
   trackGalleryImageClick,
   trackLightboxOpen,
@@ -38,6 +39,8 @@ interface PhotoGalleryProps {
 }
 
 export default function PhotoGallery({ images = galleryImages }: PhotoGalleryProps) {
+  useScrollDepth();
+
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
 
