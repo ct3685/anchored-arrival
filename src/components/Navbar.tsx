@@ -15,7 +15,7 @@ import {
   ListItemText,
   Box,
   useMediaQuery,
-  useTheme,
+  useTheme
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
@@ -24,13 +24,14 @@ import {
   trackNavClick,
   trackMobileMenuOpen,
   trackMobileMenuClose,
-  trackLogoClick,
+  trackLogoClick
 } from '@/lib/analytics';
 
 const navItems = [
   { label: 'Home', href: '/' },
   { label: 'Gallery', href: '/gallery' },
-  { label: 'Links', href: '/links' },
+  { label: 'Music', href: '/music' },
+  { label: 'Links', href: '/links' }
 ];
 
 export default function Navbar() {
@@ -62,8 +63,7 @@ export default function Navbar() {
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-          >
+            transition={{ duration: 0.5 }}>
             <Link href="/" style={{ textDecoration: 'none' }} onClick={handleLogoClick}>
               <Typography
                 variant="h6"
@@ -73,9 +73,8 @@ export default function Navbar() {
                   backgroundClip: 'text',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
-                  fontSize: { xs: '1.1rem', md: '1.4rem' },
-                }}
-              >
+                  fontSize: { xs: '1.1rem', md: '1.4rem' }
+                }}>
                 Agent Morgie 00BA
               </Typography>
             </Link>
@@ -86,8 +85,7 @@ export default function Navbar() {
               color="inherit"
               aria-label="open menu"
               edge="end"
-              onClick={handleDrawerToggle}
-            >
+              onClick={handleDrawerToggle}>
               <MenuIcon />
             </IconButton>
           ) : (
@@ -97,22 +95,19 @@ export default function Navbar() {
                   key={item.href}
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: index * 0.1 }}
-                >
+                  transition={{ duration: 0.3, delay: index * 0.1 }}>
                   <Link
                     href={item.href}
                     style={{ textDecoration: 'none' }}
-                    onClick={() => handleNavClick(item.label, item.href, 'desktop')}
-                  >
+                    onClick={() => handleNavClick(item.label, item.href, 'desktop')}>
                     <Button
                       sx={{
-                        color: 'white',
+                        'color': 'white',
                         '&:hover': {
                           color: '#FF69B4',
-                          backgroundColor: 'transparent',
-                        },
-                      }}
-                    >
+                          backgroundColor: 'transparent'
+                        }
+                      }}>
                       {item.label}
                     </Button>
                   </Link>
@@ -133,15 +128,11 @@ export default function Navbar() {
             width: '100%',
             maxWidth: 300,
             backgroundColor: '#0D0D1A',
-            backgroundImage: 'none',
-          },
-        }}
-      >
+            backgroundImage: 'none'
+          }
+        }}>
         <Box sx={{ p: 2 }}>
-          <IconButton
-            onClick={handleDrawerToggle}
-            sx={{ color: 'white', mb: 2 }}
-          >
+          <IconButton onClick={handleDrawerToggle} sx={{ color: 'white', mb: 2 }}>
             <CloseIcon />
           </IconButton>
           <List>
@@ -153,23 +144,21 @@ export default function Navbar() {
                   onClick={() => {
                     handleNavClick(item.label, item.href, 'mobile');
                     handleDrawerToggle();
-                  }}
-                >
+                  }}>
                   <ListItemButton
                     sx={{
                       '&:hover': {
-                        backgroundColor: '#FF69B422',
-                      },
-                    }}
-                  >
+                        backgroundColor: '#FF69B422'
+                      }
+                    }}>
                     <ListItemText
                       primary={item.label}
                       sx={{
                         '& .MuiTypography-root': {
                           color: 'white',
                           fontWeight: 600,
-                          fontSize: '1.2rem',
-                        },
+                          fontSize: '1.2rem'
+                        }
                       }}
                     />
                   </ListItemButton>

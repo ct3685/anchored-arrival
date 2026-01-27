@@ -32,7 +32,7 @@ export const trackNavClick = (linkText: string, linkUrl: string, navType: 'deskt
   trackEvent('nav_click', {
     link_text: linkText,
     link_url: linkUrl,
-    nav_type: navType,
+    nav_type: navType
   });
 };
 
@@ -56,7 +56,7 @@ export const trackHeroCTA = (ctaText: string, destination: string, isExternal: b
   trackEvent('hero_cta_click', {
     cta_text: ctaText,
     destination: destination,
-    is_external: isExternal,
+    is_external: isExternal
   });
 };
 
@@ -68,7 +68,7 @@ export const trackMusicPlay = (
   trackId: string,
   trackTitle: string,
   artist: string,
-  playerType: 'mini' | 'full',
+  playerType: 'mini' | 'full' | 'global',
   positionSeconds: number
 ) => {
   trackEvent('music_play', {
@@ -76,7 +76,7 @@ export const trackMusicPlay = (
     track_title: trackTitle,
     artist: artist,
     player_type: playerType,
-    position_seconds: Math.round(positionSeconds),
+    position_seconds: Math.round(positionSeconds)
   });
 };
 
@@ -85,14 +85,14 @@ export const trackMusicPause = (
   trackTitle: string,
   positionSeconds: number,
   listenDuration: number,
-  playerType: 'mini' | 'full'
+  playerType: 'mini' | 'full' | 'global'
 ) => {
   trackEvent('music_pause', {
     track_id: trackId,
     track_title: trackTitle,
     position_seconds: Math.round(positionSeconds),
     listen_duration_seconds: Math.round(listenDuration),
-    player_type: playerType,
+    player_type: playerType
   });
 };
 
@@ -100,25 +100,25 @@ export const trackMusicSeek = (
   trackId: string,
   fromSeconds: number,
   toSeconds: number,
-  playerType: 'mini' | 'full'
+  playerType: 'mini' | 'full' | 'global'
 ) => {
   trackEvent('music_seek', {
     track_id: trackId,
     from_seconds: Math.round(fromSeconds),
     to_seconds: Math.round(toSeconds),
-    player_type: playerType,
+    player_type: playerType
   });
 };
 
 export const trackMusicVolumeChange = (volumeLevel: number) => {
   trackEvent('music_volume_change', {
-    volume_level: Math.round(volumeLevel * 100),
+    volume_level: Math.round(volumeLevel * 100)
   });
 };
 
 export const trackMusicMuteToggle = (isMuted: boolean) => {
   trackEvent('music_mute_toggle', {
-    is_muted: isMuted,
+    is_muted: isMuted
   });
 };
 
@@ -126,13 +126,13 @@ export const trackMusicTrackComplete = (
   trackId: string,
   trackTitle: string,
   totalListenTime: number,
-  playerType: 'mini' | 'full'
+  playerType: 'mini' | 'full' | 'global'
 ) => {
   trackEvent('music_track_complete', {
     track_id: trackId,
     track_title: trackTitle,
     total_listen_time_seconds: Math.round(totalListenTime),
-    player_type: playerType,
+    player_type: playerType
   });
 };
 
@@ -140,13 +140,13 @@ export const trackMusicMilestone = (
   trackId: string,
   trackTitle: string,
   milestone: 25 | 50 | 75 | 100,
-  playerType: 'mini' | 'full'
+  playerType: 'mini' | 'full' | 'global'
 ) => {
   trackEvent('music_milestone', {
     track_id: trackId,
     track_title: trackTitle,
     milestone: milestone,
-    player_type: playerType,
+    player_type: playerType
   });
 };
 
@@ -154,32 +154,32 @@ export const trackMusicTrackChange = (
   fromTrackId: string,
   toTrackId: string,
   toTrackTitle: string,
-  direction: 'next' | 'prev'
+  direction: 'next' | 'prev' | 'select'
 ) => {
   trackEvent('music_track_change', {
     from_track_id: fromTrackId,
     to_track_id: toTrackId,
     to_track_title: toTrackTitle,
-    direction: direction,
+    direction: direction
   });
 };
 
 export const trackMusicDownload = (trackId: string, trackTitle: string) => {
   trackEvent('music_download', {
     track_id: trackId,
-    track_title: trackTitle,
+    track_title: trackTitle
   });
 };
 
 export const trackMiniplayerExpand = (trackId: string) => {
   trackEvent('miniplayer_expand', {
-    track_id: trackId,
+    track_id: trackId
   });
 };
 
 export const trackMiniplayerCollapse = (trackId: string) => {
   trackEvent('miniplayer_collapse', {
-    track_id: trackId,
+    track_id: trackId
   });
 };
 
@@ -187,25 +187,29 @@ export const trackMiniplayerCollapse = (trackId: string) => {
 // GALLERY EVENTS
 // ============================================
 
-export const trackGalleryImageClick = (imageTitle: string, imageIndex: number, imageSrc: string) => {
+export const trackGalleryImageClick = (
+  imageTitle: string,
+  imageIndex: number,
+  imageSrc: string
+) => {
   trackEvent('gallery_image_click', {
     image_title: imageTitle,
     image_index: imageIndex,
-    image_src: imageSrc,
+    image_src: imageSrc
   });
 };
 
 export const trackLightboxOpen = (imageTitle: string, imageIndex: number) => {
   trackEvent('lightbox_open', {
     image_title: imageTitle,
-    image_index: imageIndex,
+    image_index: imageIndex
   });
 };
 
 export const trackLightboxClose = (imageTitle: string, viewDurationSeconds: number) => {
   trackEvent('lightbox_close', {
     image_title: imageTitle,
-    view_duration_seconds: Math.round(viewDurationSeconds),
+    view_duration_seconds: Math.round(viewDurationSeconds)
   });
 };
 
@@ -219,7 +223,7 @@ export const trackLightboxNavigate = (
     direction: direction,
     from_image: fromImageTitle,
     to_image: toImageTitle,
-    to_index: toIndex,
+    to_index: toIndex
   });
 };
 
@@ -231,13 +235,13 @@ export const trackImageDownload = (
   trackEvent('image_download', {
     image_title: imageTitle,
     image_src: imageSrc,
-    download_source: source,
+    download_source: source
   });
 };
 
 export const trackGalleryDownloadAll = (imageCount: number) => {
   trackEvent('gallery_download_all', {
-    image_count: imageCount,
+    image_count: imageCount
   });
 };
 
@@ -255,7 +259,7 @@ export const trackLinkClick = (
     link_label: linkLabel,
     link_url: linkUrl,
     link_index: linkIndex,
-    is_external: isExternal,
+    is_external: isExternal
   });
 };
 
@@ -269,7 +273,7 @@ export const trackSocialClick = (
 ) => {
   trackEvent('social_click', {
     platform: platform,
-    location: location,
+    location: location
   });
 };
 
@@ -280,13 +284,13 @@ export const trackSocialClick = (
 export const trackAudioError = (trackId: string, errorType: string) => {
   trackEvent('audio_error', {
     track_id: trackId,
-    error_type: errorType,
+    error_type: errorType
   });
 };
 
 export const trackDownloadError = (fileName: string, errorMessage: string) => {
   trackEvent('download_error', {
     file_name: fileName,
-    error_message: errorMessage,
+    error_message: errorMessage
   });
 };

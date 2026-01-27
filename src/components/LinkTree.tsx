@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import { Box, Container, Typography, Button, Stack } from '@mui/material';
 import { motion } from 'motion/react';
-import MusicPlayer from './MusicPlayer';
 import { colors } from '@/theme/theme';
 import { trackLinkClick, trackSocialClick } from '@/lib/analytics';
 
@@ -80,14 +79,6 @@ const links: LinkItem[] = [
     gradient: 'linear-gradient(135deg, #E1306C 0%, #C13584 50%, #833AB4 100%)',
     hoverGradient: 'linear-gradient(135deg, #E1306C 20%, #C13584 60%, #833AB4 120%)',
     glowColor: '#E1306C',
-    textColor: '#fff'
-  },
-  {
-    label: 'View Gallery',
-    href: '/gallery',
-    gradient: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.accent} 100%)`,
-    hoverGradient: `linear-gradient(135deg, ${colors.primary} 20%, ${colors.accent} 120%)`,
-    glowColor: colors.primary,
     textColor: '#fff'
   }
 ];
@@ -212,24 +203,6 @@ export default function LinkTree() {
             </motion.div>
           ))}
         </Stack>
-
-        {/* Music Player */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}>
-          <Typography
-            variant="h6"
-            sx={{
-              mb: 2,
-              fontWeight: 700,
-              color: colors.gold,
-              textAlign: 'center'
-            }}>
-            🎵 Now Playing
-          </Typography>
-          <MusicPlayer />
-        </motion.div>
 
         {/* Tagline */}
         <motion.div

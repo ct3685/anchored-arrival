@@ -4,6 +4,7 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { theme } from '@/theme/theme';
+import { AudioProvider } from '@/lib/AudioContext';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import MiniPlayer from '@/components/MiniPlayer';
@@ -39,12 +40,12 @@ export const metadata: Metadata = {
     url: '/',
     siteName: 'Agent Morgie 00BA',
     locale: 'en_US',
-    type: 'website',
+    type: 'website'
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Agent Morgie 00BA',
-    description: 'Double O Badass - Main Character Energy',
+    description: 'Double O Badass - Main Character Energy'
   }
 };
 
@@ -104,14 +105,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            {/* Global sparkle effects - z-index 10 to appear above page content but below navbar/player */}
-            <div style={{ position: 'fixed', inset: 0, zIndex: 10, pointerEvents: 'none' }}>
-              <SparkleEffect />
-            </div>
-            <Navbar />
-            <main style={{ minHeight: '100vh' }}>{children}</main>
-            <Footer />
-            <MiniPlayer />
+            <AudioProvider>
+              {/* Global sparkle effects - z-index 10 to appear above page content but below navbar/player */}
+              <div style={{ position: 'fixed', inset: 0, zIndex: 10, pointerEvents: 'none' }}>
+                <SparkleEffect />
+              </div>
+              <Navbar />
+              <main style={{ minHeight: '100vh' }}>{children}</main>
+              <Footer />
+              <MiniPlayer />
+            </AudioProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

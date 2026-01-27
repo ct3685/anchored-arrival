@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import {
   Box,
@@ -21,187 +21,30 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { motion, AnimatePresence } from 'motion/react';
 
-import { tracks, Track } from '@/lib/tracks';
+import { useAudio } from '@/lib/AudioContext';
+import { tracks } from '@/lib/tracks';
 import { colors } from '@/theme/theme';
-import {
-  trackMusicPlay,
-  trackMusicPause,
-  trackMusicSeek,
-  trackMusicTrackComplete,
-  trackMusicMilestone,
-  trackMusicTrackChange,
-  trackMiniplayerExpand,
-  trackMiniplayerCollapse,
-  trackAudioError
-} from '@/lib/analytics';
+import { trackMiniplayerExpand, trackMiniplayerCollapse } from '@/lib/analytics';
 
 export default function MiniPlayer() {
   const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up('sm')); // 600px+
+  const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
 
-  const audioRef = useRef<HTMLAudioElement>(null);
-  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const {
+    currentTrack,
+    currentTrackIndex,
+    isPlaying,
+    currentTime,
+    duration,
+    togglePlay,
+    seek,
+    nextTrack,
+    prevTrack,
+    formatTime,
+    hasMultipleTracks
+  } = useAudio();
+
   const [isExpanded, setIsExpanded] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
-
-  // Auto-expand on desktop on initial mount
-  const hasInitializedRef = useRef(false);
-  useEffect(() => {
-    if (!hasInitializedRef.current && isDesktop) {
-      setIsExpanded(true);
-      hasInitializedRef.current = true;
-    }
-  }, [isDesktop]);
-
-  // Analytics tracking refs
-  const playStartTimeRef = useRef<number>(0);
-  const totalListenTimeRef = useRef<number>(0);
-  const milestonesReachedRef = useRef<Set<number>>(new Set());
-
-  const currentTrack: Track = tracks[currentTrackIndex];
-  const hasMultipleTracks = tracks.length > 1;
-
-  // Track milestones
-  useEffect(() => {
-    if (duration > 0 && currentTime > 0) {
-      const percentage = (currentTime / duration) * 100;
-      const milestones = [25, 50, 75, 100] as const;
-
-      for (const milestone of milestones) {
-        if (percentage >= milestone && !milestonesReachedRef.current.has(milestone)) {
-          milestonesReachedRef.current.add(milestone);
-          trackMusicMilestone(currentTrack.id, currentTrack.title, milestone, 'mini');
-        }
-      }
-    }
-  }, [currentTime, duration, currentTrack.id, currentTrack.title]);
-
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
-    const handleLoadedMetadata = () => setDuration(audio.duration);
-    const handleEnded = () => {
-      // Track completion
-      trackMusicTrackComplete(
-        currentTrack.id,
-        currentTrack.title,
-        totalListenTimeRef.current,
-        'mini'
-      );
-
-      // Auto-play next track if available, otherwise stop
-      if (hasMultipleTracks && currentTrackIndex < tracks.length - 1) {
-        nextTrack();
-      } else {
-        setIsPlaying(false);
-      }
-    };
-    const handleError = () => {
-      trackAudioError(currentTrack.id, 'playback_error');
-    };
-
-    audio.addEventListener('timeupdate', handleTimeUpdate);
-    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
-    audio.addEventListener('ended', handleEnded);
-    audio.addEventListener('error', handleError);
-
-    return () => {
-      audio.removeEventListener('timeupdate', handleTimeUpdate);
-      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      audio.removeEventListener('ended', handleEnded);
-      audio.removeEventListener('error', handleError);
-    };
-  }, [currentTrackIndex, hasMultipleTracks, currentTrack.id, currentTrack.title]);
-
-  // Reset time and milestones when track changes
-  useEffect(() => {
-    setCurrentTime(0);
-    setDuration(0);
-    milestonesReachedRef.current = new Set();
-    totalListenTimeRef.current = 0;
-    if (isPlaying && audioRef.current) {
-      audioRef.current.play();
-    }
-  }, [currentTrackIndex]);
-
-  // Track listen time while playing
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (isPlaying) {
-      playStartTimeRef.current = Date.now();
-      interval = setInterval(() => {
-        totalListenTimeRef.current += 1;
-      }, 1000);
-    }
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [isPlaying]);
-
-  const togglePlay = () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    if (isPlaying) {
-      audio.pause();
-      const listenDuration = (Date.now() - playStartTimeRef.current) / 1000;
-      trackMusicPause(currentTrack.id, currentTrack.title, currentTime, listenDuration, 'mini');
-    } else {
-      audio.play();
-      trackMusicPlay(currentTrack.id, currentTrack.title, currentTrack.artist, 'mini', currentTime);
-    }
-    setIsPlaying(!isPlaying);
-  };
-
-  const handleSeek = (_: Event, value: number | number[]) => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    const newTime = value as number;
-    const oldTime = currentTime;
-    audio.currentTime = newTime;
-    setCurrentTime(newTime);
-    trackMusicSeek(currentTrack.id, oldTime, newTime, 'mini');
-  };
-
-  const nextTrack = () => {
-    const fromTrack = currentTrack;
-    let toIndex: number;
-    if (currentTrackIndex < tracks.length - 1) {
-      toIndex = currentTrackIndex + 1;
-    } else {
-      toIndex = 0; // Loop to first
-    }
-    const toTrack = tracks[toIndex];
-    trackMusicTrackChange(fromTrack.id, toTrack.id, toTrack.title, 'next');
-    setCurrentTrackIndex(toIndex);
-  };
-
-  const prevTrack = () => {
-    // If more than 3 seconds in, restart current track
-    if (currentTime > 3) {
-      const audio = audioRef.current;
-      if (audio) {
-        trackMusicSeek(currentTrack.id, currentTime, 0, 'mini');
-        audio.currentTime = 0;
-        setCurrentTime(0);
-      }
-    } else {
-      const fromTrack = currentTrack;
-      let toIndex: number;
-      if (currentTrackIndex > 0) {
-        toIndex = currentTrackIndex - 1;
-      } else {
-        toIndex = tracks.length - 1; // Loop to last
-      }
-      const toTrack = tracks[toIndex];
-      trackMusicTrackChange(fromTrack.id, toTrack.id, toTrack.title, 'prev');
-      setCurrentTrackIndex(toIndex);
-    }
-  };
 
   const handleExpandToggle = () => {
     if (isExpanded) {
@@ -212,15 +55,8 @@ export default function MiniPlayer() {
     setIsExpanded(!isExpanded);
   };
 
-  const formatTime = (time: number) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-  };
-
-  const truncateTitle = (title: string, maxLength: number = 20) => {
-    if (title.length <= maxLength) return title;
-    return title.substring(0, maxLength) + '...';
+  const handleSeek = (_: Event, value: number | number[]) => {
+    seek(value as number);
   };
 
   return (
@@ -233,7 +69,7 @@ export default function MiniPlayer() {
         style={{
           position: 'fixed',
           bottom: 20,
-          left: isDesktop ? 'auto' : 20, // Span on mobile, corner on desktop
+          left: isDesktop ? 'auto' : 20,
           right: 20,
           zIndex: 1300
         }}>
@@ -246,15 +82,11 @@ export default function MiniPlayer() {
             borderRadius: 3,
             overflow: 'hidden',
             width: { xs: 'auto', sm: 'fit-content' },
-            maxWidth: { xs: '100%', sm: 400 }, // Wider on desktop
+            maxWidth: { xs: '100%', sm: 400 },
             marginLeft: { xs: 0, sm: 'auto' },
-            minWidth: isExpanded
-              ? { xs: '100%', sm: 320 } // Wider expanded on desktop
-              : { xs: 'auto', sm: 280 }, // Wider collapsed on desktop
+            minWidth: isExpanded ? { xs: '100%', sm: 320 } : { xs: 'auto', sm: 280 },
             transition: 'min-width 0.3s ease, width 0.3s ease'
           }}>
-          <audio ref={audioRef} src={currentTrack.src} preload="metadata" />
-
           {/* Collapsed View */}
           <Stack direction="row" alignItems="center" spacing={1} sx={{ p: 1 }}>
             {/* Album Art */}
@@ -300,8 +132,8 @@ export default function MiniPlayer() {
               {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
             </IconButton>
 
-            {/* Track Title (collapsed) - flex to fill available space */}
-            {!isExpanded && (
+            {/* Track Title (collapsed) or spacer (expanded) */}
+            {!isExpanded ? (
               <Typography
                 variant="body2"
                 sx={{
@@ -314,9 +146,11 @@ export default function MiniPlayer() {
                 }}>
                 {currentTrack.title}
               </Typography>
+            ) : (
+              <Box sx={{ flex: 1 }} />
             )}
 
-            {/* Expand/Collapse Toggle - pushed to right edge */}
+            {/* Expand/Collapse Toggle */}
             <IconButton
               onClick={handleExpandToggle}
               size="small"
@@ -377,7 +211,7 @@ export default function MiniPlayer() {
                 </Typography>
               </Stack>
 
-              {/* Controls (shown when multiple tracks or always for consistency) */}
+              {/* Controls */}
               <Stack
                 direction="row"
                 justifyContent="center"
