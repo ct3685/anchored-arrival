@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Image from 'next/image';
 import {
   Box,
@@ -23,6 +23,15 @@ import 'yet-another-react-lightbox/styles.css';
 
 import { galleryImages, ImageData } from '@/lib/images';
 import { colors } from '@/theme/theme';
+import {
+  trackGalleryImageClick,
+  trackLightboxOpen,
+  trackLightboxClose,
+  trackLightboxNavigate,
+  trackImageDownload,
+  trackGalleryDownloadAll,
+  trackDownloadError,
+} from '@/lib/analytics';
 
 interface PhotoGalleryProps {
   images?: ImageData[];
@@ -31,13 +40,39 @@ interface PhotoGalleryProps {
 export default function PhotoGallery({ images = galleryImages }: PhotoGalleryProps) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
+  
+  // Track lightbox view duration
+  const lightboxOpenTimeRef = useRef<number>(0);
+  const previousIndexRef = useRef<number>(0);
 
   const openLightbox = (index: number) => {
+    const image = images[index];
+    trackGalleryImageClick(image.title, index, image.src);
+    trackLightboxOpen(image.title, index);
+    lightboxOpenTimeRef.current = Date.now();
+    previousIndexRef.current = index;
     setLightboxIndex(index);
     setLightboxOpen(true);
   };
 
-  const handleDownload = async (src: string, filename: string) => {
+  const closeLightbox = () => {
+    const viewDuration = (Date.now() - lightboxOpenTimeRef.current) / 1000;
+    const image = images[lightboxIndex];
+    trackLightboxClose(image.title, viewDuration);
+    setLightboxOpen(false);
+  };
+
+  const handleLightboxIndexChange = (index: number) => {
+    const fromImage = images[previousIndexRef.current];
+    const toImage = images[index];
+    const direction = index > previousIndexRef.current ? 'next' : 'prev';
+    trackLightboxNavigate(direction, fromImage.title, toImage.title, index);
+    previousIndexRef.current = index;
+    setLightboxIndex(index);
+  };
+
+  const handleDownload = async (src: string, filename: string, imageTitle: string, source: 'card' | 'lightbox') => {
+    trackImageDownload(imageTitle, src, source);
     try {
       const response = await fetch(src);
       const blob = await response.blob();
@@ -51,7 +86,16 @@ export default function PhotoGallery({ images = galleryImages }: PhotoGalleryPro
       document.body.removeChild(a);
     } catch (error) {
       console.error('Download failed:', error);
+      trackDownloadError(filename, error instanceof Error ? error.message : 'Unknown error');
     }
+  };
+
+  const handleDownloadAll = () => {
+    trackGalleryDownloadAll(images.length);
+    images.forEach((img) => {
+      const filename = img.src.split('/').pop() || 'image.png';
+      handleDownload(img.src, `agent-morgie-${filename}`, img.title, 'card');
+    });
   };
 
   const lightboxSlides = images.map((img) => ({
@@ -202,7 +246,7 @@ export default function PhotoGallery({ images = galleryImages }: PhotoGalleryPro
                           onClick={(e) => {
                             e.stopPropagation();
                             const filename = image.src.split('/').pop() || 'image.png';
-                            handleDownload(image.src, filename);
+                            handleDownload(image.src, filename, image.title, 'card');
                           }}
                         >
                           <DownloadIcon fontSize="small" />
@@ -222,12 +266,7 @@ export default function PhotoGallery({ images = galleryImages }: PhotoGalleryPro
             variant="outlined"
             size="large"
             startIcon={<DownloadIcon />}
-            onClick={() => {
-              images.forEach((img) => {
-                const filename = img.src.split('/').pop() || 'image.png';
-                handleDownload(img.src, `agent-morgie-${filename}`);
-              });
-            }}
+            onClick={handleDownloadAll}
             sx={{
               borderColor: colors.primary,
               color: colors.primary,
@@ -246,8 +285,15 @@ export default function PhotoGallery({ images = galleryImages }: PhotoGalleryPro
       {/* Lightbox */}
       <Lightbox
         open={lightboxOpen}
-        close={() => setLightboxOpen(false)}
+        close={closeLightbox}
         index={lightboxIndex}
+        on={{
+          view: ({ index }) => {
+            if (index !== previousIndexRef.current) {
+              handleLightboxIndexChange(index);
+            }
+          },
+        }}
         slides={lightboxSlides}
         plugins={[Zoom, Download]}
         styles={{

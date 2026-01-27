@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Box, Container, Typography, Button, Stack } from '@mui/material';
 import { motion } from 'motion/react';
 import { colors } from '@/theme/theme';
+import { trackHeroCTA, trackSocialClick } from '@/lib/analytics';
 
 export default function Hero() {
   return (
@@ -212,6 +213,7 @@ export default function Hero() {
                   size="large"
                   component={Link}
                   href="/gallery"
+                  onClick={() => trackHeroCTA('View Gallery', '/gallery', false)}
                 >
                   View Gallery
                 </Button>
@@ -222,6 +224,10 @@ export default function Hero() {
                   href="https://www.tiktok.com/@realfeelpurpose"
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => {
+                    trackHeroCTA('Follow on TikTok', 'https://www.tiktok.com/@realfeelpurpose', true);
+                    trackSocialClick('tiktok', 'hero');
+                  }}
                 >
                   Follow on TikTok
                 </Button>

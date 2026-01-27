@@ -21,6 +21,17 @@ import { motion, AnimatePresence } from 'motion/react';
 
 import { tracks, Track } from '@/lib/tracks';
 import { colors } from '@/theme/theme';
+import {
+  trackMusicPlay,
+  trackMusicPause,
+  trackMusicSeek,
+  trackMusicTrackComplete,
+  trackMusicMilestone,
+  trackMusicTrackChange,
+  trackMiniplayerExpand,
+  trackMiniplayerCollapse,
+  trackAudioError,
+} from '@/lib/analytics';
 
 export default function MiniPlayer() {
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -29,9 +40,29 @@ export default function MiniPlayer() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  
+  // Analytics tracking refs
+  const playStartTimeRef = useRef<number>(0);
+  const totalListenTimeRef = useRef<number>(0);
+  const milestonesReachedRef = useRef<Set<number>>(new Set());
 
   const currentTrack: Track = tracks[currentTrackIndex];
   const hasMultipleTracks = tracks.length > 1;
+
+  // Track milestones
+  useEffect(() => {
+    if (duration > 0 && currentTime > 0) {
+      const percentage = (currentTime / duration) * 100;
+      const milestones = [25, 50, 75, 100] as const;
+      
+      for (const milestone of milestones) {
+        if (percentage >= milestone && !milestonesReachedRef.current.has(milestone)) {
+          milestonesReachedRef.current.add(milestone);
+          trackMusicMilestone(currentTrack.id, currentTrack.title, milestone, 'mini');
+        }
+      }
+    }
+  }, [currentTime, duration, currentTrack.id, currentTrack.title]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -40,6 +71,14 @@ export default function MiniPlayer() {
     const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
     const handleLoadedMetadata = () => setDuration(audio.duration);
     const handleEnded = () => {
+      // Track completion
+      trackMusicTrackComplete(
+        currentTrack.id,
+        currentTrack.title,
+        totalListenTimeRef.current,
+        'mini'
+      );
+      
       // Auto-play next track if available, otherwise stop
       if (hasMultipleTracks && currentTrackIndex < tracks.length - 1) {
         nextTrack();
@@ -47,26 +86,47 @@ export default function MiniPlayer() {
         setIsPlaying(false);
       }
     };
+    const handleError = () => {
+      trackAudioError(currentTrack.id, 'playback_error');
+    };
 
     audio.addEventListener('timeupdate', handleTimeUpdate);
     audio.addEventListener('loadedmetadata', handleLoadedMetadata);
     audio.addEventListener('ended', handleEnded);
+    audio.addEventListener('error', handleError);
 
     return () => {
       audio.removeEventListener('timeupdate', handleTimeUpdate);
       audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
       audio.removeEventListener('ended', handleEnded);
+      audio.removeEventListener('error', handleError);
     };
-  }, [currentTrackIndex, hasMultipleTracks]);
+  }, [currentTrackIndex, hasMultipleTracks, currentTrack.id, currentTrack.title]);
 
-  // Reset time when track changes
+  // Reset time and milestones when track changes
   useEffect(() => {
     setCurrentTime(0);
     setDuration(0);
+    milestonesReachedRef.current = new Set();
+    totalListenTimeRef.current = 0;
     if (isPlaying && audioRef.current) {
       audioRef.current.play();
     }
   }, [currentTrackIndex]);
+
+  // Track listen time while playing
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isPlaying) {
+      playStartTimeRef.current = Date.now();
+      interval = setInterval(() => {
+        totalListenTimeRef.current += 1;
+      }, 1000);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isPlaying]);
 
   const togglePlay = () => {
     const audio = audioRef.current;
@@ -74,8 +134,11 @@ export default function MiniPlayer() {
 
     if (isPlaying) {
       audio.pause();
+      const listenDuration = (Date.now() - playStartTimeRef.current) / 1000;
+      trackMusicPause(currentTrack.id, currentTrack.title, currentTime, listenDuration, 'mini');
     } else {
       audio.play();
+      trackMusicPlay(currentTrack.id, currentTrack.title, currentTrack.artist, 'mini', currentTime);
     }
     setIsPlaying(!isPlaying);
   };
@@ -84,16 +147,23 @@ export default function MiniPlayer() {
     const audio = audioRef.current;
     if (!audio) return;
     const newTime = value as number;
+    const oldTime = currentTime;
     audio.currentTime = newTime;
     setCurrentTime(newTime);
+    trackMusicSeek(currentTrack.id, oldTime, newTime, 'mini');
   };
 
   const nextTrack = () => {
+    const fromTrack = currentTrack;
+    let toIndex: number;
     if (currentTrackIndex < tracks.length - 1) {
-      setCurrentTrackIndex(currentTrackIndex + 1);
+      toIndex = currentTrackIndex + 1;
     } else {
-      setCurrentTrackIndex(0); // Loop to first
+      toIndex = 0; // Loop to first
     }
+    const toTrack = tracks[toIndex];
+    trackMusicTrackChange(fromTrack.id, toTrack.id, toTrack.title, 'next');
+    setCurrentTrackIndex(toIndex);
   };
 
   const prevTrack = () => {
@@ -101,14 +171,31 @@ export default function MiniPlayer() {
     if (currentTime > 3) {
       const audio = audioRef.current;
       if (audio) {
+        trackMusicSeek(currentTrack.id, currentTime, 0, 'mini');
         audio.currentTime = 0;
         setCurrentTime(0);
       }
-    } else if (currentTrackIndex > 0) {
-      setCurrentTrackIndex(currentTrackIndex - 1);
     } else {
-      setCurrentTrackIndex(tracks.length - 1); // Loop to last
+      const fromTrack = currentTrack;
+      let toIndex: number;
+      if (currentTrackIndex > 0) {
+        toIndex = currentTrackIndex - 1;
+      } else {
+        toIndex = tracks.length - 1; // Loop to last
+      }
+      const toTrack = tracks[toIndex];
+      trackMusicTrackChange(fromTrack.id, toTrack.id, toTrack.title, 'prev');
+      setCurrentTrackIndex(toIndex);
     }
+  };
+
+  const handleExpandToggle = () => {
+    if (isExpanded) {
+      trackMiniplayerCollapse(currentTrack.id);
+    } else {
+      trackMiniplayerExpand(currentTrack.id);
+    }
+    setIsExpanded(!isExpanded);
   };
 
   const formatTime = (time: number) => {
@@ -175,7 +262,7 @@ export default function MiniPlayer() {
                     : `0 0 8px ${colors.primary}33`,
                   transition: 'box-shadow 0.3s ease',
                 }}
-                onClick={() => setIsExpanded(!isExpanded)}
+                onClick={handleExpandToggle}
               >
                 <Image
                   src={currentTrack.cover}
@@ -220,7 +307,7 @@ export default function MiniPlayer() {
 
             {/* Expand/Collapse Toggle */}
             <IconButton
-              onClick={() => setIsExpanded(!isExpanded)}
+              onClick={handleExpandToggle}
               size="small"
               sx={{ color: colors.textSecondary }}
             >

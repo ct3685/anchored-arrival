@@ -2,6 +2,7 @@
 
 import { Box, Container, Typography, IconButton, Stack } from '@mui/material';
 import { colors } from '@/theme/theme';
+import { trackSocialClick } from '@/lib/analytics';
 
 // TikTok icon component (not in MUI icons)
 const TikTokIcon = () => (
@@ -52,6 +53,7 @@ export default function Footer() {
               href="https://www.tiktok.com/@realfeelpurpose"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackSocialClick('tiktok', 'footer')}
               sx={{
                 color: colors.textSecondary,
                 transition: 'all 0.3s ease',

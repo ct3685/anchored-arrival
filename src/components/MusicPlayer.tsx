@@ -19,6 +19,18 @@ import { motion } from 'motion/react';
 
 import { Track, featuredTrack } from '@/lib/tracks';
 import { colors } from '@/theme/theme';
+import {
+  trackMusicPlay,
+  trackMusicPause,
+  trackMusicSeek,
+  trackMusicVolumeChange,
+  trackMusicMuteToggle,
+  trackMusicTrackComplete,
+  trackMusicMilestone,
+  trackMusicDownload,
+  trackAudioError,
+  trackDownloadError,
+} from '@/lib/analytics';
 
 interface MusicPlayerProps {
   track?: Track;
@@ -33,24 +45,76 @@ export default function MusicPlayer({ track = featuredTrack, compact = false }: 
   const [volume, setVolume] = useState(0.7);
   const [isMuted, setIsMuted] = useState(false);
 
+  // Analytics tracking refs
+  const playStartTimeRef = useRef<number>(0);
+  const totalListenTimeRef = useRef<number>(0);
+  const milestonesReachedRef = useRef<Set<number>>(new Set());
+  const volumeDebounceRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Track milestones
+  useEffect(() => {
+    if (duration > 0 && currentTime > 0) {
+      const percentage = (currentTime / duration) * 100;
+      const milestones = [25, 50, 75, 100] as const;
+      
+      for (const milestone of milestones) {
+        if (percentage >= milestone && !milestonesReachedRef.current.has(milestone)) {
+          milestonesReachedRef.current.add(milestone);
+          trackMusicMilestone(track.id, track.title, milestone, 'full');
+        }
+      }
+    }
+  }, [currentTime, duration, track.id, track.title]);
+
+  // Track listen time while playing
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isPlaying) {
+      playStartTimeRef.current = Date.now();
+      interval = setInterval(() => {
+        totalListenTimeRef.current += 1;
+      }, 1000);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isPlaying]);
+
+  // Cleanup debounce timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (volumeDebounceRef.current) {
+        clearTimeout(volumeDebounceRef.current);
+      }
+    };
+  }, []);
+
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
     const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
     const handleLoadedMetadata = () => setDuration(audio.duration);
-    const handleEnded = () => setIsPlaying(false);
+    const handleEnded = () => {
+      trackMusicTrackComplete(track.id, track.title, totalListenTimeRef.current, 'full');
+      setIsPlaying(false);
+    };
+    const handleError = () => {
+      trackAudioError(track.id, 'playback_error');
+    };
 
     audio.addEventListener('timeupdate', handleTimeUpdate);
     audio.addEventListener('loadedmetadata', handleLoadedMetadata);
     audio.addEventListener('ended', handleEnded);
+    audio.addEventListener('error', handleError);
 
     return () => {
       audio.removeEventListener('timeupdate', handleTimeUpdate);
       audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
       audio.removeEventListener('ended', handleEnded);
+      audio.removeEventListener('error', handleError);
     };
-  }, []);
+  }, [track.id, track.title]);
 
   const togglePlay = () => {
     const audio = audioRef.current;
@@ -58,8 +122,11 @@ export default function MusicPlayer({ track = featuredTrack, compact = false }: 
 
     if (isPlaying) {
       audio.pause();
+      const listenDuration = (Date.now() - playStartTimeRef.current) / 1000;
+      trackMusicPause(track.id, track.title, currentTime, listenDuration, 'full');
     } else {
       audio.play();
+      trackMusicPlay(track.id, track.title, track.artist, 'full', currentTime);
     }
     setIsPlaying(!isPlaying);
   };
@@ -68,8 +135,10 @@ export default function MusicPlayer({ track = featuredTrack, compact = false }: 
     const audio = audioRef.current;
     if (!audio) return;
     const newTime = value as number;
+    const oldTime = currentTime;
     audio.currentTime = newTime;
     setCurrentTime(newTime);
+    trackMusicSeek(track.id, oldTime, newTime, 'full');
   };
 
   const handleVolumeChange = (_: Event, value: number | number[]) => {
@@ -79,6 +148,14 @@ export default function MusicPlayer({ track = featuredTrack, compact = false }: 
     audio.volume = newVolume;
     setVolume(newVolume);
     setIsMuted(newVolume === 0);
+    
+    // Debounce analytics to avoid spamming during slider drag
+    if (volumeDebounceRef.current) {
+      clearTimeout(volumeDebounceRef.current);
+    }
+    volumeDebounceRef.current = setTimeout(() => {
+      trackMusicVolumeChange(newVolume);
+    }, 500);
   };
 
   const toggleMute = () => {
@@ -87,9 +164,11 @@ export default function MusicPlayer({ track = featuredTrack, compact = false }: 
     if (isMuted) {
       audio.volume = volume || 0.7;
       setIsMuted(false);
+      trackMusicMuteToggle(false);
     } else {
       audio.volume = 0;
       setIsMuted(true);
+      trackMusicMuteToggle(true);
     }
   };
 
@@ -100,6 +179,7 @@ export default function MusicPlayer({ track = featuredTrack, compact = false }: 
   };
 
   const handleDownload = async () => {
+    trackMusicDownload(track.id, track.title);
     try {
       const response = await fetch(track.src);
       const blob = await response.blob();
@@ -113,6 +193,7 @@ export default function MusicPlayer({ track = featuredTrack, compact = false }: 
       document.body.removeChild(a);
     } catch (error) {
       console.error('Download failed:', error);
+      trackDownloadError(`${track.title}.mp3`, error instanceof Error ? error.message : 'Unknown error');
     }
   };
 

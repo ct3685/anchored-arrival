@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import Script from 'next/script';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -7,6 +8,8 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import MiniPlayer from '@/components/MiniPlayer';
 import SparkleEffect from '@/components/SparkleEffect';
+
+const GA_MEASUREMENT_ID = 'G-2DE84Q17JH';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://agentmorgie.com'),
@@ -84,6 +87,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             })
           }}
         />
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}');
+          `}
+        </Script>
       </head>
       <body style={{ margin: 0 }}>
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>

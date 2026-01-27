@@ -20,6 +20,12 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import { motion } from 'motion/react';
+import {
+  trackNavClick,
+  trackMobileMenuOpen,
+  trackMobileMenuClose,
+  trackLogoClick,
+} from '@/lib/analytics';
 
 const navItems = [
   { label: 'Home', href: '/' },
@@ -33,7 +39,20 @@ export default function Navbar() {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const handleDrawerToggle = () => {
+    if (mobileOpen) {
+      trackMobileMenuClose();
+    } else {
+      trackMobileMenuOpen();
+    }
     setMobileOpen(!mobileOpen);
+  };
+
+  const handleNavClick = (label: string, href: string, navType: 'desktop' | 'mobile') => {
+    trackNavClick(label, href, navType);
+  };
+
+  const handleLogoClick = () => {
+    trackLogoClick();
   };
 
   return (
@@ -45,7 +64,7 @@ export default function Navbar() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <Link href="/" style={{ textDecoration: 'none' }}>
+            <Link href="/" style={{ textDecoration: 'none' }} onClick={handleLogoClick}>
               <Typography
                 variant="h6"
                 sx={{
@@ -80,7 +99,11 @@ export default function Navbar() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.1 }}
                 >
-                  <Link href={item.href} style={{ textDecoration: 'none' }}>
+                  <Link
+                    href={item.href}
+                    style={{ textDecoration: 'none' }}
+                    onClick={() => handleNavClick(item.label, item.href, 'desktop')}
+                  >
                     <Button
                       sx={{
                         color: 'white',
@@ -127,7 +150,10 @@ export default function Navbar() {
                 <Link
                   href={item.href}
                   style={{ textDecoration: 'none', width: '100%' }}
-                  onClick={handleDrawerToggle}
+                  onClick={() => {
+                    handleNavClick(item.label, item.href, 'mobile');
+                    handleDrawerToggle();
+                  }}
                 >
                   <ListItemButton
                     sx={{

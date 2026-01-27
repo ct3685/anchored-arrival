@@ -5,6 +5,7 @@ import { Box, Container, Typography, Button, Stack } from '@mui/material';
 import { motion } from 'motion/react';
 import MusicPlayer from './MusicPlayer';
 import { colors } from '@/theme/theme';
+import { trackLinkClick, trackSocialClick } from '@/lib/analytics';
 
 // TikTok icon component
 const TikTokIcon = () => (
@@ -131,6 +132,16 @@ export default function LinkTree() {
                 target={link.href.startsWith('http') ? '_blank' : undefined}
                 rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                 startIcon={link.icon}
+                onClick={() => {
+                  const isExternal = link.href.startsWith('http');
+                  trackLinkClick(link.label, link.href, index, isExternal);
+                  // Also track social clicks for TikTok/YouTube
+                  if (link.href.includes('tiktok.com')) {
+                    trackSocialClick('tiktok', 'linktree');
+                  } else if (link.href.includes('youtube.com')) {
+                    trackSocialClick('youtube', 'linktree');
+                  }
+                }}
                 sx={{
                   'py': 2,
                   'px': 3,
