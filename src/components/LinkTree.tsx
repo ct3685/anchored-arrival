@@ -39,7 +39,10 @@ interface LinkItem {
   label: string;
   href: string;
   icon?: React.ReactNode;
-  color: string;
+  gradient: string;
+  hoverGradient: string;
+  glowColor: string;
+  textColor: string;
 }
 
 const links: LinkItem[] = [
@@ -47,30 +50,45 @@ const links: LinkItem[] = [
     label: 'TikTok @realfeelpurpose',
     href: 'https://www.tiktok.com/@realfeelpurpose',
     icon: <TikTokIcon />,
-    color: '#00F2EA'
+    gradient: 'linear-gradient(135deg, #00F2EA 0%, #FF0050 100%)',
+    hoverGradient: 'linear-gradient(135deg, #00F2EA 20%, #FF0050 120%)',
+    glowColor: '#FF0050',
+    textColor: '#fff'
   },
   {
     label: 'YouTube @AgentMorgan1000',
     href: 'https://www.youtube.com/@AgentMorgan1000',
     icon: <YouTubeIcon />,
-    color: '#FF0000'
+    gradient: 'linear-gradient(135deg, #FF0000 0%, #FFAA00 100%)',
+    hoverGradient: 'linear-gradient(135deg, #FF0000 20%, #FFAA00 120%)',
+    glowColor: '#FFAA00',
+    textColor: '#fff'
   },
   {
     label: 'Snapchat @morg10_yo',
     href: 'https://www.snapchat.com/add/morg10_yo',
     icon: <SnapchatIcon />,
-    color: '#FFFC00'
+    gradient: 'linear-gradient(135deg, #FFFC00 0%, #00D4AA 100%)',
+    hoverGradient: 'linear-gradient(135deg, #FFFC00 20%, #00D4AA 120%)',
+    glowColor: '#00D4AA',
+    textColor: '#000'
   },
   {
     label: 'Instagram @agentmorgan1000',
     href: 'https://www.instagram.com/agentmorgan1000',
     icon: <InstagramIcon />,
-    color: '#E1306C'
+    gradient: 'linear-gradient(135deg, #E1306C 0%, #C13584 50%, #833AB4 100%)',
+    hoverGradient: 'linear-gradient(135deg, #E1306C 20%, #C13584 60%, #833AB4 120%)',
+    glowColor: '#E1306C',
+    textColor: '#fff'
   },
   {
     label: 'View Gallery',
     href: '/gallery',
-    color: colors.secondary
+    gradient: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.accent} 100%)`,
+    hoverGradient: `linear-gradient(135deg, ${colors.primary} 20%, ${colors.accent} 120%)`,
+    glowColor: colors.primary,
+    textColor: '#fff'
   }
 ];
 
@@ -153,7 +171,7 @@ export default function LinkTree() {
               transition={{ duration: 0.4, delay: index * 0.1 + 0.3 }}>
               <Button
                 fullWidth
-                variant="outlined"
+                variant="contained"
                 href={link.href}
                 target={link.href.startsWith('http') ? '_blank' : undefined}
                 rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
@@ -175,17 +193,17 @@ export default function LinkTree() {
                 sx={{
                   'py': 2,
                   'px': 3,
-                  'borderColor': `${link.color}66`,
-                  'color': 'white',
-                  'backgroundColor': `${link.color}11`,
+                  'color': link.textColor,
+                  'background': link.gradient,
+                  'backdropFilter': 'blur(8px)',
+                  'boxShadow': `0 0 20px ${link.glowColor}44`,
                   'justifyContent': 'flex-start',
                   'fontSize': '1rem',
                   'fontWeight': 600,
                   '&:hover': {
-                    borderColor: link.color,
-                    backgroundColor: `${link.color}22`,
+                    background: link.hoverGradient,
                     transform: 'translateX(8px)',
-                    boxShadow: `0 0 20px ${link.color}44`
+                    boxShadow: `0 0 30px ${link.glowColor}66`
                   },
                   'transition': 'all 0.3s ease'
                 }}>
