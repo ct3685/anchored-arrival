@@ -79,7 +79,7 @@ export default function Hero() {
         }}
       />
 
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, pt: { xs: 4, md: 0 } }}>
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, pt: { xs: 4, md: 0 }, mt: { xs: 0, md: -8 } }}>
         <Stack
           direction={{ xs: 'column', md: 'row' }}
           spacing={4}
