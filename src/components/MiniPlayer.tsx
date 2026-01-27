@@ -219,6 +219,7 @@ export default function MiniPlayer() {
         style={{
           position: 'fixed',
           bottom: 20,
+          left: 20,
           right: 20,
           zIndex: 1300,
         }}
@@ -231,8 +232,11 @@ export default function MiniPlayer() {
             border: `1px solid ${colors.primary}44`,
             borderRadius: 3,
             overflow: 'hidden',
-            minWidth: isExpanded ? 280 : 'auto',
-            transition: 'min-width 0.3s ease',
+            width: { xs: 'auto', sm: 'fit-content' },
+            maxWidth: { xs: '100%', sm: 320 },
+            marginLeft: { xs: 0, sm: 'auto' },
+            minWidth: isExpanded ? { xs: '100%', sm: 280 } : 'auto',
+            transition: 'min-width 0.3s ease, width 0.3s ease',
           }}
         >
           <audio ref={audioRef} src={currentTrack.src} preload="metadata" />
@@ -288,28 +292,28 @@ export default function MiniPlayer() {
               {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
             </IconButton>
 
-            {/* Track Title (collapsed) */}
+            {/* Track Title (collapsed) - flex to fill available space */}
             {!isExpanded && (
               <Typography
                 variant="body2"
                 sx={{
                   color: 'white',
                   fontWeight: 600,
-                  maxWidth: 120,
+                  flex: 1,
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
                 }}
               >
-                {truncateTitle(currentTrack.title, 15)}
+                {currentTrack.title}
               </Typography>
             )}
 
-            {/* Expand/Collapse Toggle */}
+            {/* Expand/Collapse Toggle - pushed to right edge */}
             <IconButton
               onClick={handleExpandToggle}
               size="small"
-              sx={{ color: colors.textSecondary }}
+              sx={{ color: colors.textSecondary, flexShrink: 0 }}
             >
               {isExpanded ? <ExpandMoreIcon /> : <ExpandLessIcon />}
             </IconButton>

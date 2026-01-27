@@ -16,9 +16,8 @@ export default function Hero() {
         display: 'flex',
         alignItems: 'center',
         background: `radial-gradient(ellipse at center, ${colors.surface} 0%, ${colors.background} 70%)`,
-        overflow: 'hidden',
-      }}
-    >
+        overflow: 'hidden'
+      }}>
       {/* Gradient orbs background */}
       <Box
         sx={{
@@ -29,7 +28,7 @@ export default function Hero() {
           height: 300,
           borderRadius: '50%',
           background: `radial-gradient(circle, ${colors.primary}33 0%, transparent 70%)`,
-          filter: 'blur(60px)',
+          filter: 'blur(60px)'
         }}
       />
       <Box
@@ -41,7 +40,7 @@ export default function Hero() {
           height: 400,
           borderRadius: '50%',
           background: `radial-gradient(circle, ${colors.secondary}33 0%, transparent 70%)`,
-          filter: 'blur(80px)',
+          filter: 'blur(80px)'
         }}
       />
 
@@ -50,33 +49,30 @@ export default function Hero() {
           direction={{ xs: 'column', md: 'row' }}
           spacing={4}
           alignItems="center"
-          justifyContent="center"
-        >
+          justifyContent="center">
           {/* Avatar */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
             animate={{ opacity: 1, scale: 1, rotate: 0 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
-          >
+            transition={{ duration: 0.8, ease: 'easeOut' }}>
             <Box
               sx={{
-                position: 'relative',
-                width: { xs: 280, md: 350 },
-                height: { xs: 280, md: 350 },
+                'position': 'relative',
+                'width': { xs: 280, md: 350 },
+                'height': { xs: 280, md: 350 },
                 '&::before': {
                   content: '""',
                   position: 'absolute',
                   inset: -4,
                   borderRadius: '50%',
                   background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary}, ${colors.accent})`,
-                  animation: 'spin 6s linear infinite',
+                  animation: 'spin 4.5s linear infinite'
                 },
                 '@keyframes spin': {
                   '0%': { transform: 'rotate(0deg)' },
-                  '100%': { transform: 'rotate(360deg)' },
-                },
-              }}
-            >
+                  '100%': { transform: 'rotate(360deg)' }
+                }
+              }}>
               <Box
                 sx={{
                   position: 'relative',
@@ -84,9 +80,8 @@ export default function Hero() {
                   height: '100%',
                   borderRadius: '50%',
                   overflow: 'hidden',
-                  border: `4px solid ${colors.background}`,
-                }}
-              >
+                  border: `4px solid ${colors.background}`
+                }}>
                 <Image
                   src="/images/main-character.png"
                   alt="Agent Morgie"
@@ -103,8 +98,7 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
+              transition={{ duration: 0.6, delay: 0.2 }}>
               <Typography
                 variant="overline"
                 sx={{
@@ -112,9 +106,8 @@ export default function Hero() {
                   letterSpacing: 4,
                   fontWeight: 600,
                   mb: 1,
-                  display: 'block',
-                }}
-              >
+                  display: 'block'
+                }}>
                 WELCOME TO THE WORLD OF
               </Typography>
             </motion.div>
@@ -122,8 +115,7 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-            >
+              transition={{ duration: 0.6, delay: 0.4 }}>
               <Typography
                 variant="h1"
                 sx={{
@@ -134,9 +126,8 @@ export default function Hero() {
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   mb: 1,
-                  lineHeight: 1.1,
-                }}
-              >
+                  lineHeight: 1.1
+                }}>
                 Agent Morgie
               </Typography>
             </motion.div>
@@ -144,17 +135,15 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-            >
+              transition={{ duration: 0.6, delay: 0.5 }}>
               <Typography
                 variant="h2"
                 sx={{
                   fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' },
                   fontWeight: 700,
                   color: colors.gold,
-                  mb: 2,
-                }}
-              >
+                  mb: 2
+                }}>
                 00BA
               </Typography>
             </motion.div>
@@ -162,17 +151,15 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-            >
+              transition={{ duration: 0.6, delay: 0.6 }}>
               <Typography
                 variant="h5"
                 sx={{
                   color: colors.textSecondary,
                   fontWeight: 400,
                   mb: 2,
-                  fontSize: { xs: '1rem', md: '1.25rem' },
-                }}
-              >
+                  fontSize: { xs: '1rem', md: '1.25rem' }
+                }}>
                 Double O Badass • Main Character Energy • Live... And Lethal
               </Typography>
             </motion.div>
@@ -180,8 +167,7 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.7 }}
-            >
+              transition={{ duration: 0.6, delay: 0.7 }}>
               <Typography
                 variant="body1"
                 sx={{
@@ -190,31 +176,30 @@ export default function Hero() {
                   mb: 4,
                   fontSize: { xs: '0.9rem', md: '1rem' },
                   lineHeight: 1.7,
-                  maxWidth: 450,
-                }}
-              >
-                Candid, community-driven creator focused on real conversations, growth, and connection. TikTok Lives, relatable humor, mindset/faith moments, and everyday lifestyle—building a welcoming space where people can be genuine, have fun, and feel at home.
+                  maxWidth: 450
+                }}>
+                Candid, community-driven creator focused on real conversations, growth, and
+                connection. TikTok Lives, relatable humor, mindset/faith moments, and everyday
+                lifestyle—building a welcoming space where people can be genuine, have fun, and feel
+                at home.
               </Typography>
             </motion.div>
 
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.9 }}
-            >
+              transition={{ duration: 0.6, delay: 0.9 }}>
               <Stack
                 direction={{ xs: 'column', sm: 'row' }}
                 spacing={2}
-                justifyContent={{ xs: 'center', md: 'flex-start' }}
-              >
+                justifyContent={{ xs: 'center', md: 'flex-start' }}>
                 <Button
                   variant="contained"
                   color="primary"
                   size="large"
                   component={Link}
                   href="/gallery"
-                  onClick={() => trackHeroCTA('View Gallery', '/gallery', false)}
-                >
+                  onClick={() => trackHeroCTA('View Gallery', '/gallery', false)}>
                   View Gallery
                 </Button>
                 <Button
@@ -225,11 +210,82 @@ export default function Hero() {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => {
-                    trackHeroCTA('Follow on TikTok', 'https://www.tiktok.com/@realfeelpurpose', true);
+                    trackHeroCTA(
+                      'Follow on TikTok',
+                      'https://www.tiktok.com/@realfeelpurpose',
+                      true
+                    );
                     trackSocialClick('tiktok', 'hero');
-                  }}
-                >
+                  }}>
                   Follow on TikTok
+                </Button>
+                <Button
+                  variant="outlined"
+                  size="large"
+                  href="https://www.youtube.com/@AgentMorgan1000"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => {
+                    trackHeroCTA(
+                      'Subscribe on YouTube',
+                      'https://www.youtube.com/@AgentMorgan1000',
+                      true
+                    );
+                    trackSocialClick('youtube', 'hero');
+                  }}
+                  sx={{
+                    'borderColor': colors.accent,
+                    'color': colors.accent,
+                    '&:hover': {
+                      borderColor: colors.accent,
+                      backgroundColor: `${colors.accent}22`
+                    }
+                  }}>
+                  YouTube
+                </Button>
+                <Button
+                  variant="outlined"
+                  size="large"
+                  href="https://www.snapchat.com/add/morg10_yo"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => {
+                    trackHeroCTA('Add on Snapchat', 'https://www.snapchat.com/add/morg10_yo', true);
+                    trackSocialClick('snapchat', 'hero');
+                  }}
+                  sx={{
+                    'borderColor': '#FFFC00',
+                    'color': '#FFFC00',
+                    '&:hover': {
+                      borderColor: '#FFFC00',
+                      backgroundColor: '#FFFC0022'
+                    }
+                  }}>
+                  Snapchat
+                </Button>
+                <Button
+                  variant="outlined"
+                  size="large"
+                  href="https://www.instagram.com/agentmorgan1000"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => {
+                    trackHeroCTA(
+                      'Follow on Instagram',
+                      'https://www.instagram.com/agentmorgan1000',
+                      true
+                    );
+                    trackSocialClick('instagram', 'hero');
+                  }}
+                  sx={{
+                    'borderColor': '#E1306C',
+                    'color': '#E1306C',
+                    '&:hover': {
+                      borderColor: '#E1306C',
+                      backgroundColor: '#E1306C22'
+                    }
+                  }}>
+                  Instagram
                 </Button>
               </Stack>
             </motion.div>

@@ -113,6 +113,8 @@ export default function SparkleEffect() {
               position: 'absolute',
               left: `${sparkle.x}%`,
               top: `${sparkle.y}%`,
+              willChange: 'transform, opacity',
+              transform: 'translateZ(0)', // Force GPU layer on iOS Safari
             }}
           >
             {renderSparkle(sparkle)}

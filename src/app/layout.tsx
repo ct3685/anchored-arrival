@@ -104,8 +104,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            {/* Global sparkle effects */}
-            <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
+            {/* Global sparkle effects - z-index 10 to appear above page content but below navbar/player */}
+            <div style={{ position: 'fixed', inset: 0, zIndex: 10, pointerEvents: 'none' }}>
               <SparkleEffect />
             </div>
             <Navbar />
