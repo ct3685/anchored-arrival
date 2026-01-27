@@ -47,7 +47,7 @@ const links: LinkItem[] = [
     label: 'TikTok @realfeelpurpose',
     href: 'https://www.tiktok.com/@realfeelpurpose',
     icon: <TikTokIcon />,
-    color: colors.primary
+    color: '#00F2EA'
   },
   {
     label: 'YouTube @AgentMorgan1000',

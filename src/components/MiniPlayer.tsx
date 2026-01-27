@@ -10,6 +10,8 @@ import {
   Stack,
   Paper,
   Collapse,
+  useTheme,
+  useMediaQuery
 } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
@@ -30,17 +32,29 @@ import {
   trackMusicTrackChange,
   trackMiniplayerExpand,
   trackMiniplayerCollapse,
-  trackAudioError,
+  trackAudioError
 } from '@/lib/analytics';
 
 export default function MiniPlayer() {
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('sm')); // 600px+
+
   const audioRef = useRef<HTMLAudioElement>(null);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  
+
+  // Auto-expand on desktop on initial mount
+  const hasInitializedRef = useRef(false);
+  useEffect(() => {
+    if (!hasInitializedRef.current && isDesktop) {
+      setIsExpanded(true);
+      hasInitializedRef.current = true;
+    }
+  }, [isDesktop]);
+
   // Analytics tracking refs
   const playStartTimeRef = useRef<number>(0);
   const totalListenTimeRef = useRef<number>(0);
@@ -54,7 +68,7 @@ export default function MiniPlayer() {
     if (duration > 0 && currentTime > 0) {
       const percentage = (currentTime / duration) * 100;
       const milestones = [25, 50, 75, 100] as const;
-      
+
       for (const milestone of milestones) {
         if (percentage >= milestone && !milestonesReachedRef.current.has(milestone)) {
           milestonesReachedRef.current.add(milestone);
@@ -78,7 +92,7 @@ export default function MiniPlayer() {
         totalListenTimeRef.current,
         'mini'
       );
-      
+
       // Auto-play next track if available, otherwise stop
       if (hasMultipleTracks && currentTrackIndex < tracks.length - 1) {
         nextTrack();
@@ -219,11 +233,10 @@ export default function MiniPlayer() {
         style={{
           position: 'fixed',
           bottom: 20,
-          left: 20,
+          left: isDesktop ? 'auto' : 20, // Span on mobile, corner on desktop
           right: 20,
-          zIndex: 1300,
-        }}
-      >
+          zIndex: 1300
+        }}>
         <Paper
           elevation={8}
           sx={{
@@ -233,26 +246,23 @@ export default function MiniPlayer() {
             borderRadius: 3,
             overflow: 'hidden',
             width: { xs: 'auto', sm: 'fit-content' },
-            maxWidth: { xs: '100%', sm: 320 },
+            maxWidth: { xs: '100%', sm: 400 }, // Wider on desktop
             marginLeft: { xs: 0, sm: 'auto' },
-            minWidth: isExpanded ? { xs: '100%', sm: 280 } : 'auto',
-            transition: 'min-width 0.3s ease, width 0.3s ease',
-          }}
-        >
+            minWidth: isExpanded
+              ? { xs: '100%', sm: 320 } // Wider expanded on desktop
+              : { xs: 'auto', sm: 280 }, // Wider collapsed on desktop
+            transition: 'min-width 0.3s ease, width 0.3s ease'
+          }}>
           <audio ref={audioRef} src={currentTrack.src} preload="metadata" />
 
           {/* Collapsed View */}
-          <Stack
-            direction="row"
-            alignItems="center"
-            spacing={1}
-            sx={{ p: 1 }}
-          >
+          <Stack direction="row" alignItems="center" spacing={1} sx={{ p: 1 }}>
             {/* Album Art */}
             <motion.div
               animate={isPlaying ? { rotate: 360 } : { rotate: 0 }}
-              transition={isPlaying ? { duration: 8, repeat: Infinity, ease: 'linear' } : { duration: 0.3 }}
-            >
+              transition={
+                isPlaying ? { duration: 8, repeat: Infinity, ease: 'linear' } : { duration: 0.3 }
+              }>
               <Box
                 sx={{
                   position: 'relative',
@@ -264,10 +274,9 @@ export default function MiniPlayer() {
                   boxShadow: isPlaying
                     ? `0 0 15px ${colors.primary}66`
                     : `0 0 8px ${colors.primary}33`,
-                  transition: 'box-shadow 0.3s ease',
+                  transition: 'box-shadow 0.3s ease'
                 }}
-                onClick={handleExpandToggle}
-              >
+                onClick={handleExpandToggle}>
                 <Image
                   src={currentTrack.cover}
                   alt={currentTrack.title}
@@ -282,13 +291,12 @@ export default function MiniPlayer() {
               onClick={togglePlay}
               size="small"
               sx={{
-                backgroundColor: `${colors.primary}22`,
-                color: colors.primary,
+                'backgroundColor': `${colors.primary}22`,
+                'color': colors.primary,
                 '&:hover': {
-                  backgroundColor: `${colors.primary}44`,
-                },
-              }}
-            >
+                  backgroundColor: `${colors.primary}44`
+                }
+              }}>
               {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
             </IconButton>
 
@@ -302,9 +310,8 @@ export default function MiniPlayer() {
                   flex: 1,
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                }}
-              >
+                  textOverflow: 'ellipsis'
+                }}>
                 {currentTrack.title}
               </Typography>
             )}
@@ -313,8 +320,7 @@ export default function MiniPlayer() {
             <IconButton
               onClick={handleExpandToggle}
               size="small"
-              sx={{ color: colors.textSecondary, flexShrink: 0 }}
-            >
+              sx={{ color: colors.textSecondary, flexShrink: 0 }}>
               {isExpanded ? <ExpandMoreIcon /> : <ExpandLessIcon />}
             </IconButton>
           </Stack>
@@ -331,21 +337,21 @@ export default function MiniPlayer() {
                   mb: 0.5,
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                }}
-              >
+                  textOverflow: 'ellipsis'
+                }}>
                 {currentTrack.title}
               </Typography>
               <Typography
                 variant="caption"
-                sx={{ color: colors.textSecondary, display: 'block', mb: 1 }}
-              >
+                sx={{ color: colors.textSecondary, display: 'block', mb: 1 }}>
                 {currentTrack.artist}
               </Typography>
 
               {/* Progress Bar */}
               <Stack direction="row" alignItems="center" spacing={1}>
-                <Typography variant="caption" sx={{ color: colors.textSecondary, fontSize: '0.65rem' }}>
+                <Typography
+                  variant="caption"
+                  sx={{ color: colors.textSecondary, fontSize: '0.65rem' }}>
                   {formatTime(currentTime)}
                 </Typography>
                 <Slider
@@ -354,17 +360,19 @@ export default function MiniPlayer() {
                   onChange={handleSeek}
                   size="small"
                   sx={{
-                    color: colors.primary,
+                    'color': colors.primary,
                     '& .MuiSlider-thumb': {
                       width: 8,
-                      height: 8,
+                      height: 8
                     },
                     '& .MuiSlider-track': {
-                      background: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`,
-                    },
+                      background: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`
+                    }
                   }}
                 />
-                <Typography variant="caption" sx={{ color: colors.textSecondary, fontSize: '0.65rem' }}>
+                <Typography
+                  variant="caption"
+                  sx={{ color: colors.textSecondary, fontSize: '0.65rem' }}>
                   {formatTime(duration)}
                 </Typography>
               </Stack>
@@ -375,31 +383,28 @@ export default function MiniPlayer() {
                 justifyContent="center"
                 alignItems="center"
                 spacing={1}
-                sx={{ mt: 1 }}
-              >
+                sx={{ mt: 1 }}>
                 <IconButton
                   onClick={prevTrack}
                   size="small"
                   sx={{
                     color: hasMultipleTracks ? colors.secondary : colors.textSecondary,
-                    opacity: hasMultipleTracks ? 1 : 0.5,
-                  }}
-                >
+                    opacity: hasMultipleTracks ? 1 : 0.5
+                  }}>
                   <SkipPreviousIcon fontSize="small" />
                 </IconButton>
 
                 <IconButton
                   onClick={togglePlay}
                   sx={{
-                    width: 40,
-                    height: 40,
-                    background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.accent} 100%)`,
-                    color: 'white',
+                    'width': 40,
+                    'height': 40,
+                    'background': `linear-gradient(135deg, ${colors.primary} 0%, ${colors.accent} 100%)`,
+                    'color': 'white',
                     '&:hover': {
-                      background: `linear-gradient(135deg, ${colors.primary} 20%, ${colors.accent} 120%)`,
-                    },
-                  }}
-                >
+                      background: `linear-gradient(135deg, ${colors.primary} 20%, ${colors.accent} 120%)`
+                    }
+                  }}>
                   {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
                 </IconButton>
 
@@ -408,9 +413,8 @@ export default function MiniPlayer() {
                   size="small"
                   sx={{
                     color: hasMultipleTracks ? colors.secondary : colors.textSecondary,
-                    opacity: hasMultipleTracks ? 1 : 0.5,
-                  }}
-                >
+                    opacity: hasMultipleTracks ? 1 : 0.5
+                  }}>
                   <SkipNextIcon fontSize="small" />
                 </IconButton>
               </Stack>
@@ -423,9 +427,8 @@ export default function MiniPlayer() {
                     color: colors.textSecondary,
                     textAlign: 'center',
                     display: 'block',
-                    mt: 1,
-                  }}
-                >
+                    mt: 1
+                  }}>
                   {currentTrackIndex + 1} / {tracks.length}
                 </Typography>
               )}
