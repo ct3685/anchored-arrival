@@ -132,10 +132,6 @@ export default function Footer() {
               <InstagramIcon />
             </IconButton>
           </Stack>
-
-          <Typography variant="caption" sx={{ color: colors.textSecondary }}>
-            Double O Badass
-          </Typography>
         </Stack>
       </Container>
     </Box>
