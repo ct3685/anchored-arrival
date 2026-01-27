@@ -268,7 +268,7 @@ export default function Hero() {
                     whileTap={{ scale: 0.97 }}
                     transition={{ type: 'spring', stiffness: 400, damping: 17 }}>
                     <Button
-                      variant="outlined"
+                      variant="contained"
                       size="large"
                       fullWidth
                       href="https://www.tiktok.com/@realfeelpurpose"
@@ -284,15 +284,13 @@ export default function Hero() {
                         trackSocialClick('tiktok', 'hero');
                       }}
                       sx={{
-                        'borderColor': '#00F2EA',
-                        'color': '#00F2EA',
-                        'background': '#00F2EA11',
+                        'color': '#fff',
+                        'background': 'linear-gradient(135deg, #00F2EA 0%, #FF0050 100%)',
                         'backdropFilter': 'blur(8px)',
-                        'boxShadow': '0 0 15px #00F2EA33',
+                        'boxShadow': '0 0 20px #00F2EA44',
                         '&:hover': {
-                          borderColor: '#00F2EA',
-                          backgroundColor: '#00F2EA22',
-                          boxShadow: '0 0 25px #00F2EA66'
+                          background: 'linear-gradient(135deg, #00F2EA 20%, #FF0050 120%)',
+                          boxShadow: '0 0 30px #FF005066'
                         },
                         'transition': 'all 0.2s ease'
                       }}>
@@ -306,7 +304,7 @@ export default function Hero() {
                     whileTap={{ scale: 0.97 }}
                     transition={{ type: 'spring', stiffness: 400, damping: 17 }}>
                     <Button
-                      variant="outlined"
+                      variant="contained"
                       size="large"
                       fullWidth
                       href="https://www.youtube.com/@AgentMorgan1000"
@@ -322,15 +320,13 @@ export default function Hero() {
                         trackSocialClick('youtube', 'hero');
                       }}
                       sx={{
-                        'borderColor': '#FF0000',
-                        'color': '#FF0000',
-                        'background': '#FF000011',
+                        'color': '#fff',
+                        'background': 'linear-gradient(135deg, #FF0000 0%, #FFAA00 100%)',
                         'backdropFilter': 'blur(8px)',
-                        'boxShadow': '0 0 15px #FF000033',
+                        'boxShadow': '0 0 20px #FF000044',
                         '&:hover': {
-                          borderColor: '#FF0000',
-                          backgroundColor: '#FF000022',
-                          boxShadow: '0 0 25px #FF000066'
+                          background: 'linear-gradient(135deg, #FF0000 20%, #FFAA00 120%)',
+                          boxShadow: '0 0 30px #FFAA0066'
                         },
                         'transition': 'all 0.2s ease'
                       }}>
@@ -344,7 +340,7 @@ export default function Hero() {
                     whileTap={{ scale: 0.97 }}
                     transition={{ type: 'spring', stiffness: 400, damping: 17 }}>
                     <Button
-                      variant="outlined"
+                      variant="contained"
                       size="large"
                       fullWidth
                       href="https://www.snapchat.com/add/morg10_yo"
@@ -360,15 +356,13 @@ export default function Hero() {
                         trackSocialClick('snapchat', 'hero');
                       }}
                       sx={{
-                        'borderColor': '#FFFC00',
-                        'color': '#FFFC00',
-                        'background': '#FFFC0011',
+                        'color': '#000',
+                        'background': 'linear-gradient(135deg, #FFFC00 0%, #00D4AA 100%)',
                         'backdropFilter': 'blur(8px)',
-                        'boxShadow': '0 0 15px #FFFC0033',
+                        'boxShadow': '0 0 20px #FFFC0044',
                         '&:hover': {
-                          borderColor: '#FFFC00',
-                          backgroundColor: '#FFFC0022',
-                          boxShadow: '0 0 25px #FFFC0066'
+                          background: 'linear-gradient(135deg, #FFFC00 20%, #00D4AA 120%)',
+                          boxShadow: '0 0 30px #00D4AA66'
                         },
                         'transition': 'all 0.2s ease'
                       }}>
@@ -382,7 +376,7 @@ export default function Hero() {
                     whileTap={{ scale: 0.97 }}
                     transition={{ type: 'spring', stiffness: 400, damping: 17 }}>
                     <Button
-                      variant="outlined"
+                      variant="contained"
                       size="large"
                       fullWidth
                       href="https://www.instagram.com/agentmorgan1000"
@@ -398,15 +392,13 @@ export default function Hero() {
                         trackSocialClick('instagram', 'hero');
                       }}
                       sx={{
-                        'borderColor': '#E1306C',
-                        'color': '#E1306C',
-                        'background': '#E1306C11',
+                        'color': '#fff',
+                        'background': 'linear-gradient(135deg, #E1306C 0%, #C13584 50%, #833AB4 100%)',
                         'backdropFilter': 'blur(8px)',
-                        'boxShadow': '0 0 15px #E1306C33',
+                        'boxShadow': '0 0 20px #E1306C44',
                         '&:hover': {
-                          borderColor: '#E1306C',
-                          backgroundColor: '#E1306C22',
-                          boxShadow: '0 0 25px #E1306C66'
+                          background: 'linear-gradient(135deg, #E1306C 20%, #C13584 60%, #833AB4 120%)',
+                          boxShadow: '0 0 30px #E1306C66'
                         },
                         'transition': 'all 0.2s ease'
                       }}>
