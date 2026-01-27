@@ -68,7 +68,7 @@ export default function SparkleEffect() {
         const newSparkles = [...prev.slice(-30), createSparkle()];
         return newSparkles;
       });
-    }, 500); // Faster spawn rate
+    }, 250); // ~16 sparkles steady state
 
     return () => clearInterval(interval);
   }, []);
@@ -106,7 +106,7 @@ export default function SparkleEffect() {
             }}
             exit={{ opacity: 0 }}
             transition={{
-              duration: 4,
+              duration: 6,
               ease: 'easeOut',
             }}
             style={{
