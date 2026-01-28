@@ -34,6 +34,13 @@ const InstagramIcon = () => (
   </svg>
 );
 
+// Star/Network icon for Creator Network CTA
+const NetworkIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+  </svg>
+);
+
 interface LinkItem {
   label: string;
   href: string;
@@ -222,6 +229,86 @@ export default function LinkTree() {
             </motion.div>
           ))}
         </Stack>
+
+        {/* For Creators Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.8 }}
+        >
+          <Box
+            sx={{
+              mt: 4,
+              pt: 4,
+              borderTop: `1px solid ${colors.gold}33`,
+            }}
+          >
+            <Typography
+              variant="overline"
+              sx={{
+                display: 'block',
+                textAlign: 'center',
+                color: colors.gold,
+                letterSpacing: 3,
+                fontWeight: 600,
+                mb: 1,
+              }}
+            >
+              For Creators
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                textAlign: 'center',
+                color: colors.textSecondary,
+                mb: 2,
+                px: 2,
+              }}
+            >
+              Are you a TikTok creator? Join my Creator Network for support,
+              training, and growth opportunities.
+            </Typography>
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+            >
+              <Button
+                fullWidth
+                variant="contained"
+                href="https://www.tiktok.com/t/ZTh1ohJwM/"
+                target="_blank"
+                rel="noopener noreferrer"
+                startIcon={<NetworkIcon />}
+                onClick={() => {
+                  trackLinkClick(
+                    'Join My Creator Network',
+                    'https://www.tiktok.com/t/ZTh1ohJwM/',
+                    links.length,
+                    true
+                  );
+                }}
+                sx={{
+                  py: 2,
+                  px: 3,
+                  color: colors.background,
+                  background: `linear-gradient(135deg, ${colors.gold} 0%, #FFA500 100%)`,
+                  backdropFilter: 'blur(8px)',
+                  boxShadow: `0 0 20px ${colors.gold}44`,
+                  fontSize: '1rem',
+                  fontWeight: 700,
+                  '&:hover': {
+                    background: `linear-gradient(135deg, ${colors.gold} 20%, #FFA500 120%)`,
+                    boxShadow: `0 0 30px ${colors.gold}66`,
+                  },
+                  transition: 'all 0.3s ease',
+                }}
+              >
+                Join My Creator Network
+              </Button>
+            </motion.div>
+          </Box>
+        </motion.div>
 
         {/* Tagline */}
         <motion.div
