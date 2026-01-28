@@ -140,7 +140,7 @@ export default function LinkTree() {
                 }}
               >
                 <Image
-                  src="/images/mvp.png"
+                  src="/images/main-character.png"
                   alt="Agent Morgie"
                   fill
                   style={{ objectFit: 'cover' }}

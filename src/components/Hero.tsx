@@ -131,7 +131,7 @@ export default function Hero() {
                 }}
               >
                 <Image
-                  src="/images/main-character.png"
+                  src="/images/mvp.png"
                   alt="Agent Morgie"
                   fill
                   style={{ objectFit: 'cover' }}
