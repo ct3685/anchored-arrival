@@ -102,19 +102,20 @@ export default function LinkTree() {
       }}
     >
       <Container maxWidth="sm">
-        {/* Profile Section */}
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <Stack alignItems="center" spacing={2} sx={{ mb: 4 }}>
+          <Stack alignItems="center" spacing={2} sx={{ mb: 6 }}>
             {/* Avatar */}
             <Box
               sx={{
                 position: 'relative',
-                width: 120,
-                height: 120,
+                width: 100,
+                height: 100,
+                mb: 1,
                 '&::before': {
                   content: '""',
                   position: 'absolute',
@@ -147,24 +148,29 @@ export default function LinkTree() {
                 />
               </Box>
             </Box>
-
             <Typography
-              variant="h4"
+              variant="h3"
               sx={{
                 fontWeight: 800,
                 background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.secondary} 100%)`,
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
+                textAlign: 'center',
               }}
             >
-              Agent Morgie
+              Links
             </Typography>
             <Typography
               variant="body1"
-              sx={{ color: colors.textSecondary, textAlign: 'center' }}
+              sx={{
+                color: colors.textSecondary,
+                textAlign: 'center',
+                maxWidth: 500,
+              }}
             >
-              Double O Badass • TikTok Live Creator
+              Connect with Agent Morgie 00BA. Double O Badass • TikTok Live
+              Creator.
             </Typography>
           </Stack>
         </motion.div>
