@@ -86,7 +86,8 @@ const links: LinkItem[] = [
     href: 'https://www.instagram.com/AgentMorgie',
     icon: <InstagramIcon />,
     gradient: 'linear-gradient(135deg, #E1306C 0%, #C13584 50%, #833AB4 100%)',
-    hoverGradient: 'linear-gradient(135deg, #E1306C 20%, #C13584 60%, #833AB4 120%)',
+    hoverGradient:
+      'linear-gradient(135deg, #E1306C 20%, #C13584 60%, #833AB4 120%)',
     glowColor: '#E1306C',
     textColor: '#fff',
   },

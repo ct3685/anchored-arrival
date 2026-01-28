@@ -108,4 +108,9 @@ export const theme = createTheme({
   },
 });
 
+// Layout constants for consistent spacing
+export const layout = {
+  navbarHeight: { xs: 56, sm: 64 }, // MUI Toolbar defaults
+};
+
 export { colors };

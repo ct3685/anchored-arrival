@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Box, Container, Typography, Button, Stack } from '@mui/material';
 import { motion } from 'motion/react';
-import { colors } from '@/theme/theme';
+import { colors, layout } from '@/theme/theme';
 import { trackHeroCTA, trackSocialClick } from '@/lib/analytics';
 
 // TikTok icon component
@@ -47,7 +47,10 @@ export default function Hero() {
     <Box
       sx={{
         position: 'relative',
-        minHeight: '100vh',
+        minHeight: {
+          xs: `calc(100dvh - ${layout.navbarHeight.xs}px)`,
+          sm: `calc(100dvh - ${layout.navbarHeight.sm}px)`,
+        },
         display: 'flex',
         alignItems: 'center',
         background: `radial-gradient(ellipse at center, ${colors.surface} 0%, ${colors.background} 70%)`,
@@ -85,8 +88,7 @@ export default function Hero() {
         sx={{
           position: 'relative',
           zIndex: 1,
-          pt: { xs: 4, md: 0 },
-          mt: { xs: 0, md: -8 },
+          py: { xs: 4, sm: 5, md: 6 },
         }}
       >
         <Stack
@@ -431,17 +433,17 @@ export default function Hero() {
                         trackSocialClick('instagram', 'hero');
                       }}
                       sx={{
-                        'color': '#fff',
-                        'background':
+                        color: '#fff',
+                        background:
                           'linear-gradient(135deg, #E1306C 0%, #C13584 50%, #833AB4 100%)',
-                        'backdropFilter': 'blur(8px)',
-                        'boxShadow': '0 0 20px #E1306C44',
+                        backdropFilter: 'blur(8px)',
+                        boxShadow: '0 0 20px #E1306C44',
                         '&:hover': {
                           background:
                             'linear-gradient(135deg, #E1306C 20%, #C13584 60%, #833AB4 120%)',
                           boxShadow: '0 0 30px #E1306C66',
                         },
-                        'transition': 'all 0.2s ease',
+                        transition: 'all 0.2s ease',
                       }}
                     >
                       Instagram
