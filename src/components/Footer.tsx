@@ -70,7 +70,7 @@ export default function Footer() {
               fontWeight: 600,
             }}
           >
-            Agent Morgie 00BA © {new Date().getFullYear()}
+            Agent Morgie © {new Date().getFullYear()}
           </Typography>
 
           <Stack direction="row" spacing={1}>

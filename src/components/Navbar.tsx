@@ -86,7 +86,7 @@ export default function Navbar() {
                   fontSize: { xs: '1.1rem', md: '1.4rem' },
                 }}
               >
-                Agent Morgie 00BA
+                Agent Morgie
               </Typography>
             </Link>
           </motion.div>

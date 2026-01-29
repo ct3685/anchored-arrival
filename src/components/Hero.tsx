@@ -189,24 +189,6 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-            >
-              <Typography
-                variant="h2"
-                sx={{
-                  fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' },
-                  fontWeight: 700,
-                  color: colors.gold,
-                  mb: 2,
-                }}
-              >
-                00BA
-              </Typography>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}
             >
               <Typography
@@ -218,7 +200,7 @@ export default function Hero() {
                   fontSize: { xs: '1rem', md: '1.25rem' },
                 }}
               >
-                Double O Badass • Main Character Energy • Live... And Lethal
+                Main Character Energy • LIVE Creator • Community Driven
               </Typography>
             </motion.div>
 

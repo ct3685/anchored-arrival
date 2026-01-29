@@ -18,9 +18,9 @@ export const metadata: Metadata = {
     icon: '/images/mvp.png',
     apple: '/images/mvp.png',
   },
-  title: 'Agent Morgie 00BA | Double O Badass',
+  title: 'Agent Morgie | Main Character Energy',
   description:
-    'Welcome to the world of Agent Morgie - TikTok Live Creator, Main Character Energy, Live... And Lethal!',
+    'Welcome to the world of Agent Morgie - TikTok LIVE Creator building community through real conversations, relatable humor, and Main Character Energy.',
   keywords: ['Agent Morgie', 'TikTok', 'Live Creator', 'realfeelpurpose'],
   authors: [{ name: 'Agent Morgie' }],
   robots: {
@@ -35,18 +35,18 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'Agent Morgie 00BA | Double O Badass',
+    title: 'Agent Morgie | Main Character Energy',
     description:
-      'Welcome to the world of Agent Morgie - Main Character Energy!',
+      'Welcome to the world of Agent Morgie - TikTok LIVE Creator building community through real conversations and Main Character Energy.',
     url: '/',
-    siteName: 'Agent Morgie 00BA',
+    siteName: 'Agent Morgie',
     locale: 'en_US',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Agent Morgie 00BA',
-    description: 'Double O Badass - Main Character Energy',
+    title: 'Agent Morgie',
+    description: 'TikTok LIVE Creator • Main Character Energy',
   },
 };
 
@@ -74,18 +74,18 @@ export default function RootLayout({
                   '@type': 'WebSite',
                   '@id': 'https://agentmorgie.com/#website',
                   url: 'https://agentmorgie.com',
-                  name: 'Agent Morgie 00BA',
+                  name: 'Agent Morgie',
                   description:
-                    'Welcome to the world of Agent Morgie - TikTok Live Creator, Main Character Energy, Live... And Lethal!',
+                    'Welcome to the world of Agent Morgie - TikTok LIVE Creator building community through real conversations and Main Character Energy.',
                   inLanguage: 'en-US',
                 },
                 {
                   '@type': 'Person',
                   '@id': 'https://agentmorgie.com/#person',
                   name: 'Agent Morgie',
-                  alternateName: 'Agent Morgie 00BA',
+                  alternateName: 'Agent Morgie',
                   description:
-                    'TikTok Live Creator, Main Character Energy, Double O Badass',
+                    'TikTok LIVE Creator building community through real conversations and Main Character Energy',
                   url: 'https://agentmorgie.com',
                   image: 'https://agentmorgie.com/images/main-character.png',
                   sameAs: ['https://www.tiktok.com/@realfeelpurpose'],
