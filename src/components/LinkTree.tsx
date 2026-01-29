@@ -6,6 +6,7 @@ import { motion } from 'motion/react';
 import { colors } from '@/theme/theme';
 import { trackLinkClick, trackSocialClick } from '@/lib/analytics';
 import { useScrollDepth } from '@/lib/useScrollDepth';
+import { useComingSoonToast } from '@/lib/useComingSoonToast';
 
 // TikTok icon component
 const TikTokIcon = () => (
@@ -21,12 +22,12 @@ const YouTubeIcon = () => (
   </svg>
 );
 
-// Snapchat icon component - TEMPORARILY DISABLED
-// const SnapchatIcon = () => (
-//   <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-//     <path d="M12.206.793c.99 0 4.347.276 5.93 3.821.529 1.193.403 3.219.299 4.847l-.003.06c-.012.18-.022.345-.03.51.075.045.203.09.401.09.3-.016.659-.12 1.033-.301.165-.088.344-.104.464-.104.182 0 .359.029.509.09.45.149.734.479.734.838.015.449-.39.839-1.213 1.168-.089.029-.209.075-.344.119-.45.135-1.139.36-1.333.81-.09.224-.061.524.12.868l.015.015c.06.136 1.526 3.475 4.791 4.014.255.044.435.27.42.509 0 .075-.015.149-.045.225-.24.569-1.273.988-3.146 1.271-.059.091-.12.375-.164.57-.029.179-.074.36-.134.553-.076.271-.27.405-.555.405h-.03c-.135 0-.313-.031-.538-.074-.36-.075-.765-.135-1.273-.135-.3 0-.599.015-.913.074-.6.104-1.123.464-1.723.884-.853.599-1.826 1.288-3.294 1.288-.06 0-.119-.015-.18-.015h-.149c-1.468 0-2.427-.675-3.279-1.288-.599-.42-1.107-.779-1.707-.884-.314-.045-.629-.074-.928-.074-.54 0-.958.089-1.272.149-.211.043-.391.074-.54.074-.374 0-.523-.224-.583-.42-.061-.192-.09-.389-.135-.567-.046-.181-.105-.494-.166-.57-1.918-.222-2.95-.642-3.189-1.226-.031-.063-.052-.15-.055-.225-.015-.243.165-.465.42-.509 3.264-.54 4.73-3.879 4.791-4.02l.016-.029c.18-.345.224-.645.119-.869-.195-.434-.884-.658-1.332-.809-.121-.029-.24-.074-.346-.119-.732-.271-1.273-.63-1.273-1.096-.014-.46.39-.818.943-.904.074-.016.18-.016.255-.016.21 0 .42.045.615.135.36.181.72.285 1.02.285.181 0 .315-.044.405-.074l-.016-.404c-.104-1.628-.239-3.654.29-4.848C7.861 1.068 11.216.793 12.206.793z" />
-//   </svg>
-// );
+// Snapchat icon component
+const SnapchatIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12.206.793c.99 0 4.347.276 5.93 3.821.529 1.193.403 3.219.299 4.847l-.003.06c-.012.18-.022.345-.03.51.075.045.203.09.401.09.3-.016.659-.12 1.033-.301.165-.088.344-.104.464-.104.182 0 .359.029.509.09.45.149.734.479.734.838.015.449-.39.839-1.213 1.168-.089.029-.209.075-.344.119-.45.135-1.139.36-1.333.81-.09.224-.061.524.12.868l.015.015c.06.136 1.526 3.475 4.791 4.014.255.044.435.27.42.509 0 .075-.015.149-.045.225-.24.569-1.273.988-3.146 1.271-.059.091-.12.375-.164.57-.029.179-.074.36-.134.553-.076.271-.27.405-.555.405h-.03c-.135 0-.313-.031-.538-.074-.36-.075-.765-.135-1.273-.135-.3 0-.599.015-.913.074-.6.104-1.123.464-1.723.884-.853.599-1.826 1.288-3.294 1.288-.06 0-.119-.015-.18-.015h-.149c-1.468 0-2.427-.675-3.279-1.288-.599-.42-1.107-.779-1.707-.884-.314-.045-.629-.074-.928-.074-.54 0-.958.089-1.272.149-.211.043-.391.074-.54.074-.374 0-.523-.224-.583-.42-.061-.192-.09-.389-.135-.567-.046-.181-.105-.494-.166-.57-1.918-.222-2.95-.642-3.189-1.226-.031-.063-.052-.15-.055-.225-.015-.243.165-.465.42-.509 3.264-.54 4.73-3.879 4.791-4.02l.016-.029c.18-.345.224-.645.119-.869-.195-.434-.884-.658-1.332-.809-.121-.029-.24-.074-.346-.119-.732-.271-1.273-.63-1.273-1.096-.014-.46.39-.818.943-.904.074-.016.18-.016.255-.016.21 0 .42.045.615.135.36.181.72.285 1.02.285.181 0 .315-.044.405-.074l-.016-.404c-.104-1.628-.239-3.654.29-4.848C7.861 1.068 11.216.793 12.206.793z" />
+  </svg>
+);
 
 // Instagram icon component
 const InstagramIcon = () => (
@@ -71,16 +72,16 @@ const links: LinkItem[] = [
     glowColor: '#FFAA00',
     textColor: '#fff',
   },
-  // Snapchat - TEMPORARILY DISABLED
-  // {
-  //   label: 'Snapchat @morg10_yo',
-  //   href: 'https://www.snapchat.com/add/morg10_yo',
-  //   icon: <SnapchatIcon />,
-  //   gradient: 'linear-gradient(135deg, #FFFC00 0%, #00D4AA 100%)',
-  //   hoverGradient: 'linear-gradient(135deg, #FFFC00 20%, #00D4AA 120%)',
-  //   glowColor: '#00D4AA',
-  //   textColor: '#000'
-  // },
+  // Snapchat
+  {
+    label: 'Snapchat',
+    href: '#snapchat-coming-soon',
+    icon: <SnapchatIcon />,
+    gradient: 'linear-gradient(135deg, #FFFC00 0%, #00D4AA 100%)',
+    hoverGradient: 'linear-gradient(135deg, #FFFC00 20%, #00D4AA 120%)',
+    glowColor: '#00D4AA',
+    textColor: '#000',
+  },
   // Instagram
   {
     label: 'Instagram @AgentMorgie',
@@ -96,249 +97,254 @@ const links: LinkItem[] = [
 
 export default function LinkTree() {
   useScrollDepth();
+  const { showToast, ComingSoonSnackbar } = useComingSoonToast();
 
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        py: 6,
-        background: `radial-gradient(ellipse at top, ${colors.surface} 0%, ${colors.background} 60%)`,
-      }}
-    >
-      <Container maxWidth="sm">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <Stack alignItems="center" spacing={2} sx={{ mb: 6 }}>
-            {/* Avatar */}
-            <Box
-              sx={{
-                position: 'relative',
-                width: 100,
-                height: 100,
-                mb: 1,
-                '&::before': {
-                  content: '""',
-                  position: 'absolute',
-                  inset: -3,
-                  borderRadius: '50%',
-                  background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary}, ${colors.accent})`,
-                  animation: 'spin 4s linear infinite',
-                },
-                '@keyframes spin': {
-                  '0%': { transform: 'rotate(0deg)' },
-                  '100%': { transform: 'rotate(360deg)' },
-                },
-              }}
-            >
+    <>
+      <Box
+        sx={{
+          minHeight: '100vh',
+          py: 6,
+          background: `radial-gradient(ellipse at top, ${colors.surface} 0%, ${colors.background} 60%)`,
+        }}
+      >
+        <Container maxWidth="sm">
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <Stack alignItems="center" spacing={2} sx={{ mb: 6 }}>
+              {/* Avatar */}
               <Box
                 sx={{
                   position: 'relative',
-                  width: '100%',
-                  height: '100%',
-                  borderRadius: '50%',
-                  overflow: 'hidden',
-                  border: `3px solid ${colors.background}`,
-                }}
-              >
-                <Image
-                  src="/images/main-character.png"
-                  alt="Agent Morgie"
-                  fill
-                  style={{ objectFit: 'cover' }}
-                />
-              </Box>
-            </Box>
-            <Typography
-              variant="h3"
-              sx={{
-                fontWeight: 800,
-                background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.secondary} 100%)`,
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                textAlign: 'center',
-              }}
-            >
-              Links
-            </Typography>
-            <Typography
-              variant="body1"
-              sx={{
-                color: colors.textSecondary,
-                textAlign: 'center',
-                maxWidth: 500,
-              }}
-            >
-              Connect with Agent Morgie 00BA. Double O Badass • TikTok Live
-              Creator.
-            </Typography>
-          </Stack>
-        </motion.div>
-
-        {/* Links */}
-        <Stack spacing={2} sx={{ mb: 4 }}>
-          {links.map((link, index) => (
-            <motion.div
-              key={link.href}
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.4, delay: index * 0.1 + 0.3 }}
-            >
-              <Button
-                fullWidth
-                variant="contained"
-                href={link.href}
-                target={link.href.startsWith('http') ? '_blank' : undefined}
-                rel={
-                  link.href.startsWith('http')
-                    ? 'noopener noreferrer'
-                    : undefined
-                }
-                startIcon={link.icon}
-                onClick={() => {
-                  const isExternal = link.href.startsWith('http');
-                  trackLinkClick(link.label, link.href, index, isExternal);
-                  // Also track social clicks for TikTok/YouTube
-                  if (link.href.includes('tiktok.com')) {
-                    trackSocialClick('tiktok', 'linktree');
-                  } else if (link.href.includes('youtube.com')) {
-                    trackSocialClick('youtube', 'linktree');
-                  }
-                  // Snapchat tracking - TEMPORARILY DISABLED
-                  // else if (link.href.includes('snapchat.com')) {
-                  //   trackSocialClick('snapchat', 'linktree');
-                  // }
-                  else if (link.href.includes('instagram.com')) {
-                    trackSocialClick('instagram', 'linktree');
-                  }
-                }}
-                sx={{
-                  py: 2,
-                  px: 3,
-                  color: link.textColor,
-                  background: link.gradient,
-                  backdropFilter: 'blur(8px)',
-                  boxShadow: `0 0 20px ${link.glowColor}44`,
-                  justifyContent: 'flex-start',
-                  fontSize: '1rem',
-                  fontWeight: 600,
-                  '&:hover': {
-                    background: link.hoverGradient,
-                    transform: 'translateX(8px)',
-                    boxShadow: `0 0 30px ${link.glowColor}66`,
+                  width: 100,
+                  height: 100,
+                  mb: 1,
+                  '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    inset: -3,
+                    borderRadius: '50%',
+                    background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary}, ${colors.accent})`,
+                    animation: 'spin 4s linear infinite',
                   },
-                  transition: 'all 0.3s ease',
+                  '@keyframes spin': {
+                    '0%': { transform: 'rotate(0deg)' },
+                    '100%': { transform: 'rotate(360deg)' },
+                  },
                 }}
               >
-                {link.label}
-              </Button>
-            </motion.div>
-          ))}
-        </Stack>
+                <Box
+                  sx={{
+                    position: 'relative',
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: '50%',
+                    overflow: 'hidden',
+                    border: `3px solid ${colors.background}`,
+                  }}
+                >
+                  <Image
+                    src="/images/main-character.png"
+                    alt="Agent Morgie"
+                    fill
+                    style={{ objectFit: 'cover' }}
+                  />
+                </Box>
+              </Box>
+              <Typography
+                variant="h3"
+                sx={{
+                  fontWeight: 800,
+                  background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.secondary} 100%)`,
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  textAlign: 'center',
+                }}
+              >
+                Links
+              </Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  color: colors.textSecondary,
+                  textAlign: 'center',
+                  maxWidth: 500,
+                }}
+              >
+                Connect with Agent Morgie 00BA. Double O Badass • TikTok Live
+                Creator.
+              </Typography>
+            </Stack>
+          </motion.div>
 
-        {/* For Creators Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.8 }}
-        >
-          <Box
-            sx={{
-              mt: 4,
-              pt: 4,
-              borderTop: `1px solid ${colors.gold}33`,
-            }}
+          {/* Links */}
+          <Stack spacing={2} sx={{ mb: 4 }}>
+            {links.map((link, index) => (
+              <motion.div
+                key={link.href}
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.4, delay: index * 0.1 + 0.3 }}
+              >
+                <Button
+                  fullWidth
+                  variant="contained"
+                  href={link.href}
+                  target={link.href.startsWith('http') ? '_blank' : undefined}
+                  rel={
+                    link.href.startsWith('http')
+                      ? 'noopener noreferrer'
+                      : undefined
+                  }
+                  startIcon={link.icon}
+                  onClick={(e) => {
+                    // Handle Snapchat "Coming Soon" click
+                    if (link.href === '#snapchat-coming-soon') {
+                      e.preventDefault();
+                      showToast();
+                      return;
+                    }
+                    const isExternal = link.href.startsWith('http');
+                    trackLinkClick(link.label, link.href, index, isExternal);
+                    // Also track social clicks for TikTok/YouTube
+                    if (link.href.includes('tiktok.com')) {
+                      trackSocialClick('tiktok', 'linktree');
+                    } else if (link.href.includes('youtube.com')) {
+                      trackSocialClick('youtube', 'linktree');
+                    } else if (link.href.includes('instagram.com')) {
+                      trackSocialClick('instagram', 'linktree');
+                    }
+                  }}
+                  sx={{
+                    py: 2,
+                    px: 3,
+                    color: link.textColor,
+                    background: link.gradient,
+                    backdropFilter: 'blur(8px)',
+                    boxShadow: `0 0 20px ${link.glowColor}44`,
+                    justifyContent: 'flex-start',
+                    fontSize: '1rem',
+                    fontWeight: 600,
+                    '&:hover': {
+                      background: link.hoverGradient,
+                      transform: 'translateX(8px)',
+                      boxShadow: `0 0 30px ${link.glowColor}66`,
+                    },
+                    transition: 'all 0.3s ease',
+                  }}
+                >
+                  {link.label}
+                </Button>
+              </motion.div>
+            ))}
+          </Stack>
+
+          {/* For Creators Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.8 }}
           >
-            <Typography
-              variant="overline"
+            <Box
               sx={{
-                display: 'block',
-                textAlign: 'center',
-                color: colors.gold,
-                letterSpacing: 3,
-                fontWeight: 600,
-                mb: 1,
+                mt: 4,
+                pt: 4,
+                borderTop: `1px solid ${colors.gold}33`,
               }}
             >
-              For Creators
-            </Typography>
+              <Typography
+                variant="overline"
+                sx={{
+                  display: 'block',
+                  textAlign: 'center',
+                  color: colors.gold,
+                  letterSpacing: 3,
+                  fontWeight: 600,
+                  mb: 1,
+                }}
+              >
+                For Creators
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  textAlign: 'center',
+                  color: colors.textSecondary,
+                  mb: 2,
+                  px: 2,
+                }}
+              >
+                Are you a TikTok creator? Join my Creator Network for support,
+                training, and growth opportunities.
+              </Typography>
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+              >
+                <Button
+                  fullWidth
+                  variant="contained"
+                  href="https://www.tiktok.com/t/ZTh1ohJwM/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  startIcon={<NetworkIcon />}
+                  onClick={() => {
+                    trackLinkClick(
+                      'Join My Creator Network',
+                      'https://www.tiktok.com/t/ZTh1ohJwM/',
+                      links.length,
+                      true
+                    );
+                  }}
+                  sx={{
+                    py: 2,
+                    px: 3,
+                    color: colors.background,
+                    background: `linear-gradient(135deg, ${colors.gold} 0%, #FFA500 100%)`,
+                    backdropFilter: 'blur(8px)',
+                    boxShadow: `0 0 20px ${colors.gold}44`,
+                    fontSize: '1rem',
+                    fontWeight: 700,
+                    '&:hover': {
+                      background: `linear-gradient(135deg, ${colors.gold} 20%, #FFA500 120%)`,
+                      boxShadow: `0 0 30px ${colors.gold}66`,
+                    },
+                    transition: 'all 0.3s ease',
+                  }}
+                >
+                  Join My Creator Network
+                </Button>
+              </motion.div>
+            </Box>
+          </motion.div>
+
+          {/* Tagline */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 1 }}
+          >
             <Typography
               variant="body2"
               sx={{
+                mt: 4,
                 textAlign: 'center',
                 color: colors.textSecondary,
-                mb: 2,
-                px: 2,
+                fontStyle: 'italic',
               }}
             >
-              Are you a TikTok creator? Join my Creator Network for support,
-              training, and growth opportunities.
+              "Live... And Lethal - Morgie&apos;s On a Mission!"
             </Typography>
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-            >
-              <Button
-                fullWidth
-                variant="contained"
-                href="https://www.tiktok.com/t/ZTh1ohJwM/"
-                target="_blank"
-                rel="noopener noreferrer"
-                startIcon={<NetworkIcon />}
-                onClick={() => {
-                  trackLinkClick(
-                    'Join My Creator Network',
-                    'https://www.tiktok.com/t/ZTh1ohJwM/',
-                    links.length,
-                    true
-                  );
-                }}
-                sx={{
-                  py: 2,
-                  px: 3,
-                  color: colors.background,
-                  background: `linear-gradient(135deg, ${colors.gold} 0%, #FFA500 100%)`,
-                  backdropFilter: 'blur(8px)',
-                  boxShadow: `0 0 20px ${colors.gold}44`,
-                  fontSize: '1rem',
-                  fontWeight: 700,
-                  '&:hover': {
-                    background: `linear-gradient(135deg, ${colors.gold} 20%, #FFA500 120%)`,
-                    boxShadow: `0 0 30px ${colors.gold}66`,
-                  },
-                  transition: 'all 0.3s ease',
-                }}
-              >
-                Join My Creator Network
-              </Button>
-            </motion.div>
-          </Box>
-        </motion.div>
-
-        {/* Tagline */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 1 }}
-        >
-          <Typography
-            variant="body2"
-            sx={{
-              mt: 4,
-              textAlign: 'center',
-              color: colors.textSecondary,
-              fontStyle: 'italic',
-            }}
-          >
-            "Live... And Lethal - Morgie&apos;s On a Mission!"
-          </Typography>
-        </motion.div>
-      </Container>
-    </Box>
+          </motion.div>
+        </Container>
+      </Box>
+      <ComingSoonSnackbar />
+    </>
   );
 }

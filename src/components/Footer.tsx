@@ -3,6 +3,7 @@
 import { Box, Container, Typography, IconButton, Stack } from '@mui/material';
 import { colors } from '@/theme/theme';
 import { trackSocialClick } from '@/lib/analytics';
+import { useComingSoonToast } from '@/lib/useComingSoonToast';
 
 // TikTok icon component
 const TikTokIcon = ({ size = 24 }: { size?: number }) => (
@@ -18,12 +19,12 @@ const YouTubeIcon = () => (
   </svg>
 );
 
-// Snapchat icon component - TEMPORARILY DISABLED
-// const SnapchatIcon = () => (
-//   <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-//     <path d="M12.206.793c.99 0 4.347.276 5.93 3.821.529 1.193.403 3.219.299 4.847l-.003.06c-.012.18-.022.345-.03.51.075.045.203.09.401.09.3-.016.659-.12 1.033-.301.165-.088.344-.104.464-.104.182 0 .359.029.509.09.45.149.734.479.734.838.015.449-.39.839-1.213 1.168-.089.029-.209.075-.344.119-.45.135-1.139.36-1.333.81-.09.224-.061.524.12.868l.015.015c.06.136 1.526 3.475 4.791 4.014.255.044.435.27.42.509 0 .075-.015.149-.045.225-.24.569-1.273.988-3.146 1.271-.059.091-.12.375-.164.57-.029.179-.074.36-.134.553-.076.271-.27.405-.555.405h-.03c-.135 0-.313-.031-.538-.074-.36-.075-.765-.135-1.273-.135-.3 0-.599.015-.913.074-.6.104-1.123.464-1.723.884-.853.599-1.826 1.288-3.294 1.288-.06 0-.119-.015-.18-.015h-.149c-1.468 0-2.427-.675-3.279-1.288-.599-.42-1.107-.779-1.707-.884-.314-.045-.629-.074-.928-.074-.54 0-.958.089-1.272.149-.211.043-.391.074-.54.074-.374 0-.523-.224-.583-.42-.061-.192-.09-.389-.135-.567-.046-.181-.105-.494-.166-.57-1.918-.222-2.95-.642-3.189-1.226-.031-.063-.052-.15-.055-.225-.015-.243.165-.465.42-.509 3.264-.54 4.73-3.879 4.791-4.02l.016-.029c.18-.345.224-.645.119-.869-.195-.434-.884-.658-1.332-.809-.121-.029-.24-.074-.346-.119-.732-.271-1.273-.63-1.273-1.096-.014-.46.39-.818.943-.904.074-.016.18-.016.255-.016.21 0 .42.045.615.135.36.181.72.285 1.02.285.181 0 .315-.044.405-.074l-.016-.404c-.104-1.628-.239-3.654.29-4.848C7.861 1.068 11.216.793 12.206.793z" />
-//   </svg>
-// );
+// Snapchat icon component
+const SnapchatIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12.206.793c.99 0 4.347.276 5.93 3.821.529 1.193.403 3.219.299 4.847l-.003.06c-.012.18-.022.345-.03.51.075.045.203.09.401.09.3-.016.659-.12 1.033-.301.165-.088.344-.104.464-.104.182 0 .359.029.509.09.45.149.734.479.734.838.015.449-.39.839-1.213 1.168-.089.029-.209.075-.344.119-.45.135-1.139.36-1.333.81-.09.224-.061.524.12.868l.015.015c.06.136 1.526 3.475 4.791 4.014.255.044.435.27.42.509 0 .075-.015.149-.045.225-.24.569-1.273.988-3.146 1.271-.059.091-.12.375-.164.57-.029.179-.074.36-.134.553-.076.271-.27.405-.555.405h-.03c-.135 0-.313-.031-.538-.074-.36-.075-.765-.135-1.273-.135-.3 0-.599.015-.913.074-.6.104-1.123.464-1.723.884-.853.599-1.826 1.288-3.294 1.288-.06 0-.119-.015-.18-.015h-.149c-1.468 0-2.427-.675-3.279-1.288-.599-.42-1.107-.779-1.707-.884-.314-.045-.629-.074-.928-.074-.54 0-.958.089-1.272.149-.211.043-.391.074-.54.074-.374 0-.523-.224-.583-.42-.061-.192-.09-.389-.135-.567-.046-.181-.105-.494-.166-.57-1.918-.222-2.95-.642-3.189-1.226-.031-.063-.052-.15-.055-.225-.015-.243.165-.465.42-.509 3.264-.54 4.73-3.879 4.791-4.02l.016-.029c.18-.345.224-.645.119-.869-.195-.434-.884-.658-1.332-.809-.121-.029-.24-.074-.346-.119-.732-.271-1.273-.63-1.273-1.096-.014-.46.39-.818.943-.904.074-.016.18-.016.255-.016.21 0 .42.045.615.135.36.181.72.285 1.02.285.181 0 .315-.044.405-.074l-.016-.404c-.104-1.628-.239-3.654.29-4.848C7.861 1.068 11.216.793 12.206.793z" />
+  </svg>
+);
 
 // Instagram icon component
 const InstagramIcon = () => (
@@ -36,137 +37,140 @@ const InstagramIcon = () => (
 const socialColors = {
   tiktok: '#00F2EA',
   youtube: '#FF0000',
-  // snapchat: '#FFFC00', // TEMPORARILY DISABLED
+  snapchat: '#FFFC00',
   instagram: '#E1306C',
 };
 
 export default function Footer() {
-  return (
-    <Box
-      component="footer"
-      sx={{
-        pt: 4,
-        pb: 12,
-        px: 2,
-        mt: 'auto',
-        backgroundColor: colors.background,
-        borderTop: `1px solid ${colors.primary}22`,
-      }}
-    >
-      <Container maxWidth="lg">
-        <Stack
-          direction={{ xs: 'column', sm: 'row' }}
-          justifyContent="space-between"
-          alignItems="center"
-          spacing={2}
-        >
-          <Typography
-            variant="body2"
-            sx={{
-              background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.secondary} 100%)`,
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              fontWeight: 600,
-            }}
-          >
-            Agent Morgie © {new Date().getFullYear()}
-          </Typography>
+  const { showToast, ComingSoonSnackbar } = useComingSoonToast();
 
-          <Stack direction="row" spacing={1}>
-            <IconButton
-              href="https://www.tiktok.com/@realfeelpurpose"
+  return (
+    <>
+      <Box
+        component="footer"
+        sx={{
+          pt: 4,
+          pb: 12,
+          px: 2,
+          mt: 'auto',
+          backgroundColor: colors.background,
+          borderTop: `1px solid ${colors.primary}22`,
+        }}
+      >
+        <Container maxWidth="lg">
+          <Stack
+            direction={{ xs: 'column', sm: 'row' }}
+            justifyContent="space-between"
+            alignItems="center"
+            spacing={2}
+          >
+            <Typography
+              variant="body2"
+              sx={{
+                background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.secondary} 100%)`,
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontWeight: 600,
+              }}
+            >
+              Agent Morgie © {new Date().getFullYear()}
+            </Typography>
+
+            <Stack direction="row" spacing={1}>
+              <IconButton
+                href="https://www.tiktok.com/@realfeelpurpose"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackSocialClick('tiktok', 'footer')}
+                sx={{
+                  color: colors.textSecondary,
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    color: socialColors.tiktok,
+                    transform: 'scale(1.1)',
+                  },
+                }}
+              >
+                <TikTokIcon />
+              </IconButton>
+              <IconButton
+                href="https://www.youtube.com/@AgentMorgan1000"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackSocialClick('youtube', 'footer')}
+                sx={{
+                  color: colors.textSecondary,
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    color: socialColors.youtube,
+                    transform: 'scale(1.1)',
+                  },
+                }}
+              >
+                <YouTubeIcon />
+              </IconButton>
+              {/* Snapchat IconButton - Coming Soon */}
+              <IconButton
+                onClick={() => showToast()}
+                sx={{
+                  color: colors.textSecondary,
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    color: socialColors.snapchat,
+                    transform: 'scale(1.1)',
+                  },
+                }}
+              >
+                <SnapchatIcon />
+              </IconButton>
+              {/* Instagram IconButton */}
+              <IconButton
+                href="https://www.instagram.com/AgentMorgie"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackSocialClick('instagram', 'footer')}
+                sx={{
+                  color: colors.textSecondary,
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    color: socialColors.instagram,
+                    transform: 'scale(1.1)',
+                  },
+                }}
+              >
+                <InstagramIcon />
+              </IconButton>
+            </Stack>
+
+            {/* Developer credit */}
+            <Box
+              component="a"
+              href="https://www.tiktok.com/@cam.tok"
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => trackSocialClick('tiktok', 'footer')}
+              onClick={() => trackSocialClick('tiktok_cam', 'footer')}
               sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 0.5,
                 color: colors.textSecondary,
+                textDecoration: 'none',
                 transition: 'all 0.3s ease',
                 '&:hover': {
                   color: socialColors.tiktok,
-                  transform: 'scale(1.1)',
                 },
               }}
             >
-              <TikTokIcon />
-            </IconButton>
-            <IconButton
-              href="https://www.youtube.com/@AgentMorgan1000"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => trackSocialClick('youtube', 'footer')}
-              sx={{
-                color: colors.textSecondary,
-                transition: 'all 0.3s ease',
-                '&:hover': {
-                  color: socialColors.youtube,
-                  transform: 'scale(1.1)',
-                },
-              }}
-            >
-              <YouTubeIcon />
-            </IconButton>
-            {/* Snapchat IconButton - TEMPORARILY DISABLED */}
-            {/* <IconButton
-              href="https://www.snapchat.com/add/morg10_yo"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => trackSocialClick('snapchat', 'footer')}
-              sx={{
-                'color': colors.textSecondary,
-                'transition': 'all 0.3s ease',
-                '&:hover': {
-                  color: socialColors.snapchat,
-                  transform: 'scale(1.1)'
-                }
-              }}>
-              <SnapchatIcon />
-            </IconButton> */}
-            {/* Instagram IconButton */}
-            <IconButton
-              href="https://www.instagram.com/AgentMorgie"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => trackSocialClick('instagram', 'footer')}
-              sx={{
-                color: colors.textSecondary,
-                transition: 'all 0.3s ease',
-                '&:hover': {
-                  color: socialColors.instagram,
-                  transform: 'scale(1.1)',
-                },
-              }}
-            >
-              <InstagramIcon />
-            </IconButton>
+              <Typography variant="caption" sx={{ color: 'inherit' }}>
+                Designed by Cam
+              </Typography>
+              <TikTokIcon size={14} />
+            </Box>
           </Stack>
-
-          {/* Developer credit */}
-          <Box
-            component="a"
-            href="https://www.tiktok.com/@cam.tok"
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => trackSocialClick('tiktok_cam', 'footer')}
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 0.5,
-              color: colors.textSecondary,
-              textDecoration: 'none',
-              transition: 'all 0.3s ease',
-              '&:hover': {
-                color: socialColors.tiktok,
-              },
-            }}
-          >
-            <Typography variant="caption" sx={{ color: 'inherit' }}>
-              Designed by Cam
-            </Typography>
-            <TikTokIcon size={14} />
-          </Box>
-        </Stack>
-      </Container>
-    </Box>
+        </Container>
+      </Box>
+      <ComingSoonSnackbar />
+    </>
   );
 }
