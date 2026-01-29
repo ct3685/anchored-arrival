@@ -132,27 +132,67 @@ export default function PhotoGallery({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <Typography
-            variant="h2"
-            align="center"
-            sx={{
-              mb: 2,
-              fontWeight: 800,
-              background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.secondary} 100%)`,
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
-          >
-            Gallery
-          </Typography>
-          <Typography
-            variant="body1"
-            align="center"
-            sx={{ mb: 6, color: colors.textSecondary }}
-          >
-            The many vibes of Agent Morgie 00BA
-          </Typography>
+          <Stack alignItems="center" spacing={2} sx={{ mb: 6 }}>
+            {/* Avatar */}
+            <Box
+              sx={{
+                position: 'relative',
+                width: 100,
+                height: 100,
+                mb: 1,
+                '&::before': {
+                  content: '""',
+                  position: 'absolute',
+                  inset: -3,
+                  borderRadius: '50%',
+                  background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary}, ${colors.accent})`,
+                  animation: 'spin 4s linear infinite',
+                },
+                '@keyframes spin': {
+                  '0%': { transform: 'rotate(0deg)' },
+                  '100%': { transform: 'rotate(360deg)' },
+                },
+              }}
+            >
+              <Box
+                sx={{
+                  position: 'relative',
+                  width: '100%',
+                  height: '100%',
+                  borderRadius: '50%',
+                  overflow: 'hidden',
+                  border: `3px solid ${colors.background}`,
+                }}
+              >
+                <Image
+                  src="/images/morgan-vibing.png"
+                  alt="Agent Morgie"
+                  fill
+                  style={{ objectFit: 'cover' }}
+                />
+              </Box>
+            </Box>
+            <Typography
+              variant="h2"
+              align="center"
+              sx={{
+                fontWeight: 800,
+                background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.secondary} 100%)`,
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
+              Gallery
+            </Typography>
+            <Typography
+              variant="body1"
+              align="center"
+              sx={{ color: colors.textSecondary }}
+            >
+              The many vibes of Agent Morgie 00BA
+            </Typography>
+          </Stack>
         </motion.div>
 
         <Grid container spacing={3}>
