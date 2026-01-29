@@ -5,6 +5,7 @@ import { Box, Container, Typography, Button, Stack } from '@mui/material';
 import { motion } from 'motion/react';
 import { colors } from '@/theme/theme';
 import { trackLinkClick, trackSocialClick } from '@/lib/analytics';
+import { useScrollDepth } from '@/lib/useScrollDepth';
 
 // TikTok icon component
 const TikTokIcon = () => (
@@ -94,6 +95,8 @@ const links: LinkItem[] = [
 ];
 
 export default function LinkTree() {
+  useScrollDepth();
+
   return (
     <Box
       sx={{

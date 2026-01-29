@@ -6,6 +6,7 @@ import { Box, Container, Typography, Button, Stack } from '@mui/material';
 import { motion } from 'motion/react';
 import { colors, layout } from '@/theme/theme';
 import { trackHeroCTA, trackSocialClick } from '@/lib/analytics';
+import { useScrollDepth } from '@/lib/useScrollDepth';
 
 // TikTok icon component
 const TikTokIcon = () => (
@@ -43,6 +44,8 @@ const GalleryIcon = () => (
 );
 
 export default function Hero() {
+  useScrollDepth();
+
   return (
     <Box
       sx={{

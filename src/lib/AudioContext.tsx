@@ -19,6 +19,7 @@ import {
   trackMusicTrackChange,
   trackAudioError,
 } from './analytics';
+import { reportWebVitals } from './webVitals';
 
 interface AudioContextType {
   // State
@@ -77,6 +78,11 @@ export function AudioProvider({ children }: AudioProviderProps) {
       audioRef.current = new Audio();
       audioRef.current.preload = 'metadata';
     }
+  }, []);
+
+  // Initialize Core Web Vitals reporting
+  useEffect(() => {
+    reportWebVitals();
   }, []);
 
   // Track milestones

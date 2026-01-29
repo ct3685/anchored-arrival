@@ -22,8 +22,10 @@ import { motion } from 'motion/react';
 import { useAudio } from '@/lib/AudioContext';
 import { tracks } from '@/lib/tracks';
 import { colors } from '@/theme/theme';
+import { useScrollDepth } from '@/lib/useScrollDepth';
 
 export default function TrackList() {
+  useScrollDepth();
   const {
     currentTrack,
     currentTrackIndex,
