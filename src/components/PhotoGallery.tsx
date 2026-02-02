@@ -165,7 +165,7 @@ export default function PhotoGallery({
                 }}
               >
                 <Image
-                  src="/images/morgan-vibing.png"
+                  src="/images/mvp.png"
                   alt="Agent Morgie"
                   fill
                   style={{ objectFit: 'cover' }}

@@ -48,12 +48,6 @@ export const galleryImages: ImageData[] = [
     title: 'Live... And Lethal',
     description: "Morgie's on a mission! 💥",
   },
-  {
-    src: '/images/morgan-vibing.png',
-    alt: 'Morgan Vibing',
-    title: 'Good Vibes Only',
-    description: 'Just vibing and living life ✨',
-  },
 ];
 
 export const featuredImage = galleryImages[0];
