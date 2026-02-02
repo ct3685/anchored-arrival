@@ -80,9 +80,12 @@ export function AudioProvider({ children }: AudioProviderProps) {
     }
   }, []);
 
-  // Initialize Core Web Vitals reporting
+  // Initialize Core Web Vitals reporting (delayed to not block initial render)
   useEffect(() => {
-    reportWebVitals();
+    const timer = setTimeout(() => {
+      reportWebVitals();
+    }, 2000);
+    return () => clearTimeout(timer);
   }, []);
 
   // Track milestones

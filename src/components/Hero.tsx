@@ -36,9 +36,10 @@ export default function Hero() {
           overflow: 'hidden',
         }}
       >
-        {/* Gradient orbs background */}
+        {/* Gradient orbs background - hidden on mobile for performance */}
         <Box
           sx={{
+            display: { xs: 'none', md: 'block' },
             position: 'absolute',
             top: '10%',
             left: '10%',
@@ -51,6 +52,7 @@ export default function Hero() {
         />
         <Box
           sx={{
+            display: { xs: 'none', md: 'block' },
             position: 'absolute',
             bottom: '20%',
             right: '10%',
@@ -118,6 +120,7 @@ export default function Hero() {
                     sizes="(max-width: 768px) 280px, 350px"
                     style={{ objectFit: 'cover' }}
                     priority
+                    fetchPriority="high"
                   />
                 </Box>
               </Box>

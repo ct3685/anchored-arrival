@@ -14,13 +14,21 @@ const MiniPlayer = dynamic(() => import('@/components/MiniPlayer'), {
   loading: () => null,
 });
 
+// Helper to schedule work when browser is idle
+function scheduleWhenIdle(callback: () => void, fallbackDelay = 500) {
+  if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+    window.requestIdleCallback(callback, { timeout: 1000 });
+  } else {
+    setTimeout(callback, fallbackDelay);
+  }
+}
+
 export function SparkleEffectLazy() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Small delay then fade in smoothly
-    const timer = setTimeout(() => setIsVisible(true), 200);
-    return () => clearTimeout(timer);
+    // Load when browser is idle, then fade in
+    scheduleWhenIdle(() => setIsVisible(true), 300);
   }, []);
 
   return (
@@ -31,7 +39,7 @@ export function SparkleEffectLazy() {
         zIndex: 10,
         pointerEvents: 'none',
         opacity: isVisible ? 1 : 0,
-        transition: 'opacity 0.8s ease-in-out',
+        transition: 'opacity 1s ease-in-out',
       }}
     >
       <SparkleEffect />
@@ -43,9 +51,8 @@ export function MiniPlayerLazy() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Delay mini player appearance slightly
-    const timer = setTimeout(() => setIsVisible(true), 300);
-    return () => clearTimeout(timer);
+    // Load when browser is idle
+    scheduleWhenIdle(() => setIsVisible(true), 500);
   }, []);
 
   if (!isVisible) return null;
