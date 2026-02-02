@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
+// Note: Lazy loaded via ClientShell with fade-in transition
 import { Box } from '@mui/material';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -35,7 +36,6 @@ const NoteSVG = ({ size, color }: { size: number; color: string }) => (
 
 export default function SparkleEffect() {
   const [sparkles, setSparkles] = useState<Sparkle[]>([]);
-  const [isReady, setIsReady] = useState(false);
 
   // Detect mobile and reduced motion preference
   const config = useMemo(() => {
@@ -57,13 +57,7 @@ export default function SparkleEffect() {
   }, []);
 
   useEffect(() => {
-    // Delay initialization to not block initial paint
-    const readyTimeout = setTimeout(() => setIsReady(true), 100);
-    return () => clearTimeout(readyTimeout);
-  }, []);
-
-  useEffect(() => {
-    if (!isReady || config.initialCount === 0) return;
+    if (config.initialCount === 0) return;
 
     const createSparkle = (): Sparkle => {
       const rand = Math.random();
@@ -86,7 +80,7 @@ export default function SparkleEffect() {
       };
     };
 
-    // Stagger initial sparkles to avoid blocking
+    // Create initial sparkles
     const initialSparkles: Sparkle[] = [];
     for (let i = 0; i < config.initialCount; i++) {
       initialSparkles.push(createSparkle());
@@ -104,7 +98,7 @@ export default function SparkleEffect() {
     }, config.interval);
 
     return () => clearInterval(interval);
-  }, [isReady, config]);
+  }, [config]);
 
   const renderSparkle = (sparkle: Sparkle) => {
     switch (sparkle.type) {
@@ -117,8 +111,7 @@ export default function SparkleEffect() {
     }
   };
 
-  // Don't render anything until ready (prevents blocking initial paint)
-  if (!isReady || sparkles.length === 0) return null;
+  if (sparkles.length === 0) return null;
 
   return (
     <Box
