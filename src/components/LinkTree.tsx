@@ -71,10 +71,10 @@ const links: LinkItem[] = [
     glowColor: '#FF0050',
     textColor: '#fff',
   },
-  // Amazon Wishlist - Coming Soon
+  // Amazon Wishlist
   {
     label: 'Amazon Wishlist',
-    href: '#amazon-coming-soon',
+    href: 'https://www.amazon.com/hz/wishlist/ls/98CRSAC721IV?ref_=wl_share',
     icon: <AmazonIcon />,
     gradient: 'linear-gradient(135deg, #FF9900 0%, #FF6600 100%)',
     hoverGradient: 'linear-gradient(135deg, #FF9900 20%, #FF6600 120%)',
@@ -221,26 +221,23 @@ export default function LinkTree() {
                   }
                   startIcon={link.icon}
                   onClick={(e) => {
-                    // Handle "Coming Soon" clicks
+                    // Handle Snapchat "Coming Soon" click
                     if (link.href === '#snapchat-coming-soon') {
                       e.preventDefault();
                       showToast('Snapchat coming soon!');
                       return;
                     }
-                    if (link.href === '#amazon-coming-soon') {
-                      e.preventDefault();
-                      showToast('Amazon Wishlist coming soon!');
-                      return;
-                    }
                     const isExternal = link.href.startsWith('http');
                     trackLinkClick(link.label, link.href, index, isExternal);
-                    // Also track social clicks for TikTok/YouTube
+                    // Also track social clicks for TikTok/YouTube/Amazon
                     if (link.href.includes('tiktok.com')) {
                       trackSocialClick('tiktok', 'linktree');
                     } else if (link.href.includes('youtube.com')) {
                       trackSocialClick('youtube', 'linktree');
                     } else if (link.href.includes('instagram.com')) {
                       trackSocialClick('instagram', 'linktree');
+                    } else if (link.href.includes('amazon.com')) {
+                      trackSocialClick('amazon', 'linktree');
                     }
                   }}
                   sx={{

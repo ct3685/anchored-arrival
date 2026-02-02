@@ -302,7 +302,7 @@ export default function Hero() {
                       </Button>
                     </motion.div>
 
-                    {/* Amazon Wishlist Button - Coming Soon */}
+                    {/* Amazon Wishlist Button */}
                     <motion.div
                       whileHover={{ scale: 1.03 }}
                       whileTap={{ scale: 0.97 }}
@@ -316,8 +316,17 @@ export default function Hero() {
                         variant="contained"
                         size="large"
                         fullWidth
+                        href="https://www.amazon.com/hz/wishlist/ls/98CRSAC721IV?ref_=wl_share"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         startIcon={<AmazonIcon />}
-                        onClick={() => showToast('Amazon Wishlist coming soon!')}
+                        onClick={() => {
+                          trackHeroCTA(
+                            'Amazon Wishlist',
+                            'https://www.amazon.com/hz/wishlist/ls/98CRSAC721IV?ref_=wl_share',
+                            true
+                          );
+                        }}
                         sx={{
                           color: '#000',
                           background:
