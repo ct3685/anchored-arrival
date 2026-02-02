@@ -44,6 +44,14 @@ const GalleryIcon = () => (
   </svg>
 );
 
+// Amazon icon component (Bootstrap Icons)
+const AmazonIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+    <path d="M10.813 11.968c.157.083.36.074.5-.05l.005.005a90 90 0 0 1 1.623-1.405c.173-.143.143-.372.006-.563l-.125-.17c-.345-.465-.673-.906-.673-1.791v-3.3l.001-.335c.008-1.265.014-2.421-.933-3.305C10.404.274 9.06 0 8.03 0 6.017 0 3.77.75 3.296 3.24c-.047.264.143.404.316.443l2.054.22c.19-.009.33-.196.366-.387.176-.857.896-1.271 1.703-1.271.435 0 .929.16 1.188.55.264.39.26.91.257 1.376v.432q-.3.033-.621.065c-1.113.114-2.397.246-3.36.67C3.873 5.91 2.94 7.08 2.94 8.798c0 2.2 1.387 3.298 3.168 3.298 1.506 0 2.328-.354 3.489-1.54l.167.246c.274.405.456.675 1.047 1.166ZM6.03 8.431C6.03 6.627 7.647 6.3 9.177 6.3v.57c.001.776.002 1.434-.396 2.133-.336.595-.87.961-1.465.961-.812 0-1.286-.619-1.286-1.533M.435 12.174c2.629 1.603 6.698 4.084 13.183.997.28-.116.475.078.199.431C13.538 13.96 11.312 16 7.57 16 3.832 16 .968 13.446.094 12.386c-.24-.275.036-.4.199-.299z"/>
+    <path d="M13.828 11.943c.567-.07 1.468-.027 1.645.204.135.176-.004.966-.233 1.533-.23.563-.572.961-.762 1.115s-.333.094-.23-.137c.105-.23.684-1.663.455-1.963-.213-.278-1.177-.177-1.625-.13l-.09.009q-.142.013-.233.024c-.193.021-.245.027-.274-.032-.074-.209.779-.556 1.347-.623"/>
+  </svg>
+);
+
 export default function Hero() {
   useScrollDepth();
   const { showToast, ComingSoonSnackbar } = useComingSoonToast();
@@ -242,41 +250,7 @@ export default function Hero() {
                 transition={{ duration: 0.6, delay: 0.9 }}
               >
                 <Box sx={{ width: '100%', maxWidth: { xs: '100%', md: 450 } }}>
-                  {/* View Gallery - Full Width Featured CTA */}
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-                    style={{ marginBottom: 16 }}
-                  >
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      size="large"
-                      fullWidth
-                      component={Link}
-                      href="/gallery"
-                      startIcon={<GalleryIcon />}
-                      onClick={() =>
-                        trackHeroCTA('View Gallery', '/gallery', false)
-                      }
-                      sx={{
-                        py: 1.5,
-                        background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.accent} 100%)`,
-                        boxShadow: `0 0 20px ${colors.primary}44`,
-                        backdropFilter: 'blur(8px)',
-                        '&:hover': {
-                          background: `linear-gradient(135deg, ${colors.primary} 20%, ${colors.accent} 120%)`,
-                          boxShadow: `0 0 30px ${colors.primary}66`,
-                        },
-                        transition: 'all 0.2s ease',
-                      }}
-                    >
-                      View Gallery
-                    </Button>
-                  </motion.div>
-
-                  {/* Social Buttons Grid - 2x2 on desktop, stacked on mobile */}
+                  {/* Social Buttons Grid - 2x3 on desktop, stacked on mobile */}
                   <Box
                     sx={{
                       display: 'grid',
@@ -325,6 +299,40 @@ export default function Hero() {
                         }}
                       >
                         TikTok
+                      </Button>
+                    </motion.div>
+
+                    {/* Amazon Wishlist Button - Coming Soon */}
+                    <motion.div
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.97 }}
+                      transition={{
+                        type: 'spring',
+                        stiffness: 400,
+                        damping: 17,
+                      }}
+                    >
+                      <Button
+                        variant="contained"
+                        size="large"
+                        fullWidth
+                        startIcon={<AmazonIcon />}
+                        onClick={() => showToast('Amazon Wishlist coming soon!')}
+                        sx={{
+                          color: '#000',
+                          background:
+                            'linear-gradient(135deg, #FF9900 0%, #FF6600 100%)',
+                          backdropFilter: 'blur(8px)',
+                          boxShadow: '0 0 20px #FF990044',
+                          '&:hover': {
+                            background:
+                              'linear-gradient(135deg, #FF9900 20%, #FF6600 120%)',
+                            boxShadow: '0 0 30px #FF990066',
+                          },
+                          transition: 'all 0.2s ease',
+                        }}
+                      >
+                        Wishlist
                       </Button>
                     </motion.div>
 
@@ -387,7 +395,7 @@ export default function Hero() {
                         size="large"
                         fullWidth
                         startIcon={<SnapchatIcon />}
-                        onClick={() => showToast()}
+                        onClick={() => showToast('Snapchat coming soon!')}
                         sx={{
                           color: '#000',
                           background:
@@ -447,6 +455,42 @@ export default function Hero() {
                         }}
                       >
                         Instagram
+                      </Button>
+                    </motion.div>
+
+                    {/* View Gallery Button */}
+                    <motion.div
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.97 }}
+                      transition={{
+                        type: 'spring',
+                        stiffness: 400,
+                        damping: 17,
+                      }}
+                    >
+                      <Button
+                        variant="contained"
+                        size="large"
+                        fullWidth
+                        component={Link}
+                        href="/gallery"
+                        startIcon={<GalleryIcon />}
+                        onClick={() =>
+                          trackHeroCTA('View Gallery', '/gallery', false)
+                        }
+                        sx={{
+                          color: '#fff',
+                          background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.accent} 100%)`,
+                          backdropFilter: 'blur(8px)',
+                          boxShadow: `0 0 20px ${colors.primary}44`,
+                          '&:hover': {
+                            background: `linear-gradient(135deg, ${colors.primary} 20%, ${colors.accent} 120%)`,
+                            boxShadow: `0 0 30px ${colors.primary}66`,
+                          },
+                          transition: 'all 0.2s ease',
+                        }}
+                      >
+                        Gallery
                       </Button>
                     </motion.div>
                   </Box>

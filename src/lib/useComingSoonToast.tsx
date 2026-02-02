@@ -5,8 +5,10 @@ import { Snackbar, Alert } from '@mui/material';
 
 export function useComingSoonToast() {
   const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState('Coming soon!');
 
-  const showToast = useCallback(() => {
+  const showToast = useCallback((customMessage?: string) => {
+    setMessage(customMessage || 'Coming soon!');
     setOpen(true);
   }, []);
 
@@ -35,7 +37,7 @@ export function useComingSoonToast() {
           fontWeight: 600,
         }}
       >
-        Snapchat coming soon!
+        {message}
       </Alert>
     </Snackbar>
   );
