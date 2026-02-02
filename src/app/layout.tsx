@@ -7,8 +7,7 @@ import { theme } from '@/theme/theme';
 import { AudioProvider } from '@/lib/AudioContext';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import MiniPlayer from '@/components/MiniPlayer';
-import SparkleEffect from '@/components/SparkleEffect';
+import { SparkleEffectLazy, MiniPlayerLazy } from '@/components/ClientShell';
 
 const GA_MEASUREMENT_ID = 'G-2DE84Q17JH';
 
@@ -112,21 +111,13 @@ export default function RootLayout({
           <ThemeProvider theme={theme}>
             <CssBaseline />
             <AudioProvider>
-              {/* Global sparkle effects - z-index 10 to appear above page content but below navbar/player */}
-              <div
-                style={{
-                  position: 'fixed',
-                  inset: 0,
-                  zIndex: 10,
-                  pointerEvents: 'none',
-                }}
-              >
-                <SparkleEffect />
-              </div>
+              {/* Global sparkle effects - lazy loaded to not block initial paint */}
+              <SparkleEffectLazy />
               <Navbar />
               <main style={{ minHeight: '100vh' }}>{children}</main>
               <Footer />
-              <MiniPlayer />
+              {/* Mini player - lazy loaded */}
+              <MiniPlayerLazy />
             </AudioProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>

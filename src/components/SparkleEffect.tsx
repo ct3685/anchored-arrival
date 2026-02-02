@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Box } from '@mui/material';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -35,10 +35,35 @@ const NoteSVG = ({ size, color }: { size: number; color: string }) => (
 
 export default function SparkleEffect() {
   const [sparkles, setSparkles] = useState<Sparkle[]>([]);
+  const [isReady, setIsReady] = useState(false);
+
+  // Detect mobile and reduced motion preference
+  const config = useMemo(() => {
+    if (typeof window === 'undefined') {
+      return { initialCount: 10, maxCount: 15, interval: 400 };
+    }
+    
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      return { initialCount: 0, maxCount: 0, interval: 1000 }; // Disabled
+    }
+    
+    const isMobile = window.innerWidth < 768;
+    return isMobile
+      ? { initialCount: 8, maxCount: 12, interval: 500 }  // Lighter on mobile
+      : { initialCount: 20, maxCount: 25, interval: 300 }; // Full on desktop
+  }, []);
 
   useEffect(() => {
+    // Delay initialization to not block initial paint
+    const readyTimeout = setTimeout(() => setIsReady(true), 100);
+    return () => clearTimeout(readyTimeout);
+  }, []);
+
+  useEffect(() => {
+    if (!isReady || config.initialCount === 0) return;
+
     const createSparkle = (): Sparkle => {
-      // Weighted selection: more hearts! (50% hearts, 30% stars, 20% notes)
       const rand = Math.random();
       let type: 'star' | 'heart' | 'note';
       if (rand < 0.5) {
@@ -53,25 +78,28 @@ export default function SparkleEffect() {
         id: Math.random(),
         x: Math.random() * 100,
         y: Math.random() * 100,
-        size: Math.random() * 18 + 10, // Slightly bigger
+        size: Math.random() * 18 + 10,
         color: colors[Math.floor(Math.random() * colors.length)],
         type,
       };
     };
 
-    // Initial sparkles - more of them!
-    setSparkles(Array.from({ length: 25 }, createSparkle));
+    // Stagger initial sparkles to avoid blocking
+    const initialSparkles: Sparkle[] = [];
+    for (let i = 0; i < config.initialCount; i++) {
+      initialSparkles.push(createSparkle());
+    }
+    setSparkles(initialSparkles);
 
-    // Add new sparkles more frequently
     const interval = setInterval(() => {
       setSparkles((prev) => {
-        const newSparkles = [...prev.slice(-30), createSparkle()];
+        const newSparkles = [...prev.slice(-(config.maxCount - 1)), createSparkle()];
         return newSparkles;
       });
-    }, 250); // ~16 sparkles steady state
+    }, config.interval);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [isReady, config]);
 
   const renderSparkle = (sparkle: Sparkle) => {
     switch (sparkle.type) {
@@ -84,6 +112,9 @@ export default function SparkleEffect() {
     }
   };
 
+  // Don't render anything until ready (prevents blocking initial paint)
+  if (!isReady || sparkles.length === 0) return null;
+
   return (
     <Box
       sx={{
@@ -94,11 +125,11 @@ export default function SparkleEffect() {
         zIndex: 0,
       }}
     >
-      <AnimatePresence>
+      <AnimatePresence mode="popLayout">
         {sparkles.map((sparkle) => (
           <motion.div
             key={sparkle.id}
-            initial={{ opacity: 0, scale: 0, y: 0 }}
+            initial={{ opacity: 0, scale: 0 }}
             animate={{
               opacity: [0, 1, 1, 0],
               scale: [0, 1, 1, 0],
@@ -113,8 +144,6 @@ export default function SparkleEffect() {
               position: 'absolute',
               left: `${sparkle.x}%`,
               top: `${sparkle.y}%`,
-              willChange: 'transform, opacity',
-              transform: 'translateZ(0)', // Force GPU layer on iOS Safari
             }}
           >
             {renderSparkle(sparkle)}
