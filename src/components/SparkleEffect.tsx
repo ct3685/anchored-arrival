@@ -42,15 +42,17 @@ export default function SparkleEffect() {
     if (typeof window === 'undefined') {
       return { initialCount: 10, maxCount: 15, interval: 400 };
     }
-    
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
     if (prefersReducedMotion) {
       return { initialCount: 0, maxCount: 0, interval: 1000 }; // Disabled
     }
-    
+
     const isMobile = window.innerWidth < 768;
     return isMobile
-      ? { initialCount: 8, maxCount: 12, interval: 500 }  // Lighter on mobile
+      ? { initialCount: 8, maxCount: 12, interval: 500 } // Lighter on mobile
       : { initialCount: 20, maxCount: 25, interval: 300 }; // Full on desktop
   }, []);
 
@@ -93,7 +95,10 @@ export default function SparkleEffect() {
 
     const interval = setInterval(() => {
       setSparkles((prev) => {
-        const newSparkles = [...prev.slice(-(config.maxCount - 1)), createSparkle()];
+        const newSparkles = [
+          ...prev.slice(-(config.maxCount - 1)),
+          createSparkle(),
+        ];
         return newSparkles;
       });
     }, config.interval);
