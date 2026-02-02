@@ -19,7 +19,10 @@ export default function NotFound() {
           py: 4,
         }}
       >
-        <Link href="/" style={{ display: 'block', width: '100%', maxWidth: 400 }}>
+        <Link
+          href="/"
+          style={{ display: 'block', width: '100%', maxWidth: 400 }}
+        >
           <Box
             sx={{
               position: 'relative',
