@@ -49,5 +49,3 @@ export const galleryImages: ImageData[] = [
     description: "Morgie's on a mission! 💥",
   },
 ];
-
-export const featuredImage = galleryImages[0];

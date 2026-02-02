@@ -16,5 +16,3 @@ export const tracks: Track[] = [
     cover: '/music/live-and-lethal/cover.png',
   },
 ];
-
-export const featuredTrack = tracks[0];
