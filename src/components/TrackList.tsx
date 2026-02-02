@@ -88,6 +88,7 @@ export default function TrackList() {
                   src="/images/dj-glasses.png"
                   alt="Agent Morgie"
                   fill
+                  sizes="100px"
                   style={{ objectFit: 'cover' }}
                 />
               </Box>
@@ -155,6 +156,7 @@ export default function TrackList() {
                       src={currentTrack.cover}
                       alt={currentTrack.title}
                       fill
+                      sizes="80px"
                       style={{ objectFit: 'cover' }}
                     />
                   </Box>
@@ -290,6 +292,7 @@ export default function TrackList() {
                               src={track.cover}
                               alt={track.title}
                               fill
+                              sizes="40px"
                               style={{ objectFit: 'cover' }}
                             />
                           </Box>

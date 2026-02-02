@@ -168,6 +168,7 @@ export default function PhotoGallery({
                   src="/images/mvp.png"
                   alt="Agent Morgie"
                   fill
+                  sizes="100px"
                   style={{ objectFit: 'cover' }}
                 />
               </Box>

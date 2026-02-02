@@ -124,6 +124,7 @@ export default function MiniPlayer() {
                   src={currentTrack.cover}
                   alt={currentTrack.title}
                   fill
+                  sizes="44px"
                   style={{ objectFit: 'cover' }}
                 />
               </Box>

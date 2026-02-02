@@ -150,6 +150,7 @@ export default function Hero() {
                     src="/images/mvp.png"
                     alt="Agent Morgie"
                     fill
+                    sizes="(max-width: 768px) 280px, 350px"
                     style={{ objectFit: 'cover' }}
                     priority
                   />

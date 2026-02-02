@@ -29,7 +29,7 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  
+
   async headers() {
     return [
       {
@@ -41,6 +41,15 @@ const nextConfig: NextConfig = {
 
   images: {
     formats: ['image/avif', 'image/webp'],
+    // Optimized device sizes for responsive images
+    deviceSizes: [640, 750, 828, 1080, 1200],
+    // Small fixed-size images (avatars, thumbnails)
+    imageSizes: [40, 48, 64, 80, 100, 128, 256, 350],
+  },
+
+  // Optimize MUI and other large packages
+  experimental: {
+    optimizePackageImports: ['@mui/material', '@mui/icons-material', 'motion'],
   },
 };
 
