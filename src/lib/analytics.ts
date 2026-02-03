@@ -303,3 +303,32 @@ export const trackDownloadError = (fileName: string, errorMessage: string) => {
     error_message: errorMessage,
   });
 };
+
+// ============================================
+// IN-APP BROWSER EVENTS
+// ============================================
+
+export const trackInAppBrowserDetected = (platform: string, os: string) => {
+  trackEvent('in_app_browser_detected', {
+    platform: platform,
+    os: os,
+  });
+};
+
+export const trackInAppBrowserNoticeDismissed = (platform: string) => {
+  trackEvent('in_app_browser_notice_dismissed', {
+    platform: platform,
+  });
+};
+
+export const trackInAppBrowserLinkCopied = (
+  linkLabel: string,
+  linkUrl: string,
+  platform: string
+) => {
+  trackEvent('in_app_browser_link_copied', {
+    link_label: linkLabel,
+    link_url: linkUrl,
+    platform: platform,
+  });
+};

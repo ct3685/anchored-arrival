@@ -7,7 +7,11 @@ import { theme } from '@/theme/theme';
 import { AudioProvider } from '@/lib/AudioContext';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { SparkleEffectLazy, MiniPlayerLazy } from '@/components/ClientShell';
+import {
+  SparkleEffectLazy,
+  MiniPlayerLazy,
+  InAppBrowserNoticeLazy,
+} from '@/components/ClientShell';
 
 const GA_MEASUREMENT_ID = 'G-2DE84Q17JH';
 
@@ -111,6 +115,8 @@ export default function RootLayout({
           <ThemeProvider theme={theme}>
             <CssBaseline />
             <AudioProvider>
+              {/* In-app browser notice - shown at top for TikTok/Instagram/etc users */}
+              <InAppBrowserNoticeLazy />
               {/* Global sparkle effects - lazy loaded to not block initial paint */}
               <SparkleEffectLazy />
               <Navbar />

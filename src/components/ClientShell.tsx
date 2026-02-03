@@ -14,6 +14,14 @@ const MiniPlayer = dynamic(() => import('@/components/MiniPlayer'), {
   loading: () => null,
 });
 
+const InAppBrowserNotice = dynamic(
+  () => import('@/components/InAppBrowserNotice'),
+  {
+    ssr: false,
+    loading: () => null,
+  }
+);
+
 // Helper to schedule work when browser is idle
 function scheduleWhenIdle(callback: () => void, fallbackDelay = 500) {
   if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
@@ -58,4 +66,17 @@ export function MiniPlayerLazy() {
   if (!isVisible) return null;
 
   return <MiniPlayer />;
+}
+
+export function InAppBrowserNoticeLazy() {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    // Load immediately - this is important UX for in-app browser users
+    setIsVisible(true);
+  }, []);
+
+  if (!isVisible) return null;
+
+  return <InAppBrowserNotice />;
 }

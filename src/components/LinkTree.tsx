@@ -1,12 +1,27 @@
 'use client';
 
+import { useState, useCallback } from 'react';
 import Image from 'next/image';
-import { Box, Container, Typography, Button, Stack } from '@mui/material';
+import {
+  Box,
+  Container,
+  Typography,
+  Button,
+  Stack,
+  Snackbar,
+  Alert,
+} from '@mui/material';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { motion } from 'motion/react';
 import { colors } from '@/theme/theme';
-import { trackLinkClick, trackSocialClick } from '@/lib/analytics';
+import {
+  trackLinkClick,
+  trackSocialClick,
+  trackInAppBrowserLinkCopied,
+} from '@/lib/analytics';
 import { useScrollDepth } from '@/lib/useScrollDepth';
 import { useComingSoonToast } from '@/lib/useComingSoonToast';
+import { useInAppBrowser, isProblematicUrl } from '@/lib/useInAppBrowser';
 import {
   TikTokIcon,
   YouTubeIcon,
@@ -81,6 +96,58 @@ const links: LinkItem[] = [
 export default function LinkTree() {
   useScrollDepth();
   const { showToast, ComingSoonSnackbar } = useComingSoonToast();
+  const { isInAppBrowser, platform, copyToClipboard } = useInAppBrowser();
+  const [copySnackbar, setCopySnackbar] = useState<{
+    open: boolean;
+    message: string;
+  }>({ open: false, message: '' });
+
+  const handleLinkClick = useCallback(
+    async (
+      e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>,
+      link: LinkItem,
+      index: number
+    ) => {
+      // Handle Snapchat "Coming Soon" click
+      if (link.href === '#snapchat-coming-soon') {
+        e.preventDefault();
+        showToast('Snapchat coming soon!');
+        return;
+      }
+
+      const isExternal = link.href.startsWith('http');
+      trackLinkClick(link.label, link.href, index, isExternal);
+
+      // Track social clicks
+      if (link.href.includes('tiktok.com')) {
+        trackSocialClick('tiktok', 'linktree');
+      } else if (link.href.includes('youtube.com')) {
+        trackSocialClick('youtube', 'linktree');
+      } else if (link.href.includes('instagram.com')) {
+        trackSocialClick('instagram', 'linktree');
+      } else if (link.href.includes('amazon.com')) {
+        trackSocialClick('amazon', 'linktree');
+      }
+
+      // In-app browser: copy problematic URLs to clipboard
+      if (isInAppBrowser && isExternal && isProblematicUrl(link.href)) {
+        const copied = await copyToClipboard(link.href);
+        if (copied) {
+          trackInAppBrowserLinkCopied(link.label, link.href, platform);
+          setCopySnackbar({
+            open: true,
+            message: 'Link copied! Paste in your browser for best results.',
+          });
+        }
+        // Still allow the click to proceed - might work in some cases
+      }
+    },
+    [isInAppBrowser, platform, copyToClipboard, showToast]
+  );
+
+  const handleCloseCopySnackbar = useCallback(() => {
+    setCopySnackbar({ open: false, message: '' });
+  }, []);
 
   return (
     <>
@@ -186,26 +253,7 @@ export default function LinkTree() {
                       : undefined
                   }
                   startIcon={link.icon}
-                  onClick={(e) => {
-                    // Handle Snapchat "Coming Soon" click
-                    if (link.href === '#snapchat-coming-soon') {
-                      e.preventDefault();
-                      showToast('Snapchat coming soon!');
-                      return;
-                    }
-                    const isExternal = link.href.startsWith('http');
-                    trackLinkClick(link.label, link.href, index, isExternal);
-                    // Also track social clicks for TikTok/YouTube/Amazon
-                    if (link.href.includes('tiktok.com')) {
-                      trackSocialClick('tiktok', 'linktree');
-                    } else if (link.href.includes('youtube.com')) {
-                      trackSocialClick('youtube', 'linktree');
-                    } else if (link.href.includes('instagram.com')) {
-                      trackSocialClick('instagram', 'linktree');
-                    } else if (link.href.includes('amazon.com')) {
-                      trackSocialClick('amazon', 'linktree');
-                    }
-                  }}
+                  onClick={(e) => handleLinkClick(e, link, index)}
                   sx={{
                     py: 2,
                     px: 3,
@@ -280,13 +328,31 @@ export default function LinkTree() {
                   target="_blank"
                   rel="noopener noreferrer"
                   startIcon={<NetworkIcon size={24} />}
-                  onClick={() => {
+                  onClick={async () => {
+                    const url = 'https://www.tiktok.com/t/ZTh1ohJwM/';
                     trackLinkClick(
                       'Join My Creator Network',
-                      'https://www.tiktok.com/t/ZTh1ohJwM/',
+                      url,
                       links.length,
                       true
                     );
+
+                    // In-app browser: copy to clipboard
+                    if (isInAppBrowser && isProblematicUrl(url)) {
+                      const copied = await copyToClipboard(url);
+                      if (copied) {
+                        trackInAppBrowserLinkCopied(
+                          'Join My Creator Network',
+                          url,
+                          platform
+                        );
+                        setCopySnackbar({
+                          open: true,
+                          message:
+                            'Link copied! Paste in your browser for best results.',
+                        });
+                      }
+                    }
                   }}
                   sx={{
                     py: 2,
@@ -331,6 +397,27 @@ export default function LinkTree() {
         </Container>
       </Box>
       <ComingSoonSnackbar />
+      {/* Copy to clipboard snackbar for in-app browsers */}
+      <Snackbar
+        open={copySnackbar.open}
+        autoHideDuration={4000}
+        onClose={handleCloseCopySnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={handleCloseCopySnackbar}
+          severity="info"
+          variant="filled"
+          icon={<ContentCopyIcon fontSize="small" />}
+          sx={{
+            background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.secondary} 100%)`,
+            color: '#fff',
+            fontWeight: 600,
+          }}
+        >
+          {copySnackbar.message}
+        </Alert>
+      </Snackbar>
     </>
   );
 }
