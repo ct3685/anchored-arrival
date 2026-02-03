@@ -3,6 +3,12 @@
   publish = ".next"
 
 [build.environment]
-  NODE_VERSION = "22"
+  NODE_VERSION = "24"
 
 # Next.js runtime handles routing automatically
+
+# Redirect for /join to https://www.tiktok.com/t/ZTh1ohJwM/
+[[redirects]]
+  from = "/join"
+  to = "https://www.tiktok.com/t/ZTh1ohJwM/"
+  status = 301
