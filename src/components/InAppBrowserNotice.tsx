@@ -10,7 +10,7 @@ import {
   trackInAppBrowserDetected,
   trackInAppBrowserNoticeDismissed,
 } from '@/lib/analytics';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const platformNames: Record<InAppBrowserPlatform, string> = {
   tiktok: 'TikTok',
@@ -36,21 +36,38 @@ export default function InAppBrowserNotice() {
   const { isInAppBrowser, platform, os, instructions, dismissed, dismiss } =
     useInAppBrowser();
   const hasTrackedRef = useRef(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
 
-  // Track when in-app browser is detected (only once)
+  // Detect when user scrolls at least 1px
   useEffect(() => {
-    if (isInAppBrowser && !hasTrackedRef.current) {
+    if (!isInAppBrowser || dismissed) return;
+
+    const handleScroll = () => {
+      if (window.scrollY >= 1) {
+        setHasScrolled(true);
+        // Remove listener once triggered
+        window.removeEventListener('scroll', handleScroll);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isInAppBrowser, dismissed]);
+
+  // Track when in-app browser is detected (only once, after scroll triggers notice)
+  useEffect(() => {
+    if (isInAppBrowser && hasScrolled && !hasTrackedRef.current) {
       hasTrackedRef.current = true;
       trackInAppBrowserDetected(platform, os);
     }
-  }, [isInAppBrowser, platform, os]);
+  }, [isInAppBrowser, hasScrolled, platform, os]);
 
   const handleContinue = () => {
     trackInAppBrowserNoticeDismissed(platform);
     dismiss();
   };
 
-  const showNotice = isInAppBrowser && !dismissed;
+  const showNotice = isInAppBrowser && !dismissed && hasScrolled;
   const accentColor = platformColors[platform] || colors.primary;
   const platformName = platformNames[platform] || 'this app';
   const browserName = os === 'ios' ? 'Safari' : 'Chrome';
