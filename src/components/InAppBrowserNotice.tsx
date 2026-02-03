@@ -160,7 +160,8 @@ export default function InAppBrowserNotice() {
                 >
                   {platformName}&apos;s browser
                 </Box>
-                . Some links (like Amazon, TikTok, etc.) may not work properly.
+                . Links to Amazon, joining my Creator Network, and other sites
+                may not work properly here.
               </Typography>
 
               {/* Instructions Box */}
@@ -189,7 +190,7 @@ export default function InAppBrowserNotice() {
                     variant="subtitle2"
                     sx={{ color: colors.text, fontWeight: 700 }}
                   >
-                    For Best Experience:
+                    To Open in Your Browser:
                   </Typography>
                 </Box>
                 <Typography
@@ -232,14 +233,14 @@ export default function InAppBrowserNotice() {
                     display: 'block',
                   }}
                 >
-                  Or open{' '}
+                  Or visit{' '}
                   <Box
                     component="span"
-                    sx={{ color: colors.text, fontWeight: 600 }}
+                    sx={{ color: accentColor, fontWeight: 600 }}
                   >
                     agentmorgie.com
                   </Box>{' '}
-                  directly in {browserName}
+                  directly in {browserName} for full access
                 </Typography>
               </Box>
             </Box>

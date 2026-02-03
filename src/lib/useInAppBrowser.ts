@@ -157,30 +157,27 @@ function getInstructions(platform: InAppBrowserPlatform, os: DeviceOS): string {
 
   // Platform-specific instructions
   if (platform === 'tiktok') {
-    if (os === 'ios') {
-      return `Tap the share icon (bottom right) and select "Open in ${browserName}" for the best experience.`;
-    }
-    return `Tap the three dots (⋮) at the top right and select "Open in browser" for the best experience.`;
+    return `Tap the three dots (⋯) in the upper right and select "Open in ${browserName}".`;
   }
 
   if (platform === 'instagram' || platform === 'facebook') {
-    return `Tap the three dots (⋯) at the top right and select "Open in ${browserName}" for the best experience.`;
+    return `Tap the three dots (⋯) in the upper right and select "Open in ${browserName}".`;
   }
 
   if (platform === 'snapchat') {
-    return `Tap the share icon and select "Open in ${browserName}" for the best experience.`;
+    return `Tap the share or menu icon in the upper right and select "Open in ${browserName}".`;
   }
 
   if (platform === 'twitter') {
-    return `Tap the three dots (⋯) and select "Open in ${browserName}" for the best experience.`;
+    return `Tap the share icon and select "Open in ${browserName}".`;
   }
 
   if (platform === 'linkedin') {
-    return `Tap the three dots (⋯) and select "Open in browser" for the best experience.`;
+    return `Tap the three dots (⋯) in the upper right and select "Open in browser".`;
   }
 
   // Generic fallback
-  return `For the best experience, open this page in ${browserName}. Look for a share or menu icon to find "Open in browser".`;
+  return `Look for three dots (⋯) or a share icon in the upper right to find "Open in browser".`;
 }
 
 /**
