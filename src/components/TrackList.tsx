@@ -114,7 +114,7 @@ export default function TrackList() {
                 maxWidth: 500,
               }}
             >
-              Original tracks from Agent Morgie 00BA. Click to play and vibe
+              Original tracks from Agent Morgie. Click to play and vibe
               with us.
             </Typography>
           </Stack>

@@ -2,9 +2,9 @@ import { Metadata } from 'next';
 import PhotoGallery from '@/components/PhotoGallery';
 
 export const metadata: Metadata = {
-  title: 'Gallery | Agent Morgie 00BA',
+  title: 'Gallery | Agent Morgie',
   description:
-    'View the many vibes of Agent Morgie 00BA - Main Character Energy, Matrix Mode, DJ vibes and more!',
+    'View the many vibes of Agent Morgie - Main Character Energy, Matrix Mode, DJ vibes and more!',
   alternates: {
     canonical: '/gallery',
   },
@@ -22,7 +22,7 @@ export default function GalleryPage() {
             '@id': 'https://agentmorgie.com/gallery#gallery',
             name: 'Agent Morgie Gallery',
             description:
-              'View the many vibes of Agent Morgie 00BA - Main Character Energy, Matrix Mode, DJ vibes and more!',
+              'View the many vibes of Agent Morgie - Main Character Energy, Matrix Mode, DJ vibes and more!',
             url: 'https://agentmorgie.com/gallery',
             author: {
               '@type': 'Person',

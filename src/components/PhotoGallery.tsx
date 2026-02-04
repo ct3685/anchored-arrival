@@ -180,7 +180,7 @@ export default function PhotoGallery({
               align="center"
               sx={{ color: colors.textSecondary }}
             >
-              The many vibes of Agent Morgie 00BA
+              The many vibes of Agent Morgie
             </Typography>
           </Stack>
         </motion.div>

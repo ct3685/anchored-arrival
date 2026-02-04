@@ -2,7 +2,7 @@
 
 import { createTheme } from '@mui/material/styles';
 
-// Agent Morgie 00BA Color Palette
+// Agent Morgie Color Palette
 const colors = {
   primary: '#FF69B4', // Hot Pink
   secondary: '#00D4FF', // Electric Cyan

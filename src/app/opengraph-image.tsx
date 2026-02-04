@@ -2,7 +2,7 @@ import { ImageResponse } from 'next/og';
 
 export const runtime = 'edge';
 
-export const alt = 'Agent Morgie 00BA | Double O Badass';
+export const alt = 'Agent Morgie | Main Character Energy';
 export const size = {
   width: 1200,
   height: 630,
@@ -126,28 +126,28 @@ export default async function Image() {
             Agent Morgie
           </div>
 
-          {/* Subtitle */}
-          <div
-            style={{
-              fontSize: '48px',
-              fontWeight: 700,
-              color: '#FFD700',
-              marginTop: '4px',
-            }}
-          >
-            00BA
-          </div>
-
           {/* Tagline */}
           <div
             style={{
-              fontSize: '24px',
-              fontWeight: 400,
-              color: '#B8B8D1',
-              marginTop: '12px',
+              fontSize: '28px',
+              fontWeight: 500,
+              color: '#FFD700',
+              marginTop: '16px',
             }}
           >
-            Double O Badass • Main Character Energy
+            Main Character Energy
+          </div>
+
+          {/* Subtitle */}
+          <div
+            style={{
+              fontSize: '22px',
+              fontWeight: 400,
+              color: '#B8B8D1',
+              marginTop: '8px',
+            }}
+          >
+            TikTok LIVE Creator • Community Driven
           </div>
         </div>
       </div>

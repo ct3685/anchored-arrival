@@ -1,6 +1,6 @@
-# Agent Morgie 00BA
+# Agent Morgie
 
-> Double O Badass • Main Character Energy • Live... And Lethal
+> Main Character Energy • LIVE Creator • Community Driven
 
 A vibrant, mobile-first portfolio site for TikTok creator [@realfeelpurpose](https://www.tiktok.com/@realfeelpurpose).
 
@@ -79,4 +79,4 @@ Or connect your GitHub repo to Netlify for automatic deployments.
 
 ## License
 
-All rights reserved. Agent Morgie 00BA © 2026
+All rights reserved. Agent Morgie © 2026

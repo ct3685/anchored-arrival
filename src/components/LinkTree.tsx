@@ -227,7 +227,7 @@ export default function LinkTree() {
                   maxWidth: 500,
                 }}
               >
-                Connect with Agent Morgie 00BA. Double O Badass • TikTok Live
+                Connect with Agent Morgie - TikTok LIVE Creator • Main Character Energy
                 Creator.
               </Typography>
             </Stack>
