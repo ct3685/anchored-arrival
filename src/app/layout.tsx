@@ -124,7 +124,6 @@ export default function RootLayout({
               <Footer />
               {/* Mini player - lazy loaded */}
               <MiniPlayerLazy />
-              {/* Hawaii giveaway popup moved to homepage only */}
             </AudioProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>

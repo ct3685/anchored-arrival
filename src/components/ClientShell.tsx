@@ -22,14 +22,6 @@ const InAppBrowserNotice = dynamic(
   }
 );
 
-const HawaiiGiveawayPopup = dynamic(
-  () => import('@/components/HawaiiGiveawayPopup'),
-  {
-    ssr: false,
-    loading: () => null,
-  }
-);
-
 // Helper to schedule work when browser is idle
 function scheduleWhenIdle(callback: () => void, fallbackDelay = 500) {
   if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
@@ -87,16 +79,4 @@ export function InAppBrowserNoticeLazy() {
   if (!isVisible) return null;
 
   return <InAppBrowserNotice />;
-}
-
-export function HawaiiGiveawayPopupLazy() {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    scheduleWhenIdle(() => setIsVisible(true), 800);
-  }, []);
-
-  if (!isVisible) return null;
-
-  return <HawaiiGiveawayPopup />;
 }
