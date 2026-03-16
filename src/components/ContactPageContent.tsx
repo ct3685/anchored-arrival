@@ -70,8 +70,20 @@ const triviaQuestions: TriviaQuestion[] = [
   },
 ];
 
-const cipherText = 'DJHQW PRUJLH LV WKH PYS'; // "AGENT MORGIE IS THE MVP" with Caesar cipher shift 3
 const cipherSolution = 'AGENT MORGIE IS THE MVP';
+
+// Encode plaintext with a given shift (used to generate the cipher text dynamically)
+const encodeCaesar = (text: string, shift: number) => {
+  return text
+    .split('')
+    .map((char) => {
+      if (char.match(/[A-Z]/)) {
+        return String.fromCharCode(((char.charCodeAt(0) - 65 + shift) % 26) + 65);
+      }
+      return char;
+    })
+    .join('');
+};
 // WARNING: The dossier rendering logic in the JSX depends on exact array indices.
 // If you reorder or add items, update the index checks in the render section.
 const dossierContent = [
@@ -407,6 +419,29 @@ const ClassifiedStamp = ({
   </motion.div>
 );
 
+// Shuffle an array using Fisher-Yates
+function shuffleArray<T>(arr: T[]): T[] {
+  const shuffled = [...arr];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
+// Shuffle trivia options and remap correct index
+function shuffleTriviaQuestions(questions: TriviaQuestion[]): TriviaQuestion[] {
+  return questions.map((q) => {
+    const correctAnswer = q.options[q.correct];
+    const shuffledOptions = shuffleArray(q.options);
+    return {
+      ...q,
+      options: shuffledOptions,
+      correct: shuffledOptions.indexOf(correctAnswer),
+    };
+  });
+}
+
 export default function ContactPageContent() {
   const [phase, setPhase] = useState<GamePhase>('entry');
   const [cipherShift, setCipherShift] = useState(0);
@@ -429,6 +464,11 @@ export default function ContactPageContent() {
   const [countdown, setCountdown] = useState(30);
   const [showLighter, setShowLighter] = useState(true);
   const [disarmed, setDisarmed] = useState(false);
+
+  // Randomize cipher shift (1-25) and trivia option order on mount
+  const [targetShift] = useState(() => Math.floor(Math.random() * 25) + 1);
+  const [cipherTextEncoded] = useState(() => encodeCaesar(cipherSolution, targetShift));
+  const [shuffledTrivia] = useState(() => shuffleTriviaQuestions(triviaQuestions));
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -497,12 +537,12 @@ export default function ContactPageContent() {
     }
   }, [phase, disarmed]);
 
-  const currentDecodedText = decodeCaesar(cipherText, cipherShift);
+  const currentDecodedText = decodeCaesar(cipherTextEncoded, cipherShift);
   const alphabetMapping = getAlphabetMapping(cipherShift);
 
   // Handle trivia answers with shake animation
   const handleTriviaAnswer = useCallback((questionIndex: number, answerIndex: number) => {
-    const isCorrect = answerIndex === triviaQuestions[questionIndex].correct;
+    const isCorrect = answerIndex === shuffledTrivia[questionIndex].correct;
 
     if (!isCorrect) {
       // Flash wrong answer red and shake
@@ -524,10 +564,10 @@ export default function ContactPageContent() {
     setTriviaAnswers(newAnswers);
 
     const correctAnswers = newAnswers.filter(
-      (answer, index) => answer === triviaQuestions[index].correct
+      (answer, index) => answer === shuffledTrivia[index].correct
     ).length;
     setTriviaProgress(correctAnswers);
-  }, [triviaAnswers]);
+  }, [triviaAnswers, shuffledTrivia]);
 
   // Handle safe combination
   const handleSafeDial = useCallback((dialIndex: number, direction: 'up' | 'down') => {
@@ -857,7 +897,7 @@ export default function ContactPageContent() {
                         color: colors.textSecondary,
                       }}
                     >
-                      Encrypted: {cipherText}
+                      Encrypted: {cipherTextEncoded}
                     </Typography>
 
                     {/* Decoded Text */}
@@ -963,7 +1003,7 @@ export default function ContactPageContent() {
                 />
 
                 <Grid container spacing={3}>
-                  {triviaQuestions.map((q, qIndex) => (
+                  {shuffledTrivia.map((q, qIndex) => (
                     <Grid size={{ xs: 12, md: 4 }} key={qIndex}>
                       <Card sx={{ height: '100%' }}>
                         <CardContent>
@@ -1002,6 +1042,7 @@ export default function ContactPageContent() {
                                   sx={{
                                     mb: 1,
                                     justifyContent: 'flex-start',
+                                    position: 'relative',
                                     backgroundColor: isWrong
                                       ? '#ff444466'
                                       : isSelected
@@ -1031,7 +1072,12 @@ export default function ContactPageContent() {
                                   {option}
                                   {isSelected && isCorrect && (
                                     <CheckCircle
-                                      sx={{ ml: 'auto', color: colors.neon }}
+                                      sx={{
+                                        position: 'absolute',
+                                        right: 12,
+                                        color: colors.neon,
+                                        fontSize: 20,
+                                      }}
                                     />
                                   )}
                                 </Button>
@@ -1908,18 +1954,19 @@ export default function ContactPageContent() {
                               color: '#ff0000',
                               mb: 3,
                               mt: 8,
+                              fontSize: { xs: '1.4rem', sm: '1.8rem', md: '2.125rem' },
                               textShadow: '0 0 10px #ff0000, 0 0 20px #ff0000',
+                              textAlign: 'center',
+                              mx: 'auto',
+                              maxWidth: '90%',
                               animation: 'typewriter 2s steps(30, end) 1s both',
                               overflow: 'hidden',
-                              whiteSpace: 'nowrap',
                               borderRight: '3px solid #ff0000',
-                              width: 'fit-content',
-                              mx: 'auto',
                               '@keyframes typewriter': {
-                                '0%': { width: 0 },
+                                '0%': { maxHeight: 0 },
                                 '99%': { borderRight: '3px solid #ff0000' },
                                 '100%': {
-                                  width: '100%',
+                                  maxHeight: '10em',
                                   borderRight: 'none',
                                 },
                               },
