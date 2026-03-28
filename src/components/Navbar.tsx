@@ -32,7 +32,6 @@ const navItems = [
   { label: 'Gallery', href: '/gallery' },
   { label: 'Music', href: '/music' },
   { label: 'Links', href: '/links' },
-  { label: 'Contact', href: '/contact' },
 ];
 
 export default function Navbar() {

@@ -47,7 +47,7 @@ export default function Footer() {
               fontWeight: 600,
             }}
           >
-            Trevor / Ranch Squad © {new Date().getFullYear()}
+            No Power Ups. Just Power. 🐎 © {new Date().getFullYear()}
           </Typography>
 
           <Stack direction="row" spacing={1}>

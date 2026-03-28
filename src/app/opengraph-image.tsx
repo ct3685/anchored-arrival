@@ -19,11 +19,10 @@ export default async function Image() {
         alignItems: 'center',
         justifyContent: 'center',
         background:
-          'linear-gradient(135deg, #0D0A07 0%, #1A1510 50%, #0D0A07 100%)',
+          'linear-gradient(135deg, #0C0A09 0%, #1C1917 50%, #0C0A09 100%)',
         position: 'relative',
       }}
     >
-      {/* Gradient orb - top left */}
       <div
         style={{
           position: 'absolute',
@@ -33,12 +32,10 @@ export default async function Image() {
           height: '400px',
           borderRadius: '50%',
           background:
-            'radial-gradient(circle, rgba(212,160,23,0.3) 0%, transparent 70%)',
+            'radial-gradient(circle, rgba(245,158,11,0.3) 0%, transparent 70%)',
           filter: 'blur(60px)',
         }}
       />
-
-      {/* Gradient orb - bottom right */}
       <div
         style={{
           position: 'absolute',
@@ -48,12 +45,10 @@ export default async function Image() {
           height: '500px',
           borderRadius: '50%',
           background:
-            'radial-gradient(circle, rgba(139,37,0,0.25) 0%, transparent 70%)',
+            'radial-gradient(circle, rgba(220,38,38,0.25) 0%, transparent 70%)',
           filter: 'blur(80px)',
         }}
       />
-
-      {/* Content container */}
       <div
         style={{
           display: 'flex',
@@ -62,7 +57,6 @@ export default async function Image() {
           padding: '60px',
         }}
       >
-        {/* Avatar with gradient border */}
         <div
           style={{
             display: 'flex',
@@ -71,7 +65,7 @@ export default async function Image() {
             width: '320px',
             height: '320px',
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, #D4A017, #8B2500, #6B8E23)',
+            background: 'linear-gradient(135deg, #F59E0B, #DC2626, #40E0D0)',
             padding: '6px',
           }}
         >
@@ -80,7 +74,7 @@ export default async function Image() {
               width: '308px',
               height: '308px',
               borderRadius: '50%',
-              background: '#1A1510',
+              background: '#1C1917',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -90,8 +84,6 @@ export default async function Image() {
             🤠
           </div>
         </div>
-
-        {/* Text content */}
         <div
           style={{
             display: 'flex',
@@ -103,20 +95,19 @@ export default async function Image() {
             style={{
               fontSize: '20px',
               fontWeight: 600,
-              color: '#8B2500',
+              color: '#DC2626',
               letterSpacing: '4px',
               textTransform: 'uppercase',
             }}
           >
             Welcome to the
           </div>
-
           <div
             style={{
               fontSize: '72px',
               fontWeight: 800,
               background:
-                'linear-gradient(135deg, #D4A017 0%, #FFD700 50%, #6B8E23 100%)',
+                'linear-gradient(135deg, #F59E0B 0%, #FFD700 50%, #40E0D0 100%)',
               backgroundClip: 'text',
               color: 'transparent',
               lineHeight: 1.1,
@@ -124,7 +115,6 @@ export default async function Image() {
           >
             Ranch Squad
           </div>
-
           <div
             style={{
               fontSize: '28px',
@@ -133,18 +123,17 @@ export default async function Image() {
               marginTop: '16px',
             }}
           >
-            Gooder Than Shit
+            No Power Ups. Just Power.
           </div>
-
           <div
             style={{
               fontSize: '22px',
               fontWeight: 400,
-              color: '#B8A88A',
+              color: '#A8A29E',
               marginTop: '8px',
             }}
           >
-            TikTok LIVE Pro • Ranch Squad Commander
+            Ranch Life • TikTok LIVE Pro
           </div>
         </div>
       </div>

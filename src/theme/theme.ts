@@ -2,17 +2,17 @@
 
 import { createTheme } from '@mui/material/styles';
 
-// Ranch Squad Color Palette
+// Neon Rodeo Color Palette
 const colors = {
-  primary: '#D4A017', // Warm Gold/Amber
-  secondary: '#8B2500', // Dusty Red/Barn Red
-  accent: '#6B8E23', // Sage Green
-  neon: '#FFD700', // Bright Country Gold
-  gold: '#FFD700', // Gold
-  background: '#0D0A07', // Deep Dark Brown-Black
-  surface: '#1A1510', // Dark Leather Brown
+  primary: '#F59E0B',      // Electric amber
+  secondary: '#DC2626',     // Rodeo red
+  accent: '#40E0D0',        // Turquoise (western jewelry)
+  neon: '#FF6B00',          // Hot orange
+  gold: '#FFD700',          // Keep gold
+  background: '#0C0A09',    // Near-black
+  surface: '#1C1917',       // Dark slate
   text: '#FFFFFF',
-  textSecondary: '#B8A88A',
+  textSecondary: '#A8A29E', // Warm gray
 };
 
 export const theme = createTheme({
@@ -20,13 +20,13 @@ export const theme = createTheme({
     mode: 'dark',
     primary: {
       main: colors.primary,
-      light: '#E8B830',
-      dark: '#A67C10',
+      light: '#FBBF24',
+      dark: '#D97706',
     },
     secondary: {
       main: colors.secondary,
-      light: '#B03000',
-      dark: '#6B1C00',
+      light: '#EF4444',
+      dark: '#B91C1C',
     },
     background: {
       default: colors.background,
@@ -71,14 +71,14 @@ export const theme = createTheme({
           },
         },
         containedPrimary: {
-          background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.accent} 100%)`,
+          background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.neon} 100%)`,
           '&:hover': {
-            background: `linear-gradient(135deg, ${colors.primary} 20%, ${colors.accent} 120%)`,
+            background: `linear-gradient(135deg, ${colors.primary} 20%, ${colors.neon} 120%)`,
           },
         },
         containedSecondary: {
           background: `linear-gradient(135deg, ${colors.secondary} 0%, ${colors.neon} 100%)`,
-          color: colors.background,
+          color: '#fff',
           '&:hover': {
             background: `linear-gradient(135deg, ${colors.secondary} 20%, ${colors.neon} 120%)`,
           },

@@ -45,7 +45,7 @@ export default function Hero() {
             width: 300,
             height: 300,
             borderRadius: '50%',
-            background: `radial-gradient(circle, ${colors.primary}33 0%, transparent 70%)`,
+            background: `radial-gradient(circle, #DC262633 0%, transparent 70%)`,
             filter: 'blur(60px)',
           }}
         />
@@ -58,7 +58,7 @@ export default function Hero() {
             width: 400,
             height: 400,
             borderRadius: '50%',
-            background: `radial-gradient(circle, ${colors.secondary}33 0%, transparent 70%)`,
+            background: `radial-gradient(circle, #F59E0B33 0%, transparent 70%)`,
             filter: 'blur(80px)',
           }}
         />
@@ -93,7 +93,7 @@ export default function Hero() {
                     position: 'absolute',
                     inset: -4,
                     borderRadius: '50%',
-                    background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary}, ${colors.accent})`,
+                    background: `linear-gradient(135deg, #F59E0B, #DC2626, #40E0D0)`,
                     animation: 'spin 4.5s linear infinite',
                   },
                   '@keyframes spin': {
@@ -184,7 +184,7 @@ export default function Hero() {
                     fontSize: { xs: '1rem', md: '1.25rem' },
                   }}
                 >
-                  Ranch Squad Commander • TikTok LIVE Pro • Gooder Than Shit
+                  Ranch Life • TikTok LIVE Pro • No Power Ups Needed
                 </Typography>
               </motion.div>
 
@@ -447,13 +447,13 @@ export default function Hero() {
                           trackHeroCTA('View Gallery', '/gallery', false)
                         }
                         sx={{
-                          color: colors.background,
-                          background: `linear-gradient(135deg, ${colors.secondary} 0%, ${colors.neon} 100%)`,
+                          color: '#fff',
+                          background: `linear-gradient(135deg, #F59E0B 0%, #FF6B00 100%)`,
                           backdropFilter: 'blur(8px)',
-                          boxShadow: `0 0 20px ${colors.secondary}44`,
+                          boxShadow: `0 0 20px #F59E0B44`,
                           '&:hover': {
-                            background: `linear-gradient(135deg, ${colors.secondary} 20%, ${colors.neon} 120%)`,
-                            boxShadow: `0 0 30px ${colors.secondary}66`,
+                            background: `linear-gradient(135deg, #F59E0B 20%, #FF6B00 120%)`,
+                            boxShadow: `0 0 30px #F59E0B66`,
                           },
                           transition: 'all 0.2s ease',
                         }}
