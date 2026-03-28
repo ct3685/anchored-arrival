@@ -45,7 +45,7 @@ interface TriviaQuestion {
 const triviaQuestions: TriviaQuestion[] = [
   {
     question: "What platform is Trevor's primary HQ?",
-    options: ['TikTok', 'YouTube', 'Snapchat', 'Instagram'],
+    options: ['TikTok', 'YouTube', 'Facebook', 'Instagram'],
     correct: 0, // TikTok
   },
   {

@@ -29,7 +29,7 @@ export default function CreatorNetworkCTA() {
   }, []);
 
   const handleClick = async () => {
-    const url = '#';
+    const url = 'https://www.tiktok.com/@trevor_bfit/live';
     trackLinkClick('Join the Ranch Squad', url, 0, true);
 
     if (isInAppBrowser && isProblematicUrl(url)) {
@@ -122,7 +122,7 @@ export default function CreatorNetworkCTA() {
                 <Button
                   variant="contained"
                   size="large"
-                  href="#"
+                  href="https://www.tiktok.com/@trevor_bfit/live"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={handleClick}

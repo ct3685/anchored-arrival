@@ -37,8 +37,8 @@ export default function NotFound() {
             }}
           >
             <Image
-              src="/images/morgie-404.png"
-              alt="404 - Page not found"
+              src="/images/trevor-main.jpg"
+              alt="404 - Page not found - Ranch Squad"
               fill
               style={{ objectFit: 'contain' }}
               priority

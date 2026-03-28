@@ -7,45 +7,27 @@ export interface ImageData {
 
 export const galleryImages: ImageData[] = [
   {
-    src: '/images/main-character.png',
+    src: '/images/trevor-profile.png',
     alt: 'Trevor - Ranch Squad',
     title: 'Ranch Squad Commander',
     description: "Com'On in — the ranch is open ✨",
   },
   {
-    src: '/images/mvp.png',
-    alt: 'Trevor MVP',
-    title: 'MVP',
-    description: 'Crown secured, gooder than shit 👑',
+    src: '/images/trevor-main.jpg',
+    alt: 'Trevor Brachtenbach',
+    title: 'Trevor',
+    description: 'Gooder than shit 🤠',
   },
   {
-    src: '/images/dj-glasses.png',
-    alt: 'Trevor DJ Mode',
-    title: 'DJ Mode',
-    description: 'Headphones on, vibes cranked 🎧',
+    src: '/images/trevor-merch1.png',
+    alt: 'Trevor Merch',
+    title: 'King Street Cowboys',
+    description: 'Rep the Ranch Squad 👕',
   },
   {
-    src: '/images/leon-fafo.png',
-    alt: 'Trevor FAFO Energy',
-    title: 'FAFO Energy',
-    description: 'Find out with the Ranch Squad 🦁',
-  },
-  {
-    src: '/images/morgie-matrix.png',
-    alt: 'Trevor Matrix Mode',
-    title: 'Matrix Mode',
-    description: 'No power ups needed 🖤',
-  },
-  {
-    src: '/images/morgie-goof.png',
-    alt: 'Trevor and the Squad',
-    title: 'Squad Vibes',
-    description: 'Cozy vibes with the ranch crew 🍗',
-  },
-  {
-    src: '/images/live-and-lethal.png',
-    alt: 'Ranch Squad Art',
-    title: 'Ranch Squad',
-    description: "Com'On! 💥",
+    src: '/images/trevor-merch2.png',
+    alt: 'Trevor Merch',
+    title: 'Merch Drop',
+    description: 'Fresh gear for the squad 🔥',
   },
 ];

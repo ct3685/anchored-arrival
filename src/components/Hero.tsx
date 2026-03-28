@@ -7,19 +7,18 @@ import { motion } from 'motion/react';
 import { colors, layout } from '@/theme/theme';
 import { trackHeroCTA, trackSocialClick } from '@/lib/analytics';
 import { useScrollDepth } from '@/lib/useScrollDepth';
-import { useComingSoonToast } from '@/lib/useComingSoonToast';
+// import { useComingSoonToast } from '@/lib/useComingSoonToast';
 import {
   TikTokIcon,
   YouTubeIcon,
-  SnapchatIcon,
   InstagramIcon,
   GalleryIcon,
-  AmazonIcon,
+  FacebookIcon,
 } from '@/components/Icons';
 
 export default function Hero() {
   useScrollDepth();
-  const { showToast, ComingSoonSnackbar } = useComingSoonToast();
+  // const { showToast, ComingSoonSnackbar } = useComingSoonToast();
 
   return (
     <>
@@ -114,7 +113,7 @@ export default function Hero() {
                   }}
                 >
                   <Image
-                    src="/images/mvp.png"
+                    src="/images/trevor-profile.png"
                     alt="Trevor"
                     fill
                     sizes="(max-width: 768px) 280px, 350px"
@@ -241,12 +240,12 @@ export default function Hero() {
                         variant="contained"
                         size="large"
                         fullWidth
-                        href="#"
+                        href="https://www.tiktok.com/@trevor_bfit"
                         target="_blank"
                         rel="noopener noreferrer"
                         startIcon={<TikTokIcon />}
                         onClick={() => {
-                          trackHeroCTA('Follow on TikTok', '#', true);
+                          trackHeroCTA('Follow on TikTok', 'https://www.tiktok.com/@trevor_bfit', true);
                           trackSocialClick('tiktok', 'hero');
                         }}
                         sx={{
@@ -263,11 +262,11 @@ export default function Hero() {
                           transition: 'all 0.2s ease',
                         }}
                       >
-                        TikTok
+                        TikTok @trevor_bfit
                       </Button>
                     </motion.div>
 
-                    {/* Amazon Wishlist Button */}
+                    {/* TikTok LIVE Button */}
                     <motion.div
                       whileHover={{ scale: 1.03 }}
                       whileTap={{ scale: 0.97 }}
@@ -281,28 +280,69 @@ export default function Hero() {
                         variant="contained"
                         size="large"
                         fullWidth
-                        href="#"
+                        href="https://www.tiktok.com/@trevor_bfit/live"
                         target="_blank"
                         rel="noopener noreferrer"
-                        startIcon={<AmazonIcon />}
+                        startIcon={<TikTokIcon />}
                         onClick={() => {
-                          trackHeroCTA('Amazon Wishlist', '#', true);
+                          trackHeroCTA('TikTok LIVE', 'https://www.tiktok.com/@trevor_bfit/live', true);
+                          trackSocialClick('tiktok', 'hero');
                         }}
                         sx={{
-                          color: '#000',
+                          color: '#fff',
                           background:
-                            'linear-gradient(135deg, #FF9900 0%, #FF6600 100%)',
+                            'linear-gradient(135deg, #FF0050 0%, #FF4500 100%)',
                           backdropFilter: 'blur(8px)',
-                          boxShadow: '0 0 20px #FF990044',
+                          boxShadow: '0 0 20px #FF005044',
                           '&:hover': {
                             background:
-                              'linear-gradient(135deg, #FF9900 20%, #FF6600 120%)',
-                            boxShadow: '0 0 30px #FF990066',
+                              'linear-gradient(135deg, #FF0050 20%, #FF4500 120%)',
+                            boxShadow: '0 0 30px #FF005066',
                           },
                           transition: 'all 0.2s ease',
                         }}
                       >
-                        Wishlist
+                        🔴 TikTok LIVE
+                      </Button>
+                    </motion.div>
+
+                    {/* Instagram Button */}
+                    <motion.div
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.97 }}
+                      transition={{
+                        type: 'spring',
+                        stiffness: 400,
+                        damping: 17,
+                      }}
+                    >
+                      <Button
+                        variant="contained"
+                        size="large"
+                        fullWidth
+                        href="https://www.instagram.com/trevor_bfit"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        startIcon={<InstagramIcon />}
+                        onClick={() => {
+                          trackHeroCTA('Follow on Instagram', 'https://www.instagram.com/trevor_bfit', true);
+                          trackSocialClick('instagram', 'hero');
+                        }}
+                        sx={{
+                          color: '#fff',
+                          background:
+                            'linear-gradient(135deg, #E1306C 0%, #C13584 50%, #833AB4 100%)',
+                          backdropFilter: 'blur(8px)',
+                          boxShadow: '0 0 20px #E1306C44',
+                          '&:hover': {
+                            background:
+                              'linear-gradient(135deg, #E1306C 20%, #C13584 60%, #833AB4 120%)',
+                            boxShadow: '0 0 30px #E1306C66',
+                          },
+                          transition: 'all 0.2s ease',
+                        }}
+                      >
+                        Instagram @trevor_bfit
                       </Button>
                     </motion.div>
 
@@ -320,12 +360,12 @@ export default function Hero() {
                         variant="contained"
                         size="large"
                         fullWidth
-                        href="#"
+                        href="https://www.youtube.com/channel/UCLi7yoT4PGBY2k0o5hGvDwg"
                         target="_blank"
                         rel="noopener noreferrer"
                         startIcon={<YouTubeIcon />}
                         onClick={() => {
-                          trackHeroCTA('Subscribe on YouTube', '#', true);
+                          trackHeroCTA('Subscribe on YouTube', 'https://www.youtube.com/channel/UCLi7yoT4PGBY2k0o5hGvDwg', true);
                           trackSocialClick('youtube', 'hero');
                         }}
                         sx={{
@@ -346,7 +386,7 @@ export default function Hero() {
                       </Button>
                     </motion.div>
 
-                    {/* Snapchat Button - Coming Soon */}
+                    {/* Facebook Button */}
                     <motion.div
                       whileHover={{ scale: 1.03 }}
                       whileTap={{ scale: 0.97 }}
@@ -360,63 +400,29 @@ export default function Hero() {
                         variant="contained"
                         size="large"
                         fullWidth
-                        startIcon={<SnapchatIcon />}
-                        onClick={() => showToast('Snapchat coming soon!')}
-                        sx={{
-                          color: '#000',
-                          background:
-                            'linear-gradient(135deg, #FFFC00 0%, #00D4AA 100%)',
-                          backdropFilter: 'blur(8px)',
-                          boxShadow: '0 0 20px #FFFC0044',
-                          '&:hover': {
-                            background:
-                              'linear-gradient(135deg, #FFFC00 20%, #00D4AA 120%)',
-                            boxShadow: '0 0 30px #00D4AA66',
-                          },
-                          transition: 'all 0.2s ease',
-                        }}
-                      >
-                        Snapchat
-                      </Button>
-                    </motion.div>
-
-                    {/* Instagram Button */}
-                    <motion.div
-                      whileHover={{ scale: 1.03 }}
-                      whileTap={{ scale: 0.97 }}
-                      transition={{
-                        type: 'spring',
-                        stiffness: 400,
-                        damping: 17,
-                      }}
-                    >
-                      <Button
-                        variant="contained"
-                        size="large"
-                        fullWidth
-                        href="#"
+                        href="https://www.facebook.com/profile.php?id=61577038593159"
                         target="_blank"
                         rel="noopener noreferrer"
-                        startIcon={<InstagramIcon />}
+                        startIcon={<FacebookIcon />}
                         onClick={() => {
-                          trackHeroCTA('Follow on Instagram', '#', true);
-                          trackSocialClick('instagram', 'hero');
+                          trackHeroCTA('Facebook', 'https://www.facebook.com/profile.php?id=61577038593159', true);
+                          trackSocialClick('facebook', 'hero');
                         }}
                         sx={{
                           color: '#fff',
                           background:
-                            'linear-gradient(135deg, #E1306C 0%, #C13584 50%, #833AB4 100%)',
+                            'linear-gradient(135deg, #1877F2 0%, #42A5F5 100%)',
                           backdropFilter: 'blur(8px)',
-                          boxShadow: '0 0 20px #E1306C44',
+                          boxShadow: '0 0 20px #1877F244',
                           '&:hover': {
                             background:
-                              'linear-gradient(135deg, #E1306C 20%, #C13584 60%, #833AB4 120%)',
-                            boxShadow: '0 0 30px #E1306C66',
+                              'linear-gradient(135deg, #1877F2 20%, #42A5F5 120%)',
+                            boxShadow: '0 0 30px #1877F266',
                           },
                           transition: 'all 0.2s ease',
                         }}
                       >
-                        Instagram
+                        Facebook
                       </Button>
                     </motion.div>
 
@@ -462,7 +468,7 @@ export default function Hero() {
           </Stack>
         </Container>
       </Box>
-      <ComingSoonSnackbar />
+      {/* <ComingSoonSnackbar /> */}
     </>
   );
 }

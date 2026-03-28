@@ -85,7 +85,7 @@ export default function TrackList() {
                 }}
               >
                 <Image
-                  src="/images/dj-glasses.png"
+                  src="/images/trevor-profile.png"
                   alt="Trevor"
                   fill
                   sizes="100px"

@@ -154,7 +154,7 @@ export default function PhotoGallery({
                 }}
               >
                 <Image
-                  src="/images/mvp.png"
+                  src="/images/trevor-profile.png"
                   alt="Trevor"
                   fill
                   sizes="100px"

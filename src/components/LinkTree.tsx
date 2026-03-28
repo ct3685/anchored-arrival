@@ -20,14 +20,13 @@ import {
   trackInAppBrowserLinkCopied,
 } from '@/lib/analytics';
 import { useScrollDepth } from '@/lib/useScrollDepth';
-import { useComingSoonToast } from '@/lib/useComingSoonToast';
+// import { useComingSoonToast } from '@/lib/useComingSoonToast';
 import { useInAppBrowser, isProblematicUrl } from '@/lib/useInAppBrowser';
 import {
   TikTokIcon,
   YouTubeIcon,
-  SnapchatIcon,
   InstagramIcon,
-  AmazonIcon,
+  FacebookIcon,
   NetworkIcon,
 } from '@/components/Icons';
 
@@ -43,8 +42,8 @@ interface LinkItem {
 
 const links: LinkItem[] = [
   {
-    label: 'TikTok',
-    href: '#',
+    label: 'TikTok @trevor_bfit',
+    href: 'https://www.tiktok.com/@trevor_bfit',
     icon: <TikTokIcon size={24} />,
     gradient: 'linear-gradient(135deg, #00F2EA 0%, #FF0050 100%)',
     hoverGradient: 'linear-gradient(135deg, #00F2EA 20%, #FF0050 120%)',
@@ -52,35 +51,17 @@ const links: LinkItem[] = [
     textColor: '#fff',
   },
   {
-    label: 'Amazon Wishlist',
-    href: '#',
-    icon: <AmazonIcon size={24} />,
-    gradient: 'linear-gradient(135deg, #FF9900 0%, #FF6600 100%)',
-    hoverGradient: 'linear-gradient(135deg, #FF9900 20%, #FF6600 120%)',
-    glowColor: '#FF9900',
-    textColor: '#000',
-  },
-  {
-    label: 'YouTube',
-    href: '#',
-    icon: <YouTubeIcon size={24} />,
-    gradient: 'linear-gradient(135deg, #FF0000 0%, #FFAA00 100%)',
-    hoverGradient: 'linear-gradient(135deg, #FF0000 20%, #FFAA00 120%)',
-    glowColor: '#FFAA00',
+    label: '🔴 TikTok LIVE',
+    href: 'https://www.tiktok.com/@trevor_bfit/live',
+    icon: <TikTokIcon size={24} />,
+    gradient: 'linear-gradient(135deg, #FF0050 0%, #FF4500 100%)',
+    hoverGradient: 'linear-gradient(135deg, #FF0050 20%, #FF4500 120%)',
+    glowColor: '#FF0050',
     textColor: '#fff',
   },
   {
-    label: 'Snapchat',
-    href: '#snapchat-coming-soon',
-    icon: <SnapchatIcon size={24} />,
-    gradient: 'linear-gradient(135deg, #FFFC00 0%, #00D4AA 100%)',
-    hoverGradient: 'linear-gradient(135deg, #FFFC00 20%, #00D4AA 120%)',
-    glowColor: '#00D4AA',
-    textColor: '#000',
-  },
-  {
-    label: 'Instagram',
-    href: '#',
+    label: 'Instagram @trevor_bfit',
+    href: 'https://www.instagram.com/trevor_bfit',
     icon: <InstagramIcon size={24} />,
     gradient: 'linear-gradient(135deg, #E1306C 0%, #C13584 50%, #833AB4 100%)',
     hoverGradient:
@@ -88,11 +69,47 @@ const links: LinkItem[] = [
     glowColor: '#E1306C',
     textColor: '#fff',
   },
+  {
+    label: 'YouTube',
+    href: 'https://www.youtube.com/channel/UCLi7yoT4PGBY2k0o5hGvDwg',
+    icon: <YouTubeIcon size={24} />,
+    gradient: 'linear-gradient(135deg, #FF0000 0%, #FFAA00 100%)',
+    hoverGradient: 'linear-gradient(135deg, #FF0000 20%, #FFAA00 120%)',
+    glowColor: '#FFAA00',
+    textColor: '#fff',
+  },
+  {
+    label: 'Facebook',
+    href: 'https://www.facebook.com/profile.php?id=61577038593159',
+    icon: <FacebookIcon size={24} />,
+    gradient: 'linear-gradient(135deg, #1877F2 0%, #42A5F5 100%)',
+    hoverGradient: 'linear-gradient(135deg, #1877F2 20%, #42A5F5 120%)',
+    glowColor: '#1877F2',
+    textColor: '#fff',
+  },
+  {
+    label: 'King Street Cowboys Merch',
+    href: 'https://kingstreetcowboys.com/affiliates/trevorbfit',
+    icon: <NetworkIcon size={24} />,
+    gradient: 'linear-gradient(135deg, #8B4513 0%, #D2691E 100%)',
+    hoverGradient: 'linear-gradient(135deg, #8B4513 20%, #D2691E 120%)',
+    glowColor: '#D2691E',
+    textColor: '#fff',
+  },
+  {
+    label: 'Cameo',
+    href: 'https://www.cameo.com/trevor_bfit',
+    icon: <NetworkIcon size={24} />,
+    gradient: 'linear-gradient(135deg, #6C63FF 0%, #FF6584 100%)',
+    hoverGradient: 'linear-gradient(135deg, #6C63FF 20%, #FF6584 120%)',
+    glowColor: '#6C63FF',
+    textColor: '#fff',
+  },
 ];
 
 export default function LinkTree() {
   useScrollDepth();
-  const { showToast, ComingSoonSnackbar } = useComingSoonToast();
+  // const { showToast, ComingSoonSnackbar } = useComingSoonToast();
   const { isInAppBrowser, platform, copyToClipboard } = useInAppBrowser();
   const [copySnackbar, setCopySnackbar] = useState<{
     open: boolean;
@@ -105,12 +122,6 @@ export default function LinkTree() {
       link: LinkItem,
       index: number
     ) => {
-      if (link.href === '#snapchat-coming-soon') {
-        e.preventDefault();
-        showToast('Snapchat coming soon!');
-        return;
-      }
-
       const isExternal = link.href.startsWith('http');
       trackLinkClick(link.label, link.href, index, isExternal);
 
@@ -135,7 +146,7 @@ export default function LinkTree() {
         }
       }
     },
-    [isInAppBrowser, platform, copyToClipboard, showToast]
+    [isInAppBrowser, platform, copyToClipboard]
   );
 
   const handleCloseCopySnackbar = useCallback(() => {
@@ -191,7 +202,7 @@ export default function LinkTree() {
                   }}
                 >
                   <Image
-                    src="/images/main-character.png"
+                    src="/images/trevor-profile.png"
                     alt="Trevor"
                     fill
                     sizes="100px"
@@ -316,12 +327,12 @@ export default function LinkTree() {
                 <Button
                   fullWidth
                   variant="contained"
-                  href="#"
+                  href="https://www.tiktok.com/@trevor_bfit/live"
                   target="_blank"
                   rel="noopener noreferrer"
                   startIcon={<NetworkIcon size={24} />}
                   onClick={async () => {
-                    const url = '#';
+                    const url = 'https://www.tiktok.com/@trevor_bfit/live';
                     trackLinkClick(
                       'Join the Ranch Squad',
                       url,
@@ -387,7 +398,7 @@ export default function LinkTree() {
           </motion.div>
         </Container>
       </Box>
-      <ComingSoonSnackbar />
+      {/* <ComingSoonSnackbar /> */}
       <Snackbar
         open={copySnackbar.open}
         autoHideDuration={4000}

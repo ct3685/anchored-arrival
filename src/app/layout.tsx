@@ -17,8 +17,8 @@ const GA_MEASUREMENT_ID = 'G-2DE84Q17JH';
 
 export const metadata: Metadata = {
   icons: {
-    icon: '/images/mvp.png',
-    apple: '/images/mvp.png',
+    icon: '/images/trevor-profile.png',
+    apple: '/images/trevor-profile.png',
   },
   title: 'Trevor | Ranch Squad',
   description:
