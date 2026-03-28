@@ -2,7 +2,7 @@ import { ImageResponse } from 'next/og';
 
 export const runtime = 'edge';
 
-export const alt = 'Agent Morgie | Main Character Energy';
+export const alt = 'Trevor | Ranch Squad';
 export const size = {
   width: 1200,
   height: 630,
@@ -10,9 +10,6 @@ export const size = {
 export const contentType = 'image/png';
 
 export default async function Image() {
-  // Fetch the avatar image
-  const avatarUrl = 'https://agentmorgie.com/images/main-character.png';
-
   return new ImageResponse(
     <div
       style={{
@@ -22,7 +19,7 @@ export default async function Image() {
         alignItems: 'center',
         justifyContent: 'center',
         background:
-          'linear-gradient(135deg, #0D0D1A 0%, #1A1A2E 50%, #0D0D1A 100%)',
+          'linear-gradient(135deg, #0D0A07 0%, #1A1510 50%, #0D0A07 100%)',
         position: 'relative',
       }}
     >
@@ -36,7 +33,7 @@ export default async function Image() {
           height: '400px',
           borderRadius: '50%',
           background:
-            'radial-gradient(circle, rgba(255,105,180,0.3) 0%, transparent 70%)',
+            'radial-gradient(circle, rgba(212,160,23,0.3) 0%, transparent 70%)',
           filter: 'blur(60px)',
         }}
       />
@@ -51,7 +48,7 @@ export default async function Image() {
           height: '500px',
           borderRadius: '50%',
           background:
-            'radial-gradient(circle, rgba(0,212,255,0.25) 0%, transparent 70%)',
+            'radial-gradient(circle, rgba(139,37,0,0.25) 0%, transparent 70%)',
           filter: 'blur(80px)',
         }}
       />
@@ -74,20 +71,24 @@ export default async function Image() {
             width: '320px',
             height: '320px',
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, #FF69B4, #00D4FF, #9B59B6)',
+            background: 'linear-gradient(135deg, #D4A017, #8B2500, #6B8E23)',
             padding: '6px',
           }}
         >
-          <img
-            src={avatarUrl}
-            alt="Agent Morgie"
-            width={308}
-            height={308}
+          <div
             style={{
+              width: '308px',
+              height: '308px',
               borderRadius: '50%',
-              objectFit: 'cover',
+              background: '#1A1510',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '120px',
             }}
-          />
+          >
+            🤠
+          </div>
         </div>
 
         {/* Text content */}
@@ -98,35 +99,32 @@ export default async function Image() {
             gap: '8px',
           }}
         >
-          {/* Overline */}
           <div
             style={{
               fontSize: '20px',
               fontWeight: 600,
-              color: '#00D4FF',
+              color: '#8B2500',
               letterSpacing: '4px',
               textTransform: 'uppercase',
             }}
           >
-            Welcome to the world of
+            Welcome to the
           </div>
 
-          {/* Main title */}
           <div
             style={{
               fontSize: '72px',
               fontWeight: 800,
               background:
-                'linear-gradient(135deg, #FF69B4 0%, #00D4FF 50%, #9B59B6 100%)',
+                'linear-gradient(135deg, #D4A017 0%, #FFD700 50%, #6B8E23 100%)',
               backgroundClip: 'text',
               color: 'transparent',
               lineHeight: 1.1,
             }}
           >
-            Agent Morgie
+            Ranch Squad
           </div>
 
-          {/* Tagline */}
           <div
             style={{
               fontSize: '28px',
@@ -135,19 +133,18 @@ export default async function Image() {
               marginTop: '16px',
             }}
           >
-            Main Character Energy
+            Gooder Than Shit
           </div>
 
-          {/* Subtitle */}
           <div
             style={{
               fontSize: '22px',
               fontWeight: 400,
-              color: '#B8B8D1',
+              color: '#B8A88A',
               marginTop: '8px',
             }}
           >
-            TikTok LIVE Creator • Community Driven
+            TikTok LIVE Pro • Ranch Squad Commander
           </div>
         </div>
       </div>

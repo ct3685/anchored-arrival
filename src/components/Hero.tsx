@@ -115,7 +115,7 @@ export default function Hero() {
                 >
                   <Image
                     src="/images/mvp.png"
-                    alt="Agent Morgie"
+                    alt="Trevor"
                     fill
                     sizes="(max-width: 768px) 280px, 350px"
                     style={{ objectFit: 'cover' }}
@@ -145,7 +145,7 @@ export default function Hero() {
                     display: 'block',
                   }}
                 >
-                  WELCOME TO THE WORLD OF
+                  WELCOME TO THE
                 </Typography>
               </motion.div>
 
@@ -159,7 +159,7 @@ export default function Hero() {
                   sx={{
                     fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4rem' },
                     fontWeight: 800,
-                    background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.secondary} 50%, ${colors.accent} 100%)`,
+                    background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.neon} 50%, ${colors.accent} 100%)`,
                     backgroundClip: 'text',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
@@ -167,7 +167,7 @@ export default function Hero() {
                     lineHeight: 1.1,
                   }}
                 >
-                  Agent Morgie
+                  Ranch Squad
                 </Typography>
               </motion.div>
 
@@ -185,7 +185,7 @@ export default function Hero() {
                     fontSize: { xs: '1rem', md: '1.25rem' },
                   }}
                 >
-                  Main Character Energy • LIVE Creator • Community Driven
+                  Ranch Squad Commander • TikTok LIVE Pro • Gooder Than Shit
                 </Typography>
               </motion.div>
 
@@ -205,11 +205,11 @@ export default function Hero() {
                     maxWidth: 450,
                   }}
                 >
-                  Candid, community-driven creator focused on real
-                  conversations, growth, and connection. TikTok Lives, relatable
-                  humor, mindset/faith moments, and everyday lifestyle—building
-                  a welcoming space where people can be genuine, have fun, and
-                  feel at home.
+                  Com&apos;On in! Trevor runs the Ranch Squad — a country-fried,
+                  no-holds-barred TikTok LIVE community built on big energy,
+                  bigger laughs, and zero power ups. Dramatic entrances,
+                  unhinged vibes, and a whole lot of heart. If you ain&apos;t
+                  here, you&apos;re missin&apos; out.
                 </Typography>
               </motion.div>
 
@@ -241,16 +241,12 @@ export default function Hero() {
                         variant="contained"
                         size="large"
                         fullWidth
-                        href="https://www.tiktok.com/@realfeelpurpose"
+                        href="#"
                         target="_blank"
                         rel="noopener noreferrer"
                         startIcon={<TikTokIcon />}
                         onClick={() => {
-                          trackHeroCTA(
-                            'Follow on TikTok',
-                            'https://www.tiktok.com/@realfeelpurpose',
-                            true
-                          );
+                          trackHeroCTA('Follow on TikTok', '#', true);
                           trackSocialClick('tiktok', 'hero');
                         }}
                         sx={{
@@ -285,16 +281,12 @@ export default function Hero() {
                         variant="contained"
                         size="large"
                         fullWidth
-                        href="https://www.amazon.com/hz/wishlist/ls/98CRSAC721IV?ref_=wl_share"
+                        href="#"
                         target="_blank"
                         rel="noopener noreferrer"
                         startIcon={<AmazonIcon />}
                         onClick={() => {
-                          trackHeroCTA(
-                            'Amazon Wishlist',
-                            'https://www.amazon.com/hz/wishlist/ls/98CRSAC721IV?ref_=wl_share',
-                            true
-                          );
+                          trackHeroCTA('Amazon Wishlist', '#', true);
                         }}
                         sx={{
                           color: '#000',
@@ -328,16 +320,12 @@ export default function Hero() {
                         variant="contained"
                         size="large"
                         fullWidth
-                        href="https://www.youtube.com/@AgentMorgan1000"
+                        href="#"
                         target="_blank"
                         rel="noopener noreferrer"
                         startIcon={<YouTubeIcon />}
                         onClick={() => {
-                          trackHeroCTA(
-                            'Subscribe on YouTube',
-                            'https://www.youtube.com/@AgentMorgan1000',
-                            true
-                          );
+                          trackHeroCTA('Subscribe on YouTube', '#', true);
                           trackSocialClick('youtube', 'hero');
                         }}
                         sx={{
@@ -406,16 +394,12 @@ export default function Hero() {
                         variant="contained"
                         size="large"
                         fullWidth
-                        href="https://www.instagram.com/AgentMorgie"
+                        href="#"
                         target="_blank"
                         rel="noopener noreferrer"
                         startIcon={<InstagramIcon />}
                         onClick={() => {
-                          trackHeroCTA(
-                            'Follow on Instagram',
-                            'https://www.instagram.com/AgentMorgie',
-                            true
-                          );
+                          trackHeroCTA('Follow on Instagram', '#', true);
                           trackSocialClick('instagram', 'hero');
                         }}
                         sx={{

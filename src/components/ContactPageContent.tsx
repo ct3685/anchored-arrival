@@ -44,12 +44,12 @@ interface TriviaQuestion {
 
 const triviaQuestions: TriviaQuestion[] = [
   {
-    question: "What platform is Agent Morgie's primary HQ?",
+    question: "What platform is Trevor's primary HQ?",
     options: ['TikTok', 'YouTube', 'Snapchat', 'Instagram'],
     correct: 0, // TikTok
   },
   {
-    question: "What's Agent Morgie's creator motto?",
+    question: "What's Trevor's creator motto?",
     options: [
       'Boss Mode Always',
       'No Cap Zone',
@@ -59,7 +59,7 @@ const triviaQuestions: TriviaQuestion[] = [
     correct: 2, // Main Character Energy
   },
   {
-    question: "Agent Morgie's community is built on...",
+    question: "Trevor's community is built on...",
     options: [
       'Drama & hot takes',
       'Real conversations & connection',
@@ -70,7 +70,7 @@ const triviaQuestions: TriviaQuestion[] = [
   },
 ];
 
-const cipherSolution = 'AGENT MORGIE IS THE MVP';
+const cipherSolution = 'TREVOR IS THE COMMANDER';
 
 // Encode plaintext with a given shift (used to generate the cipher text dynamically)
 const encodeCaesar = (text: string, shift: number) => {
@@ -88,13 +88,13 @@ const encodeCaesar = (text: string, shift: number) => {
 // If you reorder or add items, update the index checks in the render section.
 const dossierContent = [
   'CLASSIFIED DOSSIER',
-  'CODE NAME: Agent Morgie',
+  'CODE NAME: Trevor',
   'STATUS: ACTIVE',
-  'PRIMARY COMMS: morgie@agentmorgie.com',
+  'PRIMARY COMMS: trevor@ranchsquad.com',
   'ALTERNATIVE SECURE CHANNELS:',
-  'classified@agentmorgie.com',
-  'deepcover@agentmorgie.com',
-  'hq@agentmorgie.com',
+  'classified@ranchsquad.com',
+  'deepcover@ranchsquad.com',
+  'hq@ranchsquad.com',
   'SECURE MAIL DROP:',
   '5651 Coventry Lane #109',
   'Fort Wayne, IN 46804',
@@ -485,7 +485,7 @@ export default function ContactPageContent() {
     }
   }, [phase]);
 
-  useTypewriter('OPERATION: CONTACT MORGIE', 80, phase, setTypewriterText);
+  useTypewriter('OPERATION: CONTACT TREVOR', 80, phase, setTypewriterText);
 
   // Typewriter effect for dossier
   useEffect(() => {
@@ -714,7 +714,7 @@ export default function ContactPageContent() {
                     }}
                   >
                     This dossier is classified. Complete the mission to access
-                    Agent Morgie's secure channels.
+                    Trevor's secure channels.
                   </Typography>
                 </motion.div>
 
@@ -942,7 +942,7 @@ export default function ContactPageContent() {
                           </Typography>
                           <Typography sx={{ mt: 2, color: colors.text }}>
                             <strong>Contact Unlocked:</strong>{' '}
-                            morgie@agentmorgie.com
+                            trevor@ranchsquad.com
                           </Typography>
                           <Button
                             variant="contained"
@@ -984,7 +984,7 @@ export default function ContactPageContent() {
                   variant="h6"
                   sx={{ color: colors.textSecondary, mb: 4 }}
                 >
-                  Prove your knowledge of Agent Morgie
+                  Prove your knowledge of Trevor
                 </Typography>
 
                 <LinearProgress
@@ -1167,7 +1167,7 @@ export default function ContactPageContent() {
                   variant="h6"
                   sx={{ color: colors.textSecondary, mb: 2 }}
                 >
-                  Think @AgentMorgan1000... what are those last digits?
+                  Think about the Ranch Squad... what's the magic word?
                 </Typography>
 
                 {safeAttempts >= 3 && !isSafeSolved && (
@@ -1182,12 +1182,12 @@ export default function ContactPageContent() {
                     >
                       Need another hint? Check out{' '}
                       <MuiLink
-                        href="https://www.youtube.com/@AgentMorgan1000"
+                        href="#"
                         target="_blank"
                         rel="noopener noreferrer"
                         sx={{ color: colors.neon }}
                       >
-                        Agent Morgan's YouTube channel
+                        Trevor's YouTube
                       </MuiLink>
                     </Typography>
                   </motion.div>
@@ -1536,7 +1536,7 @@ export default function ContactPageContent() {
                                       <Typography
                                         sx={{ mb: 3, fontSize: '1.1rem' }}
                                       >
-                                        Agent Morgie
+                                        Trevor
                                       </Typography>
                                     </>
                                   )}
@@ -1576,7 +1576,7 @@ export default function ContactPageContent() {
                                         PRIMARY COMMS:
                                       </Typography>
                                       <MuiLink
-                                        href="mailto:morgie@agentmorgie.com"
+                                        href="mailto:trevor@ranchsquad.com"
                                         sx={{
                                           mb: 3,
                                           fontSize: '1.1rem',
@@ -1586,7 +1586,7 @@ export default function ContactPageContent() {
                                         }}
                                       >
                                         <Email sx={{ mr: 1 }} />{' '}
-                                        morgie@agentmorgie.com
+                                        trevor@ranchsquad.com
                                       </MuiLink>
                                     </>
                                   )}
@@ -1689,7 +1689,7 @@ export default function ContactPageContent() {
                                       }}
                                     >
                                       <MuiLink
-                                        href="https://www.tiktok.com/@realfeelpurpose"
+                                        href="https://www.tiktok.com/#"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         sx={{
@@ -1702,7 +1702,7 @@ export default function ContactPageContent() {
                                         <Box sx={{ ml: 1 }}>TikTok</Box>
                                       </MuiLink>
                                       <MuiLink
-                                        href="https://www.youtube.com/@AgentMorgan1000"
+                                        href="#"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         sx={{
@@ -1715,7 +1715,7 @@ export default function ContactPageContent() {
                                         <Box sx={{ ml: 1 }}>YouTube</Box>
                                       </MuiLink>
                                       <MuiLink
-                                        href="https://www.instagram.com/AgentMorgie"
+                                        href="#"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         sx={{

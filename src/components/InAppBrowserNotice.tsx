@@ -255,7 +255,7 @@ export default function InAppBrowserNotice() {
                     component="span"
                     sx={{ color: accentColor, fontWeight: 600 }}
                   >
-                    agentmorgie.com
+                    ranchsquad.com
                   </Box>{' '}
                   directly in {browserName} for full access
                 </Typography>

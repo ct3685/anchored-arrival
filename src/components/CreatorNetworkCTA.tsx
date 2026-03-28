@@ -29,14 +29,13 @@ export default function CreatorNetworkCTA() {
   }, []);
 
   const handleClick = async () => {
-    const url = 'https://www.tiktok.com/t/ZTh1ohJwM/';
-    trackLinkClick('Join My Creator Network', url, 0, true);
+    const url = '#';
+    trackLinkClick('Join the Ranch Squad', url, 0, true);
 
-    // In-app browser: copy to clipboard
     if (isInAppBrowser && isProblematicUrl(url)) {
       const copied = await copyToClipboard(url);
       if (copied) {
-        trackInAppBrowserLinkCopied('Join My Creator Network', url, platform);
+        trackInAppBrowserLinkCopied('Join the Ranch Squad', url, platform);
         setCopySnackbar({
           open: true,
           message: 'Link copied! Paste in your browser for best results.',
@@ -63,7 +62,6 @@ export default function CreatorNetworkCTA() {
             transition={{ duration: 0.6 }}
           >
             <Stack alignItems="center" spacing={3}>
-              {/* Icon */}
               <Box
                 sx={{
                   width: 60,
@@ -80,7 +78,6 @@ export default function CreatorNetworkCTA() {
                 <NetworkIcon />
               </Box>
 
-              {/* Heading */}
               <Typography
                 variant="overline"
                 sx={{
@@ -89,7 +86,7 @@ export default function CreatorNetworkCTA() {
                   fontWeight: 600,
                 }}
               >
-                For Creators
+                Ranch Squad
               </Typography>
 
               <Typography
@@ -100,10 +97,9 @@ export default function CreatorNetworkCTA() {
                   color: colors.text,
                 }}
               >
-                Join My Creator Network
+                Join the Ranch Squad
               </Typography>
 
-              {/* Description */}
               <Typography
                 variant="body1"
                 sx={{
@@ -113,12 +109,11 @@ export default function CreatorNetworkCTA() {
                   lineHeight: 1.7,
                 }}
               >
-                Are you a TikTok creator? Get daily 1-on-1 support, LIVE skills
-                training, and opportunities to grow with the Recapture Live
-                Stream network.
+                Are you a TikTok creator? Com&apos;On and join the Ranch Squad — 
+                get support, grow your LIVE game, and ride with a community 
+                that&apos;s gooder than shit. No power ups needed.
               </Typography>
 
-              {/* CTA Button */}
               <motion.div
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
@@ -127,7 +122,7 @@ export default function CreatorNetworkCTA() {
                 <Button
                   variant="contained"
                   size="large"
-                  href="https://www.tiktok.com/t/ZTh1ohJwM/"
+                  href="#"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={handleClick}
@@ -146,14 +141,13 @@ export default function CreatorNetworkCTA() {
                     transition: 'all 0.3s ease',
                   }}
                 >
-                  Apply to Join
+                  Saddle Up
                 </Button>
               </motion.div>
             </Stack>
           </motion.div>
         </Container>
       </Box>
-      {/* Copy to clipboard snackbar for in-app browsers */}
       <Snackbar
         open={copySnackbar.open}
         autoHideDuration={4000}

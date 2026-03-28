@@ -43,18 +43,17 @@ interface LinkItem {
 
 const links: LinkItem[] = [
   {
-    label: 'TikTok @realfeelpurpose',
-    href: 'https://www.tiktok.com/@realfeelpurpose',
+    label: 'TikTok',
+    href: '#',
     icon: <TikTokIcon size={24} />,
     gradient: 'linear-gradient(135deg, #00F2EA 0%, #FF0050 100%)',
     hoverGradient: 'linear-gradient(135deg, #00F2EA 20%, #FF0050 120%)',
     glowColor: '#FF0050',
     textColor: '#fff',
   },
-  // Amazon Wishlist
   {
     label: 'Amazon Wishlist',
-    href: 'https://www.amazon.com/hz/wishlist/ls/98CRSAC721IV?ref_=wl_share',
+    href: '#',
     icon: <AmazonIcon size={24} />,
     gradient: 'linear-gradient(135deg, #FF9900 0%, #FF6600 100%)',
     hoverGradient: 'linear-gradient(135deg, #FF9900 20%, #FF6600 120%)',
@@ -62,15 +61,14 @@ const links: LinkItem[] = [
     textColor: '#000',
   },
   {
-    label: 'YouTube @AgentMorgan1000',
-    href: 'https://www.youtube.com/@AgentMorgan1000',
+    label: 'YouTube',
+    href: '#',
     icon: <YouTubeIcon size={24} />,
     gradient: 'linear-gradient(135deg, #FF0000 0%, #FFAA00 100%)',
     hoverGradient: 'linear-gradient(135deg, #FF0000 20%, #FFAA00 120%)',
     glowColor: '#FFAA00',
     textColor: '#fff',
   },
-  // Snapchat
   {
     label: 'Snapchat',
     href: '#snapchat-coming-soon',
@@ -80,10 +78,9 @@ const links: LinkItem[] = [
     glowColor: '#00D4AA',
     textColor: '#000',
   },
-  // Instagram
   {
-    label: 'Instagram @AgentMorgie',
-    href: 'https://www.instagram.com/AgentMorgie',
+    label: 'Instagram',
+    href: '#',
     icon: <InstagramIcon size={24} />,
     gradient: 'linear-gradient(135deg, #E1306C 0%, #C13584 50%, #833AB4 100%)',
     hoverGradient:
@@ -108,7 +105,6 @@ export default function LinkTree() {
       link: LinkItem,
       index: number
     ) => {
-      // Handle Snapchat "Coming Soon" click
       if (link.href === '#snapchat-coming-soon') {
         e.preventDefault();
         showToast('Snapchat coming soon!');
@@ -118,7 +114,6 @@ export default function LinkTree() {
       const isExternal = link.href.startsWith('http');
       trackLinkClick(link.label, link.href, index, isExternal);
 
-      // Track social clicks
       if (link.href.includes('tiktok.com')) {
         trackSocialClick('tiktok', 'linktree');
       } else if (link.href.includes('youtube.com')) {
@@ -129,7 +124,6 @@ export default function LinkTree() {
         trackSocialClick('amazon', 'linktree');
       }
 
-      // In-app browser: copy problematic URLs to clipboard
       if (isInAppBrowser && isExternal && isProblematicUrl(link.href)) {
         const copied = await copyToClipboard(link.href);
         if (copied) {
@@ -139,7 +133,6 @@ export default function LinkTree() {
             message: 'Link copied! Paste in your browser for best results.',
           });
         }
-        // Still allow the click to proceed - might work in some cases
       }
     },
     [isInAppBrowser, platform, copyToClipboard, showToast]
@@ -199,7 +192,7 @@ export default function LinkTree() {
                 >
                   <Image
                     src="/images/main-character.png"
-                    alt="Agent Morgie"
+                    alt="Trevor"
                     fill
                     sizes="100px"
                     style={{ objectFit: 'cover' }}
@@ -210,7 +203,7 @@ export default function LinkTree() {
                 variant="h3"
                 sx={{
                   fontWeight: 800,
-                  background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.secondary} 100%)`,
+                  background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.neon} 100%)`,
                   backgroundClip: 'text',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
@@ -227,8 +220,7 @@ export default function LinkTree() {
                   maxWidth: 500,
                 }}
               >
-                Connect with Agent Morgie - TikTok LIVE Creator • Main Character Energy
-                Creator.
+                Connect with Trevor - Ranch Squad Commander • TikTok LIVE Pro.
               </Typography>
             </Stack>
           </motion.div>
@@ -278,7 +270,7 @@ export default function LinkTree() {
             ))}
           </Stack>
 
-          {/* For Creators Section */}
+          {/* Ranch Squad Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -302,7 +294,7 @@ export default function LinkTree() {
                   mb: 1,
                 }}
               >
-                For Creators
+                Ranch Squad
               </Typography>
               <Typography
                 variant="body2"
@@ -313,8 +305,8 @@ export default function LinkTree() {
                   px: 2,
                 }}
               >
-                Are you a TikTok creator? Join my Creator Network for support,
-                training, and growth opportunities.
+                Are you a TikTok creator? Join the Ranch Squad for support,
+                community, and growth. No power ups needed.
               </Typography>
               <motion.div
                 whileHover={{ scale: 1.02 }}
@@ -324,25 +316,24 @@ export default function LinkTree() {
                 <Button
                   fullWidth
                   variant="contained"
-                  href="https://www.tiktok.com/t/ZTh1ohJwM/"
+                  href="#"
                   target="_blank"
                   rel="noopener noreferrer"
                   startIcon={<NetworkIcon size={24} />}
                   onClick={async () => {
-                    const url = 'https://www.tiktok.com/t/ZTh1ohJwM/';
+                    const url = '#';
                     trackLinkClick(
-                      'Join My Creator Network',
+                      'Join the Ranch Squad',
                       url,
                       links.length,
                       true
                     );
 
-                    // In-app browser: copy to clipboard
                     if (isInAppBrowser && isProblematicUrl(url)) {
                       const copied = await copyToClipboard(url);
                       if (copied) {
                         trackInAppBrowserLinkCopied(
-                          'Join My Creator Network',
+                          'Join the Ranch Squad',
                           url,
                           platform
                         );
@@ -370,7 +361,7 @@ export default function LinkTree() {
                     transition: 'all 0.3s ease',
                   }}
                 >
-                  Join My Creator Network
+                  Join the Ranch Squad
                 </Button>
               </motion.div>
             </Box>
@@ -391,13 +382,12 @@ export default function LinkTree() {
                 fontStyle: 'italic',
               }}
             >
-              "Live... And Lethal - Morgie&apos;s On a Mission!"
+              &quot;Com&apos;On... Gooder Than Shit!&quot;
             </Typography>
           </motion.div>
         </Container>
       </Box>
       <ComingSoonSnackbar />
-      {/* Copy to clipboard snackbar for in-app browsers */}
       <Snackbar
         open={copySnackbar.open}
         autoHideDuration={4000}

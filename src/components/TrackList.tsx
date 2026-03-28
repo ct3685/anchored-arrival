@@ -86,7 +86,7 @@ export default function TrackList() {
               >
                 <Image
                   src="/images/dj-glasses.png"
-                  alt="Agent Morgie"
+                  alt="Trevor"
                   fill
                   sizes="100px"
                   style={{ objectFit: 'cover' }}
@@ -114,7 +114,7 @@ export default function TrackList() {
                 maxWidth: 500,
               }}
             >
-              Original tracks from Agent Morgie. Click to play and vibe
+              Original tracks from Trevor. Click to play and vibe
               with us.
             </Typography>
           </Stack>

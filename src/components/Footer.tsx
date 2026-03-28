@@ -11,7 +11,6 @@ import {
   InstagramIcon,
 } from '@/components/Icons';
 
-// Brand colors for social platforms
 const socialColors = {
   tiktok: '#00F2EA',
   youtube: '#FF0000',
@@ -45,19 +44,19 @@ export default function Footer() {
             <Typography
               variant="body2"
               sx={{
-                background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.secondary} 100%)`,
+                background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.neon} 100%)`,
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 fontWeight: 600,
               }}
             >
-              Agent Morgie © {new Date().getFullYear()}
+              Trevor / Ranch Squad © {new Date().getFullYear()}
             </Typography>
 
             <Stack direction="row" spacing={1}>
               <IconButton
-                href="https://www.tiktok.com/@realfeelpurpose"
+                href="#"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => trackSocialClick('tiktok', 'footer')}
@@ -73,7 +72,7 @@ export default function Footer() {
                 <TikTokIcon size={24} />
               </IconButton>
               <IconButton
-                href="https://www.youtube.com/@AgentMorgan1000"
+                href="#"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => trackSocialClick('youtube', 'footer')}
@@ -88,7 +87,6 @@ export default function Footer() {
               >
                 <YouTubeIcon size={24} />
               </IconButton>
-              {/* Snapchat IconButton - Coming Soon */}
               <IconButton
                 onClick={() => showToast()}
                 sx={{
@@ -102,9 +100,8 @@ export default function Footer() {
               >
                 <SnapchatIcon size={24} />
               </IconButton>
-              {/* Instagram IconButton */}
               <IconButton
-                href="https://www.instagram.com/AgentMorgie"
+                href="#"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => trackSocialClick('instagram', 'footer')}
@@ -121,7 +118,6 @@ export default function Footer() {
               </IconButton>
             </Stack>
 
-            {/* Developer credit */}
             <Box
               component="a"
               href="https://www.tiktok.com/@cam.tok"

@@ -16,16 +16,15 @@ import {
 const GA_MEASUREMENT_ID = 'G-2DE84Q17JH';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://agentmorgie.com'),
   icons: {
     icon: '/images/mvp.png',
     apple: '/images/mvp.png',
   },
-  title: 'Agent Morgie | Main Character Energy',
+  title: 'Trevor | Ranch Squad',
   description:
-    'Welcome to the world of Agent Morgie - TikTok LIVE Creator building community through real conversations, relatable humor, and Main Character Energy.',
-  keywords: ['Agent Morgie', 'TikTok', 'Live Creator', 'realfeelpurpose'],
-  authors: [{ name: 'Agent Morgie' }],
+    "Welcome to the Ranch Squad — Trevor's TikTok LIVE community. Country vibes, big energy, no power ups. Com'On in!",
+  keywords: ['Trevor', 'Ranch Squad', 'TikTok', 'TikTok LIVE', 'LIVE Creator'],
+  authors: [{ name: 'Trevor' }],
   robots: {
     index: true,
     follow: true,
@@ -38,25 +37,25 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'Agent Morgie | Main Character Energy',
+    title: 'Trevor | Ranch Squad',
     description:
-      'Welcome to the world of Agent Morgie - TikTok LIVE Creator building community through real conversations and Main Character Energy.',
+      "Welcome to the Ranch Squad — Trevor's TikTok LIVE community. Country vibes, big energy, no power ups.",
     url: '/',
-    siteName: 'Agent Morgie',
+    siteName: 'Ranch Squad',
     locale: 'en_US',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Agent Morgie',
-    description: 'TikTok LIVE Creator • Main Character Energy',
+    title: 'Trevor | Ranch Squad',
+    description: 'TikTok LIVE Pro • Ranch Squad Commander • Gooder Than Shit',
   },
 };
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#FF69B4',
+  themeColor: '#D4A017',
 };
 
 export default function RootLayout({
@@ -75,23 +74,17 @@ export default function RootLayout({
               '@graph': [
                 {
                   '@type': 'WebSite',
-                  '@id': 'https://agentmorgie.com/#website',
-                  url: 'https://agentmorgie.com',
-                  name: 'Agent Morgie',
+                  name: 'Ranch Squad',
                   description:
-                    'Welcome to the world of Agent Morgie - TikTok LIVE Creator building community through real conversations and Main Character Energy.',
+                    "Welcome to the Ranch Squad — Trevor's TikTok LIVE community. Country vibes, big energy, no power ups.",
                   inLanguage: 'en-US',
                 },
                 {
                   '@type': 'Person',
-                  '@id': 'https://agentmorgie.com/#person',
-                  name: 'Agent Morgie',
-                  alternateName: 'Agent Morgie',
+                  name: 'Trevor',
+                  alternateName: 'Ranch Squad',
                   description:
-                    'TikTok LIVE Creator building community through real conversations and Main Character Energy',
-                  url: 'https://agentmorgie.com',
-                  image: 'https://agentmorgie.com/images/main-character.png',
-                  sameAs: ['https://www.tiktok.com/@realfeelpurpose'],
+                    'TikTok LIVE creator and commander of the Ranch Squad. Country vibes, big energy, gooder than shit.',
                 },
               ],
             }),
@@ -115,14 +108,11 @@ export default function RootLayout({
           <ThemeProvider theme={theme}>
             <CssBaseline />
             <AudioProvider>
-              {/* In-app browser notice - shown at top for TikTok/Instagram/etc users */}
               <InAppBrowserNoticeLazy />
-              {/* Global sparkle effects - lazy loaded to not block initial paint */}
               <SparkleEffectLazy />
               <Navbar />
               <main style={{ minHeight: '100vh' }}>{children}</main>
               <Footer />
-              {/* Mini player - lazy loaded */}
               <MiniPlayerLazy />
             </AudioProvider>
           </ThemeProvider>

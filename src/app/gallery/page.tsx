@@ -2,9 +2,9 @@ import { Metadata } from 'next';
 import PhotoGallery from '@/components/PhotoGallery';
 
 export const metadata: Metadata = {
-  title: 'Gallery | Agent Morgie',
+  title: 'Gallery | Trevor - Ranch Squad',
   description:
-    'View the many vibes of Agent Morgie - Main Character Energy, Matrix Mode, DJ vibes and more!',
+    'View the many vibes of Trevor and the Ranch Squad — country energy, dramatic entrances, and more!',
   alternates: {
     canonical: '/gallery',
   },
@@ -19,15 +19,12 @@ export default function GalleryPage() {
           __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'ImageGallery',
-            '@id': 'https://agentmorgie.com/gallery#gallery',
-            name: 'Agent Morgie Gallery',
+            name: 'Ranch Squad Gallery',
             description:
-              'View the many vibes of Agent Morgie - Main Character Energy, Matrix Mode, DJ vibes and more!',
-            url: 'https://agentmorgie.com/gallery',
+              'View the many vibes of Trevor and the Ranch Squad.',
             author: {
               '@type': 'Person',
-              '@id': 'https://agentmorgie.com/#person',
-              name: 'Agent Morgie',
+              name: 'Trevor',
             },
           }),
         }}

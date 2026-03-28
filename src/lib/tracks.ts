@@ -10,8 +10,8 @@ export interface Track {
 export const tracks: Track[] = [
   {
     id: 'live-and-lethal',
-    title: "LIVE… AND LETHAL (Morgie's On a Mission!)",
-    artist: 'Agent Morgie',
+    title: "Ranch Squad Anthem",
+    artist: 'Trevor',
     src: '/music/live-and-lethal/track.mp3',
     cover: '/music/live-and-lethal/cover.png',
   },

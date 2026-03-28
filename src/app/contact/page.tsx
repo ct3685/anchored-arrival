@@ -2,9 +2,9 @@ import { Metadata } from 'next';
 import ContactPageContent from '@/components/ContactPageContent';
 
 export const metadata: Metadata = {
-  title: 'Operation: Contact Morgie | Agent Morgie',
+  title: 'Contact Trevor | Ranch Squad',
   description:
-    "Complete the spy mission to unlock Agent Morgie's classified contact dossier. Interactive puzzles and secure channels await.",
+    "Get in touch with Trevor and the Ranch Squad. Com'On, reach out!",
   alternates: {
     canonical: '/contact',
   },

@@ -2,17 +2,17 @@
 
 import { createTheme } from '@mui/material/styles';
 
-// Agent Morgie Color Palette
+// Ranch Squad Color Palette
 const colors = {
-  primary: '#FF69B4', // Hot Pink
-  secondary: '#00D4FF', // Electric Cyan
-  accent: '#9B59B6', // Purple
-  neon: '#ADFF2F', // Green-Yellow (Live & Lethal)
-  gold: '#FFD700', // Crown/MVP accents
-  background: '#0D0D1A', // Deep purple-black
-  surface: '#1A1A2E', // Slightly lighter surface
+  primary: '#D4A017', // Warm Gold/Amber
+  secondary: '#8B2500', // Dusty Red/Barn Red
+  accent: '#6B8E23', // Sage Green
+  neon: '#FFD700', // Bright Country Gold
+  gold: '#FFD700', // Gold
+  background: '#0D0A07', // Deep Dark Brown-Black
+  surface: '#1A1510', // Dark Leather Brown
   text: '#FFFFFF',
-  textSecondary: '#B8B8D1',
+  textSecondary: '#B8A88A',
 };
 
 export const theme = createTheme({
@@ -20,13 +20,13 @@ export const theme = createTheme({
     mode: 'dark',
     primary: {
       main: colors.primary,
-      light: '#FF8DC7',
-      dark: '#E91E8C',
+      light: '#E8B830',
+      dark: '#A67C10',
     },
     secondary: {
       main: colors.secondary,
-      light: '#66E5FF',
-      dark: '#00A3CC',
+      light: '#B03000',
+      dark: '#6B1C00',
     },
     background: {
       default: colors.background,

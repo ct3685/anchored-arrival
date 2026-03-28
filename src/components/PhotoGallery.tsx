@@ -155,7 +155,7 @@ export default function PhotoGallery({
               >
                 <Image
                   src="/images/mvp.png"
-                  alt="Agent Morgie"
+                  alt="Trevor"
                   fill
                   sizes="100px"
                   style={{ objectFit: 'cover' }}
@@ -180,7 +180,7 @@ export default function PhotoGallery({
               align="center"
               sx={{ color: colors.textSecondary }}
             >
-              The many vibes of Agent Morgie
+              The many vibes of Trevor
             </Typography>
           </Stack>
         </motion.div>

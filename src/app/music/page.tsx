@@ -2,8 +2,8 @@ import { Metadata } from 'next';
 import TrackList from '@/components/TrackList';
 
 export const metadata: Metadata = {
-  title: 'Music | Agent Morgie',
-  description: 'Listen to music from Agent Morgie - Live... And Lethal!',
+  title: 'Music | Trevor - Ranch Squad',
+  description: "Listen to music from Trevor — Com'On, it's gooder than shit!",
   alternates: {
     canonical: '/music',
   },
@@ -18,17 +18,10 @@ export default function MusicPage() {
           __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'MusicRecording',
-            '@id': 'https://agentmorgie.com/music#live-and-lethal',
-            name: "LIVE… AND LETHAL (Morgie's On a Mission!)",
-            url: 'https://agentmorgie.com/music',
+            name: 'Ranch Squad Anthem',
             byArtist: {
               '@type': 'Person',
-              '@id': 'https://agentmorgie.com/#person',
-              name: 'Agent Morgie',
-            },
-            inAlbum: {
-              '@type': 'MusicAlbum',
-              name: 'Live... And Lethal',
+              name: 'Trevor',
             },
           }),
         }}

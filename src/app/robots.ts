@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       allow: '/',
     },
-    sitemap: 'https://agentmorgie.com/sitemap.xml',
+    sitemap: 'https://trevor-ranchsquad.example.com/sitemap.xml',
   };
 }

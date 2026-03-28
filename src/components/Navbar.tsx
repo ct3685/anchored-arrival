@@ -80,14 +80,14 @@ export default function Navbar() {
                 sx={{
                   fontWeight: 800,
                   background:
-                    'linear-gradient(135deg, #FF69B4 0%, #00D4FF 100%)',
+                    'linear-gradient(135deg, #D4A017 0%, #FFD700 100%)',
                   backgroundClip: 'text',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   fontSize: { xs: '1.1rem', md: '1.4rem' },
                 }}
               >
-                Agent Morgie
+                Ranch Squad
               </Typography>
             </Link>
           </motion.div>
@@ -121,7 +121,7 @@ export default function Navbar() {
                       sx={{
                         color: 'white',
                         '&:hover': {
-                          color: '#FF69B4',
+                          color: '#D4A017',
                           backgroundColor: 'transparent',
                         },
                       }}
@@ -145,7 +145,7 @@ export default function Navbar() {
           sx: {
             width: '100%',
             maxWidth: 300,
-            backgroundColor: '#0D0D1A',
+            backgroundColor: '#0D0A07',
             backgroundImage: 'none',
           },
         }}
@@ -171,7 +171,7 @@ export default function Navbar() {
                   <ListItemButton
                     sx={{
                       '&:hover': {
-                        backgroundColor: '#FF69B422',
+                        backgroundColor: '#D4A01722',
                       },
                     }}
                   >
