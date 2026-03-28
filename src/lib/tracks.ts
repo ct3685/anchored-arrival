@@ -7,4 +7,12 @@ export interface Track {
   duration?: string;
 }
 
-export const tracks: Track[] = [];
+export const tracks: Track[] = [
+  {
+    id: 'coming-soon',
+    title: 'Coming Soon',
+    artist: 'Ranch Squad',
+    src: '',
+    cover: '/images/trevor-profile.png',
+  },
+];

@@ -16,6 +16,7 @@ import {
 const GA_MEASUREMENT_ID = 'G-2DE84Q17JH';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://trevor-ranchsquad.netlify.app'),
   icons: {
     icon: '/images/trevor-profile.png',
     apple: '/images/trevor-profile.png',
