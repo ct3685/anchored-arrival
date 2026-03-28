@@ -15,7 +15,6 @@ import { motion } from 'motion/react';
 import { colors } from '@/theme/theme';
 import { trackLinkClick, trackInAppBrowserLinkCopied } from '@/lib/analytics';
 import { useInAppBrowser, isProblematicUrl } from '@/lib/useInAppBrowser';
-import { NetworkIcon } from '@/components/Icons';
 
 export default function CreatorNetworkCTA() {
   const { isInAppBrowser, platform, copyToClipboard } = useInAppBrowser();
@@ -29,13 +28,13 @@ export default function CreatorNetworkCTA() {
   }, []);
 
   const handleClick = async () => {
-    const url = 'https://www.tiktok.com/@trevor_bfit/live';
-    trackLinkClick('Join the Ranch Squad', url, 0, true);
+    const url = 'https://kingstreetcowboys.com/affiliates/trevorbfit';
+    trackLinkClick('Shop King Street Cowboys', url, 0, true);
 
     if (isInAppBrowser && isProblematicUrl(url)) {
       const copied = await copyToClipboard(url);
       if (copied) {
-        trackInAppBrowserLinkCopied('Join the Ranch Squad', url, platform);
+        trackInAppBrowserLinkCopied('Shop King Street Cowboys', url, platform);
         setCopySnackbar({
           open: true,
           message: 'Link copied! Paste in your browser for best results.',
@@ -62,21 +61,13 @@ export default function CreatorNetworkCTA() {
             transition={{ duration: 0.6 }}
           >
             <Stack alignItems="center" spacing={3}>
-              <Box
+              <Typography
                 sx={{
-                  width: 60,
-                  height: 60,
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  background: `linear-gradient(135deg, ${colors.gold}33 0%, ${colors.gold}11 100%)`,
-                  border: `2px solid ${colors.gold}44`,
-                  color: colors.gold,
+                  fontSize: '3rem',
                 }}
               >
-                <NetworkIcon />
-              </Box>
+                🤠
+              </Typography>
 
               <Typography
                 variant="overline"
@@ -86,7 +77,7 @@ export default function CreatorNetworkCTA() {
                   fontWeight: 600,
                 }}
               >
-                Ranch Squad
+                Official Merch
               </Typography>
 
               <Typography
@@ -97,7 +88,7 @@ export default function CreatorNetworkCTA() {
                   color: colors.text,
                 }}
               >
-                Join the Ranch Squad
+                King Street Cowboys
               </Typography>
 
               <Typography
@@ -109,9 +100,9 @@ export default function CreatorNetworkCTA() {
                   lineHeight: 1.7,
                 }}
               >
-                Are you a TikTok creator? Com&apos;On and join the Ranch Squad — 
-                get support, grow your LIVE game, and ride with a community 
-                that&apos;s gooder than shit. No power ups needed.
+                Rep the Ranch Squad with official merch from King Street Cowboys.
+                Hats, tees, and gear built for cowboys who ain&apos;t fake.
+                Com&apos;On — you know you want to.
               </Typography>
 
               <motion.div
@@ -122,7 +113,7 @@ export default function CreatorNetworkCTA() {
                 <Button
                   variant="contained"
                   size="large"
-                  href="https://www.tiktok.com/@trevor_bfit/live"
+                  href="https://kingstreetcowboys.com/affiliates/trevorbfit"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={handleClick}
@@ -141,9 +132,24 @@ export default function CreatorNetworkCTA() {
                     transition: 'all 0.3s ease',
                   }}
                 >
-                  Saddle Up
+                  Shop Now
                 </Button>
               </motion.div>
+
+              <Stack direction="row" spacing={2} sx={{ mt: 1 }}>
+                <Typography
+                  variant="caption"
+                  sx={{ color: colors.textSecondary }}
+                >
+                  @buckedup CODE: <strong>Trevorb20</strong>
+                </Typography>
+                <Typography
+                  variant="caption"
+                  sx={{ color: colors.textSecondary }}
+                >
+                  @rockandrolldenim CODE: <strong>Trevorb20</strong>
+                </Typography>
+              </Stack>
             </Stack>
           </motion.div>
         </Container>

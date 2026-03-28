@@ -305,7 +305,7 @@ export default function LinkTree() {
                   mb: 1,
                 }}
               >
-                Ranch Squad
+                Official Merch
               </Typography>
               <Typography
                 variant="body2"
@@ -316,8 +316,8 @@ export default function LinkTree() {
                   px: 2,
                 }}
               >
-                Are you a TikTok creator? Join the Ranch Squad for support,
-                community, and growth. No power ups needed.
+                Rep the Ranch Squad with official gear from King Street Cowboys.
+                Built for cowboys who ain&apos;t fake.
               </Typography>
               <motion.div
                 whileHover={{ scale: 1.02 }}
@@ -327,14 +327,13 @@ export default function LinkTree() {
                 <Button
                   fullWidth
                   variant="contained"
-                  href="https://www.tiktok.com/@trevor_bfit/live"
+                  href="https://kingstreetcowboys.com/affiliates/trevorbfit"
                   target="_blank"
                   rel="noopener noreferrer"
-                  startIcon={<NetworkIcon size={24} />}
                   onClick={async () => {
-                    const url = 'https://www.tiktok.com/@trevor_bfit/live';
+                    const url = 'https://kingstreetcowboys.com/affiliates/trevorbfit';
                     trackLinkClick(
-                      'Join the Ranch Squad',
+                      'Shop King Street Cowboys',
                       url,
                       links.length,
                       true
@@ -344,7 +343,7 @@ export default function LinkTree() {
                       const copied = await copyToClipboard(url);
                       if (copied) {
                         trackInAppBrowserLinkCopied(
-                          'Join the Ranch Squad',
+                          'Shop King Street Cowboys',
                           url,
                           platform
                         );
@@ -372,7 +371,7 @@ export default function LinkTree() {
                     transition: 'all 0.3s ease',
                   }}
                 >
-                  Join the Ranch Squad
+                  Shop King Street Cowboys
                 </Button>
               </motion.div>
             </Box>
