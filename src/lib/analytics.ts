@@ -163,6 +163,18 @@ export const trackMusicTrackChange = (
   });
 };
 
+export const trackMusicDownload = (
+  trackId: string,
+  trackTitle: string,
+  artist: string
+) => {
+  trackEvent('music_download', {
+    track_id: trackId,
+    track_title: trackTitle,
+    artist: artist,
+  });
+};
+
 export const trackMiniplayerExpand = (trackId: string) => {
   trackEvent('miniplayer_expand', {
     track_id: trackId,
