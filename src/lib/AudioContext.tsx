@@ -151,7 +151,8 @@ export function AudioProvider({ children }: AudioProviderProps) {
     try { navigator.mediaSession.setActionHandler('previoustrack', () => prevTrack()); } catch {}
     try { navigator.mediaSession.setActionHandler('nexttrack', () => nextTrack()); } catch {}
     try { navigator.mediaSession.setActionHandler('seekto', (d) => { if (d.seekTime != null && audioRef.current) { audioRef.current.currentTime = d.seekTime; setCurrentTime(d.seekTime); } }); } catch {}
-  });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Update document title with current track
   useEffect(() => {

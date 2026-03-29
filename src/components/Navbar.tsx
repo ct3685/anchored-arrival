@@ -212,6 +212,9 @@ export default function Navbar() {
         anchor="right"
         open={mobileOpen}
         onClose={handleDrawerToggle}
+        ModalProps={{
+          sx: { zIndex: 1200 },
+        }}
         PaperProps={{
           sx: {
             width: '100%',
