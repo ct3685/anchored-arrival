@@ -25,6 +25,14 @@ const aaron: TrackCredit = {
 
 export const tracks: Track[] = [
   {
+    id: 'cross-that-line',
+    title: 'Cross That Line',
+    artist: 'Trevor & Ranch Squad',
+    src: '/audio/cross-that-line.mp3',
+    cover: '/images/trevor-profile.png',
+    createdBy: aaron,
+  },
+  {
     id: 'gooder-than-shit',
     title: 'Gooder Than Shit (Ranch Anthem)',
     artist: 'Trevor & Ranch Squad',
