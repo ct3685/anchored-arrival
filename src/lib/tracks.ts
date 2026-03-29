@@ -26,6 +26,46 @@ const aaron: TrackCredit = {
 // Newest tracks first — prepend entries here so music UI and default queue stay current-first.
 export const tracks: Track[] = [
   {
+    id: 'silent-pressure',
+    title: 'Silent Pressure',
+    artist: 'Trevor & Ranch Squad',
+    src: '/audio/silent-pressure.mp3',
+    cover: '/images/covers/silent-pressure.jpg',
+    createdBy: aaron,
+  },
+  {
+    id: 'trevor-we-see-you',
+    title: 'Trevor We See You',
+    artist: 'Trevor & Ranch Squad',
+    src: '/audio/trevor-we-see-you.mp3',
+    cover: '/images/covers/trevor-we-see-you.jpg',
+    createdBy: aaron,
+  },
+  {
+    id: 'ranch-squad-win',
+    title: 'Ranch Squad WIN!',
+    artist: 'Trevor & Ranch Squad',
+    src: '/audio/ranch-squad-win.mp3',
+    cover: '/images/covers/ranch-squad-win.jpg',
+    createdBy: aaron,
+  },
+  {
+    id: 'ranch-squad-run-it-river-diss-track',
+    title: 'Ranch Squad Run It (River Diss Track)',
+    artist: 'Trevor & Ranch Squad',
+    src: '/audio/ranch-squad-run-it-river-diss-track.mp3',
+    cover: '/images/covers/ranch-squad-run-it-river-diss-track.jpg',
+    createdBy: aaron,
+  },
+  {
+    id: 'the-man-they-follow',
+    title: 'The Man They Follow',
+    artist: 'Trevor & Ranch Squad',
+    src: '/audio/the-man-they-follow.mp3',
+    cover: '/images/covers/the-man-they-follow.jpg',
+    createdBy: aaron,
+  },
+  {
     id: 'we-dont-lose-when-it-matters',
     title: "We Don't Lose When It Matters",
     artist: 'Trevor & Ranch Squad',
@@ -110,7 +150,7 @@ export const tracks: Track[] = [
     title: 'Ranch Squad Reset (R-S-R)',
     artist: 'Trevor & Ranch Squad',
     src: '/audio/ranch-squad-reset-rsr.mp3',
-    cover: '/images/trevor-profile.png',
+    cover: '/images/covers/ranch-squad-reset-rsr.jpg',
     createdBy: aaron,
   },
   {
@@ -118,7 +158,7 @@ export const tracks: Track[] = [
     title: 'Ranch Squad Reset (TikTok Throwdown)',
     artist: 'Trevor & Ranch Squad',
     src: '/audio/ranch-squad-reset-tiktok-throwdown.mp3',
-    cover: '/images/trevor-profile.png',
+    cover: '/images/covers/ranch-squad-reset-tiktok-throwdown.jpg',
     createdBy: aaron,
   },
 ];

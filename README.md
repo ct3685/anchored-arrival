@@ -34,6 +34,40 @@ npm install
 npm run dev
 ```
 
+## Scripts
+
+### Import a Suno track
+
+```bash
+pnpm import-suno <suno-url>
+```
+
+Accepts any Suno share link (long or short format):
+
+```bash
+pnpm import-suno https://suno.com/s/AEB2IBIBfCOaO02O
+pnpm import-suno "https://suno.com/song/f11eebde-8077-4904-8df9-d55f4a395869?sh=5EjlgLMQcBxLyIzS"
+```
+
+The script will:
+
+1. Resolve the song UUID from the URL
+2. Scrape the title and creator from the Suno page
+3. Download the MP3 to `public/audio/` and cover image to `public/images/covers/`
+4. Prompt you to select the creator (reaper or aaron)
+5. Optionally let you override the title
+6. Prepend a new entry in `src/lib/tracks.ts`
+
+Duplicate tracks (by slug) are detected and skipped automatically.
+
+### Optimize images
+
+```bash
+pnpm optimize-images
+```
+
+Compresses images in `public/images/` using sharp.
+
 ## Project Structure
 
 ```
