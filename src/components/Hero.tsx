@@ -189,7 +189,7 @@ export default function Hero() {
                   rel="noopener noreferrer"
                   onClick={() =>
                     trackHeroCTA(
-                      isLive ? 'Watch Live Now' : 'Watch Live',
+                      isLive ? 'Watch Live Now' : 'Join the Ranch',
                       tiktokHref,
                       true
                     )
@@ -213,7 +213,7 @@ export default function Hero() {
                     }),
                   }}
                 >
-                  {isLive ? '🔴 Watch Now' : 'Watch Live'}
+                  {isLive ? '🔴 Watch Now' : 'Join the Ranch'}
                 </Button>
                 <Button
                   variant="contained"
