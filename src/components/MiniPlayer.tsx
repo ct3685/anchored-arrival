@@ -83,8 +83,14 @@ export default function MiniPlayer() {
     seek(value as number);
   };
 
-  const repeatIcon = repeatMode === 'one' ? <RepeatOneIcon fontSize="small" /> : <RepeatIcon fontSize="small" />;
-  const repeatColor = repeatMode === 'off' ? colors.textSecondary : colors.primary;
+  const repeatIcon =
+    repeatMode === 'one' ? (
+      <RepeatOneIcon fontSize="small" />
+    ) : (
+      <RepeatIcon fontSize="small" />
+    );
+  const repeatColor =
+    repeatMode === 'off' ? colors.textSecondary : colors.primary;
 
   return (
     <AnimatePresence>
@@ -223,7 +229,12 @@ export default function MiniPlayer() {
               </Typography>
               <Typography
                 variant="caption"
-                sx={{ color: colors.textSecondary, display: 'block', mb: 1, fontSize: '0.65rem' }}
+                sx={{
+                  color: colors.textSecondary,
+                  display: 'block',
+                  mb: 1,
+                  fontSize: '0.65rem',
+                }}
               >
                 by{' '}
                 <Box
@@ -282,31 +293,101 @@ export default function MiniPlayer() {
               </Stack>
 
               {/* Controls: Shuffle, Prev, Play, Next, Repeat */}
-              <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5} sx={{ mt: 1 }}>
-                <IconButton onClick={toggleShuffle} size="small" sx={{ color: shuffle ? colors.primary : colors.textSecondary, '&:hover': { backgroundColor: `${colors.primary}22` } }}>
+              <Stack
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                spacing={0.5}
+                sx={{ mt: 1 }}
+              >
+                <IconButton
+                  onClick={toggleShuffle}
+                  size="small"
+                  sx={{
+                    color: shuffle ? colors.primary : colors.textSecondary,
+                    '&:hover': { backgroundColor: `${colors.primary}22` },
+                  }}
+                >
                   <ShuffleIcon fontSize="small" />
                 </IconButton>
-                <IconButton onClick={prevTrack} size="small" sx={{ color: hasMultipleTracks ? colors.primary : colors.textSecondary, opacity: hasMultipleTracks ? 1 : 0.5, backgroundColor: `${colors.primary}22`, '&:hover': { backgroundColor: `${colors.primary}44` } }}>
+                <IconButton
+                  onClick={prevTrack}
+                  size="small"
+                  sx={{
+                    color: hasMultipleTracks
+                      ? colors.primary
+                      : colors.textSecondary,
+                    opacity: hasMultipleTracks ? 1 : 0.5,
+                    backgroundColor: `${colors.primary}22`,
+                    '&:hover': { backgroundColor: `${colors.primary}44` },
+                  }}
+                >
                   <SkipPreviousIcon fontSize="small" />
                 </IconButton>
-                <IconButton onClick={togglePlay} sx={{ width: 40, height: 40, background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.accent} 100%)`, color: 'white', '&:hover': { background: `linear-gradient(135deg, ${colors.primary} 20%, ${colors.accent} 120%)` } }}>
+                <IconButton
+                  onClick={togglePlay}
+                  sx={{
+                    width: 40,
+                    height: 40,
+                    background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.accent} 100%)`,
+                    color: 'white',
+                    '&:hover': {
+                      background: `linear-gradient(135deg, ${colors.primary} 20%, ${colors.accent} 120%)`,
+                    },
+                  }}
+                >
                   {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
                 </IconButton>
-                <IconButton onClick={nextTrack} size="small" sx={{ color: hasMultipleTracks ? colors.primary : colors.textSecondary, opacity: hasMultipleTracks ? 1 : 0.5, backgroundColor: `${colors.primary}22`, '&:hover': { backgroundColor: `${colors.primary}44` } }}>
+                <IconButton
+                  onClick={nextTrack}
+                  size="small"
+                  sx={{
+                    color: hasMultipleTracks
+                      ? colors.primary
+                      : colors.textSecondary,
+                    opacity: hasMultipleTracks ? 1 : 0.5,
+                    backgroundColor: `${colors.primary}22`,
+                    '&:hover': { backgroundColor: `${colors.primary}44` },
+                  }}
+                >
                   <SkipNextIcon fontSize="small" />
                 </IconButton>
-                <IconButton onClick={cycleRepeat} size="small" sx={{ color: repeatColor, '&:hover': { backgroundColor: `${colors.primary}22` } }}>
+                <IconButton
+                  onClick={cycleRepeat}
+                  size="small"
+                  sx={{
+                    color: repeatColor,
+                    '&:hover': { backgroundColor: `${colors.primary}22` },
+                  }}
+                >
                   {repeatIcon}
                 </IconButton>
               </Stack>
 
               {/* Track count + queue toggle */}
               {hasMultipleTracks && (
-                <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mt: 1.5 }}>
-                  <Typography variant="caption" sx={{ color: colors.textSecondary }}>
+                <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  sx={{ mt: 1.5 }}
+                >
+                  <Typography
+                    variant="caption"
+                    sx={{ color: colors.textSecondary }}
+                  >
                     {queue.indexOf(currentTrackIndex) + 1} / {tracks.length}
                   </Typography>
-                  <IconButton onClick={() => setShowTrackList(!showTrackList)} size="small" sx={{ color: showTrackList ? colors.primary : colors.textSecondary, '&:hover': { backgroundColor: `${colors.primary}22` } }}>
+                  <IconButton
+                    onClick={() => setShowTrackList(!showTrackList)}
+                    size="small"
+                    sx={{
+                      color: showTrackList
+                        ? colors.primary
+                        : colors.textSecondary,
+                      '&:hover': { backgroundColor: `${colors.primary}22` },
+                    }}
+                  >
                     <QueueMusicIcon fontSize="small" />
                   </IconButton>
                 </Stack>
@@ -314,36 +395,159 @@ export default function MiniPlayer() {
 
               {/* Track List / Queue */}
               <Collapse in={showTrackList}>
-                <Box sx={{ mt: 1, maxHeight: 240, overflowY: 'auto', borderTop: `1px solid ${colors.primary}22`, '&::-webkit-scrollbar': { width: 4 }, '&::-webkit-scrollbar-thumb': { backgroundColor: `${colors.primary}44`, borderRadius: 2 } }}>
+                <Box
+                  sx={{
+                    mt: 1,
+                    maxHeight: 240,
+                    overflowY: 'auto',
+                    borderTop: `1px solid ${colors.primary}22`,
+                    '&::-webkit-scrollbar': { width: 4 },
+                    '&::-webkit-scrollbar-thumb': {
+                      backgroundColor: `${colors.primary}44`,
+                      borderRadius: 2,
+                    },
+                  }}
+                >
                   <List dense disablePadding>
                     {queue.map((trackIdx, queuePos) => {
                       const trk = tracks[trackIdx];
                       const isActive = trackIdx === currentTrackIndex;
                       const isTrackPlaying = isActive && isPlaying;
                       return (
-                        <ListItemButton key={trk.id} onClick={() => selectTrack(trackIdx)} sx={{ py: 0.75, px: 1, borderRadius: 1, backgroundColor: isActive ? `${colors.primary}15` : 'transparent', '&:hover': { backgroundColor: `${colors.primary}22` } }}>
-                          <Box sx={{ display: 'flex', flexDirection: 'column', mr: 0.5 }}>
-                            <IconButton size="small" onClick={(e) => { e.stopPropagation(); moveTrackInQueue(queuePos, queuePos - 1); }} sx={{ p: 0, color: colors.textSecondary, visibility: queuePos === 0 ? 'hidden' : 'visible', '&:hover': { color: colors.primary } }}>
+                        <ListItemButton
+                          key={trk.id}
+                          onClick={() => selectTrack(trackIdx)}
+                          sx={{
+                            py: 0.75,
+                            px: 1,
+                            borderRadius: 1,
+                            backgroundColor: isActive
+                              ? `${colors.primary}15`
+                              : 'transparent',
+                            '&:hover': {
+                              backgroundColor: `${colors.primary}22`,
+                            },
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              flexDirection: 'column',
+                              mr: 0.5,
+                            }}
+                          >
+                            <IconButton
+                              size="small"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                moveTrackInQueue(queuePos, queuePos - 1);
+                              }}
+                              sx={{
+                                p: 0,
+                                color: colors.textSecondary,
+                                visibility:
+                                  queuePos === 0 ? 'hidden' : 'visible',
+                                '&:hover': { color: colors.primary },
+                              }}
+                            >
                               <KeyboardArrowUpIcon sx={{ fontSize: 14 }} />
                             </IconButton>
-                            <IconButton size="small" onClick={(e) => { e.stopPropagation(); moveTrackInQueue(queuePos, queuePos + 1); }} sx={{ p: 0, color: colors.textSecondary, visibility: queuePos === queue.length - 1 ? 'hidden' : 'visible', '&:hover': { color: colors.primary } }}>
+                            <IconButton
+                              size="small"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                moveTrackInQueue(queuePos, queuePos + 1);
+                              }}
+                              sx={{
+                                p: 0,
+                                color: colors.textSecondary,
+                                visibility:
+                                  queuePos === queue.length - 1
+                                    ? 'hidden'
+                                    : 'visible',
+                                '&:hover': { color: colors.primary },
+                              }}
+                            >
                               <KeyboardArrowDownIcon sx={{ fontSize: 14 }} />
                             </IconButton>
                           </Box>
                           <ListItemIcon sx={{ minWidth: 32 }}>
                             {isTrackPlaying ? (
-                              <Box sx={{ width: 20, height: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 0.8, repeat: Infinity }}>
-                                  <MusicNoteIcon sx={{ fontSize: 16, color: colors.primary }} />
+                              <Box
+                                sx={{
+                                  width: 20,
+                                  height: 20,
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                }}
+                              >
+                                <motion.div
+                                  animate={{ scale: [1, 1.2, 1] }}
+                                  transition={{
+                                    duration: 0.8,
+                                    repeat: Infinity,
+                                  }}
+                                >
+                                  <MusicNoteIcon
+                                    sx={{ fontSize: 16, color: colors.primary }}
+                                  />
                                 </motion.div>
                               </Box>
                             ) : (
-                              <Typography variant="caption" sx={{ color: colors.textSecondary, fontSize: '0.7rem', width: 20, textAlign: 'center' }}>{queuePos + 1}</Typography>
+                              <Typography
+                                variant="caption"
+                                sx={{
+                                  color: colors.textSecondary,
+                                  fontSize: '0.7rem',
+                                  width: 20,
+                                  textAlign: 'center',
+                                }}
+                              >
+                                {queuePos + 1}
+                              </Typography>
                             )}
                           </ListItemIcon>
-                          <ListItemText primary={trk.title} secondary={trk.artist} primaryTypographyProps={{ variant: 'body2', sx: { color: isActive ? colors.primary : 'white', fontWeight: isActive ? 700 : 400, fontSize: '0.8rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' } }} secondaryTypographyProps={{ variant: 'caption', sx: { color: colors.textSecondary, fontSize: '0.65rem' } }} />
-                          <IconButton size="small" onClick={(e) => { e.stopPropagation(); selectTrack(trackIdx); }} sx={{ color: isTrackPlaying ? colors.primary : colors.textSecondary, '&:hover': { color: colors.primary } }}>
-                            {isTrackPlaying ? <PauseIcon sx={{ fontSize: 16 }} /> : <PlayArrowIcon sx={{ fontSize: 16 }} />}
+                          <ListItemText
+                            primary={trk.title}
+                            secondary={trk.artist}
+                            primaryTypographyProps={{
+                              variant: 'body2',
+                              sx: {
+                                color: isActive ? colors.primary : 'white',
+                                fontWeight: isActive ? 700 : 400,
+                                fontSize: '0.8rem',
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                              },
+                            }}
+                            secondaryTypographyProps={{
+                              variant: 'caption',
+                              sx: {
+                                color: colors.textSecondary,
+                                fontSize: '0.65rem',
+                              },
+                            }}
+                          />
+                          <IconButton
+                            size="small"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              selectTrack(trackIdx);
+                            }}
+                            sx={{
+                              color: isTrackPlaying
+                                ? colors.primary
+                                : colors.textSecondary,
+                              '&:hover': { color: colors.primary },
+                            }}
+                          >
+                            {isTrackPlaying ? (
+                              <PauseIcon sx={{ fontSize: 16 }} />
+                            ) : (
+                              <PlayArrowIcon sx={{ fontSize: 16 }} />
+                            )}
                           </IconButton>
                         </ListItemButton>
                       );

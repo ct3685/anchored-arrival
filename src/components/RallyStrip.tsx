@@ -104,9 +104,7 @@ function MarqueeContent({
 export default function RallyStrip() {
   const { isLive } = useLiveStatus();
 
-  const phrases = isLive
-    ? ['LIVE NOW', ...defaultPhrases]
-    : defaultPhrases;
+  const phrases = isLive ? ['LIVE NOW', ...defaultPhrases] : defaultPhrases;
 
   return (
     <Box

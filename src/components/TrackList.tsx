@@ -1,7 +1,14 @@
 'use client';
 
 import Image from 'next/image';
-import { Box, Container, Typography, IconButton, Stack, Slider } from '@mui/material';
+import {
+  Box,
+  Container,
+  Typography,
+  IconButton,
+  Stack,
+  Slider,
+} from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
@@ -152,7 +159,13 @@ export default function TrackList() {
                 </Box>
 
                 {/* Track Info */}
-                <Box sx={{ flex: 1, textAlign: { xs: 'center', sm: 'left' }, width: '100%' }}>
+                <Box
+                  sx={{
+                    flex: 1,
+                    textAlign: { xs: 'center', sm: 'left' },
+                    width: '100%',
+                  }}
+                >
                   <Typography
                     variant="overline"
                     sx={{
@@ -202,8 +215,21 @@ export default function TrackList() {
                     </Box>
                   </Typography>
                   {/* Seekable progress bar */}
-                  <Stack direction="row" alignItems="center" spacing={1} sx={{ mt: 1 }}>
-                    <Typography variant="caption" sx={{ color: colors.dust, fontSize: '0.65rem', minWidth: 32, textAlign: 'right' }}>
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    spacing={1}
+                    sx={{ mt: 1 }}
+                  >
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        color: colors.dust,
+                        fontSize: '0.65rem',
+                        minWidth: 32,
+                        textAlign: 'right',
+                      }}
+                    >
                       {formatTime(currentTime)}
                     </Typography>
                     <Slider
@@ -214,15 +240,28 @@ export default function TrackList() {
                       sx={{
                         color: colors.amber,
                         height: 4,
-                        '& .MuiSlider-thumb': { width: 10, height: 10, backgroundColor: colors.amber },
+                        '& .MuiSlider-thumb': {
+                          width: 10,
+                          height: 10,
+                          backgroundColor: colors.amber,
+                        },
                         '& .MuiSlider-track': {
                           background: `linear-gradient(90deg, ${colors.amber}, ${colors.red})`,
                           border: 'none',
                         },
-                        '& .MuiSlider-rail': { backgroundColor: `${colors.brass}33` },
+                        '& .MuiSlider-rail': {
+                          backgroundColor: `${colors.brass}33`,
+                        },
                       }}
                     />
-                    <Typography variant="caption" sx={{ color: colors.dust, fontSize: '0.65rem', minWidth: 32 }}>
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        color: colors.dust,
+                        fontSize: '0.65rem',
+                        minWidth: 32,
+                      }}
+                    >
                       {formatTime(duration)}
                     </Typography>
                   </Stack>
@@ -300,7 +339,11 @@ export default function TrackList() {
                       '&:hover': { backgroundColor: `${colors.brass}22` },
                     }}
                   >
-                    {repeatMode === 'one' ? <RepeatOneIcon fontSize="small" /> : <RepeatIcon fontSize="small" />}
+                    {repeatMode === 'one' ? (
+                      <RepeatOneIcon fontSize="small" />
+                    ) : (
+                      <RepeatIcon fontSize="small" />
+                    )}
                   </IconButton>
                 </Stack>
               </Stack>
@@ -343,11 +386,43 @@ export default function TrackList() {
                   }}
                 >
                   {/* Reorder Arrows */}
-                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mr: -1 }}>
-                    <IconButton size="small" onClick={(e) => { e.stopPropagation(); moveTrackInQueue(queuePos, queuePos - 1); }} sx={{ p: 0.25, color: colors.dust, visibility: queuePos === 0 ? 'hidden' : 'visible', '&:hover': { color: colors.amber } }}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      mr: -1,
+                    }}
+                  >
+                    <IconButton
+                      size="small"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        moveTrackInQueue(queuePos, queuePos - 1);
+                      }}
+                      sx={{
+                        p: 0.25,
+                        color: colors.dust,
+                        visibility: queuePos === 0 ? 'hidden' : 'visible',
+                        '&:hover': { color: colors.amber },
+                      }}
+                    >
                       <KeyboardArrowUpIcon sx={{ fontSize: 18 }} />
                     </IconButton>
-                    <IconButton size="small" onClick={(e) => { e.stopPropagation(); moveTrackInQueue(queuePos, queuePos + 1); }} sx={{ p: 0.25, color: colors.dust, visibility: queuePos === queue.length - 1 ? 'hidden' : 'visible', '&:hover': { color: colors.amber } }}>
+                    <IconButton
+                      size="small"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        moveTrackInQueue(queuePos, queuePos + 1);
+                      }}
+                      sx={{
+                        p: 0.25,
+                        color: colors.dust,
+                        visibility:
+                          queuePos === queue.length - 1 ? 'hidden' : 'visible',
+                        '&:hover': { color: colors.amber },
+                      }}
+                    >
                       <KeyboardArrowDownIcon sx={{ fontSize: 18 }} />
                     </IconButton>
                   </Box>
@@ -389,7 +464,11 @@ export default function TrackList() {
                     </Typography>
                     <Typography
                       variant="caption"
-                      sx={{ color: colors.brass, display: 'block', fontSize: '0.7rem' }}
+                      sx={{
+                        color: colors.brass,
+                        display: 'block',
+                        fontSize: '0.7rem',
+                      }}
                     >
                       by{' '}
                       <Box

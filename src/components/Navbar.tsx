@@ -36,28 +36,28 @@ interface NavItem {
   isLiveLink?: boolean;
 }
 
-const navItems: NavItem[] = [
-  { label: 'Ranch', href: '/' },
-  {
-    label: 'Live',
-    href: 'https://www.tiktok.com/@trevor_bfit/live',
-    external: true,
-    isLiveLink: true,
-  },
-  {
-    label: 'Gear',
-    href: 'https://kingstreetcowboys.com/affiliates/trevorbfit',
-    external: true,
-  },
-  { label: 'Gallery', href: '/gallery' },
-  { label: 'Sound', href: '/music' },
-];
-
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const { isLive } = useLiveStatus();
+  const { isLive, tiktokHref } = useLiveStatus();
+
+  const navItems: NavItem[] = [
+    { label: 'Ranch', href: '/' },
+    {
+      label: isLive ? 'Live Now' : 'Join the Ranch',
+      href: tiktokHref,
+      external: true,
+      isLiveLink: true,
+    },
+    {
+      label: 'Gear',
+      href: 'https://kingstreetcowboys.com/affiliates/trevorbfit',
+      external: true,
+    },
+    { label: 'Gallery', href: '/gallery' },
+    { label: 'Sound', href: '/music' },
+  ];
 
   const handleDrawerToggle = () => {
     if (mobileOpen) {
@@ -128,7 +128,7 @@ export default function Navbar() {
             <Box sx={{ display: 'flex', gap: 1 }}>
               {navItems.map((item, index) => (
                 <motion.div
-                  key={item.href + item.label}
+                  key={item.isLiveLink ? 'tiktok-live' : item.href}
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.08 }}
@@ -253,7 +253,7 @@ export default function Navbar() {
           </Box>
           <List>
             {navItems.map((item) => (
-              <ListItem key={item.href + item.label} disablePadding>
+              <ListItem key={item.isLiveLink ? 'tiktok-live' : item.href} disablePadding>
                 <Link
                   href={item.href}
                   style={{ textDecoration: 'none', width: '100%' }}

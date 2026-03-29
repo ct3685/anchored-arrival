@@ -86,10 +86,7 @@ export const trackHeroCTA = (
 // TEASER CTA EVENTS
 // ============================================
 
-export const trackTeaserCTA = (
-  ctaText: string,
-  destination: string
-) => {
+export const trackTeaserCTA = (ctaText: string, destination: string) => {
   trackEvent('teaser_cta_click', {
     cta_text: ctaText,
     destination: destination,

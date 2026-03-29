@@ -75,7 +75,9 @@ export default function NotFound() {
             variant="contained"
             color="primary"
             size="large"
-            onClick={() => trackEvent('not_found_cta_click', { destination: '/' })}
+            onClick={() =>
+              trackEvent('not_found_cta_click', { destination: '/' })
+            }
             sx={{
               py: 1.8,
               px: 5,

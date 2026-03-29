@@ -71,9 +71,7 @@ export function AudioProvider({ children }: AudioProviderProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [queue, setQueue] = useState<number[]>(() =>
-    tracks.map((_, i) => i)
-  );
+  const [queue, setQueue] = useState<number[]>(() => tracks.map((_, i) => i));
   const [shuffle, setShuffle] = useState(false);
   const [repeatMode, setRepeatMode] = useState<RepeatMode>('off');
 
@@ -138,20 +136,45 @@ export function AudioProvider({ children }: AudioProviderProps) {
           playbackRate: 1,
           position: Math.min(currentTime, duration),
         });
-      } catch { /* ignore */ }
+      } catch {
+        /* ignore */
+      }
     }
   }, [isPlaying, currentTime, duration]);
 
-
   // Media Session action handlers (CarPlay/lock screen controls)
   useEffect(() => {
-    if (typeof navigator === 'undefined' || !('mediaSession' in navigator)) return;
-    try { navigator.mediaSession.setActionHandler('play', () => { audioRef.current?.play(); setIsPlaying(true); }); } catch {}
-    try { navigator.mediaSession.setActionHandler('pause', () => { audioRef.current?.pause(); setIsPlaying(false); }); } catch {}
-    try { navigator.mediaSession.setActionHandler('previoustrack', () => prevTrack()); } catch {}
-    try { navigator.mediaSession.setActionHandler('nexttrack', () => nextTrack()); } catch {}
-    try { navigator.mediaSession.setActionHandler('seekto', (d) => { if (d.seekTime != null && audioRef.current) { audioRef.current.currentTime = d.seekTime; setCurrentTime(d.seekTime); } }); } catch {}
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (typeof navigator === 'undefined' || !('mediaSession' in navigator))
+      return;
+    try {
+      navigator.mediaSession.setActionHandler('play', () => {
+        audioRef.current?.play();
+        setIsPlaying(true);
+      });
+    } catch {}
+    try {
+      navigator.mediaSession.setActionHandler('pause', () => {
+        audioRef.current?.pause();
+        setIsPlaying(false);
+      });
+    } catch {}
+    try {
+      navigator.mediaSession.setActionHandler('previoustrack', () =>
+        prevTrack()
+      );
+    } catch {}
+    try {
+      navigator.mediaSession.setActionHandler('nexttrack', () => nextTrack());
+    } catch {}
+    try {
+      navigator.mediaSession.setActionHandler('seekto', (d) => {
+        if (d.seekTime != null && audioRef.current) {
+          audioRef.current.currentTime = d.seekTime;
+          setCurrentTime(d.seekTime);
+        }
+      });
+    } catch {}
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Update document title with current track
@@ -175,11 +198,7 @@ export function AudioProvider({ children }: AudioProviderProps) {
           !milestonesReachedRef.current.has(milestone)
         ) {
           milestonesReachedRef.current.add(milestone);
-          trackMusicMilestone(
-            currentTrack.id,
-            currentTrack.title,
-            milestone
-          );
+          trackMusicMilestone(currentTrack.id, currentTrack.title, milestone);
         }
       }
     }
@@ -372,7 +391,13 @@ export function AudioProvider({ children }: AudioProviderProps) {
 
   const moveTrackInQueue = useCallback(
     (fromPos: number, toPos: number) => {
-      if (fromPos < 0 || fromPos >= queue.length || toPos < 0 || toPos >= queue.length) return;
+      if (
+        fromPos < 0 ||
+        fromPos >= queue.length ||
+        toPos < 0 ||
+        toPos >= queue.length
+      )
+        return;
       setQueue((prev) => {
         const next = [...prev];
         const [moved] = next.splice(fromPos, 1);
