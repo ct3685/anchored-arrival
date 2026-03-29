@@ -7,6 +7,8 @@ import PauseIcon from '@mui/icons-material/Pause';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import DownloadIcon from '@mui/icons-material/Download';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { motion } from 'motion/react';
 
 import { useAudio } from '@/lib/AudioContext';
@@ -29,6 +31,8 @@ export default function TrackList() {
     formatTime,
     currentTime,
     duration,
+    queue,
+    moveTrackInQueue,
   } = useAudio();
 
   return (
@@ -272,10 +276,11 @@ export default function TrackList() {
           </motion.div>
         )}
 
-        {/* Track Cards - Metal Plate Style */}
+        {/* Track Cards - Metal Plate Style (Queue Order) */}
         <Stack spacing={1.5}>
-          {tracks.map((track, index) => {
-            const isCurrentTrack = index === currentTrackIndex;
+          {queue.map((trackIndex, queuePos) => {
+            const track = tracks[trackIndex];
+            const isCurrentTrack = trackIndex === currentTrackIndex;
             const isTrackPlaying = isCurrentTrack && isPlaying;
 
             return (
@@ -283,10 +288,10 @@ export default function TrackList() {
                 key={track.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.08 }}
+                transition={{ duration: 0.4, delay: queuePos * 0.08 }}
               >
                 <Box
-                  onClick={() => selectTrack(index)}
+                  onClick={() => selectTrack(trackIndex)}
                   sx={{
                     display: 'flex',
                     alignItems: 'center',
@@ -305,6 +310,16 @@ export default function TrackList() {
                     },
                   }}
                 >
+                  {/* Reorder Arrows */}
+                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mr: -1 }}>
+                    <IconButton size="small" onClick={(e) => { e.stopPropagation(); moveTrackInQueue(queuePos, queuePos - 1); }} sx={{ p: 0.25, color: colors.dust, visibility: queuePos === 0 ? 'hidden' : 'visible', '&:hover': { color: colors.amber } }}>
+                      <KeyboardArrowUpIcon sx={{ fontSize: 18 }} />
+                    </IconButton>
+                    <IconButton size="small" onClick={(e) => { e.stopPropagation(); moveTrackInQueue(queuePos, queuePos + 1); }} sx={{ p: 0.25, color: colors.dust, visibility: queuePos === queue.length - 1 ? 'hidden' : 'visible', '&:hover': { color: colors.amber } }}>
+                      <KeyboardArrowDownIcon sx={{ fontSize: 18 }} />
+                    </IconButton>
+                  </Box>
+
                   {/* Album Art - Metal Plate Frame */}
                   <Box
                     sx={{
@@ -386,7 +401,7 @@ export default function TrackList() {
                   <IconButton
                     onClick={(e) => {
                       e.stopPropagation();
-                      selectTrack(index);
+                      selectTrack(trackIndex);
                     }}
                     sx={{
                       color: isTrackPlaying ? colors.amber : colors.dust,

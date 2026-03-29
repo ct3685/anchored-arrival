@@ -21,6 +21,8 @@ import {
 } from './analytics';
 import { reportWebVitals } from './webVitals';
 
+type RepeatMode = 'off' | 'all' | 'one';
+
 interface AudioContextType {
   // State
   currentTrack: Track;
@@ -28,6 +30,9 @@ interface AudioContextType {
   isPlaying: boolean;
   currentTime: number;
   duration: number;
+  queue: number[];
+  shuffle: boolean;
+  repeatMode: RepeatMode;
 
   // Actions
   play: () => void;
@@ -37,6 +42,9 @@ interface AudioContextType {
   nextTrack: () => void;
   prevTrack: () => void;
   selectTrack: (index: number) => void;
+  moveTrackInQueue: (fromPos: number, toPos: number) => void;
+  toggleShuffle: () => void;
+  cycleRepeat: () => void;
 
   // Utilities
   formatTime: (time: number) => string;
@@ -63,6 +71,11 @@ export function AudioProvider({ children }: AudioProviderProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [queue, setQueue] = useState<number[]>(() =>
+    tracks.map((_, i) => i)
+  );
+  const [shuffle, setShuffle] = useState(false);
+  const [repeatMode, setRepeatMode] = useState<RepeatMode>('off');
 
   // Analytics tracking refs
   const playStartTimeRef = useRef<number>(0);
@@ -87,6 +100,67 @@ export function AudioProvider({ children }: AudioProviderProps) {
     }, 2000);
     return () => clearTimeout(timer);
   }, []);
+
+  // ─── Media Session API ───
+  // Updates lock screen / CarPlay / Bluetooth with track info & controls
+  useEffect(() => {
+    if (typeof navigator === 'undefined' || !('mediaSession' in navigator))
+      return;
+
+    const coverUrl = currentTrack.cover.startsWith('http')
+      ? currentTrack.cover
+      : `${window.location.origin}${currentTrack.cover}`;
+
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: currentTrack.title,
+      artist: currentTrack.artist,
+      album: 'Ranch Squad',
+      artwork: [
+        { src: coverUrl, sizes: '96x96', type: 'image/jpeg' },
+        { src: coverUrl, sizes: '128x128', type: 'image/jpeg' },
+        { src: coverUrl, sizes: '192x192', type: 'image/jpeg' },
+        { src: coverUrl, sizes: '256x256', type: 'image/jpeg' },
+        { src: coverUrl, sizes: '384x384', type: 'image/jpeg' },
+        { src: coverUrl, sizes: '512x512', type: 'image/jpeg' },
+      ],
+    });
+  }, [currentTrack]);
+
+  // Update Media Session playback state & position
+  useEffect(() => {
+    if (typeof navigator === 'undefined' || !('mediaSession' in navigator))
+      return;
+    navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
+    if (duration > 0 && isFinite(duration)) {
+      try {
+        navigator.mediaSession.setPositionState({
+          duration,
+          playbackRate: 1,
+          position: Math.min(currentTime, duration),
+        });
+      } catch { /* ignore */ }
+    }
+  }, [isPlaying, currentTime, duration]);
+
+
+  // Media Session action handlers (CarPlay/lock screen controls)
+  useEffect(() => {
+    if (typeof navigator === 'undefined' || !('mediaSession' in navigator)) return;
+    try { navigator.mediaSession.setActionHandler('play', () => { audioRef.current?.play(); setIsPlaying(true); }); } catch {}
+    try { navigator.mediaSession.setActionHandler('pause', () => { audioRef.current?.pause(); setIsPlaying(false); }); } catch {}
+    try { navigator.mediaSession.setActionHandler('previoustrack', () => prevTrack()); } catch {}
+    try { navigator.mediaSession.setActionHandler('nexttrack', () => nextTrack()); } catch {}
+    try { navigator.mediaSession.setActionHandler('seekto', (d) => { if (d.seekTime != null && audioRef.current) { audioRef.current.currentTime = d.seekTime; setCurrentTime(d.seekTime); } }); } catch {}
+  });
+
+  // Update document title with current track
+  useEffect(() => {
+    if (isPlaying) {
+      document.title = `${currentTrack.title} — ${currentTrack.artist} | Ranch Squad`;
+    } else {
+      document.title = 'Trevor | Ranch Squad';
+    }
+  }, [isPlaying, currentTrack.title, currentTrack.artist]);
 
   // Track milestones
   useEffect(() => {
@@ -124,9 +198,17 @@ export function AudioProvider({ children }: AudioProviderProps) {
         totalListenTimeRef.current
       );
 
-      // Auto-play next track if available
-      if (hasMultipleTracks && currentTrackIndex < tracks.length - 1) {
-        setCurrentTrackIndex((prev) => prev + 1);
+      if (repeatMode === 'one') {
+        audio.currentTime = 0;
+        audio.play().catch(console.error);
+        return;
+      }
+      // Auto-play next track in queue order
+      const queuePos = queue.indexOf(currentTrackIndex);
+      if (hasMultipleTracks && queuePos < queue.length - 1) {
+        setCurrentTrackIndex(queue[queuePos + 1]);
+      } else if (repeatMode === 'all' && hasMultipleTracks) {
+        setCurrentTrackIndex(queue[0]);
       } else {
         setIsPlaying(false);
       }
@@ -151,6 +233,8 @@ export function AudioProvider({ children }: AudioProviderProps) {
     hasMultipleTracks,
     currentTrack.id,
     currentTrack.title,
+    queue,
+    repeatMode,
   ]);
 
   // Update audio source when track changes
@@ -235,16 +319,13 @@ export function AudioProvider({ children }: AudioProviderProps) {
 
   const nextTrack = useCallback(() => {
     const fromTrack = currentTrack;
-    let toIndex: number;
-    if (currentTrackIndex < tracks.length - 1) {
-      toIndex = currentTrackIndex + 1;
-    } else {
-      toIndex = 0;
-    }
+    const queuePos = queue.indexOf(currentTrackIndex);
+    const nextPos = queuePos < queue.length - 1 ? queuePos + 1 : 0;
+    const toIndex = queue[nextPos];
     const toTrack = tracks[toIndex];
     trackMusicTrackChange(fromTrack.id, toTrack.id, toTrack.title, 'next');
     setCurrentTrackIndex(toIndex);
-  }, [currentTrack, currentTrackIndex]);
+  }, [currentTrack, currentTrackIndex, queue]);
 
   const prevTrack = useCallback(() => {
     const audio = audioRef.current;
@@ -258,17 +339,14 @@ export function AudioProvider({ children }: AudioProviderProps) {
       }
     } else {
       const fromTrack = currentTrack;
-      let toIndex: number;
-      if (currentTrackIndex > 0) {
-        toIndex = currentTrackIndex - 1;
-      } else {
-        toIndex = tracks.length - 1;
-      }
+      const queuePos = queue.indexOf(currentTrackIndex);
+      const prevPos = queuePos > 0 ? queuePos - 1 : queue.length - 1;
+      const toIndex = queue[prevPos];
       const toTrack = tracks[toIndex];
       trackMusicTrackChange(fromTrack.id, toTrack.id, toTrack.title, 'prev');
       setCurrentTrackIndex(toIndex);
     }
-  }, [currentTrack, currentTrackIndex, currentTime]);
+  }, [currentTrack, currentTrackIndex, currentTime, queue]);
 
   const selectTrack = useCallback(
     (index: number) => {
@@ -291,6 +369,48 @@ export function AudioProvider({ children }: AudioProviderProps) {
     [currentTrack, currentTrackIndex, togglePlay]
   );
 
+  const moveTrackInQueue = useCallback(
+    (fromPos: number, toPos: number) => {
+      if (fromPos < 0 || fromPos >= queue.length || toPos < 0 || toPos >= queue.length) return;
+      setQueue((prev) => {
+        const next = [...prev];
+        const [moved] = next.splice(fromPos, 1);
+        next.splice(toPos, 0, moved);
+        return next;
+      });
+    },
+    [queue.length]
+  );
+
+  const toggleShuffle = useCallback(() => {
+    setShuffle((prev) => {
+      const next = !prev;
+      if (next) {
+        setQueue((q) => {
+          const currentPos = q.indexOf(currentTrackIndex);
+          const newQueue = [...q];
+          newQueue.splice(currentPos, 1);
+          for (let i = newQueue.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [newQueue[i], newQueue[j]] = [newQueue[j], newQueue[i]];
+          }
+          return [currentTrackIndex, ...newQueue];
+        });
+      } else {
+        setQueue(tracks.map((_, i) => i));
+      }
+      return next;
+    });
+  }, [currentTrackIndex]);
+
+  const cycleRepeat = useCallback(() => {
+    setRepeatMode((prev) => {
+      if (prev === 'off') return 'all';
+      if (prev === 'all') return 'one';
+      return 'off';
+    });
+  }, []);
+
   const formatTime = useCallback((time: number) => {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
@@ -303,6 +423,9 @@ export function AudioProvider({ children }: AudioProviderProps) {
     isPlaying,
     currentTime,
     duration,
+    queue,
+    shuffle,
+    repeatMode,
     play,
     pause,
     togglePlay,
@@ -310,6 +433,9 @@ export function AudioProvider({ children }: AudioProviderProps) {
     nextTrack,
     prevTrack,
     selectTrack,
+    moveTrackInQueue,
+    toggleShuffle,
+    cycleRepeat,
     formatTime,
     hasMultipleTracks,
   };
