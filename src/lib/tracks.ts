@@ -25,6 +25,14 @@ const aaron: TrackCredit = {
 
 export const tracks: Track[] = [
   {
+    id: 'roll-call-comon-ranch-squad',
+    title: "Roll Call (Com'On Ranch Squad)",
+    artist: 'Trevor & Ranch Squad',
+    src: '/audio/roll-call-comon-ranch-squad.mp3',
+    cover: '/images/covers/roll-call-comon-ranch-squad.jpg',
+    createdBy: reaper,
+  },
+  {
     id: 'cross-that-line',
     title: 'Cross That Line',
     artist: 'Trevor & Ranch Squad',
