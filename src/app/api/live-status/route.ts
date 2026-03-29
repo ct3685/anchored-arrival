@@ -6,13 +6,24 @@ const CACHE_TTL_SECONDS = 60;
 let cachedResult: { isLive: boolean; checkedAt: number } | null = null;
 
 /**
- * Checks TikTok live status by fetching the user's live page and looking
- * for indicators of an active stream. Results are cached in-memory for 60s
- * to avoid hammering TikTok. Falls back to `isLive: false` on any error.
+ * Detects TikTok live status using two signals:
+ *
+ * 1. Redirect behavior: when NOT live, TikTok's /@user/live page returns a
+ *    3xx redirect to the profile. When live, it returns 200 with stream content.
+ *
+ * 2. Stream URL presence: the 200 page only contains CDN streaming URLs
+ *    (pull-hls, pull-flv on tiktokcdn) when an actual stream is active.
+ *    This avoids false positives from structural JS property names like
+ *    "liveRoom" which appear in the page code regardless of status.
+ *
+ * Cached in-memory for 60s. Falls back to isLive=false on any error.
  */
 async function checkLiveStatus(): Promise<boolean> {
   const now = Date.now();
-  if (cachedResult && now - cachedResult.checkedAt < CACHE_TTL_SECONDS * 1000) {
+  if (
+    cachedResult &&
+    now - cachedResult.checkedAt < CACHE_TTL_SECONDS * 1000
+  ) {
     return cachedResult.isLive;
   }
 
@@ -20,10 +31,12 @@ async function checkLiveStatus(): Promise<boolean> {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 5000);
 
+    // Use redirect: 'manual' so we can detect 3xx → user is offline
     const res = await fetch(
       `https://www.tiktok.com/@${TIKTOK_USERNAME}/live`,
       {
         signal: controller.signal,
+        redirect: 'manual',
         headers: {
           'User-Agent':
             'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
@@ -36,29 +49,43 @@ async function checkLiveStatus(): Promise<boolean> {
 
     clearTimeout(timeout);
 
-    if (!res.ok) {
+    // 3xx redirect = user is NOT live (TikTok sends to profile)
+    if (res.status >= 300 && res.status < 400) {
+      cachedResult = { isLive: false, checkedAt: now };
+      return false;
+    }
+
+    // Non-200 = error, assume not live
+    if (res.status !== 200) {
       cachedResult = { isLive: false, checkedAt: now };
       return false;
     }
 
     const html = await res.text();
 
-    // When a user is live, the page contains indicators like:
-    // - "LiveRoom" or "liveRoom" in the page data
-    // - "isLiveStreaming":true in JSON-LD or NEXT_DATA
-    // - The page does NOT redirect to the profile (status 200 with live content)
-    const liveIndicators = [
-      '"isLiveStreaming":true',
-      '"liveRoom"',
-      '"LiveRoom"',
-      'live-room',
-      '"status":2', // TikTok live status code for "streaming"
-      '"alive":true',
+    // Look for TikTok CDN streaming URLs which ONLY appear during an
+    // active livestream. These are the actual video stream endpoints.
+    const streamIndicators = [
+      'pull-hls',
+      'pull-flv',
+      'pull-rtmp',
+      'webcast.tiktok.com/webcast/im',
     ];
 
-    const isLive = liveIndicators.some((indicator) =>
+    const hasActiveStream = streamIndicators.some((indicator) =>
       html.includes(indicator)
     );
+
+    // Secondary: check for a room_id near a status of 2 (streaming).
+    // Find room_id, then check if "status":2 appears nearby.
+    const roomIdIdx = html.indexOf('"room_id"');
+    let hasLiveRoomStatus = false;
+    if (roomIdIdx !== -1) {
+      const nearby = html.slice(roomIdIdx, roomIdIdx + 600);
+      hasLiveRoomStatus = /"status"\s*:\s*2\b/.test(nearby);
+    }
+
+    const isLive = hasActiveStream || hasLiveRoomStatus;
 
     cachedResult = { isLive, checkedAt: now };
     return isLive;
