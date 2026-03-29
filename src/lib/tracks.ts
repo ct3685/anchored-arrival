@@ -25,6 +25,14 @@ const aaron: TrackCredit = {
 
 export const tracks: Track[] = [
   {
+    id: 'lfgo-ranch-squad',
+    title: 'LFGO Ranch Squad',
+    artist: 'Trevor & Ranch Squad',
+    src: '/audio/lfgo-ranch-squad.mp3',
+    cover: '/images/covers/lfgo-ranch-squad.jpg',
+    createdBy: reaper,
+  },
+  {
     id: 'roll-call-comon-ranch-squad',
     title: "Roll Call (Com'On Ranch Squad)",
     artist: 'Trevor & Ranch Squad',
