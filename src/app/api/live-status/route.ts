@@ -19,10 +19,7 @@ let cachedResult: { isLive: boolean; checkedAt: number } | null = null;
  */
 async function checkLiveStatus(): Promise<boolean> {
   const now = Date.now();
-  if (
-    cachedResult &&
-    now - cachedResult.checkedAt < CACHE_TTL_SECONDS * 1000
-  ) {
+  if (cachedResult && now - cachedResult.checkedAt < CACHE_TTL_SECONDS * 1000) {
     return cachedResult.isLive;
   }
 
@@ -30,19 +27,16 @@ async function checkLiveStatus(): Promise<boolean> {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 5000);
 
-    const res = await fetch(
-      `https://www.tiktok.com/@${TIKTOK_USERNAME}/live`,
-      {
-        signal: controller.signal,
-        headers: {
-          'User-Agent':
-            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-          Accept:
-            'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-          'Accept-Language': 'en-US,en;q=0.9',
-        },
-      }
-    );
+    const res = await fetch(`https://www.tiktok.com/@${TIKTOK_USERNAME}/live`, {
+      signal: controller.signal,
+      headers: {
+        'User-Agent':
+          'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        Accept:
+          'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.9',
+      },
+    });
 
     clearTimeout(timeout);
 
