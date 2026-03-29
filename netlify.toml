@@ -7,7 +7,14 @@
 
 # Next.js runtime handles routing automatically
 
-# Redirect for /join to https://www.tiktok.com/t/ZTh1ohJwM/
+# Redirect Netlify default domain to ranchsquad.com
+[[redirects]]
+  from = "https://trevor-ranchsquad.netlify.app/*"
+  to = "https://ranchsquad.com/:splat"
+  status = 301
+  force = true
+
+# Redirect for /join to TikTok
 [[redirects]]
   from = "/join"
   to = "https://www.tiktok.com/t/ZTh1ohJwM/"
