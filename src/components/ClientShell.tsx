@@ -74,6 +74,7 @@ export function SparkleEffectLazy() {
 }
 
 export function MiniPlayerLazy() {
+  const pathname = usePathname();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -81,7 +82,8 @@ export function MiniPlayerLazy() {
     scheduleWhenIdle(() => setIsVisible(true), 500);
   }, []);
 
-  if (!isVisible) return null;
+  // Hide MiniPlayer on /music page — the full Now Playing panel handles it there
+  if (!isVisible || pathname === '/music') return null;
 
   return <MiniPlayer />;
 }

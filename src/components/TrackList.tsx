@@ -90,7 +90,7 @@ export default function TrackList() {
             <Box
               sx={{
                 mb: 4,
-                p: 3,
+                p: { xs: 2.5, sm: 3 },
                 clipPath: clipPaths.clippedCorner,
                 background: `linear-gradient(135deg, ${colors.darkLeather} 0%, ${colors.coalBrown} 100%)`,
                 border: `1px solid ${colors.amber}44`,
@@ -112,12 +112,18 @@ export default function TrackList() {
                 },
               }}
             >
-              <Stack direction="row" spacing={3} alignItems="center">
+              {/* Desktop: horizontal layout */}
+              <Stack
+                direction={{ xs: 'column', sm: 'row' }}
+                spacing={{ xs: 2, sm: 3 }}
+                alignItems={{ xs: 'center', sm: 'center' }}
+              >
+                {/* Album Art */}
                 <Box
                   sx={{
                     position: 'relative',
-                    width: 80,
-                    height: 80,
+                    width: { xs: 120, sm: 80 },
+                    height: { xs: 120, sm: 80 },
                     clipPath: clipPaths.buckleFrame,
                     overflow: 'hidden',
                     flexShrink: 0,
@@ -128,11 +134,13 @@ export default function TrackList() {
                     src={currentTrack.cover}
                     alt={currentTrack.title}
                     fill
-                    sizes="80px"
+                    sizes="(max-width: 600px) 120px, 80px"
                     style={{ objectFit: 'cover' }}
                   />
                 </Box>
-                <Box sx={{ flex: 1 }}>
+
+                {/* Track Info */}
+                <Box sx={{ flex: 1, textAlign: { xs: 'center', sm: 'left' }, width: '100%' }}>
                   <Typography
                     variant="overline"
                     sx={{
@@ -150,7 +158,13 @@ export default function TrackList() {
                   </Typography>
                   <Typography
                     variant="h6"
-                    sx={{ color: colors.bone, fontWeight: 700 }}
+                    sx={{
+                      color: colors.bone,
+                      fontWeight: 700,
+                      whiteSpace: { xs: 'normal', sm: 'nowrap' },
+                      overflow: { sm: 'hidden' },
+                      textOverflow: { sm: 'ellipsis' },
+                    }}
                   >
                     {currentTrack.title}
                   </Typography>
@@ -197,7 +211,15 @@ export default function TrackList() {
                     />
                   </Box>
                 </Box>
-                <Stack direction="row" alignItems="center" spacing={1}>
+
+                {/* Playback Controls */}
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  justifyContent="center"
+                  spacing={1}
+                  sx={{ flexShrink: 0 }}
+                >
                   <IconButton
                     onClick={prevTrack}
                     sx={{
