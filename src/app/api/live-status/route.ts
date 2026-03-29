@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-const TIKTOK_USERNAME = 'trevor_bfit';
+const TIKTOK_USERNAME = 'cam.tok'; // TEMP: testing against live user
 const CACHE_TTL_SECONDS = 60;
 
 let cachedResult: { isLive: boolean; checkedAt: number } | null = null;
