@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { Box, Container, Typography, IconButton, Stack } from '@mui/material';
+import { Box, Container, Typography, IconButton, Stack, Slider } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
@@ -9,6 +9,9 @@ import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import DownloadIcon from '@mui/icons-material/Download';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import RepeatIcon from '@mui/icons-material/Repeat';
+import RepeatOneIcon from '@mui/icons-material/RepeatOne';
+import ShuffleIcon from '@mui/icons-material/Shuffle';
 import { motion } from 'motion/react';
 
 import { useAudio } from '@/lib/AudioContext';
@@ -31,6 +34,11 @@ export default function TrackList() {
     formatTime,
     currentTime,
     duration,
+    shuffle,
+    repeatMode,
+    toggleShuffle,
+    cycleRepeat,
+    seek,
     queue,
     moveTrackInQueue,
   } = useAudio();
@@ -193,37 +201,51 @@ export default function TrackList() {
                       {currentTrack.createdBy.name}
                     </Box>
                   </Typography>
-                  {/* Rugged progress bar */}
-                  <Box
-                    sx={{
-                      mt: 1,
-                      height: 4,
-                      backgroundColor: `${colors.brass}33`,
-                      position: 'relative',
-                    }}
-                  >
-                    <Box
+                  {/* Seekable progress bar */}
+                  <Stack direction="row" alignItems="center" spacing={1} sx={{ mt: 1 }}>
+                    <Typography variant="caption" sx={{ color: colors.dust, fontSize: '0.65rem', minWidth: 32, textAlign: 'right' }}>
+                      {formatTime(currentTime)}
+                    </Typography>
+                    <Slider
+                      value={currentTime}
+                      max={duration || 100}
+                      onChange={(_, value) => seek(value as number)}
+                      size="small"
                       sx={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        height: '100%',
-                        width: `${duration > 0 ? (currentTime / duration) * 100 : 0}%`,
-                        background: `linear-gradient(90deg, ${colors.amber}, ${colors.red})`,
-                        transition: 'width 0.3s linear',
+                        color: colors.amber,
+                        height: 4,
+                        '& .MuiSlider-thumb': { width: 10, height: 10, backgroundColor: colors.amber },
+                        '& .MuiSlider-track': {
+                          background: `linear-gradient(90deg, ${colors.amber}, ${colors.red})`,
+                          border: 'none',
+                        },
+                        '& .MuiSlider-rail': { backgroundColor: `${colors.brass}33` },
                       }}
                     />
-                  </Box>
+                    <Typography variant="caption" sx={{ color: colors.dust, fontSize: '0.65rem', minWidth: 32 }}>
+                      {formatTime(duration)}
+                    </Typography>
+                  </Stack>
                 </Box>
 
-                {/* Playback Controls */}
+                {/* Playback Controls with Shuffle & Repeat */}
                 <Stack
                   direction="row"
                   alignItems="center"
                   justifyContent="center"
-                  spacing={1}
+                  spacing={{ xs: 0.5, sm: 1 }}
                   sx={{ flexShrink: 0 }}
                 >
+                  <IconButton
+                    onClick={toggleShuffle}
+                    size="small"
+                    sx={{
+                      color: shuffle ? colors.amber : colors.dust,
+                      '&:hover': { backgroundColor: `${colors.brass}22` },
+                    }}
+                  >
+                    <ShuffleIcon fontSize="small" />
+                  </IconButton>
                   <IconButton
                     onClick={prevTrack}
                     sx={{
@@ -269,6 +291,16 @@ export default function TrackList() {
                     }}
                   >
                     <SkipNextIcon />
+                  </IconButton>
+                  <IconButton
+                    onClick={cycleRepeat}
+                    size="small"
+                    sx={{
+                      color: repeatMode === 'off' ? colors.dust : colors.amber,
+                      '&:hover': { backgroundColor: `${colors.brass}22` },
+                    }}
+                  >
+                    {repeatMode === 'one' ? <RepeatOneIcon fontSize="small" /> : <RepeatIcon fontSize="small" />}
                   </IconButton>
                 </Stack>
               </Stack>
