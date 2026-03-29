@@ -28,7 +28,7 @@ const bodyFont = Inter({
   display: 'swap',
 });
 
-const GA_MEASUREMENT_ID = 'G-2DE84Q17JH';
+const GA_MEASUREMENT_ID = 'G-NPDJT8S6PC';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://trevor-ranchsquad.netlify.app'),

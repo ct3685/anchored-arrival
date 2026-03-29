@@ -6,12 +6,14 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
+import DownloadIcon from '@mui/icons-material/Download';
 import { motion } from 'motion/react';
 
 import { useAudio } from '@/lib/AudioContext';
 import { tracks } from '@/lib/tracks';
 import { colors, clipPaths } from '@/theme/theme';
 import { useScrollDepth } from '@/lib/useScrollDepth';
+import { trackMusicDownload } from '@/lib/analytics';
 
 export default function TrackList() {
   useScrollDepth();
@@ -337,6 +339,26 @@ export default function TrackList() {
                       </Box>
                     </Typography>
                   </Box>
+
+                  {/* Download Button */}
+                  <IconButton
+                    component="a"
+                    href={track.src}
+                    download={`${track.title} - ${track.artist}.mp3`}
+                    onClick={(e: React.MouseEvent) => {
+                      e.stopPropagation();
+                      trackMusicDownload(track.id, track.title, track.artist);
+                    }}
+                    sx={{
+                      color: colors.dust,
+                      '&:hover': {
+                        color: colors.brass,
+                        backgroundColor: `${colors.brass}11`,
+                      },
+                    }}
+                  >
+                    <DownloadIcon fontSize="small" />
+                  </IconButton>
 
                   {/* Play Button */}
                   <IconButton
