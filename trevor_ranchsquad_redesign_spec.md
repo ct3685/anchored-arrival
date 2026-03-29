@@ -337,7 +337,7 @@ If actual tracks are not ready, do not leave it empty in a boring way.
 Turn it into a hype module.
 
 **Heading ideas**
-- Entrance Themes
+- The Soundtrack
 - Rally Audio
 - Arena Sound
 
@@ -439,7 +439,7 @@ The music page should support the Trevor mythos. It should feel like the soundtr
 Not a generic playlist page. More like a locker room / entrance tunnel soundtrack board.
 
 ### Heading ideas
-- Entrance Themes
+- The Soundtrack
 - Rally Audio
 - The Sound of the Ranch
 - Arena Tracks
@@ -578,7 +578,7 @@ They will make it feel jokey instead of designed.
 - Out Here
 
 ### Music
-- Entrance Themes
+- The Soundtrack
 - Rally Audio
 - Arena Sound
 

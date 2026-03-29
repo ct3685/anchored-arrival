@@ -44,7 +44,7 @@ export default function MusicTeaser() {
                 fontSize: { xs: '2rem', md: '2.8rem' },
               }}
             >
-              Entrance Themes
+              The Soundtrack
             </Typography>
 
             {hasRealTracks ? (
@@ -90,7 +90,7 @@ export default function MusicTeaser() {
                   variant="body2"
                   sx={{ color: colors.dust, opacity: 0.7 }}
                 >
-                  Entrance music and rally cries coming soon.
+                  Original tracks and rally audio coming soon.
                 </Typography>
               </Box>
             )}

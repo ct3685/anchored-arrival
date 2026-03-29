@@ -58,7 +58,7 @@ export default function TrackList() {
                 fontSize: { xs: '2.2rem', md: '3rem' },
               }}
             >
-              Entrance Themes
+              The Soundtrack
             </Typography>
             <Typography
               variant="body1"
@@ -150,6 +150,23 @@ export default function TrackList() {
                   <Typography variant="body2" sx={{ color: colors.dust }}>
                     {currentTrack.artist} &bull; {formatTime(currentTime)} /{' '}
                     {formatTime(duration)}
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: colors.brass }}>
+                    Created by{' '}
+                    <Box
+                      component="a"
+                      href={currentTrack.createdBy.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e: React.MouseEvent) => e.stopPropagation()}
+                      sx={{
+                        color: colors.amber,
+                        textDecoration: 'none',
+                        '&:hover': { textDecoration: 'underline' },
+                      }}
+                    >
+                      {currentTrack.createdBy.name}
+                    </Box>
                   </Typography>
                   {/* Rugged progress bar */}
                   <Box
@@ -266,6 +283,26 @@ export default function TrackList() {
                     <Typography variant="caption" sx={{ color: colors.dust }}>
                       {track.artist}
                     </Typography>
+                    <Typography
+                      variant="caption"
+                      sx={{ color: colors.brass, display: 'block', fontSize: '0.7rem' }}
+                    >
+                      by{' '}
+                      <Box
+                        component="a"
+                        href={track.createdBy.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e: React.MouseEvent) => e.stopPropagation()}
+                        sx={{
+                          color: colors.amber,
+                          textDecoration: 'none',
+                          '&:hover': { textDecoration: 'underline' },
+                        }}
+                      >
+                        {track.createdBy.name}
+                      </Box>
+                    </Typography>
                   </Box>
 
                   {/* Play Button */}
@@ -314,7 +351,7 @@ export default function TrackList() {
                 variant="body2"
                 sx={{ color: colors.dust, opacity: 0.7 }}
               >
-                Entrance music and rally cries coming soon.
+                Original tracks and rally audio coming soon.
               </Typography>
             </Box>
           </motion.div>
