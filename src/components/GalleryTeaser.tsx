@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Box, Container, Typography, Grid, Button } from '@mui/material';
 import { motion } from 'motion/react';
 import { colors, clipPaths } from '@/theme/theme';
+import { trackTeaserCTA } from '@/lib/analytics';
 import { galleryImages } from '@/lib/images';
 
 export default function GalleryTeaser() {
@@ -130,6 +131,7 @@ export default function GalleryTeaser() {
               href="/gallery"
               variant="contained"
               color="primary"
+              onClick={() => trackTeaserCTA('View Full Gallery', '/gallery')}
               sx={{
                 clipPath: clipPaths.ticketStub,
                 border: 'none',

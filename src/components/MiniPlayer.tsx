@@ -27,6 +27,7 @@ import { colors } from '@/theme/theme';
 import {
   trackMiniplayerExpand,
   trackMiniplayerCollapse,
+  trackLinkClick,
 } from '@/lib/analytics';
 
 export default function MiniPlayer() {
@@ -207,6 +208,14 @@ export default function MiniPlayer() {
                   href={currentTrack.createdBy.url}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() =>
+                    trackLinkClick(
+                      currentTrack.createdBy.name,
+                      currentTrack.createdBy.url,
+                      0,
+                      true
+                    )
+                  }
                   sx={{
                     color: colors.primary,
                     textDecoration: 'none',

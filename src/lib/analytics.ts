@@ -1,5 +1,5 @@
 // Google Analytics 4 Event Tracking Utility
-// Measurement ID: G-NPDJT8S6PC
+// Measurement ID configured via NEXT_PUBLIC_GA_MEASUREMENT_ID env var
 
 declare global {
   interface Window {
@@ -25,6 +25,17 @@ export const trackEvent = (
   params?: Record<string, unknown>
 ) => {
   gtag('event', eventName, params);
+};
+
+// ============================================
+// PAGE VIEW (SPA client-side navigation)
+// ============================================
+
+export const trackPageView = (pagePath: string, pageTitle?: string) => {
+  gtag('event', 'page_view', {
+    page_path: pagePath,
+    page_title: pageTitle,
+  });
 };
 
 // ============================================
@@ -72,6 +83,20 @@ export const trackHeroCTA = (
 };
 
 // ============================================
+// TEASER CTA EVENTS
+// ============================================
+
+export const trackTeaserCTA = (
+  ctaText: string,
+  destination: string
+) => {
+  trackEvent('teaser_cta_click', {
+    cta_text: ctaText,
+    destination: destination,
+  });
+};
+
+// ============================================
 // MUSIC PLAYER EVENTS
 // ============================================
 
@@ -79,14 +104,12 @@ export const trackMusicPlay = (
   trackId: string,
   trackTitle: string,
   artist: string,
-  playerType: 'mini' | 'full' | 'global',
   positionSeconds: number
 ) => {
   trackEvent('music_play', {
     track_id: trackId,
     track_title: trackTitle,
     artist: artist,
-    player_type: playerType,
     position_seconds: Math.round(positionSeconds),
   });
 };
@@ -95,57 +118,49 @@ export const trackMusicPause = (
   trackId: string,
   trackTitle: string,
   positionSeconds: number,
-  listenDuration: number,
-  playerType: 'mini' | 'full' | 'global'
+  listenDuration: number
 ) => {
   trackEvent('music_pause', {
     track_id: trackId,
     track_title: trackTitle,
     position_seconds: Math.round(positionSeconds),
     listen_duration_seconds: Math.round(listenDuration),
-    player_type: playerType,
   });
 };
 
 export const trackMusicSeek = (
   trackId: string,
   fromSeconds: number,
-  toSeconds: number,
-  playerType: 'mini' | 'full' | 'global'
+  toSeconds: number
 ) => {
   trackEvent('music_seek', {
     track_id: trackId,
     from_seconds: Math.round(fromSeconds),
     to_seconds: Math.round(toSeconds),
-    player_type: playerType,
   });
 };
 
 export const trackMusicTrackComplete = (
   trackId: string,
   trackTitle: string,
-  totalListenTime: number,
-  playerType: 'mini' | 'full' | 'global'
+  totalListenTime: number
 ) => {
   trackEvent('music_track_complete', {
     track_id: trackId,
     track_title: trackTitle,
     total_listen_time_seconds: Math.round(totalListenTime),
-    player_type: playerType,
   });
 };
 
 export const trackMusicMilestone = (
   trackId: string,
   trackTitle: string,
-  milestone: 25 | 50 | 75 | 100,
-  playerType: 'mini' | 'full' | 'global'
+  milestone: 25 | 50 | 75 | 100
 ) => {
   trackEvent('music_milestone', {
     track_id: trackId,
     track_title: trackTitle,
     milestone: milestone,
-    player_type: playerType,
   });
 };
 
@@ -246,12 +261,6 @@ export const trackImageDownload = (
   });
 };
 
-export const trackGalleryDownloadAll = (imageCount: number) => {
-  trackEvent('gallery_download_all', {
-    image_count: imageCount,
-  });
-};
-
 // ============================================
 // LINKS PAGE EVENTS
 // ============================================
@@ -276,7 +285,7 @@ export const trackLinkClick = (
 
 export const trackSocialClick = (
   platform: string,
-  location: 'hero' | 'footer' | 'linktree' | 'navbar' | 'social_section'
+  location: 'linktree' | 'social_section'
 ) => {
   trackEvent('social_click', {
     platform: platform,
@@ -313,6 +322,13 @@ export const trackDownloadError = (fileName: string, errorMessage: string) => {
   trackEvent('download_error', {
     file_name: fileName,
     error_message: errorMessage,
+  });
+};
+
+export const trackPageNotFound = (pagePath: string, referrer: string) => {
+  trackEvent('page_not_found', {
+    page_path: pagePath,
+    referrer: referrer,
   });
 };
 

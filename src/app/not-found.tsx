@@ -1,10 +1,16 @@
 'use client';
 
+import { useEffect } from 'react';
 import { Box, Container, Typography, Button, Stack } from '@mui/material';
 import Link from 'next/link';
 import { colors, clipPaths } from '@/theme/theme';
+import { trackPageNotFound, trackEvent } from '@/lib/analytics';
 
 export default function NotFound() {
+  useEffect(() => {
+    trackPageNotFound(window.location.pathname, document.referrer);
+  }, []);
+
   return (
     <Container maxWidth="sm">
       <Box
@@ -69,6 +75,7 @@ export default function NotFound() {
             variant="contained"
             color="primary"
             size="large"
+            onClick={() => trackEvent('not_found_cta_click', { destination: '/' })}
             sx={{
               py: 1.8,
               px: 5,

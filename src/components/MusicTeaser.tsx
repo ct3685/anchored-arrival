@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Box, Container, Typography, Button, Stack } from '@mui/material';
 import { motion } from 'motion/react';
 import { colors, clipPaths } from '@/theme/theme';
+import { trackTeaserCTA } from '@/lib/analytics';
 import { tracks } from '@/lib/tracks';
 
 export default function MusicTeaser() {
@@ -135,6 +136,7 @@ export default function MusicTeaser() {
                 href="/music"
                 variant="contained"
                 color="primary"
+                onClick={() => trackTeaserCTA('Arena Sound', '/music')}
                 sx={{
                   clipPath: clipPaths.ticketStub,
                   border: 'none',

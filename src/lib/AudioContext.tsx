@@ -103,8 +103,7 @@ export function AudioProvider({ children }: AudioProviderProps) {
           trackMusicMilestone(
             currentTrack.id,
             currentTrack.title,
-            milestone,
-            'global'
+            milestone
           );
         }
       }
@@ -122,8 +121,7 @@ export function AudioProvider({ children }: AudioProviderProps) {
       trackMusicTrackComplete(
         currentTrack.id,
         currentTrack.title,
-        totalListenTimeRef.current,
-        'global'
+        totalListenTimeRef.current
       );
 
       // Auto-play next track if available
@@ -194,7 +192,6 @@ export function AudioProvider({ children }: AudioProviderProps) {
       currentTrack.id,
       currentTrack.title,
       currentTrack.artist,
-      'global',
       currentTime
     );
     setIsPlaying(true);
@@ -210,8 +207,7 @@ export function AudioProvider({ children }: AudioProviderProps) {
       currentTrack.id,
       currentTrack.title,
       currentTime,
-      listenDuration,
-      'global'
+      listenDuration
     );
     setIsPlaying(false);
   }, [currentTrack, currentTime]);
@@ -232,7 +228,7 @@ export function AudioProvider({ children }: AudioProviderProps) {
       const oldTime = currentTime;
       audio.currentTime = time;
       setCurrentTime(time);
-      trackMusicSeek(currentTrack.id, oldTime, time, 'global');
+      trackMusicSeek(currentTrack.id, oldTime, time);
     },
     [currentTrack.id, currentTime]
   );
@@ -256,7 +252,7 @@ export function AudioProvider({ children }: AudioProviderProps) {
     // If more than 3 seconds in, restart current track
     if (currentTime > 3) {
       if (audio) {
-        trackMusicSeek(currentTrack.id, currentTime, 0, 'global');
+        trackMusicSeek(currentTrack.id, currentTime, 0);
         audio.currentTime = 0;
         setCurrentTime(0);
       }

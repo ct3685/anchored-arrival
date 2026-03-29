@@ -120,6 +120,8 @@ export default function LinkTree() {
         trackSocialClick('youtube', 'linktree');
       } else if (link.href.includes('instagram.com')) {
         trackSocialClick('instagram', 'linktree');
+      } else if (link.href.includes('facebook.com')) {
+        trackSocialClick('facebook', 'linktree');
       }
 
       if (isInAppBrowser && isExternal && isProblematicUrl(link.href)) {
@@ -217,7 +219,7 @@ export default function LinkTree() {
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e: React.MouseEvent<HTMLAnchorElement>) =>
-                          handleLinkClick(e, link, index)
+                          handleLinkClick(e, link, links.indexOf(link))
                         }
                         sx={{
                           display: 'flex',

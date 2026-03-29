@@ -12,6 +12,7 @@ import {
   SparkleEffectLazy,
   MiniPlayerLazy,
   InAppBrowserNoticeLazy,
+  RouteAnalytics,
 } from '@/components/ClientShell';
 
 const displayFont = Teko({
@@ -28,7 +29,7 @@ const bodyFont = Inter({
   display: 'swap',
 });
 
-const GA_MEASUREMENT_ID = 'G-NPDJT8S6PC';
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? '';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://trevor-ranchsquad.netlify.app'),
@@ -106,24 +107,29 @@ export default function RootLayout({
             }),
           }}
         />
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-          strategy="afterInteractive"
-        />
-        <Script id="gtag-init" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${GA_MEASUREMENT_ID}');
-          `}
-        </Script>
+        {GA_MEASUREMENT_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="gtag-init" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${GA_MEASUREMENT_ID}');
+              `}
+            </Script>
+          </>
+        )}
       </head>
       <body style={{ margin: 0, background: '#0D0A09' }}>
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
           <ThemeProvider theme={theme}>
             <CssBaseline />
             <AudioProvider>
+              <RouteAnalytics />
               <InAppBrowserNoticeLazy />
               <SparkleEffectLazy />
               <Navbar />
