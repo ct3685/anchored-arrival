@@ -25,6 +25,14 @@ const aaron: TrackCredit = {
 
 export const tracks: Track[] = [
   {
+    id: 'we-just-won-reset-river',
+    title: 'We Just Won (Reset River)',
+    artist: 'Trevor & Ranch Squad',
+    src: '/audio/we-just-won-reset-river.mp3',
+    cover: '/images/covers/we-just-won-reset-river.jpg',
+    createdBy: reaper,
+  },
+  {
     id: 'lfgo-ranch-squad',
     title: 'LFGO Ranch Squad',
     artist: 'Trevor & Ranch Squad',
