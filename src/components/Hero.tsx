@@ -26,7 +26,7 @@ export default function Hero() {
         overflow: 'hidden',
       }}
     >
-      {/* Arena haze / stage light effects */}
+      {/* Arena haze / stage light effects — intensify when live */}
       <Box
         sx={{
           display: { xs: 'none', md: 'block' },
@@ -35,8 +35,9 @@ export default function Hero() {
           left: '20%',
           width: 500,
           height: 500,
-          background: `radial-gradient(circle, ${colors.red}18 0%, transparent 70%)`,
+          background: `radial-gradient(circle, ${colors.red}${isLive ? '30' : '18'} 0%, transparent 70%)`,
           filter: 'blur(80px)',
+          transition: 'background 1s ease',
         }}
       />
       <Box
@@ -47,8 +48,9 @@ export default function Hero() {
           right: '5%',
           width: 600,
           height: 600,
-          background: `radial-gradient(circle, ${colors.amber}14 0%, transparent 70%)`,
+          background: `radial-gradient(circle, ${colors.amber}${isLive ? '28' : '14'} 0%, transparent 70%)`,
           filter: 'blur(100px)',
+          transition: 'background 1s ease',
         }}
       />
       <Box
@@ -93,15 +95,22 @@ export default function Hero() {
               <Typography
                 variant="overline"
                 sx={{
-                  color: colors.red,
+                  color: isLive ? colors.red : colors.brass,
                   letterSpacing: 6,
                   fontWeight: 600,
                   mb: 1,
                   display: 'block',
                   fontSize: '0.85rem',
+                  ...(isLive && {
+                    animation: 'flicker 2s ease-in-out infinite',
+                    '@keyframes flicker': {
+                      '0%, 100%': { opacity: 1 },
+                      '50%': { opacity: 0.6 },
+                    },
+                  }),
                 }}
               >
-                Tonight at the Ranch
+                {isLive ? '🔴 Live Right Now' : 'Tonight at the Ranch'}
               </Typography>
             </motion.div>
 
@@ -116,12 +125,25 @@ export default function Hero() {
                   fontSize: { xs: '3.5rem', sm: '5rem', md: '6rem' },
                   color: colors.amber,
                   mb: 2,
-                  textShadow: `0 0 40px ${colors.amber}33`,
+                  textShadow: isLive
+                    ? `0 0 60px ${colors.red}44, 0 0 30px ${colors.amber}33`
+                    : `0 0 40px ${colors.amber}33`,
+                  transition: 'text-shadow 1s ease',
                 }}
               >
-                The Ranch
-                <br />
-                Is Live
+                {isLive ? (
+                  <>
+                    The Ranch
+                    <br />
+                    Is Live
+                  </>
+                ) : (
+                  <>
+                    Com&apos;On.
+                    <br />
+                    Pull Up.
+                  </>
+                )}
               </Typography>
             </motion.div>
 
@@ -142,8 +164,9 @@ export default function Hero() {
                   mx: { xs: 'auto', md: 0 },
                 }}
               >
-                Country-fried live chaos, rally cries, and real ones only. Pull
-                up for the live. Stay for the madness.
+                {isLive
+                  ? "Trevor is LIVE right now on TikTok. The ranch is open. Pull up — you're missing it."
+                  : 'Country-fried live chaos, rally cries, and real ones only. Pull up for the live. Stay for the madness.'}
               </Typography>
             </motion.div>
 
@@ -190,11 +213,11 @@ export default function Hero() {
                     }),
                   }}
                 >
-                  {isLive ? '🔴 Live Now' : 'Watch Live'}
+                  {isLive ? '🔴 Watch Now' : 'Watch Live'}
                 </Button>
                 <Button
                   variant="contained"
-                  color="secondary"
+                  color={isLive ? 'primary' : 'secondary'}
                   size="large"
                   href="https://kingstreetcowboys.com/affiliates/trevorbfit"
                   target="_blank"
@@ -233,14 +256,24 @@ export default function Hero() {
                 height: { xs: 340, sm: 390, md: 460 },
               }}
             >
-              {/* Outer glow */}
+              {/* Outer glow — red pulse when live */}
               <Box
                 sx={{
                   position: 'absolute',
                   inset: -8,
                   clipPath: clipPaths.buckleFrame,
-                  background: `linear-gradient(135deg, ${colors.amber}66, ${colors.red}44, ${colors.turquoise}33)`,
+                  background: isLive
+                    ? `linear-gradient(135deg, ${colors.red}88, ${colors.amber}66, ${colors.red}88)`
+                    : `linear-gradient(135deg, ${colors.amber}66, ${colors.red}44, ${colors.turquoise}33)`,
                   filter: 'blur(2px)',
+                  transition: 'background 1s ease',
+                  ...(isLive && {
+                    animation: 'frameGlow 2s ease-in-out infinite',
+                    '@keyframes frameGlow': {
+                      '0%, 100%': { opacity: 0.8 },
+                      '50%': { opacity: 1 },
+                    },
+                  }),
                 }}
               />
               {/* Brass border */}

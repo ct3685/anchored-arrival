@@ -2,17 +2,17 @@
 
 import { Box, Typography } from '@mui/material';
 import { colors } from '@/theme/theme';
+import { useLiveStatus } from '@/lib/useLiveStatus';
 
-const phrases = [
+const defaultPhrases = [
   'Ranch Squad',
   'Gooder Than Shit',
   'No Power Ups',
   'Real Ones Only',
-  "Com'On!",
+  "Com'On",
   'Raise Hell',
   'Pull Up',
   'Suit Up',
-  'Let\'s Fucking Go',
 ];
 
 function HorseshoeIcon() {
@@ -36,49 +36,88 @@ function HorseshoeIcon() {
   );
 }
 
-function MarqueeContent() {
+function LiveDot() {
+  return (
+    <Box
+      sx={{
+        width: 8,
+        height: 8,
+        borderRadius: '50%',
+        backgroundColor: colors.red,
+        display: 'inline-block',
+        mr: 0.8,
+        animation: 'liveDotPulse 1.5s ease-in-out infinite',
+        '@keyframes liveDotPulse': {
+          '0%, 100%': { opacity: 1, transform: 'scale(1)' },
+          '50%': { opacity: 0.5, transform: 'scale(0.8)' },
+        },
+      }}
+    />
+  );
+}
+
+function MarqueeContent({
+  phrases,
+  isLive,
+}: {
+  phrases: string[];
+  isLive: boolean;
+}) {
   return (
     <Box
       sx={{
         display: 'flex',
         alignItems: 'center',
         whiteSpace: 'nowrap',
-        animation: 'marquee 30s linear infinite',
+        animation: `marquee ${isLive ? '22s' : '30s'} linear infinite`,
       }}
     >
-      {phrases.map((phrase, i) => (
-        <Box key={i} sx={{ display: 'flex', alignItems: 'center' }}>
-          <Typography
-            variant="h6"
-            component="span"
-            sx={{
-              color: colors.amber,
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              fontSize: { xs: '0.9rem', md: '1.1rem' },
-              fontWeight: 600,
-              mx: 1,
-            }}
-          >
-            {phrase}
-          </Typography>
-          <HorseshoeIcon />
-        </Box>
-      ))}
+      {phrases.map((phrase, i) => {
+        const isLivePhrase = phrase === 'LIVE NOW';
+        return (
+          <Box key={i} sx={{ display: 'flex', alignItems: 'center' }}>
+            <Typography
+              variant="h6"
+              component="span"
+              sx={{
+                color: isLivePhrase ? colors.red : colors.amber,
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                fontSize: { xs: '0.9rem', md: '1.1rem' },
+                fontWeight: isLivePhrase ? 700 : 600,
+                mx: 1,
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              {isLivePhrase && <LiveDot />}
+              {phrase}
+            </Typography>
+            <HorseshoeIcon />
+          </Box>
+        );
+      })}
     </Box>
   );
 }
 
 export default function RallyStrip() {
+  const { isLive } = useLiveStatus();
+
+  const phrases = isLive
+    ? ['LIVE NOW', ...defaultPhrases]
+    : defaultPhrases;
+
   return (
     <Box
       sx={{
         overflow: 'hidden',
         py: 2,
         backgroundColor: colors.darkLeather,
-        borderTop: `1px solid ${colors.brass}33`,
-        borderBottom: `1px solid ${colors.brass}33`,
+        borderTop: `1px solid ${isLive ? colors.red + '44' : colors.brass + '33'}`,
+        borderBottom: `1px solid ${isLive ? colors.red + '44' : colors.brass + '33'}`,
         position: 'relative',
+        transition: 'border-color 1s ease',
         '@keyframes marquee': {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(-50%)' },
@@ -86,8 +125,8 @@ export default function RallyStrip() {
       }}
     >
       <Box sx={{ display: 'flex' }}>
-        <MarqueeContent />
-        <MarqueeContent />
+        <MarqueeContent phrases={phrases} isLive={isLive} />
+        <MarqueeContent phrases={phrases} isLive={isLive} />
       </Box>
     </Box>
   );
