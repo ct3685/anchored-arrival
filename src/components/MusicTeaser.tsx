@@ -95,20 +95,14 @@ export default function MusicTeaser() {
               </Box>
             )}
 
-            {/* Upcoming themed audio list */}
             <Stack
-              direction={{ xs: 'column', sm: 'row' }}
+              direction="row"
               spacing={2}
-              sx={{ mt: 1 }}
+              sx={{ mt: 1, flexWrap: 'wrap', justifyContent: 'center', gap: 1 }}
             >
-              {[
-                'Live Intro',
-                'Ranch Anthem',
-                'Walkout Theme',
-                'Chaos Interlude',
-              ].map((track) => (
+              {tracks.slice(0, 4).map((track) => (
                 <Box
-                  key={track}
+                  key={track.id}
                   sx={{
                     px: 2,
                     py: 1,
@@ -125,7 +119,7 @@ export default function MusicTeaser() {
                       fontSize: '0.7rem',
                     }}
                   >
-                    {track}
+                    {track.title}
                   </Typography>
                 </Box>
               ))}

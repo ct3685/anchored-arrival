@@ -8,10 +8,11 @@ const phrases = [
   'Gooder Than Shit',
   'No Power Ups',
   'Real Ones Only',
-  "Com'On",
+  "Com'On!",
   'Raise Hell',
   'Pull Up',
   'Suit Up',
+  'Let\'s Fucking Go',
 ];
 
 function HorseshoeIcon() {
