@@ -2,62 +2,56 @@
 
 /**
  * Image Optimization Script
- * Automatically compresses PNG/JPG images that are over the size threshold.
- * Run manually: node scripts/optimize-images.js
- * Runs automatically before build via package.json
+ * - Compresses all PNG/JPG/JPEG images aggressively for mobile-first performance
+ * - Generates WebP versions alongside originals for manual <picture> use if needed
+ * - Runs automatically before build via package.json prebuild
  */
 
 const sharp = require('sharp');
 const fs = require('fs');
 const path = require('path');
 
-// Configuration
 const CONFIG = {
-  // Directories to scan for images
-  directories: ['./public/images', './public/music'],
-  // Only optimize images larger than this (in bytes)
-  sizeThreshold: 500 * 1024, // 500KB
-  // Maximum dimensions (maintains aspect ratio)
+  directories: ['./public/images'],
+  // Optimize everything — no size threshold
+  sizeThreshold: 0,
+  // Gallery images don't need to be huge — 800px wide is plenty for mobile,
+  // Next.js <Image> will serve responsive sizes anyway
   maxWidth: 1200,
   maxHeight: 1200,
-  // Quality settings
-  pngQuality: 80,
-  jpegQuality: 85,
-  // Compression level for PNG (0-9)
+  // Aggressive quality for JPEG (mobile-first)
+  jpegQuality: 75,
+  // PNG quality
+  pngQuality: 75,
   compressionLevel: 9,
+  // Also generate WebP versions
+  generateWebP: true,
+  webpQuality: 72,
 };
 
 async function findImages(dir, images = []) {
   if (!fs.existsSync(dir)) return images;
-
   const entries = fs.readdirSync(dir, { withFileTypes: true });
-
   for (const entry of entries) {
     const fullPath = path.join(dir, entry.name);
-
     if (entry.isDirectory()) {
       await findImages(fullPath, images);
     } else if (/\.(png|jpg|jpeg)$/i.test(entry.name)) {
       images.push(fullPath);
     }
   }
-
   return images;
 }
 
 async function optimizeImage(filePath) {
   const stats = fs.statSync(filePath);
   const sizeBefore = stats.size;
-
-  // Skip if under threshold
-  if (sizeBefore <= CONFIG.sizeThreshold) {
-    return { skipped: true, reason: 'under threshold' };
-  }
-
   const ext = path.extname(filePath).toLowerCase();
   const tempPath = filePath + '.tmp';
+  const results = [];
 
   try {
+    // Optimize original format
     let pipeline = sharp(filePath).resize(CONFIG.maxWidth, CONFIG.maxHeight, {
       fit: 'inside',
       withoutEnlargement: true,
@@ -77,24 +71,47 @@ async function optimizeImage(filePath) {
 
     await pipeline.toFile(tempPath);
 
-    // Only replace if we actually made it smaller
     const newStats = fs.statSync(tempPath);
     if (newStats.size < sizeBefore) {
       fs.renameSync(tempPath, filePath);
-      return {
+      results.push({
+        type: 'optimize',
         optimized: true,
         sizeBefore,
         sizeAfter: newStats.size,
         reduction: Math.round((1 - newStats.size / sizeBefore) * 100),
-      };
+      });
     } else {
       fs.unlinkSync(tempPath);
-      return { skipped: true, reason: 'no size improvement' };
+      results.push({ type: 'optimize', skipped: true, reason: 'already optimal' });
+    }
+
+    // Generate WebP version
+    if (CONFIG.generateWebP) {
+      const webpPath = filePath.replace(/\.(png|jpg|jpeg)$/i, '.webp');
+      if (!fs.existsSync(webpPath)) {
+        await sharp(filePath)
+          .resize(CONFIG.maxWidth, CONFIG.maxHeight, {
+            fit: 'inside',
+            withoutEnlargement: true,
+          })
+          .webp({ quality: CONFIG.webpQuality })
+          .toFile(webpPath);
+
+        const webpStats = fs.statSync(webpPath);
+        results.push({
+          type: 'webp',
+          generated: true,
+          size: webpStats.size,
+        });
+      }
     }
   } catch (error) {
     if (fs.existsSync(tempPath)) fs.unlinkSync(tempPath);
-    return { error: error.message };
+    results.push({ type: 'error', error: error.message });
   }
+
+  return results;
 }
 
 function formatSize(bytes) {
@@ -104,7 +121,7 @@ function formatSize(bytes) {
 }
 
 async function main() {
-  console.log('🖼️  Scanning for images to optimize...\n');
+  console.log('🖼️  Optimizing images for mobile-first performance...\n');
 
   let allImages = [];
   for (const dir of CONFIG.directories) {
@@ -117,29 +134,32 @@ async function main() {
   }
 
   let optimizedCount = 0;
-  let skippedCount = 0;
+  let webpCount = 0;
   let totalSaved = 0;
 
   for (const imagePath of allImages) {
     const relativePath = path.relative('.', imagePath);
-    const result = await optimizeImage(imagePath);
+    const results = await optimizeImage(imagePath);
 
-    if (result.optimized) {
-      console.log(
-        `✅ ${relativePath}: ${formatSize(result.sizeBefore)} → ${formatSize(result.sizeAfter)} (-${result.reduction}%)`
-      );
-      optimizedCount++;
-      totalSaved += result.sizeBefore - result.sizeAfter;
-    } else if (result.skipped) {
-      skippedCount++;
-    } else if (result.error) {
-      console.log(`❌ ${relativePath}: ${result.error}`);
+    for (const result of results) {
+      if (result.type === 'optimize' && result.optimized) {
+        console.log(
+          `✅ ${relativePath}: ${formatSize(result.sizeBefore)} → ${formatSize(result.sizeAfter)} (-${result.reduction}%)`
+        );
+        optimizedCount++;
+        totalSaved += result.sizeBefore - result.sizeAfter;
+      } else if (result.type === 'webp' && result.generated) {
+        console.log(`🌐 ${relativePath} → WebP (${formatSize(result.size)})`);
+        webpCount++;
+      } else if (result.type === 'error') {
+        console.log(`❌ ${relativePath}: ${result.error}`);
+      }
     }
   }
 
   console.log('\n📊 Summary:');
   console.log(`   Optimized: ${optimizedCount} images`);
-  console.log(`   Skipped: ${skippedCount} images (already optimized)`);
+  console.log(`   WebP generated: ${webpCount} images`);
   if (totalSaved > 0) {
     console.log(`   Total saved: ${formatSize(totalSaved)}`);
   }
