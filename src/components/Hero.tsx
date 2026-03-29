@@ -296,8 +296,8 @@ export default function Hero() {
                 }}
               >
                 <Image
-                  src="/images/trevor-profile.png"
-                  alt="Trevor - Ranch Squad"
+                  src="/images/trevor-horseback-portrait.jpeg"
+                  alt="Trevor on horseback - Ranch Squad"
                   fill
                   sizes="(max-width: 768px) 280px, 380px"
                   style={{ objectFit: 'cover' }}
