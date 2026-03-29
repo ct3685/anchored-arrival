@@ -4,6 +4,8 @@ import Image from 'next/image';
 import { Box, Container, Typography, IconButton, Stack } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
+import SkipNextIcon from '@mui/icons-material/SkipNext';
+import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import { motion } from 'motion/react';
 
 import { useAudio } from '@/lib/AudioContext';
@@ -19,6 +21,9 @@ export default function TrackList() {
     isPlaying,
     selectTrack,
     togglePlay,
+    nextTrack,
+    prevTrack,
+    hasMultipleTracks,
     formatTime,
     currentTime,
     duration,
@@ -190,26 +195,54 @@ export default function TrackList() {
                     />
                   </Box>
                 </Box>
-                <IconButton
-                  onClick={togglePlay}
-                  sx={{
-                    width: 56,
-                    height: 56,
-                    clipPath: clipPaths.buckleFrame,
-                    background: `linear-gradient(135deg, ${colors.amber} 0%, ${colors.brass} 100%)`,
-                    color: colors.smokeBlack,
-                    borderRadius: 0,
-                    '&:hover': {
-                      background: `linear-gradient(135deg, ${colors.amber} 20%, ${colors.brass} 120%)`,
-                    },
-                  }}
-                >
-                  {isPlaying ? (
-                    <PauseIcon fontSize="large" />
-                  ) : (
-                    <PlayArrowIcon fontSize="large" />
-                  )}
-                </IconButton>
+                <Stack direction="row" alignItems="center" spacing={1}>
+                  <IconButton
+                    onClick={prevTrack}
+                    sx={{
+                      color: hasMultipleTracks ? colors.brass : colors.dust,
+                      opacity: hasMultipleTracks ? 1 : 0.4,
+                      backgroundColor: `${colors.brass}22`,
+                      '&:hover': {
+                        backgroundColor: `${colors.brass}44`,
+                      },
+                    }}
+                  >
+                    <SkipPreviousIcon />
+                  </IconButton>
+                  <IconButton
+                    onClick={togglePlay}
+                    sx={{
+                      width: 56,
+                      height: 56,
+                      clipPath: clipPaths.buckleFrame,
+                      background: `linear-gradient(135deg, ${colors.amber} 0%, ${colors.brass} 100%)`,
+                      color: colors.smokeBlack,
+                      borderRadius: 0,
+                      '&:hover': {
+                        background: `linear-gradient(135deg, ${colors.amber} 20%, ${colors.brass} 120%)`,
+                      },
+                    }}
+                  >
+                    {isPlaying ? (
+                      <PauseIcon fontSize="large" />
+                    ) : (
+                      <PlayArrowIcon fontSize="large" />
+                    )}
+                  </IconButton>
+                  <IconButton
+                    onClick={nextTrack}
+                    sx={{
+                      color: hasMultipleTracks ? colors.brass : colors.dust,
+                      opacity: hasMultipleTracks ? 1 : 0.4,
+                      backgroundColor: `${colors.brass}22`,
+                      '&:hover': {
+                        backgroundColor: `${colors.brass}44`,
+                      },
+                    }}
+                  >
+                    <SkipNextIcon />
+                  </IconButton>
+                </Stack>
               </Stack>
             </Box>
           </motion.div>

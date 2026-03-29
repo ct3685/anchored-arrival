@@ -262,9 +262,13 @@ export default function MiniPlayer() {
                   size="small"
                   sx={{
                     color: hasMultipleTracks
-                      ? colors.secondary
+                      ? colors.primary
                       : colors.textSecondary,
                     opacity: hasMultipleTracks ? 1 : 0.5,
+                    backgroundColor: `${colors.primary}22`,
+                    '&:hover': {
+                      backgroundColor: `${colors.primary}44`,
+                    },
                   }}
                 >
                   <SkipPreviousIcon fontSize="small" />
@@ -290,9 +294,13 @@ export default function MiniPlayer() {
                   size="small"
                   sx={{
                     color: hasMultipleTracks
-                      ? colors.secondary
+                      ? colors.primary
                       : colors.textSecondary,
                     opacity: hasMultipleTracks ? 1 : 0.5,
+                    backgroundColor: `${colors.primary}22`,
+                    '&:hover': {
+                      backgroundColor: `${colors.primary}44`,
+                    },
                   }}
                 >
                   <SkipNextIcon fontSize="small" />
