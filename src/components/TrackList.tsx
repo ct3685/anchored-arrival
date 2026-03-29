@@ -14,18 +14,214 @@ import PauseIcon from '@mui/icons-material/Pause';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import DownloadIcon from '@mui/icons-material/Download';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import RepeatIcon from '@mui/icons-material/Repeat';
 import RepeatOneIcon from '@mui/icons-material/RepeatOne';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 import { motion } from 'motion/react';
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  TouchSensor,
+  KeyboardSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+  useSortable,
+  sortableKeyboardCoordinates,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 
 import { useAudio } from '@/lib/AudioContext';
 import { tracks } from '@/lib/tracks';
 import { colors, clipPaths } from '@/theme/theme';
 import { useScrollDepth } from '@/lib/useScrollDepth';
 import { trackMusicDownload } from '@/lib/analytics';
+
+function SortableTrackCard({
+  trackIndex,
+  queuePos,
+}: {
+  trackIndex: number;
+  queuePos: number;
+}) {
+  const { currentTrackIndex, isPlaying, selectTrack } = useAudio();
+  const track = tracks[trackIndex];
+  const isCurrentTrack = trackIndex === currentTrackIndex;
+  const isTrackPlaying = isCurrentTrack && isPlaying;
+
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: track.id });
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={{
+        transform: CSS.Transform.toString(transform),
+        transition,
+        opacity: isDragging ? 0.5 : 1,
+        zIndex: isDragging ? 1 : 0,
+        position: 'relative',
+      }}
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: queuePos * 0.08 }}
+      >
+        <Box
+          onClick={() => selectTrack(trackIndex)}
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 2.5,
+            p: 2,
+            clipPath: clipPaths.clippedCornerSm,
+            cursor: 'pointer',
+            backgroundColor: isCurrentTrack
+              ? colors.darkLeather
+              : colors.coalBrown,
+            border: `1px solid ${isCurrentTrack ? colors.amber + '44' : colors.brass + '22'}`,
+            transition: 'all 0.2s ease',
+            '&:hover': {
+              backgroundColor: colors.darkLeather,
+              boxShadow: `inset 0 0 20px ${colors.amber}08`,
+            },
+          }}
+        >
+          {/* Drag Handle */}
+          <Box
+            {...attributes}
+            {...listeners}
+            onClick={(e: React.MouseEvent) => e.stopPropagation()}
+            sx={{
+              cursor: 'grab',
+              touchAction: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              color: colors.dust,
+              mr: -1,
+              '&:hover': { color: colors.amber },
+              '&:active': { cursor: 'grabbing' },
+            }}
+          >
+            <DragIndicatorIcon sx={{ fontSize: 20 }} />
+          </Box>
+
+          {/* Album Art - Metal Plate Frame */}
+          <Box
+            sx={{
+              position: 'relative',
+              width: 50,
+              height: 50,
+              clipPath: clipPaths.buckleFrame,
+              overflow: 'hidden',
+              flexShrink: 0,
+            }}
+          >
+            <Image
+              src={track.cover}
+              alt={track.title}
+              fill
+              sizes="50px"
+              style={{ objectFit: 'cover' }}
+            />
+          </Box>
+
+          {/* Track Info */}
+          <Box sx={{ flex: 1, minWidth: 0 }}>
+            <Typography
+              variant="h6"
+              sx={{
+                color: isCurrentTrack ? colors.amber : colors.bone,
+                fontWeight: isCurrentTrack ? 700 : 500,
+                fontSize: '1rem',
+              }}
+            >
+              {track.title}
+            </Typography>
+            <Typography variant="caption" sx={{ color: colors.dust }}>
+              {track.artist}
+            </Typography>
+            <Typography
+              variant="caption"
+              sx={{
+                color: colors.brass,
+                display: 'block',
+                fontSize: '0.7rem',
+              }}
+            >
+              by{' '}
+              <Box
+                component="a"
+                href={track.createdBy.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e: React.MouseEvent) => e.stopPropagation()}
+                sx={{
+                  color: colors.amber,
+                  textDecoration: 'none',
+                  '&:hover': { textDecoration: 'underline' },
+                }}
+              >
+                {track.createdBy.name}
+              </Box>
+            </Typography>
+          </Box>
+
+          {/* Download Button */}
+          <IconButton
+            component="a"
+            href={track.src}
+            download={`${track.title} - ${track.artist}.mp3`}
+            onClick={(e: React.MouseEvent) => {
+              e.stopPropagation();
+              trackMusicDownload(track.id, track.title, track.artist);
+            }}
+            sx={{
+              color: colors.dust,
+              '&:hover': {
+                color: colors.brass,
+                backgroundColor: `${colors.brass}11`,
+              },
+            }}
+          >
+            <DownloadIcon fontSize="small" />
+          </IconButton>
+
+          {/* Play Button */}
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation();
+              selectTrack(trackIndex);
+            }}
+            sx={{
+              color: isTrackPlaying ? colors.amber : colors.dust,
+              '&:hover': {
+                color: colors.amber,
+                backgroundColor: `${colors.amber}11`,
+              },
+            }}
+          >
+            {isTrackPlaying ? <PauseIcon /> : <PlayArrowIcon />}
+          </IconButton>
+        </Box>
+      </motion.div>
+    </div>
+  );
+}
 
 export default function TrackList() {
   useScrollDepth();
@@ -49,6 +245,24 @@ export default function TrackList() {
     queue,
     moveTrackInQueue,
   } = useAudio();
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
+    useSensor(TouchSensor, {
+      activationConstraint: { delay: 200, tolerance: 5 },
+    }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+    const oldIndex = queue.findIndex((idx) => tracks[idx].id === active.id);
+    const newIndex = queue.findIndex((idx) => tracks[idx].id === over.id);
+    if (oldIndex !== -1 && newIndex !== -1) {
+      moveTrackInQueue(oldIndex, newIndex);
+    }
+  };
 
   return (
     <Box
@@ -352,183 +566,27 @@ export default function TrackList() {
         )}
 
         {/* Track Cards - Metal Plate Style (Queue Order) */}
-        <Stack spacing={1.5}>
-          {queue.map((trackIndex, queuePos) => {
-            const track = tracks[trackIndex];
-            const isCurrentTrack = trackIndex === currentTrackIndex;
-            const isTrackPlaying = isCurrentTrack && isPlaying;
-
-            return (
-              <motion.div
-                key={track.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: queuePos * 0.08 }}
-              >
-                <Box
-                  onClick={() => selectTrack(trackIndex)}
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 2.5,
-                    p: 2,
-                    clipPath: clipPaths.clippedCornerSm,
-                    cursor: 'pointer',
-                    backgroundColor: isCurrentTrack
-                      ? colors.darkLeather
-                      : colors.coalBrown,
-                    border: `1px solid ${isCurrentTrack ? colors.amber + '44' : colors.brass + '22'}`,
-                    transition: 'all 0.2s ease',
-                    '&:hover': {
-                      backgroundColor: colors.darkLeather,
-                      boxShadow: `inset 0 0 20px ${colors.amber}08`,
-                    },
-                  }}
-                >
-                  {/* Reorder Arrows */}
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      mr: -1,
-                    }}
-                  >
-                    <IconButton
-                      size="small"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        moveTrackInQueue(queuePos, queuePos - 1);
-                      }}
-                      sx={{
-                        p: 0.25,
-                        color: colors.dust,
-                        visibility: queuePos === 0 ? 'hidden' : 'visible',
-                        '&:hover': { color: colors.amber },
-                      }}
-                    >
-                      <KeyboardArrowUpIcon sx={{ fontSize: 18 }} />
-                    </IconButton>
-                    <IconButton
-                      size="small"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        moveTrackInQueue(queuePos, queuePos + 1);
-                      }}
-                      sx={{
-                        p: 0.25,
-                        color: colors.dust,
-                        visibility:
-                          queuePos === queue.length - 1 ? 'hidden' : 'visible',
-                        '&:hover': { color: colors.amber },
-                      }}
-                    >
-                      <KeyboardArrowDownIcon sx={{ fontSize: 18 }} />
-                    </IconButton>
-                  </Box>
-
-                  {/* Album Art - Metal Plate Frame */}
-                  <Box
-                    sx={{
-                      position: 'relative',
-                      width: 50,
-                      height: 50,
-                      clipPath: clipPaths.buckleFrame,
-                      overflow: 'hidden',
-                      flexShrink: 0,
-                    }}
-                  >
-                    <Image
-                      src={track.cover}
-                      alt={track.title}
-                      fill
-                      sizes="50px"
-                      style={{ objectFit: 'cover' }}
-                    />
-                  </Box>
-
-                  {/* Track Info */}
-                  <Box sx={{ flex: 1, minWidth: 0 }}>
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        color: isCurrentTrack ? colors.amber : colors.bone,
-                        fontWeight: isCurrentTrack ? 700 : 500,
-                        fontSize: '1rem',
-                      }}
-                    >
-                      {track.title}
-                    </Typography>
-                    <Typography variant="caption" sx={{ color: colors.dust }}>
-                      {track.artist}
-                    </Typography>
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        color: colors.brass,
-                        display: 'block',
-                        fontSize: '0.7rem',
-                      }}
-                    >
-                      by{' '}
-                      <Box
-                        component="a"
-                        href={track.createdBy.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e: React.MouseEvent) => e.stopPropagation()}
-                        sx={{
-                          color: colors.amber,
-                          textDecoration: 'none',
-                          '&:hover': { textDecoration: 'underline' },
-                        }}
-                      >
-                        {track.createdBy.name}
-                      </Box>
-                    </Typography>
-                  </Box>
-
-                  {/* Download Button */}
-                  <IconButton
-                    component="a"
-                    href={track.src}
-                    download={`${track.title} - ${track.artist}.mp3`}
-                    onClick={(e: React.MouseEvent) => {
-                      e.stopPropagation();
-                      trackMusicDownload(track.id, track.title, track.artist);
-                    }}
-                    sx={{
-                      color: colors.dust,
-                      '&:hover': {
-                        color: colors.brass,
-                        backgroundColor: `${colors.brass}11`,
-                      },
-                    }}
-                  >
-                    <DownloadIcon fontSize="small" />
-                  </IconButton>
-
-                  {/* Play Button */}
-                  <IconButton
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      selectTrack(trackIndex);
-                    }}
-                    sx={{
-                      color: isTrackPlaying ? colors.amber : colors.dust,
-                      '&:hover': {
-                        color: colors.amber,
-                        backgroundColor: `${colors.amber}11`,
-                      },
-                    }}
-                  >
-                    {isTrackPlaying ? <PauseIcon /> : <PlayArrowIcon />}
-                  </IconButton>
-                </Box>
-              </motion.div>
-            );
-          })}
-        </Stack>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+          modifiers={[restrictToVerticalAxis]}
+        >
+          <SortableContext
+            items={queue.map((idx) => tracks[idx].id)}
+            strategy={verticalListSortingStrategy}
+          >
+            <Stack spacing={1.5}>
+              {queue.map((trackIndex, queuePos) => (
+                <SortableTrackCard
+                  key={tracks[trackIndex].id}
+                  trackIndex={trackIndex}
+                  queuePos={queuePos}
+                />
+              ))}
+            </Stack>
+          </SortableContext>
+        </DndContext>
 
         {/* Coming Soon */}
         {tracks.length <= 1 && (

@@ -80,6 +80,15 @@ export function AudioProvider({ children }: AudioProviderProps) {
   const totalListenTimeRef = useRef<number>(0);
   const milestonesReachedRef = useRef<Set<number>>(new Set());
 
+  // Stable refs for MediaSession handlers — avoids stale closures in the
+  // mount-only effect while keeping deps honest (no eslint-disable needed).
+  const prevTrackRef = useRef<() => void>(() => {});
+  const nextTrackRef = useRef<() => void>(() => {});
+
+  // Preserves the user's manual queue order across shuffle toggles.
+  // Without this, toggling shuffle off resets to default track order.
+  const userQueueRef = useRef<number[]>(tracks.map((_, i) => i));
+
   const currentTrack = tracks[currentTrackIndex];
   const hasMultipleTracks = tracks.length > 1;
 
@@ -143,38 +152,53 @@ export function AudioProvider({ children }: AudioProviderProps) {
   }, [isPlaying, currentTime, duration]);
 
   // Media Session action handlers (CarPlay/lock screen controls)
+  // Uses refs for prev/next to always invoke the latest callback without
+  // needing to re-register handlers on every render.
   useEffect(() => {
     if (typeof navigator === 'undefined' || !('mediaSession' in navigator))
       return;
-    try {
-      navigator.mediaSession.setActionHandler('play', () => {
-        audioRef.current?.play();
-        setIsPlaying(true);
-      });
-    } catch {}
-    try {
-      navigator.mediaSession.setActionHandler('pause', () => {
-        audioRef.current?.pause();
-        setIsPlaying(false);
-      });
-    } catch {}
-    try {
-      navigator.mediaSession.setActionHandler('previoustrack', () =>
-        prevTrack()
-      );
-    } catch {}
-    try {
-      navigator.mediaSession.setActionHandler('nexttrack', () => nextTrack());
-    } catch {}
-    try {
-      navigator.mediaSession.setActionHandler('seekto', (d) => {
-        if (d.seekTime != null && audioRef.current) {
-          audioRef.current.currentTime = d.seekTime;
-          setCurrentTime(d.seekTime);
-        }
-      });
-    } catch {}
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    const handlers: [MediaSessionAction, MediaSessionActionHandler][] = [
+      [
+        'play',
+        () => {
+          audioRef.current?.play();
+          setIsPlaying(true);
+        },
+      ],
+      [
+        'pause',
+        () => {
+          audioRef.current?.pause();
+          setIsPlaying(false);
+        },
+      ],
+      ['previoustrack', () => prevTrackRef.current()],
+      ['nexttrack', () => nextTrackRef.current()],
+      [
+        'seekto',
+        (d) => {
+          if (d.seekTime != null && audioRef.current) {
+            audioRef.current.currentTime = d.seekTime;
+            setCurrentTime(d.seekTime);
+          }
+        },
+      ],
+    ];
+
+    for (const [action, handler] of handlers) {
+      try {
+        navigator.mediaSession.setActionHandler(action, handler);
+      } catch {}
+    }
+
+    return () => {
+      for (const [action] of handlers) {
+        try {
+          navigator.mediaSession.setActionHandler(action, null);
+        } catch {}
+      }
+    };
   }, []);
 
   // Update document title with current track
@@ -368,6 +392,10 @@ export function AudioProvider({ children }: AudioProviderProps) {
     }
   }, [currentTrack, currentTrackIndex, currentTime, queue]);
 
+  // Keep refs in sync so MediaSession handlers always call latest versions
+  nextTrackRef.current = nextTrack;
+  prevTrackRef.current = prevTrack;
+
   const selectTrack = useCallback(
     (index: number) => {
       if (index >= 0 && index < tracks.length && index !== currentTrackIndex) {
@@ -402,10 +430,11 @@ export function AudioProvider({ children }: AudioProviderProps) {
         const next = [...prev];
         const [moved] = next.splice(fromPos, 1);
         next.splice(toPos, 0, moved);
+        if (!shuffle) userQueueRef.current = next;
         return next;
       });
     },
-    [queue.length]
+    [queue.length, shuffle]
   );
 
   const toggleShuffle = useCallback(() => {
@@ -413,6 +442,7 @@ export function AudioProvider({ children }: AudioProviderProps) {
       const next = !prev;
       if (next) {
         setQueue((q) => {
+          userQueueRef.current = q;
           const currentPos = q.indexOf(currentTrackIndex);
           const newQueue = [...q];
           newQueue.splice(currentPos, 1);
@@ -423,7 +453,7 @@ export function AudioProvider({ children }: AudioProviderProps) {
           return [currentTrackIndex, ...newQueue];
         });
       } else {
-        setQueue(tracks.map((_, i) => i));
+        setQueue(userQueueRef.current);
       }
       return next;
     });

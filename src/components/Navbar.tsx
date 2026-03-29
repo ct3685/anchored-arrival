@@ -56,7 +56,7 @@ export default function Navbar() {
       external: true,
     },
     { label: 'Gallery', href: '/gallery' },
-    { label: 'Sound', href: '/music' },
+    { label: 'Music', href: '/music' },
   ];
 
   const handleDrawerToggle = () => {
@@ -253,7 +253,10 @@ export default function Navbar() {
           </Box>
           <List>
             {navItems.map((item) => (
-              <ListItem key={item.isLiveLink ? 'tiktok-live' : item.href} disablePadding>
+              <ListItem
+                key={item.isLiveLink ? 'tiktok-live' : item.href}
+                disablePadding
+              >
                 <Link
                   href={item.href}
                   style={{ textDecoration: 'none', width: '100%' }}

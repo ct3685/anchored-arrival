@@ -28,9 +28,29 @@ import RepeatOneIcon from '@mui/icons-material/RepeatOne';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 import QueueMusicIcon from '@mui/icons-material/QueueMusic';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import { motion, AnimatePresence } from 'motion/react';
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  TouchSensor,
+  KeyboardSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+  useSortable,
+  sortableKeyboardCoordinates,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import {
+  restrictToVerticalAxis,
+  restrictToParentElement,
+} from '@dnd-kit/modifiers';
 
 import { useAudio } from '@/lib/AudioContext';
 import { tracks } from '@/lib/tracks';
@@ -40,6 +60,139 @@ import {
   trackMiniplayerCollapse,
   trackLinkClick,
 } from '@/lib/analytics';
+
+function SortableMiniQueueItem({
+  trackIndex,
+  queuePos,
+}: {
+  trackIndex: number;
+  queuePos: number;
+}) {
+  const { currentTrackIndex, isPlaying, selectTrack } = useAudio();
+  const trk = tracks[trackIndex];
+  const isActive = trackIndex === currentTrackIndex;
+  const isTrackPlaying = isActive && isPlaying;
+
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: trk.id });
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={{
+        transform: CSS.Transform.toString(transform),
+        transition,
+        opacity: isDragging ? 0.5 : 1,
+        zIndex: isDragging ? 1 : 0,
+        position: 'relative',
+      }}
+    >
+      <ListItemButton
+        onClick={() => selectTrack(trackIndex)}
+        sx={{
+          py: 0.75,
+          px: 1,
+          borderRadius: 1,
+          backgroundColor: isActive ? `${colors.primary}15` : 'transparent',
+          '&:hover': { backgroundColor: `${colors.primary}22` },
+        }}
+      >
+        {/* Drag Handle */}
+        <Box
+          {...attributes}
+          {...listeners}
+          onClick={(e: React.MouseEvent) => e.stopPropagation()}
+          sx={{
+            cursor: 'grab',
+            touchAction: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            mr: 0.5,
+            color: colors.textSecondary,
+            '&:hover': { color: colors.primary },
+            '&:active': { cursor: 'grabbing' },
+          }}
+        >
+          <DragIndicatorIcon sx={{ fontSize: 16 }} />
+        </Box>
+        <ListItemIcon sx={{ minWidth: 32 }}>
+          {isTrackPlaying ? (
+            <Box
+              sx={{
+                width: 20,
+                height: 20,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <motion.div
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 0.8, repeat: Infinity }}
+              >
+                <MusicNoteIcon sx={{ fontSize: 16, color: colors.primary }} />
+              </motion.div>
+            </Box>
+          ) : (
+            <Typography
+              variant="caption"
+              sx={{
+                color: colors.textSecondary,
+                fontSize: '0.7rem',
+                width: 20,
+                textAlign: 'center',
+              }}
+            >
+              {queuePos + 1}
+            </Typography>
+          )}
+        </ListItemIcon>
+        <ListItemText
+          primary={trk.title}
+          secondary={trk.artist}
+          primaryTypographyProps={{
+            variant: 'body2',
+            sx: {
+              color: isActive ? colors.primary : 'white',
+              fontWeight: isActive ? 700 : 400,
+              fontSize: '0.8rem',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            },
+          }}
+          secondaryTypographyProps={{
+            variant: 'caption',
+            sx: { color: colors.textSecondary, fontSize: '0.65rem' },
+          }}
+        />
+        <IconButton
+          size="small"
+          onClick={(e) => {
+            e.stopPropagation();
+            selectTrack(trackIndex);
+          }}
+          sx={{
+            color: isTrackPlaying ? colors.primary : colors.textSecondary,
+            '&:hover': { color: colors.primary },
+          }}
+        >
+          {isTrackPlaying ? (
+            <PauseIcon sx={{ fontSize: 16 }} />
+          ) : (
+            <PlayArrowIcon sx={{ fontSize: 16 }} />
+          )}
+        </IconButton>
+      </ListItemButton>
+    </div>
+  );
+}
 
 export default function MiniPlayer() {
   const theme = useTheme();
@@ -68,6 +221,24 @@ export default function MiniPlayer() {
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [showTrackList, setShowTrackList] = useState(false);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
+    useSensor(TouchSensor, {
+      activationConstraint: { delay: 200, tolerance: 5 },
+    }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+    const oldIndex = queue.findIndex((idx) => tracks[idx].id === active.id);
+    const newIndex = queue.findIndex((idx) => tracks[idx].id === over.id);
+    if (oldIndex !== -1 && newIndex !== -1) {
+      moveTrackInQueue(oldIndex, newIndex);
+    }
+  };
 
   const handleExpandToggle = () => {
     if (isExpanded) {
@@ -408,151 +579,30 @@ export default function MiniPlayer() {
                     },
                   }}
                 >
-                  <List dense disablePadding>
-                    {queue.map((trackIdx, queuePos) => {
-                      const trk = tracks[trackIdx];
-                      const isActive = trackIdx === currentTrackIndex;
-                      const isTrackPlaying = isActive && isPlaying;
-                      return (
-                        <ListItemButton
-                          key={trk.id}
-                          onClick={() => selectTrack(trackIdx)}
-                          sx={{
-                            py: 0.75,
-                            px: 1,
-                            borderRadius: 1,
-                            backgroundColor: isActive
-                              ? `${colors.primary}15`
-                              : 'transparent',
-                            '&:hover': {
-                              backgroundColor: `${colors.primary}22`,
-                            },
-                          }}
-                        >
-                          <Box
-                            sx={{
-                              display: 'flex',
-                              flexDirection: 'column',
-                              mr: 0.5,
-                            }}
-                          >
-                            <IconButton
-                              size="small"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                moveTrackInQueue(queuePos, queuePos - 1);
-                              }}
-                              sx={{
-                                p: 0,
-                                color: colors.textSecondary,
-                                visibility:
-                                  queuePos === 0 ? 'hidden' : 'visible',
-                                '&:hover': { color: colors.primary },
-                              }}
-                            >
-                              <KeyboardArrowUpIcon sx={{ fontSize: 14 }} />
-                            </IconButton>
-                            <IconButton
-                              size="small"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                moveTrackInQueue(queuePos, queuePos + 1);
-                              }}
-                              sx={{
-                                p: 0,
-                                color: colors.textSecondary,
-                                visibility:
-                                  queuePos === queue.length - 1
-                                    ? 'hidden'
-                                    : 'visible',
-                                '&:hover': { color: colors.primary },
-                              }}
-                            >
-                              <KeyboardArrowDownIcon sx={{ fontSize: 14 }} />
-                            </IconButton>
-                          </Box>
-                          <ListItemIcon sx={{ minWidth: 32 }}>
-                            {isTrackPlaying ? (
-                              <Box
-                                sx={{
-                                  width: 20,
-                                  height: 20,
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'center',
-                                }}
-                              >
-                                <motion.div
-                                  animate={{ scale: [1, 1.2, 1] }}
-                                  transition={{
-                                    duration: 0.8,
-                                    repeat: Infinity,
-                                  }}
-                                >
-                                  <MusicNoteIcon
-                                    sx={{ fontSize: 16, color: colors.primary }}
-                                  />
-                                </motion.div>
-                              </Box>
-                            ) : (
-                              <Typography
-                                variant="caption"
-                                sx={{
-                                  color: colors.textSecondary,
-                                  fontSize: '0.7rem',
-                                  width: 20,
-                                  textAlign: 'center',
-                                }}
-                              >
-                                {queuePos + 1}
-                              </Typography>
-                            )}
-                          </ListItemIcon>
-                          <ListItemText
-                            primary={trk.title}
-                            secondary={trk.artist}
-                            primaryTypographyProps={{
-                              variant: 'body2',
-                              sx: {
-                                color: isActive ? colors.primary : 'white',
-                                fontWeight: isActive ? 700 : 400,
-                                fontSize: '0.8rem',
-                                whiteSpace: 'nowrap',
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                              },
-                            }}
-                            secondaryTypographyProps={{
-                              variant: 'caption',
-                              sx: {
-                                color: colors.textSecondary,
-                                fontSize: '0.65rem',
-                              },
-                            }}
+                  <DndContext
+                    sensors={sensors}
+                    collisionDetection={closestCenter}
+                    onDragEnd={handleDragEnd}
+                    modifiers={[
+                      restrictToVerticalAxis,
+                      restrictToParentElement,
+                    ]}
+                  >
+                    <SortableContext
+                      items={queue.map((idx) => tracks[idx].id)}
+                      strategy={verticalListSortingStrategy}
+                    >
+                      <List dense disablePadding>
+                        {queue.map((trackIdx, queuePos) => (
+                          <SortableMiniQueueItem
+                            key={tracks[trackIdx].id}
+                            trackIndex={trackIdx}
+                            queuePos={queuePos}
                           />
-                          <IconButton
-                            size="small"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              selectTrack(trackIdx);
-                            }}
-                            sx={{
-                              color: isTrackPlaying
-                                ? colors.primary
-                                : colors.textSecondary,
-                              '&:hover': { color: colors.primary },
-                            }}
-                          >
-                            {isTrackPlaying ? (
-                              <PauseIcon sx={{ fontSize: 16 }} />
-                            ) : (
-                              <PlayArrowIcon sx={{ fontSize: 16 }} />
-                            )}
-                          </IconButton>
-                        </ListItemButton>
-                      );
-                    })}
-                  </List>
+                        ))}
+                      </List>
+                    </SortableContext>
+                  </DndContext>
                 </Box>
               </Collapse>
             </Box>
