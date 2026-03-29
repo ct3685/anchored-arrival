@@ -7,7 +7,6 @@ import {
   Container,
   Typography,
   Grid,
-  Card,
   IconButton,
   Stack,
 } from '@mui/material';
@@ -20,7 +19,7 @@ import Download from 'yet-another-react-lightbox/plugins/download';
 import 'yet-another-react-lightbox/styles.css';
 
 import { galleryImages, ImageData } from '@/lib/images';
-import { colors } from '@/theme/theme';
+import { colors, clipPaths } from '@/theme/theme';
 import { useScrollDepth } from '@/lib/useScrollDepth';
 import {
   trackGalleryImageClick,
@@ -43,7 +42,6 @@ export default function PhotoGallery({
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
 
-  // Track lightbox view duration
   const lightboxOpenTimeRef = useRef<number>(0);
   const previousIndexRef = useRef<number>(0);
 
@@ -112,7 +110,7 @@ export default function PhotoGallery({
       sx={{
         py: 8,
         minHeight: '100vh',
-        background: `linear-gradient(180deg, ${colors.background} 0%, ${colors.surface} 100%)`,
+        background: `linear-gradient(180deg, ${colors.smokeBlack} 0%, ${colors.coalBrown} 50%, ${colors.smokeBlack} 100%)`,
       }}
     >
       <Container maxWidth="lg">
@@ -121,214 +119,175 @@ export default function PhotoGallery({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <Stack alignItems="center" spacing={2} sx={{ mb: 6 }}>
-            {/* Avatar */}
-            <Box
+          <Stack alignItems="center" spacing={1} sx={{ mb: 6 }}>
+            <Typography
+              variant="overline"
               sx={{
-                position: 'relative',
-                width: 100,
-                height: 100,
-                mb: 1,
-                '&::before': {
-                  content: '""',
-                  position: 'absolute',
-                  inset: -3,
-                  borderRadius: '50%',
-                  background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary}, ${colors.accent})`,
-                  animation: 'spin 4s linear infinite',
-                },
-                '@keyframes spin': {
-                  '0%': { transform: 'rotate(0deg)' },
-                  '100%': { transform: 'rotate(360deg)' },
-                },
+                color: colors.brass,
+                letterSpacing: 6,
+                fontSize: '0.8rem',
               }}
             >
-              <Box
-                sx={{
-                  position: 'relative',
-                  width: '100%',
-                  height: '100%',
-                  borderRadius: '50%',
-                  overflow: 'hidden',
-                  border: `3px solid ${colors.background}`,
-                }}
-              >
-                <Image
-                  src="/images/trevor-profile.png"
-                  alt="Trevor"
-                  fill
-                  sizes="100px"
-                  style={{ objectFit: 'cover' }}
-                />
-              </Box>
-            </Box>
+              The Evidence
+            </Typography>
             <Typography
               variant="h2"
-              align="center"
               sx={{
-                fontWeight: 800,
-                background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.secondary} 100%)`,
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
+                color: colors.amber,
+                textAlign: 'center',
+                fontSize: { xs: '2.2rem', md: '3rem' },
               }}
             >
-              Gallery
+              Proof of Life
             </Typography>
             <Typography
               variant="body1"
-              align="center"
-              sx={{ color: colors.textSecondary }}
+              sx={{ color: colors.dust, textAlign: 'center' }}
             >
-              The many vibes of Trevor
+              Scenes from the ranch. Real ones only.
             </Typography>
           </Stack>
         </motion.div>
 
         <Grid container spacing={3}>
-          {images.map((image, index) => (
-            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={image.src}>
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+          {images.map((image, index) => {
+            const isFeatured = index === 0;
+            return (
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6,
+                  md: isFeatured ? 8 : 4,
+                }}
+                key={image.src}
               >
-                <Card
-                  sx={{
-                    position: 'relative',
-                    overflow: 'hidden',
-                    aspectRatio: '1',
-                    cursor: 'pointer',
-                    '&:hover .overlay': {
-                      opacity: 1,
-                    },
-                    '&:hover img': {
-                      transform: 'scale(1.05)',
-                    },
-                    transition: 'box-shadow 0.3s ease',
-                    '&:hover': {
-                      boxShadow: `0 0 30px ${colors.primary}44`,
-                    },
-                  }}
-                  onClick={() => openLightbox(index)}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
                   <Box
                     sx={{
                       position: 'relative',
-                      width: '100%',
-                      height: '100%',
+                      overflow: 'hidden',
+                      aspectRatio: isFeatured ? '16/10' : '1',
+                      clipPath: clipPaths.cattleTag,
+                      cursor: 'pointer',
+                      '&:hover .overlay': {
+                        opacity: 1,
+                      },
+                      '&:hover img': {
+                        transform: 'scale(1.05)',
+                      },
+                      transition: 'box-shadow 0.3s ease',
+                      '&:hover': {
+                        boxShadow: `0 0 30px ${colors.amber}33`,
+                      },
                     }}
+                    onClick={() => openLightbox(index)}
                   >
-                    <Image
-                      src={image.src}
-                      alt={image.alt}
-                      fill
-                      style={{
-                        objectFit: 'cover',
-                        transition: 'transform 0.3s ease',
+                    <Box
+                      sx={{
+                        position: 'relative',
+                        width: '100%',
+                        height: '100%',
                       }}
-                      sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
-                    />
-                  </Box>
+                    >
+                      <Image
+                        src={image.src}
+                        alt={image.alt}
+                        fill
+                        style={{
+                          objectFit: 'cover',
+                          transition: 'transform 0.3s ease',
+                        }}
+                        sizes={
+                          isFeatured
+                            ? '(max-width: 900px) 100vw, 66vw'
+                            : '(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw'
+                        }
+                      />
+                    </Box>
 
-                  {/* Hover Overlay */}
-                  <Box
-                    className="overlay"
-                    sx={{
-                      position: 'absolute',
-                      inset: 0,
-                      background: `linear-gradient(to top, ${colors.background}EE 0%, transparent 50%)`,
-                      opacity: 0,
-                      transition: 'opacity 0.3s ease',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'flex-end',
-                      p: 2,
-                    }}
-                  >
-                    <Typography
-                      variant="h6"
-                      sx={{ color: 'white', fontWeight: 700 }}
+                    {/* Hover Overlay */}
+                    <Box
+                      className="overlay"
+                      sx={{
+                        position: 'absolute',
+                        inset: 0,
+                        background: `linear-gradient(to top, ${colors.smokeBlack}EE 0%, transparent 50%)`,
+                        opacity: 0,
+                        transition: 'opacity 0.3s ease',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'flex-end',
+                        p: 2.5,
+                      }}
                     >
-                      {image.title}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      sx={{ color: colors.textSecondary }}
-                    >
-                      {image.description}
-                    </Typography>
-                    <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
-                      <IconButton
-                        size="small"
+                      <Typography
+                        variant="h6"
                         sx={{
-                          color: colors.secondary,
-                          backgroundColor: `${colors.secondary}22`,
-                          '&:hover': {
-                            backgroundColor: `${colors.secondary}44`,
-                          },
-                        }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          openLightbox(index);
+                          color: colors.bone,
+                          fontWeight: 700,
                         }}
                       >
-                        <ZoomInIcon fontSize="small" />
-                      </IconButton>
-                      <IconButton
-                        size="small"
-                        sx={{
-                          color: colors.primary,
-                          backgroundColor: `${colors.primary}22`,
-                          '&:hover': {
-                            backgroundColor: `${colors.primary}44`,
-                          },
-                        }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          const filename =
-                            image.src.split('/').pop() || 'image.png';
-                          handleDownload(
-                            image.src,
-                            filename,
-                            image.title,
-                            'card'
-                          );
-                        }}
-                      >
-                        <DownloadIcon fontSize="small" />
-                      </IconButton>
-                    </Stack>
+                        {image.title}
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: colors.dust }}>
+                        {image.description}
+                      </Typography>
+                      <Stack direction="row" spacing={1} sx={{ mt: 1.5 }}>
+                        <IconButton
+                          size="small"
+                          sx={{
+                            color: colors.amber,
+                            backgroundColor: `${colors.amber}22`,
+                            borderRadius: 1,
+                            '&:hover': {
+                              backgroundColor: `${colors.amber}44`,
+                            },
+                          }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            openLightbox(index);
+                          }}
+                        >
+                          <ZoomInIcon fontSize="small" />
+                        </IconButton>
+                        <IconButton
+                          size="small"
+                          sx={{
+                            color: colors.brass,
+                            backgroundColor: `${colors.brass}22`,
+                            borderRadius: 1,
+                            '&:hover': {
+                              backgroundColor: `${colors.brass}44`,
+                            },
+                          }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            const filename =
+                              image.src.split('/').pop() || 'image.png';
+                            handleDownload(
+                              image.src,
+                              filename,
+                              image.title,
+                              'card'
+                            );
+                          }}
+                        >
+                          <DownloadIcon fontSize="small" />
+                        </IconButton>
+                      </Stack>
+                    </Box>
                   </Box>
-                </Card>
-              </motion.div>
-            </Grid>
-          ))}
+                </motion.div>
+              </Grid>
+            );
+          })}
         </Grid>
-
-        {/* Download All CTA
-        <Box sx={{ textAlign: 'center', mt: 6 }}>
-          <Button
-            variant="outlined"
-            size="large"
-            startIcon={<DownloadIcon />}
-            onClick={handleDownloadAll}
-            sx={{
-              borderColor: colors.primary,
-              color: colors.primary,
-              '&:hover': {
-                borderColor: colors.secondary,
-                color: colors.secondary,
-                backgroundColor: `${colors.primary}11`,
-              },
-            }}
-          >
-            Download All Images
-          </Button>
-        </Box> */}
       </Container>
 
-      {/* Lightbox */}
       <Lightbox
         open={lightboxOpen}
         close={closeLightbox}
@@ -343,7 +302,7 @@ export default function PhotoGallery({
         slides={lightboxSlides}
         plugins={[Zoom, Download]}
         styles={{
-          container: { backgroundColor: `${colors.background}F5` },
+          container: { backgroundColor: `${colors.smokeBlack}F5` },
         }}
         zoom={{
           maxZoomPixelRatio: 3,

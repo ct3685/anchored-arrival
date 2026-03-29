@@ -193,9 +193,28 @@ export default function MiniPlayer() {
               </Typography>
               <Typography
                 variant="caption"
-                sx={{ color: colors.textSecondary, display: 'block', mb: 1 }}
+                sx={{ color: colors.textSecondary, display: 'block' }}
               >
                 {currentTrack.artist}
+              </Typography>
+              <Typography
+                variant="caption"
+                sx={{ color: colors.textSecondary, display: 'block', mb: 1, fontSize: '0.65rem' }}
+              >
+                by{' '}
+                <Box
+                  component="a"
+                  href={currentTrack.createdBy.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{
+                    color: colors.primary,
+                    textDecoration: 'none',
+                    '&:hover': { textDecoration: 'underline' },
+                  }}
+                >
+                  {currentTrack.createdBy.name}
+                </Box>
               </Typography>
 
               {/* Progress Bar */}
@@ -243,9 +262,13 @@ export default function MiniPlayer() {
                   size="small"
                   sx={{
                     color: hasMultipleTracks
-                      ? colors.secondary
+                      ? colors.primary
                       : colors.textSecondary,
                     opacity: hasMultipleTracks ? 1 : 0.5,
+                    backgroundColor: `${colors.primary}22`,
+                    '&:hover': {
+                      backgroundColor: `${colors.primary}44`,
+                    },
                   }}
                 >
                   <SkipPreviousIcon fontSize="small" />
@@ -271,9 +294,13 @@ export default function MiniPlayer() {
                   size="small"
                   sx={{
                     color: hasMultipleTracks
-                      ? colors.secondary
+                      ? colors.primary
                       : colors.textSecondary,
                     opacity: hasMultipleTracks ? 1 : 0.5,
+                    backgroundColor: `${colors.primary}22`,
+                    '&:hover': {
+                      backgroundColor: `${colors.primary}44`,
+                    },
                   }}
                 >
                   <SkipNextIcon fontSize="small" />

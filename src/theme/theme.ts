@@ -2,85 +2,138 @@
 
 import { createTheme } from '@mui/material/styles';
 
-// Neon Rodeo Color Palette
+// Neon Rodeo Panic -- Spec-aligned palette
 const colors = {
-  primary: '#F59E0B',      // Electric amber
-  secondary: '#DC2626',     // Rodeo red
-  accent: '#40E0D0',        // Turquoise (western jewelry)
-  neon: '#FF6B00',          // Hot orange
-  gold: '#FFD700',          // Keep gold
-  background: '#0C0A09',    // Near-black
-  surface: '#1C1917',       // Dark slate
-  text: '#FFFFFF',
-  textSecondary: '#A8A29E', // Warm gray
+  // Base
+  smokeBlack: '#0D0A09',
+  coalBrown: '#18110E',
+  darkLeather: '#241813',
+  // Primary accents
+  amber: '#F5A623',
+  red: '#D33A2C',
+  turquoise: '#33C6C0',
+  // Support
+  bone: '#F2E6D8',
+  brass: '#B88746',
+  dust: '#8B7463',
+
+  // Aliases used throughout components
+  primary: '#F5A623',
+  secondary: '#D33A2C',
+  accent: '#33C6C0',
+  neon: '#F5A623', // legacy alias → amber
+  background: '#0D0A09',
+  surface: '#18110E',
+  surfaceAlt: '#241813',
+  text: '#F2E6D8',
+  textSecondary: '#8B7463',
+  gold: '#B88746',
 };
 
 export const theme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: colors.primary,
-      light: '#FBBF24',
-      dark: '#D97706',
+      main: colors.amber,
+      light: '#F7BD5E',
+      dark: '#C4841C',
     },
     secondary: {
-      main: colors.secondary,
-      light: '#EF4444',
-      dark: '#B91C1C',
+      main: colors.red,
+      light: '#E05A4D',
+      dark: '#A82E22',
     },
     background: {
-      default: colors.background,
-      paper: colors.surface,
+      default: colors.smokeBlack,
+      paper: colors.coalBrown,
     },
     text: {
-      primary: colors.text,
-      secondary: colors.textSecondary,
+      primary: colors.bone,
+      secondary: colors.dust,
     },
   },
   typography: {
-    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+    fontFamily: 'var(--font-body)',
     h1: {
+      fontFamily: 'var(--font-display)',
       fontWeight: 800,
-      letterSpacing: '-0.02em',
+      letterSpacing: '0.04em',
+      textTransform: 'uppercase' as const,
+      lineHeight: 1,
     },
     h2: {
+      fontFamily: 'var(--font-display)',
       fontWeight: 700,
-      letterSpacing: '-0.01em',
+      letterSpacing: '0.03em',
+      textTransform: 'uppercase' as const,
+      lineHeight: 1.1,
     },
     h3: {
+      fontFamily: 'var(--font-display)',
+      fontWeight: 700,
+      letterSpacing: '0.02em',
+      textTransform: 'uppercase' as const,
+      lineHeight: 1.15,
+    },
+    h4: {
+      fontFamily: 'var(--font-display)',
       fontWeight: 600,
+      letterSpacing: '0.02em',
+      lineHeight: 1.2,
+    },
+    h5: {
+      fontFamily: 'var(--font-display)',
+      fontWeight: 600,
+      letterSpacing: '0.01em',
+      lineHeight: 1.25,
+    },
+    h6: {
+      fontFamily: 'var(--font-display)',
+      fontWeight: 600,
+      lineHeight: 1.3,
     },
     button: {
+      fontFamily: 'var(--font-display)',
+      fontWeight: 700,
+      textTransform: 'uppercase' as const,
+      letterSpacing: '0.08em',
+    },
+    overline: {
+      fontFamily: 'var(--font-display)',
       fontWeight: 600,
-      textTransform: 'none',
+      letterSpacing: '0.15em',
     },
   },
   shape: {
-    borderRadius: 12,
+    borderRadius: 4,
   },
   components: {
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 50,
-          padding: '12px 32px',
-          fontSize: '1rem',
+          borderRadius: 2,
+          padding: '14px 32px',
+          fontSize: '0.95rem',
           boxShadow: 'none',
+          border: `1px solid ${colors.brass}44`,
+          position: 'relative' as const,
           '&:hover': {
-            boxShadow: `0 0 20px ${colors.primary}66`,
+            boxShadow: `0 0 24px ${colors.amber}44`,
+            borderColor: colors.amber,
           },
         },
         containedPrimary: {
-          background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.neon} 100%)`,
+          background: `linear-gradient(135deg, ${colors.amber} 0%, ${colors.brass} 100%)`,
+          color: colors.smokeBlack,
           '&:hover': {
-            background: `linear-gradient(135deg, ${colors.primary} 20%, ${colors.neon} 120%)`,
+            background: `linear-gradient(135deg, ${colors.amber} 20%, ${colors.brass} 120%)`,
           },
         },
         containedSecondary: {
-          background: `linear-gradient(135deg, ${colors.secondary} 0%, ${colors.neon} 100%)`,
+          background: `linear-gradient(135deg, ${colors.red} 0%, #E05A4D 100%)`,
           color: '#fff',
           '&:hover': {
-            background: `linear-gradient(135deg, ${colors.secondary} 20%, ${colors.neon} 120%)`,
+            background: `linear-gradient(135deg, ${colors.red} 20%, #E05A4D 120%)`,
           },
         },
       },
@@ -89,28 +142,41 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           backgroundImage: 'none',
-          backgroundColor: colors.surface,
-          borderRadius: 16,
-          border: `1px solid ${colors.primary}22`,
+          backgroundColor: colors.coalBrown,
+          borderRadius: 2,
+          border: `1px solid ${colors.brass}33`,
         },
       },
     },
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: `${colors.background}CC`,
-          backdropFilter: 'blur(10px)',
+          backgroundColor: `${colors.smokeBlack}EE`,
+          backdropFilter: 'blur(12px)',
           boxShadow: 'none',
-          borderBottom: `1px solid ${colors.primary}22`,
+          borderBottom: `1px solid ${colors.brass}33`,
         },
       },
     },
   },
 });
 
-// Layout constants for consistent spacing
 export const layout = {
-  navbarHeight: { xs: 56, sm: 64 }, // MUI Toolbar defaults
+  navbarHeight: { xs: 56, sm: 64 },
+};
+
+// Reusable clip-path definitions
+export const clipPaths = {
+  ticketStub:
+    'polygon(0% 8%, 4% 8%, 4% 0%, 96% 0%, 96% 8%, 100% 8%, 100% 92%, 96% 92%, 96% 100%, 4% 100%, 4% 92%, 0% 92%)',
+  cattleTag:
+    'polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%)',
+  clippedCorner:
+    'polygon(0% 0%, calc(100% - 16px) 0%, 100% 16px, 100% 100%, 16px 100%, 0% calc(100% - 16px))',
+  clippedCornerSm:
+    'polygon(0% 0%, calc(100% - 10px) 0%, 100% 10px, 100% 100%, 10px 100%, 0% calc(100% - 10px))',
+  buckleFrame:
+    'polygon(8% 0%, 92% 0%, 100% 8%, 100% 92%, 92% 100%, 8% 100%, 0% 92%, 0% 8%)',
 };
 
 export { colors };

@@ -1,9 +1,8 @@
 'use client';
 
-import { Box, Button, Container } from '@mui/material';
-import Image from 'next/image';
+import { Box, Container, Typography, Button, Stack } from '@mui/material';
 import Link from 'next/link';
-import HomeIcon from '@mui/icons-material/Home';
+import { colors, clipPaths } from '@/theme/theme';
 
 export default function NotFound() {
   return (
@@ -16,51 +15,71 @@ export default function NotFound() {
           justifyContent: 'center',
           minHeight: '70vh',
           textAlign: 'center',
-          py: 4,
+          py: 8,
         }}
       >
-        <Link
-          href="/"
-          style={{ display: 'block', width: '100%', maxWidth: 400 }}
-        >
-          <Box
-            sx={{
-              position: 'relative',
-              width: '100%',
-              aspectRatio: '3/4',
-              mb: 4,
-              cursor: 'pointer',
-              transition: 'transform 0.2s ease',
-              '&:hover': {
-                transform: 'scale(1.02)',
-              },
-            }}
-          >
-            <Image
-              src="/images/trevor-main.jpg"
-              alt="404 - Page not found - Ranch Squad"
-              fill
-              style={{ objectFit: 'contain' }}
-              priority
-            />
-          </Box>
-        </Link>
-
-        <Button
-          component={Link}
-          href="/"
-          variant="contained"
-          color="primary"
-          size="large"
-          startIcon={<HomeIcon />}
+        <Typography
+          variant="h1"
           sx={{
-            px: 5,
-            py: 1.5,
-            fontSize: '1.1rem',
+            color: colors.amber,
+            fontSize: { xs: '4rem', md: '6rem' },
+            mb: 2,
+            textShadow: `0 0 40px ${colors.amber}33`,
           }}
         >
-          Go Home
-        </Button>
+          404
+        </Typography>
+
+        <Typography
+          variant="h3"
+          sx={{
+            color: colors.bone,
+            mb: 2,
+            fontSize: { xs: '1.8rem', md: '2.4rem' },
+          }}
+        >
+          Wrong Gate, Cowboy
+        </Typography>
+
+        <Typography
+          variant="body1"
+          sx={{
+            color: colors.dust,
+            mb: 5,
+            maxWidth: 360,
+          }}
+        >
+          This ain&apos;t the ranch. You took a bad turn somewhere.
+        </Typography>
+
+        <Stack spacing={2} alignItems="center">
+          <Box
+            sx={{
+              width: '100%',
+              maxWidth: 280,
+              height: 3,
+              background: `linear-gradient(90deg, transparent, ${colors.brass}66, transparent)`,
+              mb: 1,
+            }}
+          />
+
+          <Button
+            component={Link}
+            href="/"
+            variant="contained"
+            color="primary"
+            size="large"
+            sx={{
+              py: 1.8,
+              px: 5,
+              fontSize: '1.05rem',
+              clipPath: clipPaths.ticketStub,
+              border: 'none',
+            }}
+          >
+            Get Back to the Ranch
+          </Button>
+        </Stack>
       </Box>
     </Container>
   );

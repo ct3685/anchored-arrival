@@ -1,145 +1,76 @@
 'use client';
 
-import { Box, Container, Typography, IconButton, Stack } from '@mui/material';
+import { Box, Container, Typography, Stack } from '@mui/material';
 import { colors } from '@/theme/theme';
-import { trackSocialClick } from '@/lib/analytics';
-import {
-  TikTokIcon,
-  YouTubeIcon,
-  FacebookIcon,
-  InstagramIcon,
-} from '@/components/Icons';
-
-const socialColors = {
-  tiktok: '#00F2EA',
-  youtube: '#FF0000',
-  facebook: '#1877F2',
-  instagram: '#E1306C',
-};
 
 export default function Footer() {
   return (
     <Box
       component="footer"
       sx={{
-        pt: 4,
-        pb: 12,
+        pt: 6,
+        pb: 14,
         px: 2,
         mt: 'auto',
-        backgroundColor: colors.background,
-        borderTop: `1px solid ${colors.primary}22`,
+        backgroundColor: colors.smokeBlack,
+        borderTop: `1px solid ${colors.brass}33`,
+        position: 'relative',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: '1px',
+          background: `linear-gradient(90deg, transparent 0%, ${colors.amber}44 50%, transparent 100%)`,
+        },
       }}
     >
       <Container maxWidth="lg">
-        <Stack
-          direction={{ xs: 'column', sm: 'row' }}
-          justifyContent="space-between"
-          alignItems="center"
-          spacing={2}
-        >
+        <Stack alignItems="center" spacing={3}>
+          <Typography
+            variant="h5"
+            sx={{
+              color: colors.amber,
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              textAlign: 'center',
+            }}
+          >
+            Trevor / Ranch Squad
+          </Typography>
+
           <Typography
             variant="body2"
             sx={{
-              background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.neon} 100%)`,
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              fontWeight: 600,
+              color: colors.dust,
+              textAlign: 'center',
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              fontSize: '0.75rem',
             }}
           >
-            No Power Ups. Just Power. 🐎 © {new Date().getFullYear()}
+            No Power Ups. Just Power.
           </Typography>
 
-          <Stack direction="row" spacing={1}>
-            <IconButton
-              href="https://www.tiktok.com/@trevor_bfit"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => trackSocialClick('tiktok', 'footer')}
-              sx={{
-                color: colors.textSecondary,
-                transition: 'all 0.3s ease',
-                '&:hover': {
-                  color: socialColors.tiktok,
-                  transform: 'scale(1.1)',
-                },
-              }}
-            >
-              <TikTokIcon size={24} />
-            </IconButton>
-            <IconButton
-              href="https://www.youtube.com/channel/UCLi7yoT4PGBY2k0o5hGvDwg"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => trackSocialClick('youtube', 'footer')}
-              sx={{
-                color: colors.textSecondary,
-                transition: 'all 0.3s ease',
-                '&:hover': {
-                  color: socialColors.youtube,
-                  transform: 'scale(1.1)',
-                },
-              }}
-            >
-              <YouTubeIcon size={24} />
-            </IconButton>
-            <IconButton
-              href="https://www.facebook.com/profile.php?id=61577038593159"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => trackSocialClick('facebook', 'footer')}
-              sx={{
-                color: colors.textSecondary,
-                transition: 'all 0.3s ease',
-                '&:hover': {
-                  color: socialColors.facebook,
-                  transform: 'scale(1.1)',
-                },
-              }}
-            >
-              <FacebookIcon size={24} />
-            </IconButton>
-            <IconButton
-              href="https://www.instagram.com/trevor_bfit"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => trackSocialClick('instagram', 'footer')}
-              sx={{
-                color: colors.textSecondary,
-                transition: 'all 0.3s ease',
-                '&:hover': {
-                  color: socialColors.instagram,
-                  transform: 'scale(1.1)',
-                },
-              }}
-            >
-              <InstagramIcon size={24} />
-            </IconButton>
-          </Stack>
-
           <Box
-            component="a"
-            href="https://www.tiktok.com/@cam.tok"
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => trackSocialClick('tiktok_cam', 'footer')}
             sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 0.5,
-              color: colors.textSecondary,
-              textDecoration: 'none',
-              transition: 'all 0.3s ease',
-              '&:hover': {
-                color: socialColors.tiktok,
-              },
+              width: 60,
+              height: 1,
+              background: `linear-gradient(90deg, ${colors.brass}44, ${colors.amber}, ${colors.brass}44)`,
+            }}
+          />
+
+          <Typography
+            variant="caption"
+            sx={{
+              color: colors.dust,
+              letterSpacing: '0.06em',
+              opacity: 0.6,
             }}
           >
-            <Typography variant="caption" sx={{ color: 'inherit' }}>
-              Designed by Cam
-            </Typography>
-            <TikTokIcon size={14} />
-          </Box>
+            &copy; {new Date().getFullYear()} Ranch Squad &mdash; Real Ones Only
+          </Typography>
         </Stack>
       </Container>
     </Box>

@@ -1,27 +1,25 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import Image from 'next/image';
 import {
   Box,
   Container,
   Typography,
-  Button,
   Stack,
   Snackbar,
   Alert,
 } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { motion } from 'motion/react';
-import { colors } from '@/theme/theme';
+import { colors, clipPaths } from '@/theme/theme';
 import {
   trackLinkClick,
   trackSocialClick,
   trackInAppBrowserLinkCopied,
 } from '@/lib/analytics';
 import { useScrollDepth } from '@/lib/useScrollDepth';
-// import { useComingSoonToast } from '@/lib/useComingSoonToast';
 import { useInAppBrowser, isProblematicUrl } from '@/lib/useInAppBrowser';
+import { useLiveStatus } from '@/lib/useLiveStatus';
 import {
   TikTokIcon,
   YouTubeIcon,
@@ -32,93 +30,84 @@ import {
 
 interface LinkItem {
   label: string;
+  sublabel: string;
   href: string;
   icon?: React.ReactNode;
-  gradient: string;
-  hoverGradient: string;
-  glowColor: string;
-  textColor: string;
+  accentColor: string;
+  category: 'main' | 'social' | 'gear';
+  featured?: boolean;
 }
 
-const links: LinkItem[] = [
-  {
-    label: 'TikTok @trevor_bfit',
-    href: 'https://www.tiktok.com/@trevor_bfit',
-    icon: <TikTokIcon size={24} />,
-    gradient: 'linear-gradient(135deg, #00F2EA 0%, #FF0050 100%)',
-    hoverGradient: 'linear-gradient(135deg, #00F2EA 20%, #FF0050 120%)',
-    glowColor: '#FF0050',
-    textColor: '#fff',
-  },
-  {
-    label: '🔴 TikTok LIVE',
-    href: 'https://www.tiktok.com/@trevor_bfit/live',
-    icon: <TikTokIcon size={24} />,
-    gradient: 'linear-gradient(135deg, #FF0050 0%, #FF4500 100%)',
-    hoverGradient: 'linear-gradient(135deg, #FF0050 20%, #FF4500 120%)',
-    glowColor: '#FF0050',
-    textColor: '#fff',
-  },
-  {
-    label: 'Instagram @trevor_bfit',
-    href: 'https://www.instagram.com/trevor_bfit',
-    icon: <InstagramIcon size={24} />,
-    gradient: 'linear-gradient(135deg, #E1306C 0%, #C13584 50%, #833AB4 100%)',
-    hoverGradient:
-      'linear-gradient(135deg, #E1306C 20%, #C13584 60%, #833AB4 120%)',
-    glowColor: '#E1306C',
-    textColor: '#fff',
-  },
-  {
-    label: 'YouTube',
-    href: 'https://www.youtube.com/channel/UCLi7yoT4PGBY2k0o5hGvDwg',
-    icon: <YouTubeIcon size={24} />,
-    gradient: 'linear-gradient(135deg, #FF0000 0%, #FFAA00 100%)',
-    hoverGradient: 'linear-gradient(135deg, #FF0000 20%, #FFAA00 120%)',
-    glowColor: '#FFAA00',
-    textColor: '#fff',
-  },
-  {
-    label: 'Facebook',
-    href: 'https://www.facebook.com/profile.php?id=61577038593159',
-    icon: <FacebookIcon size={24} />,
-    gradient: 'linear-gradient(135deg, #1877F2 0%, #42A5F5 100%)',
-    hoverGradient: 'linear-gradient(135deg, #1877F2 20%, #42A5F5 120%)',
-    glowColor: '#1877F2',
-    textColor: '#fff',
-  },
-  {
-    label: 'King Street Cowboys Merch',
-    href: 'https://kingstreetcowboys.com/affiliates/trevorbfit',
-    icon: <NetworkIcon size={24} />,
-    gradient: 'linear-gradient(135deg, #F59E0B 0%, #FF6B00 100%)',
-    hoverGradient: 'linear-gradient(135deg, #F59E0B 20%, #FF6B00 120%)',
-    glowColor: '#F59E0B',
-    textColor: '#fff',
-  },
-  {
-    label: 'Cameo',
-    href: 'https://www.cameo.com/trevor_bfit',
-    icon: <NetworkIcon size={24} />,
-    gradient: 'linear-gradient(135deg, #7C3AED 0%, #A855F7 100%)',
-    hoverGradient: 'linear-gradient(135deg, #7C3AED 20%, #A855F7 120%)',
-    glowColor: '#7C3AED',
-    textColor: '#fff',
-  },
-];
+const categories = [
+  { key: 'main', label: 'Main Event' },
+  { key: 'social', label: 'Socials' },
+  { key: 'gear', label: 'Gear & Extras' },
+] as const;
 
 export default function LinkTree() {
   useScrollDepth();
-  // const { showToast, ComingSoonSnackbar } = useComingSoonToast();
   const { isInAppBrowser, platform, copyToClipboard } = useInAppBrowser();
+  const { isLive, tiktokHref } = useLiveStatus();
   const [copySnackbar, setCopySnackbar] = useState<{
     open: boolean;
     message: string;
   }>({ open: false, message: '' });
 
+  const links: LinkItem[] = [
+    {
+      label: 'TikTok @trevor_bfit',
+      sublabel: isLive ? 'LIVE right now — pull up!' : 'Daily chaos',
+      href: tiktokHref,
+      icon: <TikTokIcon size={24} />,
+      accentColor: isLive ? colors.red : colors.amber,
+      category: 'main',
+      featured: true,
+    },
+    {
+      label: 'Instagram @trevor_bfit',
+      sublabel: 'Behind the scenes',
+      href: 'https://www.instagram.com/trevor_bfit',
+      icon: <InstagramIcon size={22} />,
+      accentColor: colors.amber,
+      category: 'social',
+    },
+    {
+      label: 'YouTube',
+      sublabel: 'Highlights and clips',
+      href: 'https://www.youtube.com/channel/UCLi7yoT4PGBY2k0o5hGvDwg',
+      icon: <YouTubeIcon size={22} />,
+      accentColor: colors.amber,
+      category: 'social',
+    },
+    {
+      label: 'Facebook',
+      sublabel: 'Ranch Squad HQ',
+      href: 'https://www.facebook.com/profile.php?id=61577038593159',
+      icon: <FacebookIcon size={22} />,
+      accentColor: colors.amber,
+      category: 'social',
+    },
+    {
+      label: 'King Street Cowboys',
+      sublabel: 'Official gear',
+      href: 'https://kingstreetcowboys.com/affiliates/trevorbfit',
+      icon: <NetworkIcon size={22} />,
+      accentColor: colors.brass,
+      category: 'gear',
+    },
+    {
+      label: 'Cameo',
+      sublabel: 'Personal shoutouts',
+      href: 'https://www.cameo.com/trevor_bfit',
+      icon: <NetworkIcon size={22} />,
+      accentColor: colors.brass,
+      category: 'gear',
+    },
+  ];
+
   const handleLinkClick = useCallback(
     async (
-      e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>,
+      e: React.MouseEvent<HTMLAnchorElement>,
       link: LinkItem,
       index: number
     ) => {
@@ -131,8 +120,6 @@ export default function LinkTree() {
         trackSocialClick('youtube', 'linktree');
       } else if (link.href.includes('instagram.com')) {
         trackSocialClick('instagram', 'linktree');
-      } else if (link.href.includes('amazon.com')) {
-        trackSocialClick('amazon', 'linktree');
       }
 
       if (isInAppBrowser && isExternal && isProblematicUrl(link.href)) {
@@ -159,7 +146,7 @@ export default function LinkTree() {
         sx={{
           minHeight: '100vh',
           py: 6,
-          background: `radial-gradient(ellipse at top, ${colors.surface} 0%, ${colors.background} 60%)`,
+          background: `linear-gradient(180deg, ${colors.smokeBlack} 0%, ${colors.coalBrown} 40%, ${colors.smokeBlack} 100%)`,
         }}
       >
         <Container maxWidth="sm">
@@ -169,213 +156,160 @@ export default function LinkTree() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <Stack alignItems="center" spacing={2} sx={{ mb: 6 }}>
-              {/* Avatar */}
-              <Box
-                sx={{
-                  position: 'relative',
-                  width: 100,
-                  height: 100,
-                  mb: 1,
-                  '&::before': {
-                    content: '""',
-                    position: 'absolute',
-                    inset: -3,
-                    borderRadius: '50%',
-                    background: `linear-gradient(135deg, #F59E0B, #DC2626, #40E0D0)`,
-                    animation: 'spin 4s linear infinite',
-                  },
-                  '@keyframes spin': {
-                    '0%': { transform: 'rotate(0deg)' },
-                    '100%': { transform: 'rotate(360deg)' },
-                  },
-                }}
-              >
-                <Box
-                  sx={{
-                    position: 'relative',
-                    width: '100%',
-                    height: '100%',
-                    borderRadius: '50%',
-                    overflow: 'hidden',
-                    border: `3px solid ${colors.background}`,
-                  }}
-                >
-                  <Image
-                    src="/images/trevor-profile.png"
-                    alt="Trevor"
-                    fill
-                    sizes="100px"
-                    style={{ objectFit: 'cover' }}
-                  />
-                </Box>
-              </Box>
+            <Stack alignItems="center" spacing={1} sx={{ mb: 5 }}>
               <Typography
-                variant="h3"
+                variant="overline"
                 sx={{
-                  fontWeight: 800,
-                  background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.neon} 100%)`,
-                  backgroundClip: 'text',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  textAlign: 'center',
+                  color: colors.brass,
+                  letterSpacing: 6,
+                  fontSize: '0.8rem',
                 }}
               >
-                Links
+                Catch Trevor Out Here
               </Typography>
               <Typography
-                variant="body1"
+                variant="h2"
                 sx={{
-                  color: colors.textSecondary,
+                  color: colors.amber,
                   textAlign: 'center',
-                  maxWidth: 500,
+                  fontSize: { xs: '2.2rem', md: '3rem' },
                 }}
               >
-                Connect with Trevor - Ranch Squad Commander • TikTok LIVE Pro.
+                Pull Up Anywhere
               </Typography>
             </Stack>
           </motion.div>
 
-          {/* Links */}
-          <Stack spacing={2} sx={{ mb: 4 }}>
-            {links.map((link, index) => (
-              <motion.div
-                key={link.href}
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.1 + 0.3 }}
-              >
-                <Button
-                  fullWidth
-                  variant="contained"
-                  href={link.href}
-                  target={link.href.startsWith('http') ? '_blank' : undefined}
-                  rel={
-                    link.href.startsWith('http')
-                      ? 'noopener noreferrer'
-                      : undefined
-                  }
-                  startIcon={link.icon}
-                  onClick={(e) => handleLinkClick(e, link, index)}
+          {/* Categorized Links */}
+          {categories.map((cat) => {
+            const catLinks = links.filter((l) => l.category === cat.key);
+            if (catLinks.length === 0) return null;
+
+            return (
+              <Box key={cat.key} sx={{ mb: 4 }}>
+                <Typography
+                  variant="overline"
                   sx={{
-                    py: 2,
-                    px: 3,
-                    color: link.textColor,
-                    background: link.gradient,
-                    backdropFilter: 'blur(8px)',
-                    boxShadow: `0 0 20px ${link.glowColor}44`,
-                    justifyContent: 'flex-start',
-                    fontSize: '1rem',
-                    fontWeight: 600,
-                    '&:hover': {
-                      background: link.hoverGradient,
-                      transform: 'translateX(8px)',
-                      boxShadow: `0 0 30px ${link.glowColor}66`,
-                    },
-                    transition: 'all 0.3s ease',
+                    color: colors.dust,
+                    letterSpacing: 4,
+                    fontSize: '0.7rem',
+                    display: 'block',
+                    mb: 1.5,
+                    pl: 1,
                   }}
                 >
-                  {link.label}
-                </Button>
-              </motion.div>
-            ))}
-          </Stack>
+                  {cat.label}
+                </Typography>
+                <Stack spacing={1.5}>
+                  {catLinks.map((link, index) => (
+                    <motion.div
+                      key={link.href}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{
+                        duration: 0.35,
+                        delay: index * 0.08 + 0.3,
+                      }}
+                    >
+                      <Box
+                        component="a"
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e: React.MouseEvent<HTMLAnchorElement>) =>
+                          handleLinkClick(e, link, index)
+                        }
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 2,
+                          textDecoration: 'none',
+                          p: link.featured ? 3 : 2.5,
+                          clipPath: link.featured
+                            ? clipPaths.ticketStub
+                            : clipPaths.clippedCornerSm,
+                          backgroundColor: link.featured
+                            ? colors.darkLeather
+                            : colors.coalBrown,
+                          border: `1px solid ${link.featured ? (isLive ? colors.red : colors.amber) : colors.brass}33`,
+                          transition: 'all 0.2s ease',
+                          cursor: 'pointer',
+                          '&:hover': {
+                            backgroundColor: colors.darkLeather,
+                            boxShadow: `inset 0 0 20px ${link.accentColor}11, 0 0 16px ${link.accentColor}22`,
+                            '& .link-icon': {
+                              color: link.accentColor,
+                            },
+                            '& .link-label': {
+                              color: link.accentColor,
+                            },
+                          },
+                        }}
+                      >
+                        <Box
+                          className="link-icon"
+                          sx={{
+                            color: colors.dust,
+                            transition: 'color 0.2s ease',
+                            flexShrink: 0,
+                          }}
+                        >
+                          {link.icon}
+                        </Box>
+                        <Box sx={{ flex: 1, minWidth: 0 }}>
+                          <Typography
+                            className="link-label"
+                            variant={link.featured ? 'h5' : 'h6'}
+                            sx={{
+                              color: colors.bone,
+                              transition: 'color 0.2s ease',
+                              fontSize: link.featured ? '1.3rem' : '1rem',
+                            }}
+                          >
+                            {link.label}
+                          </Typography>
+                          <Typography
+                            variant="caption"
+                            sx={{
+                              color: colors.dust,
+                              letterSpacing: '0.04em',
+                            }}
+                          >
+                            {link.sublabel}
+                          </Typography>
+                        </Box>
 
-          {/* Ranch Squad Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.8 }}
-          >
-            <Box
-              sx={{
-                mt: 4,
-                pt: 4,
-                borderTop: `1px solid ${colors.gold}33`,
-              }}
-            >
-              <Typography
-                variant="overline"
-                sx={{
-                  display: 'block',
-                  textAlign: 'center',
-                  color: colors.gold,
-                  letterSpacing: 3,
-                  fontWeight: 600,
-                  mb: 1,
-                }}
-              >
-                Official Merch
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{
-                  textAlign: 'center',
-                  color: colors.textSecondary,
-                  mb: 2,
-                  px: 2,
-                }}
-              >
-                Rep the Ranch Squad with official gear from King Street Cowboys.
-                Built for cowboys who ain&apos;t fake.
-              </Typography>
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-              >
-                <Button
-                  fullWidth
-                  variant="contained"
-                  href="https://kingstreetcowboys.com/affiliates/trevorbfit"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={async () => {
-                    const url = 'https://kingstreetcowboys.com/affiliates/trevorbfit';
-                    trackLinkClick(
-                      'Shop King Street Cowboys',
-                      url,
-                      links.length,
-                      true
-                    );
-
-                    if (isInAppBrowser && isProblematicUrl(url)) {
-                      const copied = await copyToClipboard(url);
-                      if (copied) {
-                        trackInAppBrowserLinkCopied(
-                          'Shop King Street Cowboys',
-                          url,
-                          platform
-                        );
-                        setCopySnackbar({
-                          open: true,
-                          message:
-                            'Link copied! Paste in your browser for best results.',
-                        });
-                      }
-                    }
-                  }}
-                  sx={{
-                    py: 2,
-                    px: 3,
-                    color: colors.background,
-                    background: `linear-gradient(135deg, ${colors.gold} 0%, #FFA500 100%)`,
-                    backdropFilter: 'blur(8px)',
-                    boxShadow: `0 0 20px ${colors.gold}44`,
-                    fontSize: '1rem',
-                    fontWeight: 700,
-                    '&:hover': {
-                      background: `linear-gradient(135deg, ${colors.gold} 20%, #FFA500 120%)`,
-                      boxShadow: `0 0 30px ${colors.gold}66`,
-                    },
-                    transition: 'all 0.3s ease',
-                  }}
-                >
-                  Shop King Street Cowboys
-                </Button>
-              </motion.div>
-            </Box>
-          </motion.div>
+                        {/* LIVE NOW badge -- only when actually streaming */}
+                        {link.featured && isLive && (
+                          <Box
+                            sx={{
+                              px: 1.5,
+                              py: 0.4,
+                              backgroundColor: colors.red,
+                              color: '#fff',
+                              fontSize: '0.6rem',
+                              fontFamily: 'var(--font-display)',
+                              fontWeight: 700,
+                              letterSpacing: '0.15em',
+                              textTransform: 'uppercase',
+                              flexShrink: 0,
+                              animation: 'flicker 2s ease-in-out infinite',
+                              '@keyframes flicker': {
+                                '0%, 100%': { opacity: 1 },
+                                '50%': { opacity: 0.6 },
+                              },
+                            }}
+                          >
+                            Live Now
+                          </Box>
+                        )}
+                      </Box>
+                    </motion.div>
+                  ))}
+                </Stack>
+              </Box>
+            );
+          })}
 
           {/* Tagline */}
           <motion.div
@@ -383,21 +317,29 @@ export default function LinkTree() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 1 }}
           >
-            <Typography
-              variant="body2"
+            <Box
               sx={{
                 mt: 4,
+                pt: 4,
+                borderTop: `1px solid ${colors.brass}22`,
                 textAlign: 'center',
-                color: colors.textSecondary,
-                fontStyle: 'italic',
               }}
             >
-              &quot;Com&apos;On... Gooder Than Shit!&quot;
-            </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: colors.dust,
+                  fontFamily: 'var(--font-display)',
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                &quot;Com&apos;On... Gooder Than Shit!&quot;
+              </Typography>
+            </Box>
           </motion.div>
         </Container>
       </Box>
-      {/* <ComingSoonSnackbar /> */}
       <Snackbar
         open={copySnackbar.open}
         autoHideDuration={4000}
@@ -410,7 +352,7 @@ export default function LinkTree() {
           variant="filled"
           icon={<ContentCopyIcon fontSize="small" />}
           sx={{
-            background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.secondary} 100%)`,
+            background: `linear-gradient(135deg, ${colors.amber} 0%, ${colors.red} 100%)`,
             color: '#fff',
             fontWeight: 600,
           }}
