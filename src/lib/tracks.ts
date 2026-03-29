@@ -26,11 +26,11 @@ const aaron: TrackCredit = {
 // Newest tracks first — prepend entries here so music UI and default queue stay current-first.
 export const tracks: Track[] = [
   {
-    id: 'ranch-squad-we-dont-lose',
-    title: "Ranch Squad (We Don't Lose)",
+    id: 'we-dont-lose-when-it-matters',
+    title: "We Don't Lose When It Matters",
     artist: 'Trevor & Ranch Squad',
-    src: '/audio/ranch-squad-we-dont-lose.mp3',
-    cover: '/images/trevor-profile.png',
+    src: '/audio/we-dont-lose-when-it-matters.mp3',
+    cover: '/images/covers/we-dont-lose-when-it-matters.jpg',
     createdBy: reaper,
   },
   {
