@@ -1,3 +1,8 @@
+export interface TrackCredit {
+  name: string;
+  url: string;
+}
+
 export interface Track {
   id: string;
   title: string;
@@ -5,7 +10,18 @@ export interface Track {
   src: string;
   cover: string;
   duration?: string;
+  createdBy: TrackCredit;
 }
+
+const reaper: TrackCredit = {
+  name: 'Reaper ⛰️',
+  url: 'https://tiktok.com/@cam.tik',
+};
+
+const aaron: TrackCredit = {
+  name: 'Aaron',
+  url: 'https://tiktok.com/@hollywooddetail205',
+};
 
 export const tracks: Track[] = [
   {
@@ -13,35 +29,40 @@ export const tracks: Track[] = [
     title: 'Gooder Than Shit (Ranch Anthem)',
     artist: 'Trevor & Ranch Squad',
     src: '/audio/gooder-than-shit-ranch-anthem.mp3',
-    cover: '/images/trevor-profile.png',
+    cover: '/images/covers/gooder-than-shit-ranch-anthem.jpg',
+    createdBy: reaper,
   },
   {
     id: 'from-the-ranch-to-the-screen',
     title: 'From the Ranch to the Screen',
     artist: 'Trevor & Ranch Squad',
     src: '/audio/from-the-ranch-to-the-screen.mp3',
-    cover: '/images/trevor-profile.png',
+    cover: '/images/covers/from-the-ranch-to-the-screen.jpg',
+    createdBy: reaper,
   },
   {
     id: 'one-day-at-a-time',
     title: 'One Day at a Time (Ranch Squad Anthem)',
     artist: 'Trevor & Ranch Squad',
     src: '/audio/one-day-at-a-time-ranch-squad-anthem.mp3',
-    cover: '/images/trevor-profile.png',
+    cover: '/images/covers/one-day-at-a-time-ranch-squad-anthem.jpg',
+    createdBy: reaper,
   },
   {
     id: 'we-still-breathin',
     title: 'We Still Breathin',
     artist: 'Trevor & Ranch Squad',
     src: '/audio/we-still-breathin.mp3',
-    cover: '/images/trevor-profile.png',
+    cover: '/images/covers/we-still-breathin.jpg',
+    createdBy: reaper,
   },
   {
     id: 'no-power-ups',
     title: 'No Power Ups',
     artist: 'Trevor & Ranch Squad',
     src: '/audio/no-power-ups.mp3',
-    cover: '/images/trevor-profile.png',
+    cover: '/images/covers/no-power-ups.jpg',
+    createdBy: reaper,
   },
   {
     id: 'ranch-squad-reset-rsr',
@@ -49,6 +70,7 @@ export const tracks: Track[] = [
     artist: 'Trevor & Ranch Squad',
     src: '/audio/ranch-squad-reset-rsr.mp3',
     cover: '/images/trevor-profile.png',
+    createdBy: aaron,
   },
   {
     id: 'ranch-squad-reset-tiktok',
@@ -56,5 +78,6 @@ export const tracks: Track[] = [
     artist: 'Trevor & Ranch Squad',
     src: '/audio/ranch-squad-reset-tiktok-throwdown.mp3',
     cover: '/images/trevor-profile.png',
+    createdBy: aaron,
   },
 ];

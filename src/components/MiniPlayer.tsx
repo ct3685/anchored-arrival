@@ -193,9 +193,28 @@ export default function MiniPlayer() {
               </Typography>
               <Typography
                 variant="caption"
-                sx={{ color: colors.textSecondary, display: 'block', mb: 1 }}
+                sx={{ color: colors.textSecondary, display: 'block' }}
               >
                 {currentTrack.artist}
+              </Typography>
+              <Typography
+                variant="caption"
+                sx={{ color: colors.textSecondary, display: 'block', mb: 1, fontSize: '0.65rem' }}
+              >
+                by{' '}
+                <Box
+                  component="a"
+                  href={currentTrack.createdBy.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{
+                    color: colors.primary,
+                    textDecoration: 'none',
+                    '&:hover': { textDecoration: 'underline' },
+                  }}
+                >
+                  {currentTrack.createdBy.name}
+                </Box>
               </Typography>
 
               {/* Progress Bar */}
