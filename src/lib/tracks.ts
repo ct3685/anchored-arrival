@@ -23,7 +23,16 @@ const aaron: TrackCredit = {
   url: 'https://tiktok.com/@hollywooddetail205',
 };
 
+// Newest tracks first — prepend entries here so music UI and default queue stay current-first.
 export const tracks: Track[] = [
+  {
+    id: 'ranch-squad-we-dont-lose',
+    title: "Ranch Squad (We Don't Lose)",
+    artist: 'Trevor & Ranch Squad',
+    src: '/audio/ranch-squad-we-dont-lose.mp3',
+    cover: '/images/trevor-profile.png',
+    createdBy: reaper,
+  },
   {
     id: 'we-just-won-reset-river',
     title: 'We Just Won (Reset River)',
