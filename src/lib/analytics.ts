@@ -1,5 +1,5 @@
 // Google Analytics 4 Event Tracking Utility
-// Measurement ID: G-2DE84Q17JH
+// Measurement ID: G-NPDJT8S6PC
 
 declare global {
   interface Window {
