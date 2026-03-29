@@ -3,23 +3,68 @@
 import { useEffect, useState, useMemo } from 'react';
 import { Box } from '@mui/material';
 import { motion, AnimatePresence } from 'motion/react';
+import { colors } from '@/theme/theme';
 
-interface Sparkle {
+interface Particle {
   id: number;
   x: number;
   y: number;
   size: number;
-  emoji: string;
+  type: 'horseshoe' | 'dust' | 'star';
+  opacity: number;
+  drift: number;
 }
 
-const emojis = ['🤠', '🐎', '🐴', '🏇', '⭐'];
+function HorseshoeParticle({ size }: { size: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={colors.brass}
+      strokeWidth="1.5"
+      opacity="0.4"
+    >
+      <path d="M5 2v8a7 7 0 0 0 14 0V2M5 2H3v8a9 9 0 0 0 18 0V2h-2" />
+    </svg>
+  );
+}
+
+function StarParticle({ size }: { size: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill={colors.amber}
+      opacity="0.25"
+    >
+      <polygon points="12,2 15,9 22,9 16,14 18,21 12,17 6,21 8,14 2,9 9,9" />
+    </svg>
+  );
+}
+
+function DustParticle({ size }: { size: number }) {
+  return (
+    <Box
+      sx={{
+        width: size,
+        height: size,
+        borderRadius: '50%',
+        backgroundColor: colors.dust,
+        opacity: 0.2,
+      }}
+    />
+  );
+}
 
 export default function SparkleEffect() {
-  const [sparkles, setSparkles] = useState<Sparkle[]>([]);
+  const [particles, setParticles] = useState<Particle[]>([]);
 
   const config = useMemo(() => {
     if (typeof window === 'undefined') {
-      return { initialCount: 10, maxCount: 15, interval: 400 };
+      return { initialCount: 6, maxCount: 10, interval: 600 };
     }
 
     const prefersReducedMotion = window.matchMedia(
@@ -31,41 +76,51 @@ export default function SparkleEffect() {
 
     const isMobile = window.innerWidth < 768;
     return isMobile
-      ? { initialCount: 8, maxCount: 12, interval: 500 }
-      : { initialCount: 20, maxCount: 25, interval: 300 };
+      ? { initialCount: 4, maxCount: 6, interval: 800 }
+      : { initialCount: 8, maxCount: 12, interval: 500 };
   }, []);
 
   useEffect(() => {
     if (config.initialCount === 0) return;
 
-    const createSparkle = (): Sparkle => ({
+    const types: Particle['type'][] = [
+      'horseshoe',
+      'dust',
+      'dust',
+      'dust',
+      'star',
+    ];
+
+    const createParticle = (): Particle => ({
       id: Math.random(),
       x: Math.random() * 100,
       y: Math.random() * 100,
-      size: Math.random() * 18 + 10,
-      emoji: emojis[Math.floor(Math.random() * emojis.length)],
+      size: Math.random() * 12 + 8,
+      type: types[Math.floor(Math.random() * types.length)],
+      opacity: Math.random() * 0.3 + 0.1,
+      drift: (Math.random() - 0.5) * 30,
     });
 
-    const initialSparkles: Sparkle[] = [];
+    const initial: Particle[] = [];
     for (let i = 0; i < config.initialCount; i++) {
-      initialSparkles.push(createSparkle());
+      initial.push(createParticle());
     }
-    setSparkles(initialSparkles);
+    setParticles(initial);
 
     const interval = setInterval(() => {
-      setSparkles((prev) => {
-        const newSparkles = [
+      setParticles((prev) => {
+        const newParticles = [
           ...prev.slice(-(config.maxCount - 1)),
-          createSparkle(),
+          createParticle(),
         ];
-        return newSparkles;
+        return newParticles;
       });
     }, config.interval);
 
     return () => clearInterval(interval);
   }, [config]);
 
-  if (sparkles.length === 0) return null;
+  if (particles.length === 0) return null;
 
   return (
     <Box
@@ -78,29 +133,35 @@ export default function SparkleEffect() {
       }}
     >
       <AnimatePresence mode="popLayout">
-        {sparkles.map((sparkle) => (
+        {particles.map((particle) => (
           <motion.div
-            key={sparkle.id}
+            key={particle.id}
             initial={{ opacity: 0, scale: 0 }}
             animate={{
-              opacity: [0, 1, 1, 0],
+              opacity: [0, particle.opacity, particle.opacity, 0],
               scale: [0, 1, 1, 0],
-              y: [0, -50, -100, -150],
+              y: [0, -40, -80, -120],
+              x: [0, particle.drift * 0.5, particle.drift],
             }}
             exit={{ opacity: 0 }}
             transition={{
-              duration: 6,
+              duration: 8,
               ease: 'easeOut',
             }}
             style={{
               position: 'absolute',
-              left: `${sparkle.x}%`,
-              top: `${sparkle.y}%`,
-              fontSize: `${sparkle.size}px`,
+              left: `${particle.x}%`,
+              top: `${particle.y}%`,
               lineHeight: 1,
             }}
           >
-            {sparkle.emoji}
+            {particle.type === 'horseshoe' && (
+              <HorseshoeParticle size={particle.size} />
+            )}
+            {particle.type === 'star' && <StarParticle size={particle.size} />}
+            {particle.type === 'dust' && (
+              <DustParticle size={particle.size * 0.4} />
+            )}
           </motion.div>
         ))}
       </AnimatePresence>

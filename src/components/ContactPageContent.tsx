@@ -24,7 +24,12 @@ import {
   CheckCircle,
   Email,
 } from '@mui/icons-material';
-import { TikTokIcon, YouTubeIcon, InstagramIcon, AmazonIcon } from '@/components/Icons';
+import {
+  TikTokIcon,
+  YouTubeIcon,
+  InstagramIcon,
+  AmazonIcon,
+} from '@/components/Icons';
 import SparkleEffect from '@/components/SparkleEffect';
 
 type GamePhase =
@@ -78,7 +83,9 @@ const encodeCaesar = (text: string, shift: number) => {
     .split('')
     .map((char) => {
       if (char.match(/[A-Z]/)) {
-        return String.fromCharCode(((char.charCodeAt(0) - 65 + shift) % 26) + 65);
+        return String.fromCharCode(
+          ((char.charCodeAt(0) - 65 + shift) % 26) + 65
+        );
       }
       return char;
     })
@@ -107,7 +114,7 @@ function useTypewriter(
   text: string,
   speed: number,
   phase: GamePhase,
-  setText: (value: string) => void,
+  setText: (value: string) => void
 ) {
   useEffect(() => {
     if (phase === 'entry') {
@@ -128,7 +135,12 @@ function useTypewriter(
 
 // SVG-based realistic animated lighter component
 const AnimatedLighter = () => (
-  <svg width="60" height="140" viewBox="0 0 60 140" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    width="60"
+    height="140"
+    viewBox="0 0 60 140"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <defs>
       {/* Metallic body gradient */}
       <linearGradient id="lighterBody" x1="0" y1="0" x2="1" y2="0">
@@ -150,10 +162,28 @@ const AnimatedLighter = () => (
       </linearGradient>
       {/* Flame filter for realistic flicker */}
       <filter id="flameDistort" x="-50%" y="-50%" width="200%" height="200%">
-        <feTurbulence type="turbulence" baseFrequency="0.05 0.08" numOctaves="3" seed="2" result="turb">
-          <animate attributeName="seed" from="1" to="100" dur="2s" repeatCount="indefinite" />
+        <feTurbulence
+          type="turbulence"
+          baseFrequency="0.05 0.08"
+          numOctaves="3"
+          seed="2"
+          result="turb"
+        >
+          <animate
+            attributeName="seed"
+            from="1"
+            to="100"
+            dur="2s"
+            repeatCount="indefinite"
+          />
         </feTurbulence>
-        <feDisplacementMap in="SourceGraphic" in2="turb" scale="6" xChannelSelector="R" yChannelSelector="G" />
+        <feDisplacementMap
+          in="SourceGraphic"
+          in2="turb"
+          scale="6"
+          xChannelSelector="R"
+          yChannelSelector="G"
+        />
       </filter>
       {/* Glow filter */}
       <filter id="flameGlow" x="-100%" y="-100%" width="300%" height="300%">
@@ -165,8 +195,19 @@ const AnimatedLighter = () => (
       </filter>
       {/* Smoke filter */}
       <filter id="smokeFilter" x="-50%" y="-50%" width="200%" height="200%">
-        <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" result="noise">
-          <animate attributeName="seed" from="0" to="50" dur="4s" repeatCount="indefinite" />
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.015"
+          numOctaves="3"
+          result="noise"
+        >
+          <animate
+            attributeName="seed"
+            from="0"
+            to="50"
+            dur="4s"
+            repeatCount="indefinite"
+          />
         </feTurbulence>
         <feDisplacementMap in="SourceGraphic" in2="noise" scale="8" />
         <feGaussianBlur stdDeviation="2" />
@@ -181,62 +222,190 @@ const AnimatedLighter = () => (
 
     {/* Warm ambient glow */}
     <ellipse cx="30" cy="25" rx="40" ry="50" fill="url(#warmGlow)">
-      <animate attributeName="rx" values="38;42;38" dur="1.5s" repeatCount="indefinite" />
-      <animate attributeName="ry" values="48;52;48" dur="1.8s" repeatCount="indefinite" />
+      <animate
+        attributeName="rx"
+        values="38;42;38"
+        dur="1.5s"
+        repeatCount="indefinite"
+      />
+      <animate
+        attributeName="ry"
+        values="48;52;48"
+        dur="1.8s"
+        repeatCount="indefinite"
+      />
     </ellipse>
 
     {/* Smoke wisps */}
     <g filter="url(#smokeFilter)" opacity="0.25">
       <ellipse cx="30" cy="10" rx="5" ry="12" fill="#aaa">
-        <animate attributeName="cy" values="15;-20" dur="3s" repeatCount="indefinite" />
-        <animate attributeName="rx" values="4;10" dur="3s" repeatCount="indefinite" />
-        <animate attributeName="opacity" values="0.3;0" dur="3s" repeatCount="indefinite" />
+        <animate
+          attributeName="cy"
+          values="15;-20"
+          dur="3s"
+          repeatCount="indefinite"
+        />
+        <animate
+          attributeName="rx"
+          values="4;10"
+          dur="3s"
+          repeatCount="indefinite"
+        />
+        <animate
+          attributeName="opacity"
+          values="0.3;0"
+          dur="3s"
+          repeatCount="indefinite"
+        />
       </ellipse>
       <ellipse cx="34" cy="12" rx="3" ry="8" fill="#999">
-        <animate attributeName="cy" values="12;-25" dur="3.5s" repeatCount="indefinite" />
-        <animate attributeName="rx" values="3;8" dur="3.5s" repeatCount="indefinite" />
-        <animate attributeName="opacity" values="0.2;0" dur="3.5s" repeatCount="indefinite" />
+        <animate
+          attributeName="cy"
+          values="12;-25"
+          dur="3.5s"
+          repeatCount="indefinite"
+        />
+        <animate
+          attributeName="rx"
+          values="3;8"
+          dur="3.5s"
+          repeatCount="indefinite"
+        />
+        <animate
+          attributeName="opacity"
+          values="0.2;0"
+          dur="3.5s"
+          repeatCount="indefinite"
+        />
       </ellipse>
     </g>
 
     {/* Flame group with distortion */}
     <g filter="url(#flameDistort)">
       {/* Outer flame - yellow/orange */}
-      <ellipse cx="30" cy="30" rx="10" ry="22" fill="#ff8c00" opacity="0.8" filter="url(#flameGlow)">
-        <animate attributeName="ry" values="20;24;20" dur="0.4s" repeatCount="indefinite" />
-        <animate attributeName="rx" values="9;11;9" dur="0.3s" repeatCount="indefinite" />
+      <ellipse
+        cx="30"
+        cy="30"
+        rx="10"
+        ry="22"
+        fill="#ff8c00"
+        opacity="0.8"
+        filter="url(#flameGlow)"
+      >
+        <animate
+          attributeName="ry"
+          values="20;24;20"
+          dur="0.4s"
+          repeatCount="indefinite"
+        />
+        <animate
+          attributeName="rx"
+          values="9;11;9"
+          dur="0.3s"
+          repeatCount="indefinite"
+        />
       </ellipse>
       {/* Mid flame - orange */}
       <ellipse cx="30" cy="32" rx="7" ry="17" fill="#ff6600" opacity="0.9">
-        <animate attributeName="ry" values="15;19;15" dur="0.35s" repeatCount="indefinite" />
-        <animate attributeName="rx" values="6;8;6" dur="0.25s" repeatCount="indefinite" />
+        <animate
+          attributeName="ry"
+          values="15;19;15"
+          dur="0.35s"
+          repeatCount="indefinite"
+        />
+        <animate
+          attributeName="rx"
+          values="6;8;6"
+          dur="0.25s"
+          repeatCount="indefinite"
+        />
       </ellipse>
       {/* Inner flame - blue/white core */}
       <ellipse cx="30" cy="38" rx="4" ry="10" fill="#4488ff" opacity="0.9">
-        <animate attributeName="ry" values="9;12;9" dur="0.3s" repeatCount="indefinite" />
+        <animate
+          attributeName="ry"
+          values="9;12;9"
+          dur="0.3s"
+          repeatCount="indefinite"
+        />
       </ellipse>
       <ellipse cx="30" cy="40" rx="2.5" ry="7" fill="#aaccff" opacity="0.8">
-        <animate attributeName="ry" values="6;8;6" dur="0.25s" repeatCount="indefinite" />
+        <animate
+          attributeName="ry"
+          values="6;8;6"
+          dur="0.25s"
+          repeatCount="indefinite"
+        />
       </ellipse>
     </g>
 
     {/* Lighter lid (open) */}
-    <rect x="14" y="48" width="32" height="8" rx="2" fill="url(#lighterLid)" stroke="#555" strokeWidth="0.5" />
-    <rect x="18" y="44" width="24" height="6" rx="1" fill="#888" stroke="#666" strokeWidth="0.5" />
+    <rect
+      x="14"
+      y="48"
+      width="32"
+      height="8"
+      rx="2"
+      fill="url(#lighterLid)"
+      stroke="#555"
+      strokeWidth="0.5"
+    />
+    <rect
+      x="18"
+      y="44"
+      width="24"
+      height="6"
+      rx="1"
+      fill="#888"
+      stroke="#666"
+      strokeWidth="0.5"
+    />
 
     {/* Lighter body */}
-    <rect x="12" y="56" width="36" height="72" rx="4" fill="url(#lighterBody)" stroke="#666" strokeWidth="1" />
+    <rect
+      x="12"
+      y="56"
+      width="36"
+      height="72"
+      rx="4"
+      fill="url(#lighterBody)"
+      stroke="#666"
+      strokeWidth="1"
+    />
     {/* Body highlight line */}
-    <rect x="26" y="58" width="2" height="68" rx="1" fill="rgba(255,255,255,0.3)" />
+    <rect
+      x="26"
+      y="58"
+      width="2"
+      height="68"
+      rx="1"
+      fill="rgba(255,255,255,0.3)"
+    />
     {/* Body shadow line */}
-    <rect x="16" y="58" width="1" height="68" rx="0.5" fill="rgba(0,0,0,0.15)" />
+    <rect
+      x="16"
+      y="58"
+      width="1"
+      height="68"
+      rx="0.5"
+      fill="rgba(0,0,0,0.15)"
+    />
     {/* Hinge detail */}
     <circle cx="30" cy="56" r="3" fill="#999" stroke="#777" strokeWidth="0.5" />
     <circle cx="30" cy="56" r="1.5" fill="#bbb" />
     {/* Bottom seam */}
     <line x1="14" y1="118" x2="46" y2="118" stroke="#888" strokeWidth="0.5" />
     {/* Bottom cap */}
-    <rect x="12" y="120" width="36" height="8" rx="3" fill="#777" stroke="#666" strokeWidth="0.5" />
+    <rect
+      x="12"
+      y="120"
+      width="36"
+      height="8"
+      rx="3"
+      fill="#777"
+      stroke="#666"
+      strokeWidth="0.5"
+    />
   </svg>
 );
 
@@ -467,8 +636,12 @@ export default function ContactPageContent() {
 
   // Randomize cipher shift (1-25) and trivia option order on mount
   const [targetShift] = useState(() => Math.floor(Math.random() * 25) + 1);
-  const [cipherTextEncoded] = useState(() => encodeCaesar(cipherSolution, targetShift));
-  const [shuffledTrivia] = useState(() => shuffleTriviaQuestions(triviaQuestions));
+  const [cipherTextEncoded] = useState(() =>
+    encodeCaesar(cipherSolution, targetShift)
+  );
+  const [shuffledTrivia] = useState(() =>
+    shuffleTriviaQuestions(triviaQuestions)
+  );
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -541,51 +714,57 @@ export default function ContactPageContent() {
   const alphabetMapping = getAlphabetMapping(cipherShift);
 
   // Handle trivia answers with shake animation
-  const handleTriviaAnswer = useCallback((questionIndex: number, answerIndex: number) => {
-    const isCorrect = answerIndex === shuffledTrivia[questionIndex].correct;
+  const handleTriviaAnswer = useCallback(
+    (questionIndex: number, answerIndex: number) => {
+      const isCorrect = answerIndex === shuffledTrivia[questionIndex].correct;
 
-    if (!isCorrect) {
-      // Flash wrong answer red and shake
-      setWrongTriviAnswers((prev) => ({
-        ...prev,
-        [`${questionIndex}_${answerIndex}`]: true,
-      }));
-      setTimeout(() => {
+      if (!isCorrect) {
+        // Flash wrong answer red and shake
         setWrongTriviAnswers((prev) => ({
           ...prev,
-          [`${questionIndex}_${answerIndex}`]: false,
+          [`${questionIndex}_${answerIndex}`]: true,
         }));
-      }, 1000);
-      return;
-    }
+        setTimeout(() => {
+          setWrongTriviAnswers((prev) => ({
+            ...prev,
+            [`${questionIndex}_${answerIndex}`]: false,
+          }));
+        }, 1000);
+        return;
+      }
 
-    const newAnswers = [...triviaAnswers];
-    newAnswers[questionIndex] = answerIndex;
-    setTriviaAnswers(newAnswers);
+      const newAnswers = [...triviaAnswers];
+      newAnswers[questionIndex] = answerIndex;
+      setTriviaAnswers(newAnswers);
 
-    const correctAnswers = newAnswers.filter(
-      (answer, index) => answer === shuffledTrivia[index].correct
-    ).length;
-    setTriviaProgress(correctAnswers);
-  }, [triviaAnswers, shuffledTrivia]);
+      const correctAnswers = newAnswers.filter(
+        (answer, index) => answer === shuffledTrivia[index].correct
+      ).length;
+      setTriviaProgress(correctAnswers);
+    },
+    [triviaAnswers, shuffledTrivia]
+  );
 
   // Handle safe combination
-  const handleSafeDial = useCallback((dialIndex: number, direction: 'up' | 'down') => {
-    const newCombo = [...safeCombo];
-    if (direction === 'up') {
-      newCombo[dialIndex] = (newCombo[dialIndex] + 1) % 10;
-    } else {
-      newCombo[dialIndex] = (newCombo[dialIndex] - 1 + 10) % 10;
-    }
-    setSafeCombo(newCombo);
+  const handleSafeDial = useCallback(
+    (dialIndex: number, direction: 'up' | 'down') => {
+      const newCombo = [...safeCombo];
+      if (direction === 'up') {
+        newCombo[dialIndex] = (newCombo[dialIndex] + 1) % 10;
+      } else {
+        newCombo[dialIndex] = (newCombo[dialIndex] - 1 + 10) % 10;
+      }
+      setSafeCombo(newCombo);
 
-    // Check if solved
-    if (newCombo.join('') === '1000') {
-      setSafeAttempts(0);
-    } else {
-      setSafeAttempts((prev) => prev + 1);
-    }
-  }, [safeCombo]);
+      // Check if solved
+      if (newCombo.join('') === '1000') {
+        setSafeAttempts(0);
+      } else {
+        setSafeAttempts((prev) => prev + 1);
+      }
+    },
+    [safeCombo]
+  );
 
   // Reset all state
   const resetState = useCallback(() => {
@@ -662,7 +841,11 @@ export default function ContactPageContent() {
                     left: { xs: '5%', md: '8%' },
                   }}
                 >
-                  <ClassifiedStamp text="TOP SECRET" rotation={-15} isMobile={isMobile} />
+                  <ClassifiedStamp
+                    text="TOP SECRET"
+                    rotation={-15}
+                    isMobile={isMobile}
+                  />
                 </Box>
                 <Box
                   sx={{
@@ -671,7 +854,11 @@ export default function ContactPageContent() {
                     right: { xs: '5%', md: '8%' },
                   }}
                 >
-                  <ClassifiedStamp text="CLASSIFIED" rotation={12} isMobile={isMobile} />
+                  <ClassifiedStamp
+                    text="CLASSIFIED"
+                    rotation={12}
+                    isMobile={isMobile}
+                  />
                 </Box>
 
                 {/* Main Title */}
@@ -798,7 +985,12 @@ export default function ContactPageContent() {
               exit={{ opacity: 0, x: -100 }}
               transition={{ duration: 0.5 }}
             >
-              <PhaseProgress phase={phase} isCipherSolved={isCipherSolved} isTriviaSolved={isTriviaSolved} isSafeSolved={isSafeSolved} />
+              <PhaseProgress
+                phase={phase}
+                isCipherSolved={isCipherSolved}
+                isTriviaSolved={isTriviaSolved}
+                isSafeSolved={isSafeSolved}
+              />
               <Box sx={{ textAlign: 'center', mb: 4 }}>
                 <Typography
                   variant="h4"
@@ -972,7 +1164,12 @@ export default function ContactPageContent() {
               exit={{ opacity: 0, x: -100 }}
               transition={{ duration: 0.5 }}
             >
-              <PhaseProgress phase={phase} isCipherSolved={isCipherSolved} isTriviaSolved={isTriviaSolved} isSafeSolved={isSafeSolved} />
+              <PhaseProgress
+                phase={phase}
+                isCipherSolved={isCipherSolved}
+                isTriviaSolved={isTriviaSolved}
+                isSafeSolved={isSafeSolved}
+              />
               <Box sx={{ textAlign: 'center', mb: 4 }}>
                 <Typography
                   variant="h4"
@@ -1155,7 +1352,12 @@ export default function ContactPageContent() {
               exit={{ opacity: 0, x: -100 }}
               transition={{ duration: 0.5 }}
             >
-              <PhaseProgress phase={phase} isCipherSolved={isCipherSolved} isTriviaSolved={isTriviaSolved} isSafeSolved={isSafeSolved} />
+              <PhaseProgress
+                phase={phase}
+                isCipherSolved={isCipherSolved}
+                isTriviaSolved={isTriviaSolved}
+                isSafeSolved={isSafeSolved}
+              />
               <Box sx={{ textAlign: 'center', mb: 4 }}>
                 <Typography
                   variant="h4"
@@ -1436,24 +1638,37 @@ export default function ContactPageContent() {
                     )}
 
                     {/* Lighter creeping toward document (first 15 seconds) */}
-                    {phase === 'dossier' && showLighter && countdown > 15 && !isBurned && !disarmed && (
-                      <Box
-                        sx={{
-                          position: 'absolute',
-                          bottom: -20,
-                          zIndex: 20,
-                          pointerEvents: 'none',
-                          animation: 'lighterCreep 15s ease-in forwards',
-                          '@keyframes lighterCreep': {
-                            '0%': { left: '-80px', transform: 'rotate(-12deg)' },
-                            '60%': { left: '15%', transform: 'rotate(-5deg)' },
-                            '100%': { left: '35%', transform: 'rotate(0deg)' },
-                          },
-                        }}
-                      >
-                        <AnimatedLighter />
-                      </Box>
-                    )}
+                    {phase === 'dossier' &&
+                      showLighter &&
+                      countdown > 15 &&
+                      !isBurned &&
+                      !disarmed && (
+                        <Box
+                          sx={{
+                            position: 'absolute',
+                            bottom: -20,
+                            zIndex: 20,
+                            pointerEvents: 'none',
+                            animation: 'lighterCreep 15s ease-in forwards',
+                            '@keyframes lighterCreep': {
+                              '0%': {
+                                left: '-80px',
+                                transform: 'rotate(-12deg)',
+                              },
+                              '60%': {
+                                left: '15%',
+                                transform: 'rotate(-5deg)',
+                              },
+                              '100%': {
+                                left: '35%',
+                                transform: 'rotate(0deg)',
+                              },
+                            },
+                          }}
+                        >
+                          <AnimatedLighter />
+                        </Box>
+                      )}
                     {/* Paper texture overlay */}
                     <Box
                       sx={{
@@ -1738,7 +1953,9 @@ export default function ContactPageContent() {
                                         }}
                                       >
                                         <AmazonIcon size={20} />{' '}
-                                        <Box sx={{ ml: 1 }}>Amazon Wishlist</Box>
+                                        <Box sx={{ ml: 1 }}>
+                                          Amazon Wishlist
+                                        </Box>
                                       </MuiLink>
                                     </Box>
                                   )}
@@ -1954,7 +2171,11 @@ export default function ContactPageContent() {
                               color: '#ff0000',
                               mb: 3,
                               mt: 8,
-                              fontSize: { xs: '1.4rem', sm: '1.8rem', md: '2.125rem' },
+                              fontSize: {
+                                xs: '1.4rem',
+                                sm: '1.8rem',
+                                md: '2.125rem',
+                              },
                               textShadow: '0 0 10px #ff0000, 0 0 20px #ff0000',
                               textAlign: 'center',
                               mx: 'auto',

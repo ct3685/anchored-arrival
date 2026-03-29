@@ -264,7 +264,7 @@ export const trackLinkClick = (
 
 export const trackSocialClick = (
   platform: string,
-  location: 'hero' | 'footer' | 'linktree' | 'navbar'
+  location: 'hero' | 'footer' | 'linktree' | 'navbar' | 'social_section'
 ) => {
   trackEvent('social_click', {
     platform: platform,

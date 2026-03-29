@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { motion } from 'motion/react';
-import { colors } from '@/theme/theme';
+import { colors, clipPaths } from '@/theme/theme';
 import { trackLinkClick, trackInAppBrowserLinkCopied } from '@/lib/analytics';
 import { useInAppBrowser, isProblematicUrl } from '@/lib/useInAppBrowser';
 
@@ -47,13 +47,14 @@ export default function CreatorNetworkCTA() {
     <>
       <Box
         sx={{
-          py: { xs: 6, md: 8 },
-          background: `linear-gradient(180deg, ${colors.background} 0%, ${colors.surface} 50%, ${colors.background} 100%)`,
-          borderTop: `1px solid ${colors.gold}22`,
-          borderBottom: `1px solid ${colors.gold}22`,
+          py: { xs: 8, md: 10 },
+          background: `linear-gradient(180deg, ${colors.smokeBlack} 0%, ${colors.darkLeather} 50%, ${colors.smokeBlack} 100%)`,
+          borderTop: `1px solid ${colors.brass}22`,
+          borderBottom: `1px solid ${colors.brass}22`,
+          position: 'relative',
         }}
       >
-        <Container maxWidth="sm">
+        <Container maxWidth="md">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -62,47 +63,40 @@ export default function CreatorNetworkCTA() {
           >
             <Stack alignItems="center" spacing={3}>
               <Typography
-                sx={{
-                  fontSize: '3rem',
-                }}
-              >
-                🤠
-              </Typography>
-
-              <Typography
                 variant="overline"
                 sx={{
-                  color: colors.gold,
-                  letterSpacing: 4,
+                  color: colors.brass,
+                  letterSpacing: 6,
                   fontWeight: 600,
+                  fontSize: '0.8rem',
                 }}
               >
-                Official Merch
+                Official Uniform
               </Typography>
 
               <Typography
-                variant="h4"
+                variant="h2"
                 sx={{
-                  fontWeight: 700,
                   textAlign: 'center',
-                  color: colors.text,
+                  color: colors.amber,
+                  fontSize: { xs: '2.5rem', md: '3.5rem' },
+                  textShadow: `0 0 30px ${colors.amber}22`,
                 }}
               >
-                King Street Cowboys
+                Suit Up
               </Typography>
 
               <Typography
                 variant="body1"
                 sx={{
                   textAlign: 'center',
-                  color: colors.textSecondary,
-                  maxWidth: 400,
+                  color: colors.dust,
+                  maxWidth: 440,
                   lineHeight: 1.7,
                 }}
               >
-                Rep the Ranch Squad with official merch from King Street Cowboys.
+                Rep the Ranch Squad with official gear from King Street Cowboys.
                 Hats, tees, and gear built for cowboys who ain&apos;t fake.
-                Com&apos;On — you know you want to.
               </Typography>
 
               <motion.div
@@ -112,43 +106,78 @@ export default function CreatorNetworkCTA() {
               >
                 <Button
                   variant="contained"
+                  color="primary"
                   size="large"
                   href="https://kingstreetcowboys.com/affiliates/trevorbfit"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={handleClick}
                   sx={{
-                    py: 1.5,
-                    px: 4,
-                    color: colors.background,
-                    background: `linear-gradient(135deg, ${colors.gold} 0%, #FFA500 100%)`,
-                    boxShadow: `0 0 25px ${colors.gold}44`,
-                    fontSize: '1rem',
-                    fontWeight: 700,
-                    '&:hover': {
-                      background: `linear-gradient(135deg, ${colors.gold} 20%, #FFA500 120%)`,
-                      boxShadow: `0 0 35px ${colors.gold}66`,
-                    },
-                    transition: 'all 0.3s ease',
+                    py: 2,
+                    px: 6,
+                    fontSize: '1.1rem',
+                    clipPath: clipPaths.ticketStub,
+                    border: 'none',
                   }}
                 >
-                  Shop Now
+                  Shop the Gear
                 </Button>
               </motion.div>
 
-              <Stack direction="row" spacing={2} sx={{ mt: 1 }}>
-                <Typography
-                  variant="caption"
-                  sx={{ color: colors.textSecondary }}
+              {/* Promo code stamps */}
+              <Stack
+                direction={{ xs: 'column', sm: 'row' }}
+                spacing={2}
+                sx={{ mt: 2 }}
+              >
+                <Box
+                  sx={{
+                    px: 2,
+                    py: 1,
+                    border: `1px dashed ${colors.brass}66`,
+                    backgroundColor: `${colors.darkLeather}`,
+                  }}
                 >
-                  @buckedup CODE: <strong>Trevorb20</strong>
-                </Typography>
-                <Typography
-                  variant="caption"
-                  sx={{ color: colors.textSecondary }}
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      color: colors.dust,
+                      letterSpacing: '0.06em',
+                    }}
+                  >
+                    @buckedup CODE:{' '}
+                    <Box
+                      component="span"
+                      sx={{ color: colors.amber, fontWeight: 700 }}
+                    >
+                      Trevorb20
+                    </Box>
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    px: 2,
+                    py: 1,
+                    border: `1px dashed ${colors.brass}66`,
+                    backgroundColor: `${colors.darkLeather}`,
+                  }}
                 >
-                  @rockandrolldenim CODE: <strong>Trevorb20</strong>
-                </Typography>
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      color: colors.dust,
+                      letterSpacing: '0.06em',
+                    }}
+                  >
+                    @rockandrolldenim CODE:{' '}
+                    <Box
+                      component="span"
+                      sx={{ color: colors.amber, fontWeight: 700 }}
+                    >
+                      Trevorb20
+                    </Box>
+                  </Typography>
+                </Box>
               </Stack>
             </Stack>
           </motion.div>
@@ -166,7 +195,7 @@ export default function CreatorNetworkCTA() {
           variant="filled"
           icon={<ContentCopyIcon fontSize="small" />}
           sx={{
-            background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.secondary} 100%)`,
+            background: `linear-gradient(135deg, ${colors.amber} 0%, ${colors.red} 100%)`,
             color: '#fff',
             fontWeight: 600,
           }}

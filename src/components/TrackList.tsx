@@ -1,27 +1,14 @@
 'use client';
 
 import Image from 'next/image';
-import {
-  Box,
-  Container,
-  Typography,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  IconButton,
-  Paper,
-  Stack,
-} from '@mui/material';
+import { Box, Container, Typography, IconButton, Stack } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import { motion } from 'motion/react';
 
 import { useAudio } from '@/lib/AudioContext';
 import { tracks } from '@/lib/tracks';
-import { colors } from '@/theme/theme';
+import { colors, clipPaths } from '@/theme/theme';
 import { useScrollDepth } from '@/lib/useScrollDepth';
 
 export default function TrackList() {
@@ -42,7 +29,7 @@ export default function TrackList() {
       sx={{
         minHeight: '100vh',
         py: 6,
-        background: `radial-gradient(ellipse at top, ${colors.surface} 0%, ${colors.background} 60%)`,
+        background: `linear-gradient(180deg, ${colors.smokeBlack} 0%, ${colors.coalBrown} 40%, ${colors.smokeBlack} 100%)`,
       }}
     >
       <Container maxWidth="md">
@@ -52,142 +39,151 @@ export default function TrackList() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <Stack alignItems="center" spacing={2} sx={{ mb: 6 }}>
-            {/* Avatar */}
-            <Box
-              sx={{
-                position: 'relative',
-                width: 100,
-                height: 100,
-                mb: 1,
-                '&::before': {
-                  content: '""',
-                  position: 'absolute',
-                  inset: -3,
-                  borderRadius: '50%',
-                  background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary}, ${colors.accent})`,
-                  animation: 'spin 4s linear infinite',
-                },
-                '@keyframes spin': {
-                  '0%': { transform: 'rotate(0deg)' },
-                  '100%': { transform: 'rotate(360deg)' },
-                },
-              }}
-            >
-              <Box
-                sx={{
-                  position: 'relative',
-                  width: '100%',
-                  height: '100%',
-                  borderRadius: '50%',
-                  overflow: 'hidden',
-                  border: `3px solid ${colors.background}`,
-                }}
-              >
-                <Image
-                  src="/images/trevor-profile.png"
-                  alt="Trevor"
-                  fill
-                  sizes="100px"
-                  style={{ objectFit: 'cover' }}
-                />
-              </Box>
-            </Box>
+          <Stack alignItems="center" spacing={1} sx={{ mb: 6 }}>
             <Typography
-              variant="h3"
+              variant="overline"
               sx={{
-                fontWeight: 800,
-                background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.secondary} 100%)`,
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                textAlign: 'center',
+                color: colors.brass,
+                letterSpacing: 6,
+                fontSize: '0.8rem',
               }}
             >
-              Music
+              Rally Audio
+            </Typography>
+            <Typography
+              variant="h2"
+              sx={{
+                color: colors.amber,
+                textAlign: 'center',
+                fontSize: { xs: '2.2rem', md: '3rem' },
+              }}
+            >
+              Entrance Themes
             </Typography>
             <Typography
               variant="body1"
               sx={{
-                color: colors.textSecondary,
+                color: colors.dust,
                 textAlign: 'center',
                 maxWidth: 500,
               }}
             >
-              Original tracks from Trevor. Click to play and vibe
-              with us.
+              The soundtrack to the ranch. Click to play and vibe with us.
             </Typography>
           </Stack>
         </motion.div>
 
-        {/* Now Playing Card */}
+        {/* Now Playing - Arena Panel */}
         {isPlaying && (
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3 }}
           >
-            <Paper
-              elevation={0}
+            <Box
               sx={{
                 mb: 4,
                 p: 3,
-                background: `linear-gradient(135deg, ${colors.primary}22 0%, ${colors.secondary}22 100%)`,
-                border: `1px solid ${colors.primary}44`,
-                borderRadius: 3,
+                clipPath: clipPaths.clippedCorner,
+                background: `linear-gradient(135deg, ${colors.darkLeather} 0%, ${colors.coalBrown} 100%)`,
+                border: `1px solid ${colors.amber}44`,
+                position: 'relative',
+                overflow: 'hidden',
+                '&::before': {
+                  content: '""',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: '2px',
+                  background: `linear-gradient(90deg, transparent, ${colors.amber}, transparent)`,
+                  animation: 'glow 2s ease-in-out infinite',
+                },
+                '@keyframes glow': {
+                  '0%, 100%': { opacity: 0.5 },
+                  '50%': { opacity: 1 },
+                },
               }}
             >
               <Stack direction="row" spacing={3} alignItems="center">
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+                <Box
+                  sx={{
+                    position: 'relative',
+                    width: 80,
+                    height: 80,
+                    clipPath: clipPaths.buckleFrame,
+                    overflow: 'hidden',
+                    flexShrink: 0,
+                    boxShadow: `0 0 20px ${colors.amber}44`,
+                  }}
                 >
-                  <Box
+                  <Image
+                    src={currentTrack.cover}
+                    alt={currentTrack.title}
+                    fill
+                    sizes="80px"
+                    style={{ objectFit: 'cover' }}
+                  />
+                </Box>
+                <Box sx={{ flex: 1 }}>
+                  <Typography
+                    variant="overline"
                     sx={{
-                      position: 'relative',
-                      width: 80,
-                      height: 80,
-                      borderRadius: '50%',
-                      overflow: 'hidden',
-                      boxShadow: `0 0 20px ${colors.primary}66`,
+                      color: colors.red,
+                      letterSpacing: 3,
+                      fontSize: '0.65rem',
+                      animation: 'flicker 3s ease-in-out infinite',
+                      '@keyframes flicker': {
+                        '0%, 100%': { opacity: 1 },
+                        '50%': { opacity: 0.7 },
+                      },
                     }}
                   >
-                    <Image
-                      src={currentTrack.cover}
-                      alt={currentTrack.title}
-                      fill
-                      sizes="80px"
-                      style={{ objectFit: 'cover' }}
-                    />
-                  </Box>
-                </motion.div>
-                <Box sx={{ flex: 1 }}>
-                  <Typography variant="overline" sx={{ color: colors.gold }}>
                     Now Playing
                   </Typography>
                   <Typography
                     variant="h6"
-                    sx={{ color: 'white', fontWeight: 700 }}
+                    sx={{ color: colors.bone, fontWeight: 700 }}
                   >
                     {currentTrack.title}
                   </Typography>
-                  <Typography
-                    variant="body2"
-                    sx={{ color: colors.textSecondary }}
-                  >
-                    {currentTrack.artist} • {formatTime(currentTime)} /{' '}
+                  <Typography variant="body2" sx={{ color: colors.dust }}>
+                    {currentTrack.artist} &bull; {formatTime(currentTime)} /{' '}
                     {formatTime(duration)}
                   </Typography>
+                  {/* Rugged progress bar */}
+                  <Box
+                    sx={{
+                      mt: 1,
+                      height: 4,
+                      backgroundColor: `${colors.brass}33`,
+                      position: 'relative',
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        height: '100%',
+                        width: `${duration > 0 ? (currentTime / duration) * 100 : 0}%`,
+                        background: `linear-gradient(90deg, ${colors.amber}, ${colors.red})`,
+                        transition: 'width 0.3s linear',
+                      }}
+                    />
+                  </Box>
                 </Box>
                 <IconButton
                   onClick={togglePlay}
                   sx={{
                     width: 56,
                     height: 56,
-                    background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.accent} 100%)`,
-                    color: 'white',
+                    clipPath: clipPaths.buckleFrame,
+                    background: `linear-gradient(135deg, ${colors.amber} 0%, ${colors.brass} 100%)`,
+                    color: colors.smokeBlack,
+                    borderRadius: 0,
                     '&:hover': {
-                      background: `linear-gradient(135deg, ${colors.primary} 20%, ${colors.accent} 120%)`,
+                      background: `linear-gradient(135deg, ${colors.amber} 20%, ${colors.brass} 120%)`,
                     },
                   }}
                 >
@@ -198,173 +194,129 @@ export default function TrackList() {
                   )}
                 </IconButton>
               </Stack>
-            </Paper>
+            </Box>
           </motion.div>
         )}
 
-        {/* Track Table */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <TableContainer
-            component={Paper}
-            elevation={0}
-            sx={{
-              background: `linear-gradient(135deg, ${colors.surface} 0%, ${colors.background} 100%)`,
-              border: `1px solid ${colors.primary}33`,
-              borderRadius: 3,
-            }}
-          >
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell
-                    sx={{
-                      color: colors.textSecondary,
-                      borderColor: colors.primary + '33',
-                      width: 60,
-                    }}
-                  >
-                    #
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      color: colors.textSecondary,
-                      borderColor: colors.primary + '33',
-                    }}
-                  >
-                    Title
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      color: colors.textSecondary,
-                      borderColor: colors.primary + '33',
-                    }}
-                  >
-                    Artist
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      color: colors.textSecondary,
-                      borderColor: colors.primary + '33',
-                      width: 80,
-                    }}
-                    align="right"
-                  >
-                    Play
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {tracks.map((track, index) => {
-                  const isCurrentTrack = index === currentTrackIndex;
-                  const isTrackPlaying = isCurrentTrack && isPlaying;
+        {/* Track Cards - Metal Plate Style */}
+        <Stack spacing={1.5}>
+          {tracks.map((track, index) => {
+            const isCurrentTrack = index === currentTrackIndex;
+            const isTrackPlaying = isCurrentTrack && isPlaying;
 
-                  return (
-                    <TableRow
-                      key={track.id}
-                      onClick={() => selectTrack(index)}
+            return (
+              <motion.div
+                key={track.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: index * 0.08 }}
+              >
+                <Box
+                  onClick={() => selectTrack(index)}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 2.5,
+                    p: 2,
+                    clipPath: clipPaths.clippedCornerSm,
+                    cursor: 'pointer',
+                    backgroundColor: isCurrentTrack
+                      ? colors.darkLeather
+                      : colors.coalBrown,
+                    border: `1px solid ${isCurrentTrack ? colors.amber + '44' : colors.brass + '22'}`,
+                    transition: 'all 0.2s ease',
+                    '&:hover': {
+                      backgroundColor: colors.darkLeather,
+                      boxShadow: `inset 0 0 20px ${colors.amber}08`,
+                    },
+                  }}
+                >
+                  {/* Album Art - Metal Plate Frame */}
+                  <Box
+                    sx={{
+                      position: 'relative',
+                      width: 50,
+                      height: 50,
+                      clipPath: clipPaths.buckleFrame,
+                      overflow: 'hidden',
+                      flexShrink: 0,
+                    }}
+                  >
+                    <Image
+                      src={track.cover}
+                      alt={track.title}
+                      fill
+                      sizes="50px"
+                      style={{ objectFit: 'cover' }}
+                    />
+                  </Box>
+
+                  {/* Track Info */}
+                  <Box sx={{ flex: 1, minWidth: 0 }}>
+                    <Typography
+                      variant="h6"
                       sx={{
-                        cursor: 'pointer',
-                        backgroundColor: isCurrentTrack
-                          ? `${colors.primary}11`
-                          : 'transparent',
-                        '&:hover': {
-                          backgroundColor: `${colors.primary}22`,
-                        },
-                        transition: 'background-color 0.2s ease',
+                        color: isCurrentTrack ? colors.amber : colors.bone,
+                        fontWeight: isCurrentTrack ? 700 : 500,
+                        fontSize: '1rem',
                       }}
                     >
-                      <TableCell sx={{ borderColor: colors.primary + '22' }}>
-                        <Stack direction="row" alignItems="center" spacing={1}>
-                          <Box
-                            sx={{
-                              position: 'relative',
-                              width: 40,
-                              height: 40,
-                              borderRadius: 1,
-                              overflow: 'hidden',
-                            }}
-                          >
-                            <Image
-                              src={track.cover}
-                              alt={track.title}
-                              fill
-                              sizes="40px"
-                              style={{ objectFit: 'cover' }}
-                            />
-                          </Box>
-                        </Stack>
-                      </TableCell>
-                      <TableCell sx={{ borderColor: colors.primary + '22' }}>
-                        <Typography
-                          variant="body1"
-                          sx={{
-                            color: isCurrentTrack ? colors.primary : 'white',
-                            fontWeight: isCurrentTrack ? 700 : 500,
-                          }}
-                        >
-                          {track.title}
-                        </Typography>
-                      </TableCell>
-                      <TableCell sx={{ borderColor: colors.primary + '22' }}>
-                        <Typography
-                          variant="body2"
-                          sx={{ color: colors.textSecondary }}
-                        >
-                          {track.artist}
-                        </Typography>
-                      </TableCell>
-                      <TableCell
-                        sx={{ borderColor: colors.primary + '22' }}
-                        align="right"
-                      >
-                        <IconButton
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            selectTrack(index);
-                          }}
-                          sx={{
-                            color: isTrackPlaying
-                              ? colors.primary
-                              : colors.textSecondary,
-                            '&:hover': {
-                              color: colors.primary,
-                              backgroundColor: `${colors.primary}22`,
-                            },
-                          }}
-                        >
-                          {isTrackPlaying ? <PauseIcon /> : <PlayArrowIcon />}
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </motion.div>
+                      {track.title}
+                    </Typography>
+                    <Typography variant="caption" sx={{ color: colors.dust }}>
+                      {track.artist}
+                    </Typography>
+                  </Box>
 
-        {/* Empty State / Coming Soon */}
-        {tracks.length === 1 && (
+                  {/* Play Button */}
+                  <IconButton
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      selectTrack(index);
+                    }}
+                    sx={{
+                      color: isTrackPlaying ? colors.amber : colors.dust,
+                      '&:hover': {
+                        color: colors.amber,
+                        backgroundColor: `${colors.amber}11`,
+                      },
+                    }}
+                  >
+                    {isTrackPlaying ? <PauseIcon /> : <PlayArrowIcon />}
+                  </IconButton>
+                </Box>
+              </motion.div>
+            );
+          })}
+        </Stack>
+
+        {/* Coming Soon */}
+        {tracks.length <= 1 && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <Typography
-              variant="body2"
+            <Box
               sx={{
                 mt: 4,
+                p: 4,
                 textAlign: 'center',
-                color: colors.textSecondary,
-                fontStyle: 'italic',
+                clipPath: clipPaths.clippedCorner,
+                backgroundColor: colors.darkLeather,
+                border: `1px solid ${colors.brass}22`,
               }}
             >
-              More tracks coming soon... Stay tuned!
-            </Typography>
+              <Typography variant="h5" sx={{ color: colors.dust, mb: 1 }}>
+                Soundtrack Loading.
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ color: colors.dust, opacity: 0.7 }}
+              >
+                Entrance music and rally cries coming soon.
+              </Typography>
+            </Box>
           </motion.div>
         )}
       </Container>

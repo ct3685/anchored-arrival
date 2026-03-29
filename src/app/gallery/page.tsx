@@ -20,8 +20,7 @@ export default function GalleryPage() {
             '@context': 'https://schema.org',
             '@type': 'ImageGallery',
             name: 'Ranch Squad Gallery',
-            description:
-              'View the many vibes of Trevor and the Ranch Squad.',
+            description: 'View the many vibes of Trevor and the Ranch Squad.',
             author: {
               '@type': 'Person',
               name: 'Trevor',

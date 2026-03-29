@@ -26,12 +26,28 @@ import {
   trackMobileMenuClose,
   trackLogoClick,
 } from '@/lib/analytics';
+import { colors } from '@/theme/theme';
 
-const navItems = [
-  { label: 'Home', href: '/' },
+interface NavItem {
+  label: string;
+  href: string;
+  external?: boolean;
+}
+
+const navItems: NavItem[] = [
+  { label: 'Ranch', href: '/' },
+  {
+    label: 'Live',
+    href: 'https://www.tiktok.com/@trevor_bfit/live',
+    external: true,
+  },
+  {
+    label: 'Gear',
+    href: 'https://kingstreetcowboys.com/affiliates/trevorbfit',
+    external: true,
+  },
   { label: 'Gallery', href: '/gallery' },
-  { label: 'Music', href: '/music' },
-  { label: 'Links', href: '/links' },
+  { label: 'Sound', href: '/music' },
 ];
 
 export default function Navbar() {
@@ -63,7 +79,12 @@ export default function Navbar() {
   return (
     <>
       <AppBar position="fixed">
-        <Toolbar sx={{ justifyContent: 'space-between' }}>
+        <Toolbar
+          sx={{
+            justifyContent: 'space-between',
+            px: { xs: 2, md: 4 },
+          }}
+        >
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -77,13 +98,11 @@ export default function Navbar() {
               <Typography
                 variant="h6"
                 sx={{
-                  fontWeight: 800,
-                  background:
-                    'linear-gradient(135deg, #D4A017 0%, #FFD700 100%)',
-                  backgroundClip: 'text',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  fontSize: { xs: '1.1rem', md: '1.4rem' },
+                  fontWeight: 700,
+                  color: colors.amber,
+                  fontSize: { xs: '1.3rem', md: '1.6rem' },
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
                 }}
               >
                 Ranch Squad
@@ -97,31 +116,56 @@ export default function Navbar() {
               aria-label="open menu"
               edge="end"
               onClick={handleDrawerToggle}
+              sx={{ color: colors.bone }}
             >
               <MenuIcon />
             </IconButton>
           ) : (
-            <Box sx={{ display: 'flex', gap: 2 }}>
+            <Box sx={{ display: 'flex', gap: 1 }}>
               {navItems.map((item, index) => (
                 <motion.div
-                  key={item.href}
+                  key={item.href + item.label}
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: index * 0.1 }}
+                  transition={{ duration: 0.3, delay: index * 0.08 }}
                 >
                   <Link
                     href={item.href}
                     style={{ textDecoration: 'none' }}
+                    target={item.external ? '_blank' : undefined}
+                    rel={item.external ? 'noopener noreferrer' : undefined}
                     onClick={() =>
                       handleNavClick(item.label, item.href, 'desktop')
                     }
                   >
                     <Button
                       sx={{
-                        color: 'white',
+                        color: colors.bone,
+                        fontSize: '0.85rem',
+                        letterSpacing: '0.1em',
+                        px: 2,
+                        py: 0.8,
+                        border: 'none',
+                        borderRadius: 0,
+                        position: 'relative',
+                        '&::after': {
+                          content: '""',
+                          position: 'absolute',
+                          bottom: 0,
+                          left: '50%',
+                          width: 0,
+                          height: '2px',
+                          background: colors.amber,
+                          transition: 'all 0.2s ease',
+                          transform: 'translateX(-50%)',
+                        },
                         '&:hover': {
-                          color: '#D4A017',
+                          color: colors.amber,
                           backgroundColor: 'transparent',
+                          boxShadow: 'none',
+                          '&::after': {
+                            width: '60%',
+                          },
                         },
                       }}
                     >
@@ -135,7 +179,6 @@ export default function Navbar() {
         </Toolbar>
       </AppBar>
 
-      {/* Mobile Drawer */}
       <Drawer
         anchor="right"
         open={mobileOpen}
@@ -144,24 +187,46 @@ export default function Navbar() {
           sx: {
             width: '100%',
             maxWidth: 300,
-            backgroundColor: '#0D0A07',
+            backgroundColor: colors.smokeBlack,
             backgroundImage: 'none',
+            borderLeft: `1px solid ${colors.brass}33`,
           },
         }}
       >
         <Box sx={{ p: 2 }}>
-          <IconButton
-            onClick={handleDrawerToggle}
-            sx={{ color: 'white', mb: 2 }}
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              mb: 4,
+            }}
           >
-            <CloseIcon />
-          </IconButton>
+            <Typography
+              variant="h6"
+              sx={{
+                color: colors.amber,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+              }}
+            >
+              Ranch Squad
+            </Typography>
+            <IconButton
+              onClick={handleDrawerToggle}
+              sx={{ color: colors.bone }}
+            >
+              <CloseIcon />
+            </IconButton>
+          </Box>
           <List>
             {navItems.map((item) => (
-              <ListItem key={item.href} disablePadding>
+              <ListItem key={item.href + item.label} disablePadding>
                 <Link
                   href={item.href}
                   style={{ textDecoration: 'none', width: '100%' }}
+                  target={item.external ? '_blank' : undefined}
+                  rel={item.external ? 'noopener noreferrer' : undefined}
                   onClick={() => {
                     handleNavClick(item.label, item.href, 'mobile');
                     handleDrawerToggle();
@@ -169,8 +234,10 @@ export default function Navbar() {
                 >
                   <ListItemButton
                     sx={{
+                      borderBottom: `1px solid ${colors.brass}22`,
+                      py: 2,
                       '&:hover': {
-                        backgroundColor: '#D4A01722',
+                        backgroundColor: `${colors.amber}11`,
                       },
                     }}
                   >
@@ -178,9 +245,12 @@ export default function Navbar() {
                       primary={item.label}
                       sx={{
                         '& .MuiTypography-root': {
-                          color: 'white',
+                          color: colors.bone,
+                          fontFamily: 'var(--font-display)',
                           fontWeight: 600,
-                          fontSize: '1.2rem',
+                          fontSize: '1.4rem',
+                          letterSpacing: '0.1em',
+                          textTransform: 'uppercase',
                         },
                       }}
                     />
@@ -192,7 +262,6 @@ export default function Navbar() {
         </Box>
       </Drawer>
 
-      {/* Spacer for fixed AppBar */}
       <Toolbar />
     </>
   );
