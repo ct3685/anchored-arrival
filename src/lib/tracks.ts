@@ -26,6 +26,22 @@ const aaron: TrackCredit = {
 // Newest tracks first — prepend entries here so music UI and default queue stay current-first.
 export const tracks: Track[] = [
   {
+    id: 'prayers-for-danny',
+    title: 'Prayers For Danny',
+    artist: 'Trevor & Ranch Squad',
+    src: '/audio/prayers-for-danny.mp3',
+    cover: '/images/covers/prayers-for-danny.jpg',
+    createdBy: reaper,
+  },
+  {
+    id: 'trevor-s-different',
+    title: 'Trevor’s Different',
+    artist: 'Trevor & Ranch Squad',
+    src: '/audio/trevor-s-different.mp3',
+    cover: '/images/covers/trevor-s-different.jpg',
+    createdBy: aaron,
+  },
+  {
     id: 'setting-the-standard',
     title: 'Setting the standard',
     artist: 'Trevor & Ranch Squad',
