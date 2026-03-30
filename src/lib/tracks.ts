@@ -26,6 +26,14 @@ const aaron: TrackCredit = {
 // Newest tracks first — prepend entries here so music UI and default queue stay current-first.
 export const tracks: Track[] = [
   {
+    id: 'we-dont-lose-when-it-matters',
+    title: "We Don't Lose When It Matters",
+    artist: 'Trevor & Ranch Squad',
+    src: '/audio/we-dont-lose-when-it-matters.mp3',
+    cover: '/images/covers/we-dont-lose-when-it-matters.jpg',
+    createdBy: reaper,
+  },
+  {
     id: 'silent-pressure',
     title: 'Silent Pressure',
     artist: 'Trevor & Ranch Squad',
@@ -64,14 +72,6 @@ export const tracks: Track[] = [
     src: '/audio/the-man-they-follow.mp3',
     cover: '/images/covers/the-man-they-follow.jpg',
     createdBy: aaron,
-  },
-  {
-    id: 'we-dont-lose-when-it-matters',
-    title: "We Don't Lose When It Matters",
-    artist: 'Trevor & Ranch Squad',
-    src: '/audio/we-dont-lose-when-it-matters.mp3',
-    cover: '/images/covers/we-dont-lose-when-it-matters.jpg',
-    createdBy: reaper,
   },
   {
     id: 'we-just-won-reset-river',

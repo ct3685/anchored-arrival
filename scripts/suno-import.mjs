@@ -113,13 +113,16 @@ async function fetchMeta(uuid) {
   const rawTitle = titleMatch ? decodeHtmlEntities(titleMatch[1]) : null;
   const description = descMatch ? decodeHtmlEntities(descMatch[1]) : null;
 
+  const imgMatch = html.match(/<meta\s+property="og:image"\s+content="([^"]*)"/);
+  const coverUrl = imgMatch ? imgMatch[1] : null;
+
   let sunoHandle = null;
   if (description) {
     const handleMatch = description.match(/by\s+(\S+)/);
     if (handleMatch) sunoHandle = handleMatch[1];
   }
 
-  return { title: rawTitle, sunoHandle };
+  return { title: rawTitle, sunoHandle, coverUrl };
 }
 
 // ─── Downloads ────────────────────────────────────────────────────────────────
@@ -237,7 +240,7 @@ async function main() {
   // 6. Download assets
   console.log('\n→ Downloading assets...');
   const mp3Url = `${CDN_BASE}/${uuid}.mp3`;
-  const imgUrl = `${CDN_BASE}/image_${uuid}.jpeg`;
+  const imgUrl = meta.coverUrl || `${CDN_BASE}/image_${uuid}.jpeg`;
   const mp3Dest = resolve(AUDIO_DIR, `${finalSlug}.mp3`);
   const imgDest = resolve(COVERS_DIR, `${finalSlug}.jpg`);
 
