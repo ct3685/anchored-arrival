@@ -57,6 +57,7 @@ export default function Navbar() {
     },
     { label: 'Gallery', href: '/gallery' },
     { label: 'Music', href: '/music' },
+    { label: 'Links', href: '/links' },
   ];
 
   const handleDrawerToggle = () => {

@@ -32,12 +32,18 @@ const bodyFont = Inter({
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? '';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://trevor-ranchsquad.netlify.app'),
+  metadataBase: new URL('https://ranchsquad.com'),
   icons: {
-    icon: '/images/trevor-profile.png',
+    icon: [
+      { url: '/favicon.ico', sizes: '32x32' },
+      { url: '/images/trevor-profile.png', type: 'image/png' },
+    ],
     apple: '/images/trevor-profile.png',
   },
-  title: 'Trevor | Ranch Squad',
+  title: {
+    default: 'Trevor | Ranch Squad',
+    template: '%s | Ranch Squad',
+  },
   description:
     "Welcome to the Ranch Squad — Trevor's TikTok LIVE community. Country vibes, big energy, no power ups. Com'On in!",
   keywords: ['Trevor', 'Ranch Squad', 'TikTok', 'TikTok LIVE', 'LIVE Creator'],
@@ -92,6 +98,7 @@ export default function RootLayout({
                 {
                   '@type': 'WebSite',
                   name: 'Ranch Squad',
+                  url: 'https://ranchsquad.com',
                   description:
                     "Welcome to the Ranch Squad — Trevor's TikTok LIVE community. Country vibes, big energy, no power ups.",
                   inLanguage: 'en-US',
@@ -100,8 +107,15 @@ export default function RootLayout({
                   '@type': 'Person',
                   name: 'Trevor',
                   alternateName: 'Ranch Squad',
+                  url: 'https://ranchsquad.com',
                   description:
                     'TikTok LIVE creator and commander of the Ranch Squad. Country vibes, big energy, gooder than shit.',
+                  sameAs: [
+                    'https://www.tiktok.com/@trevor_bfit',
+                    'https://www.instagram.com/trevor_bfit',
+                    'https://www.youtube.com/channel/UCLi7yoT4PGBY2k0o5hGvDwg',
+                    'https://www.facebook.com/profile.php?id=61577038593159',
+                  ],
                 },
               ],
             }),

@@ -1,0 +1,118 @@
+{
+  "public/images/bronc-riding-arena.jpeg": {
+    "hash": "3abdd4ed77f32f87a91979e3cd0a3a3ad89d951a6ff8768d44bde49dafe82f24",
+    "config": "f924698ed6e0"
+  },
+  "public/images/bull-riding-dust.jpeg": {
+    "hash": "fc1a579c89813896130a8807d69e0776a63ab88ea173f7139a53cafbc9f487b4",
+    "config": "f924698ed6e0"
+  },
+  "public/images/bull-riding-silhouette.jpeg": {
+    "hash": "62f8100212fa7f7842ed6ef337d547137615fe6d6e8124a9f678893da547de6f",
+    "config": "f924698ed6e0"
+  },
+  "public/images/covers/from-the-ranch-to-the-screen.jpg": {
+    "hash": "b88533384cb4f832cf7f53663585b052e13f672d922eeae94ab1b3889616fb2d",
+    "config": "f924698ed6e0"
+  },
+  "public/images/covers/gooder-than-shit-ranch-anthem.jpg": {
+    "hash": "ea0ee22c450a1a6f75fd0e045eab440efea7c77d190cd5e0bac5818ca7789e2e",
+    "config": "f924698ed6e0"
+  },
+  "public/images/covers/lfgo-ranch-squad.jpg": {
+    "hash": "0e8aa33906c9b6480d1ab397b1cb37b91ffa9a98ec8fb0faad009fb6b4c78ff5",
+    "config": "f924698ed6e0"
+  },
+  "public/images/covers/no-power-ups.jpg": {
+    "hash": "29f0dfb596ebdfc5de9d0a439361bfe008afb463911ec80ce237771a2a88ef0b",
+    "config": "f924698ed6e0"
+  },
+  "public/images/covers/one-day-at-a-time-ranch-squad-anthem.jpg": {
+    "hash": "a09dc7a48e60981afe960a93ab30053170d52d83fe6c477d2cf1b843643aeefc",
+    "config": "f924698ed6e0"
+  },
+  "public/images/covers/ranch-squad-reset-rsr.jpg": {
+    "hash": "00e6074e912067ab0514eafef231df2193411307a47c9ca19ccc6e59b0ebc7ed",
+    "config": "f924698ed6e0"
+  },
+  "public/images/covers/ranch-squad-reset-tiktok-throwdown.jpg": {
+    "hash": "f6fb7720f50cd73f7faa660412b502ec60e5e15a7b2f130453a48ee11b1b9399",
+    "config": "f924698ed6e0"
+  },
+  "public/images/covers/ranch-squad-run-it-river-diss-track.jpg": {
+    "hash": "b18e3c7c7e1e071f10acc38ec7035b0021782039d8150d5e93233c45e520cbd3",
+    "config": "f924698ed6e0"
+  },
+  "public/images/covers/ranch-squad-win.jpg": {
+    "hash": "a4fbbdd6106d75f57520862f5e90c5e80ca6b2109a87c23da7e471043a0551e1",
+    "config": "f924698ed6e0"
+  },
+  "public/images/covers/roll-call-comon-ranch-squad.jpg": {
+    "hash": "0176629d8f1b453d27e2a493ac975e12c886b6935f4980c5cf5a3b4d30540d93",
+    "config": "f924698ed6e0"
+  },
+  "public/images/covers/silent-pressure.jpg": {
+    "hash": "2dbefa136f9319d7c3c3595836854a62bdc70433f05f040c11b9b8b078bc6c61",
+    "config": "f924698ed6e0"
+  },
+  "public/images/covers/the-man-they-follow.jpg": {
+    "hash": "1c9a138073e67165d6e27fb72a0a551c5d82f8afd03c7e56fc1f490c46c3e377",
+    "config": "f924698ed6e0"
+  },
+  "public/images/covers/trevor-we-see-you.jpg": {
+    "hash": "39d62c944563f3549bbe03cb9cf8664493d4d1aacef5547b861164e8694e46f3",
+    "config": "f924698ed6e0"
+  },
+  "public/images/covers/we-dont-lose-when-it-matters.jpg": {
+    "hash": "4f10dddcbe50fd4b1a5c1424c336665d07787da01905ac6ef3511e7e72ab5a34",
+    "config": "f924698ed6e0"
+  },
+  "public/images/covers/we-just-won-reset-river.jpg": {
+    "hash": "5f3967f8205fdc570589d9c7bf22505efdd702b71608c28e34f67058c40073e1",
+    "config": "f924698ed6e0"
+  },
+  "public/images/covers/we-still-breathin.jpg": {
+    "hash": "71491692168184188d30c78c2c6774e71b4e1a578fdbe0e79ea3f3028ce94e45",
+    "config": "f924698ed6e0"
+  },
+  "public/images/horseback-training.jpeg": {
+    "hash": "4b7bcadff60368aa79f16095e400edbaf1fdfa5d1110944def9ea5a5d387c793",
+    "config": "f924698ed6e0"
+  },
+  "public/images/trevor-atv-mountains.jpeg": {
+    "hash": "1e90d03b99f53f62bcef9cda2fda4029c64a67421eded8956284d811fac8c4d6",
+    "config": "f924698ed6e0"
+  },
+  "public/images/trevor-atv-rockstar.jpeg": {
+    "hash": "0ce895306fc061c87a959f8fc5d4306f1d70ceb58899a30ce5cfad15c7d9b931",
+    "config": "f924698ed6e0"
+  },
+  "public/images/trevor-belt-buckle.jpeg": {
+    "hash": "ee14d8f45be5c1560acd4cb7695453cfe782a77ba8e69d282b7a23eadb8568f9",
+    "config": "f924698ed6e0"
+  },
+  "public/images/trevor-horseback-handshake.jpeg": {
+    "hash": "74c3329c83d7dceed9c2e384fe8e2e6944dfbe6619c15aa6b98a29b14a5c1eb2",
+    "config": "f924698ed6e0"
+  },
+  "public/images/trevor-horseback-portrait.jpeg": {
+    "hash": "817fd11082d6b834bc796c7652ac530f7a625d7ea404e78e18c7477242e0034a",
+    "config": "f924698ed6e0"
+  },
+  "public/images/trevor-main.jpg": {
+    "hash": "cfc8566f94c7b68aae340736a45080764e8e39091432ee9343478c05225e8217",
+    "config": "f924698ed6e0"
+  },
+  "public/images/trevor-merch1.png": {
+    "hash": "4b8e58f38dc7774b780f0d6a533a4dff1f5097691a5cc788f46e04dcbb865a0b",
+    "config": "f924698ed6e0"
+  },
+  "public/images/trevor-merch2.png": {
+    "hash": "f4891335684f72735577954064d2ad53694e7f0359336bd3464009ada6cc9e22",
+    "config": "f924698ed6e0"
+  },
+  "public/images/trevor-profile.png": {
+    "hash": "2ae6e562eabb232662042531eb0004d31d12259ecfeb46dbe2b597c2a6aaaeb7",
+    "config": "f924698ed6e0"
+  }
+}
