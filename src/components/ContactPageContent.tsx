@@ -1175,7 +1175,7 @@ export default function ContactPageContent() {
                   variant="h4"
                   sx={{ color: colors.primary, mb: 2, fontFamily: 'monospace' }}
                 >
-                  PHASE 2: AGENT TRIVIA
+                  PHASE 2: SQUAD TRIVIA
                 </Typography>
                 <Typography
                   variant="h6"
@@ -2210,7 +2210,7 @@ export default function ContactPageContent() {
                               fontFamily: 'monospace',
                             }}
                           >
-                            Rookie mistake, Agent. 🕵️
+                            Rookie mistake, partner.
                           </Typography>
                         </motion.div>
 

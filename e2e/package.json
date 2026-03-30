@@ -1,5 +1,5 @@
 {
-  "name": "agentmorgie-e2e",
+  "name": "trevor-ranchsquad-e2e",
   "private": true,
   "scripts": {
     "test": "playwright test",

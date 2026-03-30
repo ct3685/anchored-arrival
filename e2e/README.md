@@ -1,4 +1,4 @@
-# E2E Tests — Agent Morgie
+# E2E Tests — Trevor Ranch Squad
 
 End-to-end tests using [Playwright](https://playwright.dev).
 
@@ -30,13 +30,4 @@ npx playwright test --headed
 
 ## Test structure
 
-- `tests/contact-page.spec.ts` — Full contact page flow:
-  - Entry screen rendering & animations
-  - Cipher puzzle (Phase 1)
-  - Trivia quiz (Phase 2)
-  - Safe cracker (Phase 3)
-  - Earned dossier with self-destruct
-  - Skip flow
-  - Navigation & reset
-  - Accessibility (ARIA)
-  - SEO meta tags
+- `tests/contact-page.spec.ts` — Full contact puzzle flow (currently **skipped**): `/contact` redirects to `/` and `ContactPageContent` is not mounted until that route is restored. Expectations are kept in sync with the component for when you re-enable the suite.

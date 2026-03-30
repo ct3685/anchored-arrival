@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 /**
- * Playwright config for Agent Morgie E2E tests.
+ * Playwright config for Trevor Ranch Squad E2E tests.
  *
  * BASE_URL is set by the GitHub Actions workflow to the Netlify deploy preview URL.
  * For local development, default to localhost:3000.
