@@ -186,6 +186,7 @@ function SortableTrackCard({
             component="a"
             href={track.src}
             download={`${track.title} - ${track.artist}.mp3`}
+            aria-label={`Download ${track.title}`}
             onClick={(e: React.MouseEvent) => {
               e.stopPropagation();
               trackMusicDownload(track.id, track.title, track.artist);
@@ -203,6 +204,7 @@ function SortableTrackCard({
 
           {/* Play Button */}
           <IconButton
+            aria-label={isTrackPlaying ? 'Pause' : 'Play'}
             onClick={(e) => {
               e.stopPropagation();
               selectTrack(trackIndex);
@@ -491,6 +493,7 @@ export default function TrackList() {
                 >
                   <IconButton
                     onClick={toggleShuffle}
+                    aria-label="Toggle shuffle"
                     size="small"
                     sx={{
                       color: shuffle ? colors.amber : colors.dust,
@@ -501,6 +504,7 @@ export default function TrackList() {
                   </IconButton>
                   <IconButton
                     onClick={prevTrack}
+                    aria-label="Previous track"
                     sx={{
                       color: hasMultipleTracks ? colors.brass : colors.dust,
                       opacity: hasMultipleTracks ? 1 : 0.4,
@@ -514,6 +518,7 @@ export default function TrackList() {
                   </IconButton>
                   <IconButton
                     onClick={togglePlay}
+                    aria-label={isPlaying ? 'Pause' : 'Play'}
                     sx={{
                       width: 56,
                       height: 56,
@@ -534,6 +539,7 @@ export default function TrackList() {
                   </IconButton>
                   <IconButton
                     onClick={nextTrack}
+                    aria-label="Next track"
                     sx={{
                       color: hasMultipleTracks ? colors.brass : colors.dust,
                       opacity: hasMultipleTracks ? 1 : 0.4,
@@ -547,6 +553,7 @@ export default function TrackList() {
                   </IconButton>
                   <IconButton
                     onClick={cycleRepeat}
+                    aria-label="Cycle repeat mode"
                     size="small"
                     sx={{
                       color: repeatMode === 'off' ? colors.dust : colors.amber,

@@ -8,14 +8,12 @@ const TIKTOK_PROFILE_URL = 'https://www.tiktok.com/@trevor_bfit';
 
 interface LiveStatus {
   isLive: boolean;
-  loading: boolean;
   /** Profile URL normally; live URL when streaming */
   tiktokHref: string;
 }
 
 export function useLiveStatus(): LiveStatus {
   const [isLive, setIsLive] = useState(false);
-  const [loading, setLoading] = useState(true);
 
   const check = useCallback(async () => {
     try {
@@ -26,8 +24,6 @@ export function useLiveStatus(): LiveStatus {
       }
     } catch {
       // Silently fall back to not-live on network errors
-    } finally {
-      setLoading(false);
     }
   }, []);
 
@@ -39,7 +35,6 @@ export function useLiveStatus(): LiveStatus {
 
   return {
     isLive,
-    loading,
     tiktokHref: isLive ? TIKTOK_LIVE_URL : TIKTOK_PROFILE_URL,
   };
 }

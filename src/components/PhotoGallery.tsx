@@ -239,6 +239,7 @@ export default function PhotoGallery({
                       <Stack direction="row" spacing={1} sx={{ mt: 1.5 }}>
                         <IconButton
                           size="small"
+                          aria-label="View larger image"
                           sx={{
                             color: colors.amber,
                             backgroundColor: `${colors.amber}22`,
@@ -256,6 +257,7 @@ export default function PhotoGallery({
                         </IconButton>
                         <IconButton
                           size="small"
+                          aria-label="Download image"
                           sx={{
                             color: colors.brass,
                             backgroundColor: `${colors.brass}22`,

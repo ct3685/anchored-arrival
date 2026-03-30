@@ -13,7 +13,7 @@ npx playwright install --with-deps chromium
 BASE_URL=http://localhost:3000 npx playwright test
 
 # Run against a deploy preview
-BASE_URL=https://deploy-preview-9--agent-morgie.netlify.app npx playwright test
+BASE_URL=https://deploy-preview-9--trevor-ranchsquad.netlify.app npx playwright test
 
 # Run with UI mode (interactive)
 npx playwright test --ui
@@ -24,9 +24,9 @@ npx playwright test --headed
 
 ## CI
 
-Tests run automatically on every Netlify deploy preview via GitHub Actions.
-The workflow triggers on `deployment_status` events — when Netlify reports
-a successful deploy, tests run against the preview URL.
+> **Note:** CI integration is not yet configured for this repository. To add
+> automated test runs, create a `.github/workflows/` workflow that triggers on
+> `deployment_status` events and runs tests against the Netlify preview URL.
 
 ## Test structure
 

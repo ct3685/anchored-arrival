@@ -247,6 +247,7 @@ export default function Navbar() {
             </Typography>
             <IconButton
               onClick={handleDrawerToggle}
+              aria-label="Close menu"
               sx={{ color: colors.bone }}
             >
               <CloseIcon />

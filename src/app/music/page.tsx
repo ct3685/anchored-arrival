@@ -31,7 +31,7 @@ export default function MusicPage() {
             '@type': 'MusicPlaylist',
             name: 'Ranch Squad Music',
             description:
-              "Original tracks from Trevor and the Ranch Squad community.",
+              'Original tracks from Trevor and the Ranch Squad community.',
             url: 'https://ranchsquad.com/music',
             numTracks: tracks.length,
             track: tracks.map((t) => ({

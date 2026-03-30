@@ -30,8 +30,8 @@ The official site for TikTok LIVE creator Trevor ([@trevor_bfit](https://www.tik
 ## Getting Started
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm dev
 ```
 
 ## Scripts

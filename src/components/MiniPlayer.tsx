@@ -174,6 +174,7 @@ function SortableMiniQueueItem({
         />
         <IconButton
           size="small"
+          aria-label={isTrackPlaying ? 'Pause' : 'Play'}
           onClick={(e) => {
             e.stopPropagation();
             selectTrack(trackIndex);
@@ -334,6 +335,7 @@ export default function MiniPlayer() {
             {/* Play/Pause Button */}
             <IconButton
               onClick={togglePlay}
+              aria-label={isPlaying ? 'Pause' : 'Play'}
               size="small"
               sx={{
                 backgroundColor: `${colors.primary}22`,
@@ -368,6 +370,7 @@ export default function MiniPlayer() {
             {/* Expand/Collapse Toggle */}
             <IconButton
               onClick={handleExpandToggle}
+              aria-label={isExpanded ? 'Collapse player' : 'Expand player'}
               size="small"
               sx={{ color: colors.textSecondary, flexShrink: 0 }}
             >
@@ -473,6 +476,7 @@ export default function MiniPlayer() {
               >
                 <IconButton
                   onClick={toggleShuffle}
+                  aria-label="Toggle shuffle"
                   size="small"
                   sx={{
                     color: shuffle ? colors.primary : colors.textSecondary,
@@ -483,6 +487,7 @@ export default function MiniPlayer() {
                 </IconButton>
                 <IconButton
                   onClick={prevTrack}
+                  aria-label="Previous track"
                   size="small"
                   sx={{
                     color: hasMultipleTracks
@@ -497,6 +502,7 @@ export default function MiniPlayer() {
                 </IconButton>
                 <IconButton
                   onClick={togglePlay}
+                  aria-label={isPlaying ? 'Pause' : 'Play'}
                   sx={{
                     width: 40,
                     height: 40,
@@ -511,6 +517,7 @@ export default function MiniPlayer() {
                 </IconButton>
                 <IconButton
                   onClick={nextTrack}
+                  aria-label="Next track"
                   size="small"
                   sx={{
                     color: hasMultipleTracks
@@ -525,6 +532,7 @@ export default function MiniPlayer() {
                 </IconButton>
                 <IconButton
                   onClick={cycleRepeat}
+                  aria-label="Cycle repeat mode"
                   size="small"
                   sx={{
                     color: repeatColor,
@@ -551,6 +559,7 @@ export default function MiniPlayer() {
                   </Typography>
                   <IconButton
                     onClick={() => setShowTrackList(!showTrackList)}
+                    aria-label={showTrackList ? 'Hide queue' : 'Show queue'}
                     size="small"
                     sx={{
                       color: showTrackList
