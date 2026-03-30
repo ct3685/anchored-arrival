@@ -18,7 +18,8 @@ import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import RepeatIcon from '@mui/icons-material/Repeat';
 import RepeatOneIcon from '@mui/icons-material/RepeatOne';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
-import { motion } from 'motion/react';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import { motion, AnimatePresence } from 'motion/react';
 import {
   DndContext,
   closestCenter,
@@ -181,7 +182,7 @@ function SortableTrackCard({
             </Typography>
           </Box>
 
-          {/* Download Button */}
+          {/* Download Button — disabled for now
           <IconButton
             component="a"
             href={track.src}
@@ -201,6 +202,7 @@ function SortableTrackCard({
           >
             <DownloadIcon fontSize="small" />
           </IconButton>
+          */}
 
           {/* Play Button */}
           <IconButton
@@ -246,7 +248,17 @@ export default function TrackList() {
     seek,
     queue,
     moveTrackInQueue,
+    playedIndices,
+    resetPlayed,
   } = useAudio();
+
+  const hasHiddenTracks = playedIndices.size > 0;
+
+  const visibleQueue = queue.filter((idx) => {
+    if (isPlaying && idx === currentTrackIndex) return false;
+    if (repeatMode === 'off' && playedIndices.has(idx)) return false;
+    return true;
+  });
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -580,20 +592,59 @@ export default function TrackList() {
           modifiers={[restrictToVerticalAxis]}
         >
           <SortableContext
-            items={queue.map((idx) => tracks[idx].id)}
+            items={visibleQueue.map((idx) => tracks[idx].id)}
             strategy={verticalListSortingStrategy}
           >
             <Stack spacing={1.5}>
-              {queue.map((trackIndex, queuePos) => (
-                <SortableTrackCard
-                  key={tracks[trackIndex].id}
-                  trackIndex={trackIndex}
-                  queuePos={queuePos}
-                />
-              ))}
+              <AnimatePresence mode="popLayout">
+                {visibleQueue.map((trackIndex, queuePos) => (
+                  <motion.div
+                    key={tracks[trackIndex].id}
+                    layout
+                    exit={{ opacity: 0, x: -60 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <SortableTrackCard
+                      trackIndex={trackIndex}
+                      queuePos={queuePos}
+                    />
+                  </motion.div>
+                ))}
+              </AnimatePresence>
             </Stack>
           </SortableContext>
         </DndContext>
+
+        {/* Reset hidden tracks */}
+        {hasHiddenTracks && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.2 }}
+          >
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
+              spacing={1}
+              onClick={resetPlayed}
+              sx={{
+                mt: 2,
+                py: 1.5,
+                cursor: 'pointer',
+                color: colors.dust,
+                opacity: 0.6,
+                transition: 'all 0.2s ease',
+                '&:hover': { opacity: 1, color: colors.amber },
+              }}
+            >
+              <RefreshIcon sx={{ fontSize: 16 }} />
+              <Typography variant="caption" sx={{ letterSpacing: 1 }}>
+                Show all tracks
+              </Typography>
+            </Stack>
+          </motion.div>
+        )}
 
         {/* Coming Soon */}
         {tracks.length <= 1 && (

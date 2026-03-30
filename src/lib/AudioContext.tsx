@@ -31,6 +31,7 @@ interface AudioContextType {
   queue: number[];
   shuffle: boolean;
   repeatMode: RepeatMode;
+  playedIndices: Set<number>;
 
   // Actions
   play: () => void;
@@ -43,6 +44,7 @@ interface AudioContextType {
   moveTrackInQueue: (fromPos: number, toPos: number) => void;
   toggleShuffle: () => void;
   cycleRepeat: () => void;
+  resetPlayed: () => void;
 
   // Utilities
   formatTime: (time: number) => string;
@@ -72,6 +74,8 @@ export function AudioProvider({ children }: AudioProviderProps) {
   const [queue, setQueue] = useState<number[]>(() => tracks.map((_, i) => i));
   const [shuffle, setShuffle] = useState(false);
   const [repeatMode, setRepeatMode] = useState<RepeatMode>('off');
+  const [playedIndices, setPlayedIndices] = useState<Set<number>>(new Set());
+  const playedIndicesRef = useRef<Set<number>>(new Set());
 
   // Analytics tracking refs
   const playStartTimeRef = useRef<number>(0);
@@ -220,13 +224,49 @@ export function AudioProvider({ children }: AudioProviderProps) {
         audio.play().catch(console.error);
         return;
       }
-      // Auto-play next track in queue order
+
+      if (repeatMode === 'all') {
+        if (!hasMultipleTracks) {
+          audio.currentTime = 0;
+          audio.play().catch(console.error);
+          return;
+        }
+        const queuePos = queue.indexOf(currentTrackIndex);
+        const nextTrackIdx =
+          queuePos < queue.length - 1 ? queue[queuePos + 1] : queue[0];
+        setQueue((prev) => {
+          const next = [...prev];
+          const pos = next.indexOf(currentTrackIndex);
+          const [moved] = next.splice(pos, 1);
+          next.push(moved);
+          if (!shuffle) userQueueRef.current = next;
+          return next;
+        });
+        setCurrentTrackIndex(nextTrackIdx);
+        return;
+      }
+
+      // repeatMode === 'off' — hide played track, advance to next unplayed
+      const newPlayed = new Set(playedIndicesRef.current);
+      newPlayed.add(currentTrackIndex);
+
       const queuePos = queue.indexOf(currentTrackIndex);
-      if (hasMultipleTracks && queuePos < queue.length - 1) {
-        setCurrentTrackIndex(queue[queuePos + 1]);
-      } else if (repeatMode === 'all' && hasMultipleTracks) {
-        setCurrentTrackIndex(queue[0]);
+      let nextIdx = -1;
+      for (let i = 1; i < queue.length; i++) {
+        const candidate = queue[(queuePos + i) % queue.length];
+        if (!newPlayed.has(candidate)) {
+          nextIdx = candidate;
+          break;
+        }
+      }
+
+      if (nextIdx !== -1) {
+        playedIndicesRef.current = newPlayed;
+        setPlayedIndices(newPlayed);
+        setCurrentTrackIndex(nextIdx);
       } else {
+        playedIndicesRef.current = new Set();
+        setPlayedIndices(new Set());
         setIsPlaying(false);
       }
     };
@@ -252,6 +292,7 @@ export function AudioProvider({ children }: AudioProviderProps) {
     currentTrack.title,
     queue,
     repeatMode,
+    shuffle,
   ]);
 
   // Update audio source when track changes
@@ -337,12 +378,58 @@ export function AudioProvider({ children }: AudioProviderProps) {
   const nextTrack = useCallback(() => {
     const fromTrack = currentTrack;
     const queuePos = queue.indexOf(currentTrackIndex);
+
+    if (repeatMode === 'all' && hasMultipleTracks) {
+      const nextTrackIdx =
+        queuePos < queue.length - 1 ? queue[queuePos + 1] : queue[0];
+      const toTrack = tracks[nextTrackIdx];
+      trackMusicTrackChange(fromTrack.id, toTrack.id, toTrack.title, 'next');
+      setQueue((prev) => {
+        const next = [...prev];
+        const pos = next.indexOf(currentTrackIndex);
+        const [moved] = next.splice(pos, 1);
+        next.push(moved);
+        if (!shuffle) userQueueRef.current = next;
+        return next;
+      });
+      setCurrentTrackIndex(nextTrackIdx);
+      return;
+    }
+
+    if (repeatMode === 'off' && hasMultipleTracks) {
+      const newPlayed = new Set(playedIndicesRef.current);
+      newPlayed.add(currentTrackIndex);
+
+      let nextIdx = -1;
+      for (let i = 1; i < queue.length; i++) {
+        const candidate = queue[(queuePos + i) % queue.length];
+        if (!newPlayed.has(candidate)) {
+          nextIdx = candidate;
+          break;
+        }
+      }
+
+      if (nextIdx !== -1) {
+        playedIndicesRef.current = newPlayed;
+        setPlayedIndices(newPlayed);
+        const toTrack = tracks[nextIdx];
+        trackMusicTrackChange(fromTrack.id, toTrack.id, toTrack.title, 'next');
+        setCurrentTrackIndex(nextIdx);
+      } else {
+        playedIndicesRef.current = new Set();
+        setPlayedIndices(new Set());
+        setIsPlaying(false);
+      }
+      return;
+    }
+
+    // repeat === 'one' or single track — simple wrap
     const nextPos = queuePos < queue.length - 1 ? queuePos + 1 : 0;
     const toIndex = queue[nextPos];
     const toTrack = tracks[toIndex];
     trackMusicTrackChange(fromTrack.id, toTrack.id, toTrack.title, 'next');
     setCurrentTrackIndex(toIndex);
-  }, [currentTrack, currentTrackIndex, queue]);
+  }, [currentTrack, currentTrackIndex, queue, repeatMode, hasMultipleTracks, shuffle]);
 
   const prevTrack = useCallback(() => {
     const audio = audioRef.current;
@@ -380,14 +467,30 @@ export function AudioProvider({ children }: AudioProviderProps) {
           toTrack.title,
           'select'
         );
+
+        if (repeatMode === 'off') {
+          const newPlayed = new Set(playedIndicesRef.current);
+          newPlayed.add(currentTrackIndex);
+          playedIndicesRef.current = newPlayed;
+          setPlayedIndices(newPlayed);
+        } else if (repeatMode === 'all' && hasMultipleTracks) {
+          setQueue((prev) => {
+            const next = [...prev];
+            const pos = next.indexOf(currentTrackIndex);
+            const [moved] = next.splice(pos, 1);
+            next.push(moved);
+            if (!shuffle) userQueueRef.current = next;
+            return next;
+          });
+        }
+
         setCurrentTrackIndex(index);
         setIsPlaying(true);
       } else if (index === currentTrackIndex) {
-        // If selecting current track, toggle play
         togglePlay();
       }
     },
-    [currentTrack, currentTrackIndex, togglePlay]
+    [currentTrack, currentTrackIndex, togglePlay, repeatMode, hasMultipleTracks, shuffle]
   );
 
   const moveTrackInQueue = useCallback(
@@ -438,6 +541,13 @@ export function AudioProvider({ children }: AudioProviderProps) {
       if (prev === 'all') return 'one';
       return 'off';
     });
+    playedIndicesRef.current = new Set();
+    setPlayedIndices(new Set());
+  }, []);
+
+  const resetPlayed = useCallback(() => {
+    playedIndicesRef.current = new Set();
+    setPlayedIndices(new Set());
   }, []);
 
   const formatTime = useCallback((time: number) => {
@@ -455,6 +565,7 @@ export function AudioProvider({ children }: AudioProviderProps) {
     queue,
     shuffle,
     repeatMode,
+    playedIndices,
     play,
     pause,
     togglePlay,
@@ -465,6 +576,7 @@ export function AudioProvider({ children }: AudioProviderProps) {
     moveTrackInQueue,
     toggleShuffle,
     cycleRepeat,
+    resetPlayed,
     formatTime,
     hasMultipleTracks,
   };
