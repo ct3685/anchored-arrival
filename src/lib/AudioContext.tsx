@@ -158,7 +158,7 @@ export function AudioProvider({ children }: AudioProviderProps) {
     if (typeof navigator === 'undefined' || !('mediaSession' in navigator))
       return;
 
-    const handlers: [MediaSessionAction, MediaSessionActionHandler][] = [
+    const handlers: [MediaSessionAction, MediaSessionActionHandler | null][] = [
       [
         'play',
         () => {
@@ -175,6 +175,8 @@ export function AudioProvider({ children }: AudioProviderProps) {
       ],
       ['previoustrack', () => prevTrackRef.current()],
       ['nexttrack', () => nextTrackRef.current()],
+      ['seekbackward', null],
+      ['seekforward', null],
       [
         'seekto',
         (d) => {

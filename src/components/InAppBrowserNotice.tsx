@@ -4,7 +4,7 @@ import { Box, Typography, Button, Modal, Backdrop } from '@mui/material';
 import OpenInBrowserIcon from '@mui/icons-material/OpenInBrowser';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import { motion, AnimatePresence } from 'motion/react';
-import { colors } from '@/theme/theme';
+import { colors, clipPaths } from '@/theme/theme';
 import { useInAppBrowser, InAppBrowserPlatform } from '@/lib/useInAppBrowser';
 import {
   trackInAppBrowserDetected,
@@ -105,7 +105,7 @@ export default function InAppBrowserNotice() {
             <Box
               sx={{
                 background: `linear-gradient(180deg, ${colors.surface} 0%, ${colors.background} 100%)`,
-                borderRadius: 3,
+                clipPath: clipPaths.clippedCorner,
                 border: `2px solid ${accentColor}66`,
                 boxShadow: `0 0 40px ${accentColor}33, 0 20px 60px rgba(0,0,0,0.5)`,
                 p: 3,
@@ -113,7 +113,6 @@ export default function InAppBrowserNotice() {
                 width: '100%',
                 textAlign: 'center',
                 position: 'relative',
-                overflow: 'hidden',
               }}
             >
               {/* Accent glow at top */}
@@ -151,10 +150,13 @@ export default function InAppBrowserNotice() {
               <Typography
                 variant="h5"
                 sx={{
+                  fontFamily: 'var(--font-display)',
                   fontWeight: 800,
                   color: colors.text,
                   mb: 1.5,
                   lineHeight: 1.2,
+                  letterSpacing: '0.02em',
+                  textTransform: 'uppercase',
                 }}
               >
                 Heads Up!
@@ -177,16 +179,16 @@ export default function InAppBrowserNotice() {
                 >
                   {platformName}&apos;s browser
                 </Box>
-                . Links to Amazon, joining my Creator Network, and other sites
-                may not work properly here.
+                . External links, socials, and the gear shop may not work
+                properly here.
               </Typography>
 
               {/* Instructions Box */}
               <Box
                 sx={{
                   background: `${colors.background}`,
-                  border: `1px solid ${colors.text}22`,
-                  borderRadius: 2,
+                  border: `1px dashed ${colors.brass}66`,
+                  borderRadius: 0,
                   p: 2,
                   mb: 3,
                 }}
@@ -205,7 +207,13 @@ export default function InAppBrowserNotice() {
                   />
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: colors.text, fontWeight: 700 }}
+                    sx={{
+                      color: colors.text,
+                      fontWeight: 700,
+                      fontFamily: 'var(--font-display)',
+                      letterSpacing: '0.04em',
+                      textTransform: 'uppercase',
+                    }}
                   >
                     To Open in Your Browser:
                   </Typography>
@@ -231,12 +239,18 @@ export default function InAppBrowserNotice() {
                     py: 1.5,
                     fontWeight: 700,
                     fontSize: '1rem',
-                    background: `linear-gradient(135deg, ${accentColor} 0%, ${colors.primary} 100%)`,
-                    color: platform === 'snapchat' ? '#000' : '#fff',
-                    boxShadow: `0 4px 20px ${accentColor}44`,
+                    fontFamily: 'var(--font-display)',
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    clipPath: clipPaths.ticketStub,
+                    background: `linear-gradient(135deg, ${colors.amber} 0%, ${colors.brass} 100%)`,
+                    color: colors.smokeBlack,
+                    border: `1px solid ${colors.brass}44`,
+                    boxShadow: `0 4px 20px ${colors.amber}44`,
                     '&:hover': {
-                      background: `linear-gradient(135deg, ${accentColor} 20%, ${colors.primary} 120%)`,
-                      boxShadow: `0 6px 25px ${accentColor}66`,
+                      background: `linear-gradient(135deg, ${colors.amber} 20%, ${colors.brass} 120%)`,
+                      boxShadow: `0 0 24px ${colors.amber}44`,
+                      borderColor: colors.amber,
                     },
                   }}
                 >
