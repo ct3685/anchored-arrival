@@ -13,7 +13,11 @@ import {
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { motion } from 'motion/react';
 import { colors, clipPaths } from '@/theme/theme';
-import { trackLinkClick, trackInAppBrowserLinkCopied } from '@/lib/analytics';
+import {
+  trackLinkClick,
+  trackInAppBrowserLinkCopied,
+  trackOutboundClick,
+} from '@/lib/analytics';
 import { useInAppBrowser, isProblematicUrl } from '@/lib/useInAppBrowser';
 
 export default function CreatorNetworkCTA() {
@@ -30,6 +34,7 @@ export default function CreatorNetworkCTA() {
   const handleClick = async () => {
     const url = 'https://kingstreetcowboys.com/affiliates/trevorbfit';
     trackLinkClick('Shop King Street Cowboys', url, 0, true);
+    trackOutboundClick(url, 'Shop King Street Cowboys', 'creator_network_cta');
 
     if (isInAppBrowser && isProblematicUrl(url)) {
       const copied = await copyToClipboard(url);

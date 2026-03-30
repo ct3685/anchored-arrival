@@ -25,6 +25,7 @@ import {
   trackMobileMenuOpen,
   trackMobileMenuClose,
   trackLogoClick,
+  trackOutboundClick,
 } from '@/lib/analytics';
 import { colors } from '@/theme/theme';
 import { useLiveStatus } from '@/lib/useLiveStatus';
@@ -72,9 +73,13 @@ export default function Navbar() {
   const handleNavClick = (
     label: string,
     href: string,
-    navType: 'desktop' | 'mobile'
+    navType: 'desktop' | 'mobile',
+    isExternal?: boolean
   ) => {
     trackNavClick(label, href, navType);
+    if (isExternal) {
+      trackOutboundClick(href, label, `nav_${navType}`);
+    }
   };
 
   const handleLogoClick = () => {
@@ -140,7 +145,7 @@ export default function Navbar() {
                     target={item.external ? '_blank' : undefined}
                     rel={item.external ? 'noopener noreferrer' : undefined}
                     onClick={() =>
-                      handleNavClick(item.label, item.href, 'desktop')
+                      handleNavClick(item.label, item.href, 'desktop', item.external)
                     }
                   >
                     <Button
@@ -265,7 +270,7 @@ export default function Navbar() {
                   target={item.external ? '_blank' : undefined}
                   rel={item.external ? 'noopener noreferrer' : undefined}
                   onClick={() => {
-                    handleNavClick(item.label, item.href, 'mobile');
+                    handleNavClick(item.label, item.href, 'mobile', item.external);
                     handleDrawerToggle();
                   }}
                 >

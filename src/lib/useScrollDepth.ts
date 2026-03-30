@@ -12,26 +12,34 @@ export function useScrollDepth() {
     // Reset on route change
     milestonesReached.current = new Set();
 
+    let rafId = 0;
     const handleScroll = () => {
-      const scrollHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
-      if (scrollHeight <= 0) return;
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = 0;
+        const scrollHeight =
+          document.documentElement.scrollHeight - window.innerHeight;
+        if (scrollHeight <= 0) return;
 
-      const scrollPercent = (window.scrollY / scrollHeight) * 100;
-      const milestones = [25, 50, 75, 100] as const;
+        const scrollPercent = (window.scrollY / scrollHeight) * 100;
+        const milestones = [25, 50, 75, 100] as const;
 
-      for (const milestone of milestones) {
-        if (
-          scrollPercent >= milestone &&
-          !milestonesReached.current.has(milestone)
-        ) {
-          milestonesReached.current.add(milestone);
-          trackScrollDepth(pathname, milestone);
+        for (const milestone of milestones) {
+          if (
+            scrollPercent >= milestone &&
+            !milestonesReached.current.has(milestone)
+          ) {
+            milestonesReached.current.add(milestone);
+            trackScrollDepth(pathname, milestone);
+          }
         }
-      }
+      });
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      cancelAnimationFrame(rafId);
+    };
   }, [pathname]);
 }

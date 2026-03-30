@@ -16,6 +16,7 @@ import {
   trackLinkClick,
   trackSocialClick,
   trackInAppBrowserLinkCopied,
+  trackOutboundClick,
 } from '@/lib/analytics';
 import { useScrollDepth } from '@/lib/useScrollDepth';
 import { useInAppBrowser, isProblematicUrl } from '@/lib/useInAppBrowser';
@@ -114,6 +115,9 @@ export default function LinkTree() {
     ) => {
       const isExternal = link.href.startsWith('http');
       trackLinkClick(link.label, link.href, index, isExternal);
+      if (isExternal) {
+        trackOutboundClick(link.href, link.label, 'linktree');
+      }
 
       if (link.href.includes('tiktok.com')) {
         trackSocialClick('tiktok', 'linktree');

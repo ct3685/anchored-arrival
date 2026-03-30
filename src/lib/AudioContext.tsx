@@ -19,8 +19,6 @@ import {
   trackMusicTrackChange,
   trackAudioError,
 } from './analytics';
-import { reportWebVitals } from './webVitals';
-
 type RepeatMode = 'off' | 'all' | 'one';
 
 interface AudioContextType {
@@ -100,14 +98,6 @@ export function AudioProvider({ children }: AudioProviderProps) {
     }
   }, []);
 
-  // Initialize Core Web Vitals reporting (delayed to not block initial render)
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      reportWebVitals();
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, []);
-
   // ─── Media Session API ───
   // Updates lock screen / CarPlay / Bluetooth with track info & controls
   useEffect(() => {
@@ -133,23 +123,15 @@ export function AudioProvider({ children }: AudioProviderProps) {
     });
   }, [currentTrack]);
 
-  // Update Media Session playback state & position
+  // Update Media Session playback state
+  // NOTE: setPositionState is intentionally omitted — on iOS Safari, calling it
+  // causes the lock screen to show seek-forward/back buttons instead of
+  // prev/next track buttons.
   useEffect(() => {
     if (typeof navigator === 'undefined' || !('mediaSession' in navigator))
       return;
     navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
-    if (duration > 0 && isFinite(duration)) {
-      try {
-        navigator.mediaSession.setPositionState({
-          duration,
-          playbackRate: 1,
-          position: Math.min(currentTime, duration),
-        });
-      } catch {
-        /* ignore */
-      }
-    }
-  }, [isPlaying, currentTime, duration]);
+  }, [isPlaying]);
 
   // Media Session action handlers (CarPlay/lock screen controls)
   // Uses refs for prev/next to always invoke the latest callback without
@@ -158,7 +140,7 @@ export function AudioProvider({ children }: AudioProviderProps) {
     if (typeof navigator === 'undefined' || !('mediaSession' in navigator))
       return;
 
-    const handlers: [MediaSessionAction, MediaSessionActionHandler | null][] = [
+    const handlers: [MediaSessionAction, MediaSessionActionHandler][] = [
       [
         'play',
         () => {
@@ -175,17 +157,6 @@ export function AudioProvider({ children }: AudioProviderProps) {
       ],
       ['previoustrack', () => prevTrackRef.current()],
       ['nexttrack', () => nextTrackRef.current()],
-      ['seekbackward', null],
-      ['seekforward', null],
-      [
-        'seekto',
-        (d) => {
-          if (d.seekTime != null && audioRef.current) {
-            audioRef.current.currentTime = d.seekTime;
-            setCurrentTime(d.seekTime);
-          }
-        },
-      ],
     ];
 
     for (const [action, handler] of handlers) {

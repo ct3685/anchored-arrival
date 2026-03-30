@@ -1,9 +1,15 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import dynamic from 'next/dynamic';
-import { trackPageView } from '@/lib/analytics';
+import {
+  trackPageView,
+  captureSessionContext,
+  initUserProperties,
+} from '@/lib/analytics';
+import { reportWebVitals } from '@/lib/webVitals';
+import { useEngagementTime } from '@/lib/useEngagementTime';
 
 // Lazy load non-critical UI components - don't block initial paint
 const SparkleEffect = dynamic(() => import('@/components/SparkleEffect'), {
@@ -35,14 +41,17 @@ function scheduleWhenIdle(callback: () => void, fallbackDelay = 500) {
 
 export function RouteAnalytics() {
   const pathname = usePathname();
-  const isFirstRender = useRef(true);
 
   useEffect(() => {
-    // Skip the initial load -- GA4's config already fires a page_view for that
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
+    captureSessionContext();
+    initUserProperties();
+    const timer = setTimeout(reportWebVitals, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEngagementTime();
+
+  useEffect(() => {
     trackPageView(pathname, document.title);
   }, [pathname]);
 

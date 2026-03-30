@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Box, Container, Typography, Button, Stack } from '@mui/material';
 import { motion } from 'motion/react';
 import { colors, clipPaths, layout } from '@/theme/theme';
-import { trackHeroCTA } from '@/lib/analytics';
+import { trackHeroCTA, trackOutboundClick } from '@/lib/analytics';
 import { useScrollDepth } from '@/lib/useScrollDepth';
 import { useLiveStatus } from '@/lib/useLiveStatus';
 
@@ -187,13 +187,18 @@ export default function Hero() {
                   href={tiktokHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() =>
+                  onClick={() => {
                     trackHeroCTA(
                       isLive ? 'Watch Live Now' : 'Join the Ranch',
                       tiktokHref,
                       true
-                    )
-                  }
+                    );
+                    trackOutboundClick(
+                      tiktokHref,
+                      isLive ? 'Watch Live Now' : 'Join the Ranch',
+                      'hero'
+                    );
+                  }}
                   sx={{
                     py: 1.8,
                     px: 5,
@@ -222,13 +227,18 @@ export default function Hero() {
                   href="https://kingstreetcowboys.com/affiliates/trevorbfit"
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() =>
+                  onClick={() => {
                     trackHeroCTA(
                       'Shop the Gear',
                       'https://kingstreetcowboys.com/affiliates/trevorbfit',
                       true
-                    )
-                  }
+                    );
+                    trackOutboundClick(
+                      'https://kingstreetcowboys.com/affiliates/trevorbfit',
+                      'Shop the Gear',
+                      'hero'
+                    );
+                  }}
                   sx={{
                     py: 1.8,
                     px: 5,

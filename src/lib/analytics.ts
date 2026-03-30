@@ -1,10 +1,50 @@
 // Google Analytics 4 Event Tracking Utility
 // Measurement ID configured via NEXT_PUBLIC_GA_MEASUREMENT_ID env var
 
+// ============================================
+// TYPE DEFINITIONS
+// ============================================
+
+export type GAEventName =
+  | 'page_view'
+  | 'nav_click'
+  | 'mobile_menu_open'
+  | 'mobile_menu_close'
+  | 'logo_click'
+  | 'hero_cta_click'
+  | 'teaser_cta_click'
+  | 'music_play'
+  | 'music_pause'
+  | 'music_seek'
+  | 'music_track_complete'
+  | 'music_milestone'
+  | 'music_track_change'
+  | 'music_download'
+  | 'miniplayer_expand'
+  | 'miniplayer_collapse'
+  | 'gallery_image_click'
+  | 'lightbox_open'
+  | 'lightbox_close'
+  | 'lightbox_navigate'
+  | 'image_download'
+  | 'link_click'
+  | 'outbound_click'
+  | 'social_click'
+  | 'scroll_depth'
+  | 'page_engagement'
+  | 'audio_error'
+  | 'download_error'
+  | 'page_not_found'
+  | 'not_found_cta_click'
+  | 'in_app_browser_detected'
+  | 'in_app_browser_notice_dismissed'
+  | 'in_app_browser_link_copied'
+  | 'web_vitals';
+
 declare global {
   interface Window {
     gtag: (
-      command: 'event' | 'config' | 'js',
+      command: 'event' | 'config' | 'js' | 'set',
       targetId: string | Date,
       config?: Record<string, unknown>
     ) => void;
@@ -12,19 +52,170 @@ declare global {
   }
 }
 
-// Helper to safely call gtag
+// ============================================
+// CORE INFRASTRUCTURE
+// ============================================
+
+const IS_DEV = process.env.NODE_ENV === 'development';
+
 const gtag = (...args: Parameters<typeof window.gtag>) => {
   if (typeof window !== 'undefined' && window.gtag) {
     window.gtag(...args);
   }
+  if (IS_DEV && args[0] === 'event') {
+    console.log(
+      `%c[GA4]%c ${args[1]}`,
+      'color: #F5A623; font-weight: bold;',
+      'color: inherit;',
+      args[2] ?? ''
+    );
+  }
 };
 
-// Generic event tracker
+// ============================================
+// UTM / SESSION CONTEXT
+// ============================================
+
+const UTM_KEYS = [
+  'utm_source',
+  'utm_medium',
+  'utm_campaign',
+  'utm_content',
+  'utm_term',
+] as const;
+const SESSION_STORAGE_KEY = '__ga4_session';
+
+interface SessionContext {
+  landing_page: string;
+  referrer: string;
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+  utm_content?: string;
+  utm_term?: string;
+}
+
+export function captureSessionContext(): void {
+  if (typeof window === 'undefined') return;
+  try {
+    if (sessionStorage.getItem(SESSION_STORAGE_KEY)) return;
+
+    const params = new URLSearchParams(window.location.search);
+    const ctx: SessionContext = {
+      landing_page: window.location.pathname,
+      referrer: document.referrer,
+    };
+
+    for (const key of UTM_KEYS) {
+      const val = params.get(key);
+      if (val) ctx[key] = val;
+    }
+
+    sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(ctx));
+  } catch {
+    // sessionStorage unavailable (e.g. private browsing in some browsers)
+  }
+}
+
+function getSessionContext(): Partial<SessionContext> {
+  if (typeof window === 'undefined') return {};
+  try {
+    const raw = sessionStorage.getItem(SESSION_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return {};
+  }
+}
+
+// ============================================
+// GLOBAL EVENT CONTEXT (auto-merged into every event)
+// ============================================
+
+function getGlobalContext(): Record<string, unknown> {
+  if (typeof window === 'undefined') return {};
+  const session = getSessionContext();
+  return {
+    page_path: window.location.pathname,
+    page_title: document.title,
+    viewport_width: window.innerWidth,
+    viewport_height: window.innerHeight,
+    timestamp_local: new Date().toISOString(),
+    ...(session.referrer && { session_referrer: session.referrer }),
+    ...(session.utm_source && { session_utm_source: session.utm_source }),
+    ...(session.utm_medium && { session_utm_medium: session.utm_medium }),
+    ...(session.utm_campaign && {
+      session_utm_campaign: session.utm_campaign,
+    }),
+  };
+}
+
+// ============================================
+// USER PROPERTIES (set once per page load)
+// ============================================
+
+function getDeviceType(): 'mobile' | 'tablet' | 'desktop' {
+  const w = window.innerWidth;
+  if (w < 768) return 'mobile';
+  if (w < 1024) return 'tablet';
+  return 'desktop';
+}
+
+function detectInAppBrowser(): boolean {
+  const ua = navigator.userAgent || '';
+  return /FBAN|FBAV|Instagram|TikTok|Line\/|Snapchat|Twitter|MicroMessenger/i.test(
+    ua
+  );
+}
+
+export function initUserProperties(): void {
+  if (typeof window === 'undefined') return;
+
+  const isReturning = localStorage.getItem('__ga4_visited') === '1';
+  const session = getSessionContext();
+  const colorScheme = window.matchMedia?.('(prefers-color-scheme: dark)')
+    .matches
+    ? 'dark'
+    : 'light';
+
+  let trafficSource = 'direct';
+  if (session.utm_source) {
+    trafficSource = session.utm_source;
+  } else if (document.referrer) {
+    try {
+      const host = new URL(document.referrer).hostname;
+      trafficSource = host !== window.location.hostname ? host : 'direct';
+    } catch {
+      trafficSource = 'unknown';
+    }
+  }
+
+  gtag('set', 'user_properties', {
+    device_type: getDeviceType(),
+    is_returning_visitor: isReturning,
+    preferred_color_scheme: colorScheme,
+    is_in_app_browser: detectInAppBrowser(),
+    landing_page: session.landing_page ?? window.location.pathname,
+    traffic_source: trafficSource,
+  });
+
+  if (!isReturning) {
+    try {
+      localStorage.setItem('__ga4_visited', '1');
+    } catch {
+      // localStorage unavailable
+    }
+  }
+}
+
+// ============================================
+// GENERIC EVENT TRACKER (with global context enrichment)
+// ============================================
+
 export const trackEvent = (
-  eventName: string,
+  eventName: GAEventName,
   params?: Record<string, unknown>
 ) => {
-  gtag('event', eventName, params);
+  gtag('event', eventName, { ...getGlobalContext(), ...params });
 };
 
 // ============================================
@@ -32,7 +223,7 @@ export const trackEvent = (
 // ============================================
 
 export const trackPageView = (pagePath: string, pageTitle?: string) => {
-  gtag('event', 'page_view', {
+  trackEvent('page_view', {
     page_path: pagePath,
     page_title: pageTitle,
   });
@@ -273,6 +464,23 @@ export const trackLinkClick = (
     link_url: linkUrl,
     link_index: linkIndex,
     is_external: isExternal,
+  });
+};
+
+// ============================================
+// OUTBOUND CLICK EVENTS (GA4-standard for external link attribution)
+// ============================================
+
+export const trackOutboundClick = (
+  url: string,
+  linkText: string,
+  linkLocation: string
+) => {
+  trackEvent('outbound_click', {
+    link_url: url,
+    link_text: linkText,
+    link_location: linkLocation,
+    outbound: true,
   });
 };
 
