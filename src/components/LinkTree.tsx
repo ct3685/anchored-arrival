@@ -20,9 +20,9 @@ import {
 import { useScrollDepth } from '@/lib/useScrollDepth';
 import { useInAppBrowser, isProblematicUrl } from '@/lib/useInAppBrowser';
 import { useLiveStatus } from '@/lib/useLiveStatus';
+// YouTubeIcon — re-add from @/components/Icons when restoring the YouTube link below.
 import {
   TikTokIcon,
-  YouTubeIcon,
   InstagramIcon,
   FacebookIcon,
   NetworkIcon,
@@ -71,14 +71,15 @@ export default function LinkTree() {
       accentColor: colors.amber,
       category: 'social',
     },
-    {
-      label: 'YouTube',
-      sublabel: 'Highlights and clips',
-      href: 'https://www.youtube.com/channel/UCLi7yoT4PGBY2k0o5hGvDwg',
-      icon: <YouTubeIcon size={22} />,
-      accentColor: colors.amber,
-      category: 'social',
-    },
+    // YouTube — not shown on this page right now; keep definition handy if we bring it back.
+    // {
+    //   label: 'YouTube',
+    //   sublabel: 'Highlights and clips',
+    //   href: 'https://www.youtube.com/channel/UCLi7yoT4PGBY2k0o5hGvDwg',
+    //   icon: <YouTubeIcon size={22} />,
+    //   accentColor: colors.amber,
+    //   category: 'social',
+    // },
     {
       label: 'Facebook',
       sublabel: 'Ranch Squad HQ',
@@ -116,8 +117,6 @@ export default function LinkTree() {
 
       if (link.href.includes('tiktok.com')) {
         trackSocialClick('tiktok', 'linktree');
-      } else if (link.href.includes('youtube.com')) {
-        trackSocialClick('youtube', 'linktree');
       } else if (link.href.includes('instagram.com')) {
         trackSocialClick('instagram', 'linktree');
       } else if (link.href.includes('facebook.com')) {
@@ -203,9 +202,11 @@ export default function LinkTree() {
                   {cat.label}
                 </Typography>
                 <Stack spacing={1.5}>
-                  {catLinks.map((link, index) => (
+                  {catLinks.map((link, index) => {
+                    const featuredLive = link.featured && isLive;
+                    return (
                     <motion.div
-                      key={link.href}
+                      key={link.label}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{
@@ -226,19 +227,40 @@ export default function LinkTree() {
                           alignItems: 'center',
                           gap: 2,
                           textDecoration: 'none',
-                          p: link.featured ? 3 : 2.5,
+                          p: link.featured ? (featuredLive ? 3.25 : 3) : 2.5,
                           clipPath: link.featured
                             ? clipPaths.ticketStub
                             : clipPaths.clippedCornerSm,
                           backgroundColor: link.featured
                             ? colors.darkLeather
                             : colors.coalBrown,
-                          border: `1px solid ${link.featured ? (isLive ? colors.red : colors.amber) : colors.brass}33`,
+                          border: featuredLive
+                            ? `2px solid ${colors.red}`
+                            : `1px solid ${link.featured ? colors.amber : colors.brass}33`,
+                          boxShadow: featuredLive
+                            ? `0 0 0 1px ${colors.red}99, 0 0 36px ${colors.red}55, inset 0 0 28px ${colors.red}22`
+                            : undefined,
                           transition: 'all 0.2s ease',
                           cursor: 'pointer',
+                          ...(featuredLive
+                            ? {
+                                animation:
+                                  'linktreeLiveGlow 2.2s ease-in-out infinite',
+                                '@keyframes linktreeLiveGlow': {
+                                  '0%, 100%': {
+                                    boxShadow: `0 0 0 1px ${colors.red}99, 0 0 28px ${colors.red}44, inset 0 0 24px ${colors.red}18`,
+                                  },
+                                  '50%': {
+                                    boxShadow: `0 0 0 2px ${colors.red}, 0 0 48px ${colors.red}77, inset 0 0 32px ${colors.red}28`,
+                                  },
+                                },
+                              }
+                            : {}),
                           '&:hover': {
                             backgroundColor: colors.darkLeather,
-                            boxShadow: `inset 0 0 20px ${link.accentColor}11, 0 0 16px ${link.accentColor}22`,
+                            boxShadow: featuredLive
+                              ? `0 0 0 2px ${colors.red}, 0 0 52px ${colors.red}88, inset 0 0 32px ${colors.red}30`
+                              : `inset 0 0 20px ${link.accentColor}11, 0 0 16px ${link.accentColor}22`,
                             '& .link-icon': {
                               color: link.accentColor,
                             },
@@ -273,41 +295,55 @@ export default function LinkTree() {
                           <Typography
                             variant="caption"
                             sx={{
-                              color: colors.dust,
+                              color: featuredLive ? colors.bone : colors.dust,
                               letterSpacing: '0.04em',
+                              fontWeight: featuredLive ? 700 : 400,
+                              fontSize: featuredLive ? '0.85rem' : undefined,
+                              textShadow: featuredLive
+                                ? `0 0 12px ${colors.red}88`
+                                : undefined,
                             }}
                           >
                             {link.sublabel}
                           </Typography>
                         </Box>
 
-                        {/* LIVE NOW badge -- only when actually streaming */}
-                        {link.featured && isLive && (
+                        {/* LIVE NOW — large pill when /api/live-status reports streaming */}
+                        {featuredLive && (
                           <Box
                             sx={{
-                              px: 1.5,
-                              py: 0.4,
+                              px: 2,
+                              py: 0.65,
                               backgroundColor: colors.red,
                               color: '#fff',
-                              fontSize: '0.6rem',
+                              fontSize: '0.72rem',
                               fontFamily: 'var(--font-display)',
-                              fontWeight: 700,
-                              letterSpacing: '0.15em',
+                              fontWeight: 800,
+                              letterSpacing: '0.2em',
                               textTransform: 'uppercase',
                               flexShrink: 0,
-                              animation: 'flicker 2s ease-in-out infinite',
-                              '@keyframes flicker': {
-                                '0%, 100%': { opacity: 1 },
-                                '50%': { opacity: 0.6 },
+                              borderRadius: '2px',
+                              boxShadow: `0 0 20px ${colors.red}cc`,
+                              animation: 'liveBadgePulse 1.6s ease-in-out infinite',
+                              '@keyframes liveBadgePulse': {
+                                '0%, 100%': {
+                                  opacity: 1,
+                                  transform: 'scale(1)',
+                                },
+                                '50%': {
+                                  opacity: 0.92,
+                                  transform: 'scale(1.04)',
+                                },
                               },
                             }}
                           >
-                            Live Now
+                            Live
                           </Box>
                         )}
                       </Box>
                     </motion.div>
-                  ))}
+                    );
+                  })}
                 </Stack>
               </Box>
             );
