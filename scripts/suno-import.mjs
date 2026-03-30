@@ -5,6 +5,9 @@
  * Usage:
  *   node scripts/suno-import.mjs <suno-url>
  *
+ * Non-interactive (CI / piped stdin):
+ *   SUNO_IMPORT_NONINTERACTIVE=1 SUNO_CREATOR=reaper|aaron [SUNO_TITLE=...] node scripts/suno-import.mjs <url>
+ *
  * Accepts both URL formats:
  *   https://suno.com/song/{uuid}
  *   https://suno.com/s/{shortcode}   (follows 307 redirect)
@@ -219,16 +222,25 @@ async function main() {
     process.exit(0);
   }
 
-  // 4. Prompt for creator
-  console.log('\nWho created this track?');
-  console.log('  1) reaper (Cam)');
-  console.log('  2) aaron');
-  const choice = await prompt('Enter 1 or 2: ');
-  const creatorVar = choice === '2' ? 'aaron' : 'reaper';
-  console.log(`  → Using creator: ${creatorVar}`);
+  // 4. Creator (prompt or env)
+  const nonInteractive = process.env.SUNO_IMPORT_NONINTERACTIVE === '1';
+  let creatorVar;
+  if (nonInteractive) {
+    creatorVar = process.env.SUNO_CREATOR === 'aaron' ? 'aaron' : 'reaper';
+    console.log(`\n  → Using creator: ${creatorVar} (SUNO_IMPORT_NONINTERACTIVE)`);
+  } else {
+    console.log('\nWho created this track?');
+    console.log('  1) reaper (Cam)');
+    console.log('  2) aaron');
+    const choice = await prompt('Enter 1 or 2: ');
+    creatorVar = choice === '2' ? 'aaron' : 'reaper';
+    console.log(`  → Using creator: ${creatorVar}`);
+  }
 
-  // 5. Allow title override
-  const titleOverride = await prompt(`\nTitle [${meta.title}]: `);
+  // 5. Title override (prompt or env)
+  const titleOverride = nonInteractive
+    ? (process.env.SUNO_TITLE || '').trim()
+    : await prompt(`\nTitle [${meta.title}]: `);
   const finalTitle = titleOverride || meta.title;
   const finalSlug = titleOverride ? slugify(titleOverride) : slug;
 

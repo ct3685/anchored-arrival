@@ -26,6 +26,14 @@ const aaron: TrackCredit = {
 // Newest tracks first — prepend entries here so music UI and default queue stay current-first.
 export const tracks: Track[] = [
   {
+    id: 'setting-the-standard',
+    title: 'Setting the standard',
+    artist: 'Trevor & Ranch Squad',
+    src: '/audio/setting-the-standard.mp3',
+    cover: '/images/covers/setting-the-standard.jpg',
+    createdBy: aaron,
+  },
+  {
     id: 'we-dont-lose-when-it-matters',
     title: "We Don't Lose When It Matters",
     artist: 'Trevor & Ranch Squad',
