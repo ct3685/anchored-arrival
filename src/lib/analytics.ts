@@ -32,6 +32,7 @@ export type GAEventName =
   | 'social_click'
   | 'scroll_depth'
   | 'page_engagement'
+  | 'play_count_increment'
   | 'audio_error'
   | 'download_error'
   | 'page_not_found'
@@ -375,6 +376,16 @@ export const trackMusicDownload = (
     track_id: trackId,
     track_title: trackTitle,
     artist: artist,
+  });
+};
+
+export const trackPlayCountIncrement = (
+  trackId: string,
+  trackTitle: string
+) => {
+  trackEvent('play_count_increment', {
+    track_id: trackId,
+    track_title: trackTitle,
   });
 };
 

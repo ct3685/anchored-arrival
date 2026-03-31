@@ -18,7 +18,9 @@ import {
   trackMusicMilestone,
   trackMusicTrackChange,
   trackAudioError,
+  trackPlayCountIncrement,
 } from './analytics';
+import { incrementPlayCount } from './usePlayCounts';
 type RepeatMode = 'off' | 'all' | 'one';
 
 interface AudioContextType {
@@ -200,6 +202,10 @@ export function AudioProvider({ children }: AudioProviderProps) {
         ) {
           milestonesReachedRef.current.add(milestone);
           trackMusicMilestone(currentTrack.id, currentTrack.title, milestone);
+          if (milestone === 25) {
+            incrementPlayCount(currentTrack.id);
+            trackPlayCountIncrement(currentTrack.id, currentTrack.title);
+          }
         }
       }
     }

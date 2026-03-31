@@ -60,6 +60,7 @@ import {
   trackMiniplayerCollapse,
   trackLinkClick,
 } from '@/lib/analytics';
+import { usePlayCounts, formatPlayCount } from '@/lib/usePlayCounts';
 
 function SortableMiniQueueItem({
   trackIndex,
@@ -220,6 +221,7 @@ export default function MiniPlayer() {
     hasMultipleTracks,
   } = useAudio();
 
+  const playCounts = usePlayCounts();
   const [isExpanded, setIsExpanded] = useState(false);
   const [showTrackList, setShowTrackList] = useState(false);
 
@@ -432,6 +434,13 @@ export default function MiniPlayer() {
                 >
                   {currentTrack.createdBy.name}
                 </Box>
+                {(playCounts[currentTrack.id] ?? 0) > 0 && (
+                  <>
+                    {' · '}
+                    {formatPlayCount(playCounts[currentTrack.id])}{' '}
+                    {playCounts[currentTrack.id] === 1 ? 'play' : 'plays'}
+                  </>
+                )}
               </Typography>
 
               {/* Progress Bar */}

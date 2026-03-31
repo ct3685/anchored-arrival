@@ -44,13 +44,16 @@ import { tracks } from '@/lib/tracks';
 import { colors, clipPaths } from '@/theme/theme';
 import { useScrollDepth } from '@/lib/useScrollDepth';
 import { trackMusicDownload } from '@/lib/analytics';
+import { usePlayCounts, formatPlayCount } from '@/lib/usePlayCounts';
 
 function SortableTrackCard({
   trackIndex,
   queuePos,
+  playCount,
 }: {
   trackIndex: number;
   queuePos: number;
+  playCount: number;
 }) {
   const { currentTrackIndex, isPlaying, selectTrack } = useAudio();
   const track = tracks[trackIndex];
@@ -180,6 +183,19 @@ function SortableTrackCard({
                 {track.createdBy.name}
               </Box>
             </Typography>
+            {playCount > 0 && (
+              <Typography
+                variant="caption"
+                sx={{
+                  color: colors.dust,
+                  display: 'block',
+                  fontSize: '0.65rem',
+                  opacity: 0.7,
+                }}
+              >
+                {formatPlayCount(playCount)} {playCount === 1 ? 'play' : 'plays'}
+              </Typography>
+            )}
           </Box>
 
           {/* Download Button — disabled for now
@@ -229,6 +245,7 @@ function SortableTrackCard({
 
 export default function TrackList() {
   useScrollDepth();
+  const playCounts = usePlayCounts();
   const {
     currentTrack,
     currentTrackIndex,
@@ -607,6 +624,7 @@ export default function TrackList() {
                     <SortableTrackCard
                       trackIndex={trackIndex}
                       queuePos={queuePos}
+                      playCount={playCounts[tracks[trackIndex].id] ?? 0}
                     />
                   </motion.div>
                 ))}
