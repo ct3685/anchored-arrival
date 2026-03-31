@@ -26,6 +26,22 @@ const aaron: TrackCredit = {
 // Newest tracks first — prepend entries here so music UI and default queue stay current-first.
 export const tracks: Track[] = [
   {
+    id: 'wrong-bull-rider',
+    title: 'Wrong Bull Rider',
+    artist: 'Trevor & Ranch Squad',
+    src: '/audio/wrong-bull-rider.mp3',
+    cover: '/images/covers/wrong-bull-rider.jpg',
+    createdBy: reaper,
+  },
+  {
+    id: 'raw-dog-rodeo',
+    title: 'Raw Dog Rodeo',
+    artist: 'Trevor & Ranch Squad',
+    src: '/audio/raw-dog-rodeo.mp3',
+    cover: '/images/covers/raw-dog-rodeo.jpg',
+    createdBy: reaper,
+  },
+  {
     id: 'trevor-s-different',
     title: 'Trevor’s Different',
     artist: 'Trevor & Ranch Squad',
