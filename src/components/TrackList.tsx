@@ -278,7 +278,7 @@ export default function TrackList() {
   const hasHiddenTracks = playedIndices.size > 0;
 
   const visibleQueue = queue.filter((idx) => {
-    if (idx === currentTrackIndex) return false;
+    if ((isPlaying || currentTime > 0) && idx === currentTrackIndex) return false;
     if (repeatMode === 'off' && playedIndices.has(idx)) return false;
     if (filter !== 'all' && tracks[idx].category !== filter) return false;
     return true;
@@ -382,7 +382,7 @@ export default function TrackList() {
         </Stack>
 
         {/* Now Playing - Arena Panel */}
-        {currentTrack && (
+        {(isPlaying || currentTime > 0) && (
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
