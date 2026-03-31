@@ -78,7 +78,8 @@ export default function Footer() {
                 textAlign: 'center',
               }}
             >
-              &copy; {new Date().getFullYear()} Ranch Squad &mdash; Real Ones Only
+              &copy; {new Date().getFullYear()} Ranch Squad &mdash; Real Ones
+              Only
             </Typography>
             <Typography
               variant="caption"
@@ -91,20 +92,21 @@ export default function Footer() {
                 textAlign: 'center',
               }}
             >
-              Made by Reaper ⛰️ &middot;{' '}
+              Made by{' '}
+              <Box component="span" sx={{ color: colors.amber, opacity: 1 }}>
+                Reaper
+              </Box>{' '}
               <MuiLink
                 href="https://cam.tok"
                 target="_blank"
                 rel="noopener noreferrer"
-                underline="hover"
+                underline="none"
                 sx={{
-                  color: colors.amber,
                   opacity: 1,
-                  textDecorationColor: `${colors.amber}88`,
-                  '&:hover': { color: colors.amber, opacity: 0.95 },
+                  '&:hover': { opacity: 0.8 },
                 }}
               >
-                cam.tok
+                ⛰️
               </MuiLink>
             </Typography>
           </Stack>
