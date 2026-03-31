@@ -26,6 +26,22 @@ const aaron: TrackCredit = {
 // Newest tracks first — prepend entries here so music UI and default queue stay current-first.
 export const tracks: Track[] = [
   {
+    id: 'droppin-on-your-head-tom-cat',
+    title: 'Droppin On Your Head (Tom Cat)',
+    artist: 'Trevor & Ranch Squad',
+    src: '/audio/droppin-on-your-head-tom-cat.mp3',
+    cover: '/images/covers/droppin-on-your-head-tom-cat.jpg',
+    createdBy: reaper,
+  },
+  {
+    id: 'lil-mama-distrack-all-in-fun',
+    title: 'Lil Mama Distrack (All In Fun)',
+    artist: 'Trevor & Ranch Squad',
+    src: '/audio/lil-mama-distrack-all-in-fun.mp3',
+    cover: '/images/covers/lil-mama-distrack-all-in-fun.jpg',
+    createdBy: reaper,
+  },
+  {
     id: 'wrong-bull-rider',
     title: 'Wrong Bull Rider',
     artist: 'Trevor & Ranch Squad',
