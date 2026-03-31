@@ -1,6 +1,12 @@
 'use client';
 
-import { Box, Container, Typography, Stack } from '@mui/material';
+import {
+  Box,
+  Container,
+  Typography,
+  Stack,
+  Link as MuiLink,
+} from '@mui/material';
 import { colors } from '@/theme/theme';
 
 export default function Footer() {
@@ -8,8 +14,8 @@ export default function Footer() {
     <Box
       component="footer"
       sx={{
-        pt: 6,
-        pb: 14,
+        pt: 5,
+        pb: 13,
         px: 2,
         mt: 'auto',
         backgroundColor: colors.smokeBlack,
@@ -27,7 +33,7 @@ export default function Footer() {
       }}
     >
       <Container maxWidth="lg">
-        <Stack alignItems="center" spacing={3}>
+        <Stack alignItems="center" spacing={2}>
           <Typography
             variant="h5"
             sx={{
@@ -57,20 +63,51 @@ export default function Footer() {
             sx={{
               width: 60,
               height: 1,
+              my: 0.5,
               background: `linear-gradient(90deg, ${colors.brass}44, ${colors.amber}, ${colors.brass}44)`,
             }}
           />
 
-          <Typography
-            variant="caption"
-            sx={{
-              color: colors.dust,
-              letterSpacing: '0.06em',
-              opacity: 0.6,
-            }}
-          >
-            &copy; {new Date().getFullYear()} Ranch Squad &mdash; Real Ones Only
-          </Typography>
+          <Stack alignItems="center" spacing={0.75}>
+            <Typography
+              variant="caption"
+              sx={{
+                color: colors.dust,
+                letterSpacing: '0.06em',
+                opacity: 0.6,
+                textAlign: 'center',
+              }}
+            >
+              &copy; {new Date().getFullYear()} Ranch Squad &mdash; Real Ones Only
+            </Typography>
+            <Typography
+              variant="caption"
+              component="p"
+              sx={{
+                m: 0,
+                color: colors.dust,
+                letterSpacing: '0.06em',
+                opacity: 0.55,
+                textAlign: 'center',
+              }}
+            >
+              Made by Reaper ⛰️ &middot;{' '}
+              <MuiLink
+                href="https://cam.tok"
+                target="_blank"
+                rel="noopener noreferrer"
+                underline="hover"
+                sx={{
+                  color: colors.amber,
+                  opacity: 1,
+                  textDecorationColor: `${colors.amber}88`,
+                  '&:hover': { color: colors.amber, opacity: 0.95 },
+                }}
+              >
+                cam.tok
+              </MuiLink>
+            </Typography>
+          </Stack>
         </Stack>
       </Container>
     </Box>
