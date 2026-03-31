@@ -4,6 +4,7 @@ import { tracks } from '@/lib/tracks';
 
 const STORE_NAME = 'play-counts';
 const VALID_TRACK_IDS = new Set(tracks.map((t) => t.id));
+const PROD_API = 'https://ranchsquad.com/api/track-plays';
 
 function isBlobsAvailable(): boolean {
   return (
@@ -14,14 +15,13 @@ function isBlobsAvailable(): boolean {
 
 export async function GET() {
   if (!isBlobsAvailable()) {
-    return NextResponse.json(
-      { counts: {} },
-      {
-        headers: {
-          'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=60',
-        },
-      }
-    );
+    try {
+      const res = await fetch(PROD_API, { next: { revalidate: 30 } });
+      const data = await res.json();
+      return NextResponse.json(data);
+    } catch {
+      return NextResponse.json({ counts: {} });
+    }
   }
 
   try {
@@ -51,7 +51,18 @@ export async function GET() {
 
 export async function POST(request: Request) {
   if (!isBlobsAvailable()) {
-    return new Response(null, { status: 204 });
+    try {
+      const body = await request.json();
+      const res = await fetch(PROD_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      const data = await res.json();
+      return NextResponse.json(data);
+    } catch {
+      return new Response(null, { status: 204 });
+    }
   }
 
   try {

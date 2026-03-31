@@ -78,8 +78,7 @@ export default function Footer() {
                 textAlign: 'center',
               }}
             >
-              &copy; {new Date().getFullYear()} Ranch Squad &mdash; Real Ones
-              Only
+              &copy;{' '}{new Date().getFullYear()}{' '}Ranch Squad &mdash; Real Ones Only
             </Typography>
             <Typography
               variant="caption"
@@ -107,6 +106,33 @@ export default function Footer() {
                 }}
               >
                 ⛰️
+              </MuiLink>
+            </Typography>
+            <Typography
+              variant="caption"
+              component="p"
+              sx={{
+                m: 0,
+                color: colors.amber,
+                textAlign: 'center',
+                letterSpacing: '0.05em',
+                fontSize: '0.7rem',
+              }}
+            >
+              Support Reaper &mdash; recharge TikTok coins via{' '}
+              <MuiLink
+                href="https://www.tiktok.com/coin?rc=ZE4A4SWN"
+                target="_blank"
+                rel="noopener noreferrer"
+                underline="none"
+                sx={{
+                  color: '#fff',
+                  fontWeight: 700,
+                  transition: 'color 0.2s',
+                  '&:hover': { color: colors.amber },
+                }}
+              >
+                his link 🎁
               </MuiLink>
             </Typography>
           </Stack>
