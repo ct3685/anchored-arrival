@@ -71,6 +71,7 @@ export default function Footer() {
           <Stack alignItems="center" spacing={0.75}>
             <Typography
               variant="caption"
+              suppressHydrationWarning
               sx={{
                 color: colors.dust,
                 letterSpacing: '0.06em',
@@ -78,7 +79,7 @@ export default function Footer() {
                 textAlign: 'center',
               }}
             >
-              &copy;{' '}{new Date().getFullYear()}{' '}Ranch Squad &mdash; Real Ones Only
+              © {new Date().getFullYear()} Ranch Squad — Real Ones Only
             </Typography>
             <Typography
               variant="caption"
