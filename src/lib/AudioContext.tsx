@@ -226,6 +226,8 @@ export function AudioProvider({ children }: AudioProviderProps) {
       );
 
       if (repeatMode === 'one') {
+        milestonesReachedRef.current = new Set();
+        totalListenTimeRef.current = 0;
         audio.currentTime = 0;
         audio.play().catch(console.error);
         return;
@@ -233,6 +235,8 @@ export function AudioProvider({ children }: AudioProviderProps) {
 
       if (repeatMode === 'all') {
         if (!hasMultipleTracks) {
+          milestonesReachedRef.current = new Set();
+          totalListenTimeRef.current = 0;
           audio.currentTime = 0;
           audio.play().catch(console.error);
           return;
