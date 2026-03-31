@@ -15,7 +15,7 @@ export interface Track {
 
 const reaper: TrackCredit = {
   name: 'Reaper ⛰️',
-  url: 'https://tiktok.com/@cam.tik',
+  url: 'https://tiktok.com/@cam.tok',
 };
 
 const aaron: TrackCredit = {

@@ -82,7 +82,7 @@ export default function Footer() {
               © {new Date().getFullYear()} Ranch Squad — Real Ones Only
             </Typography>
             <MuiLink
-              href="https://tiktok.com/@cam.tik"
+              href="https://tiktok.com/@cam.tok"
               target="_blank"
               rel="noopener noreferrer"
               underline="none"
