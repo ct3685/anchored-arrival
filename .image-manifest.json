@@ -114,5 +114,25 @@
   "public/images/trevor-profile.png": {
     "hash": "2ae6e562eabb232662042531eb0004d31d12259ecfeb46dbe2b597c2a6aaaeb7",
     "config": "f924698ed6e0"
+  },
+  "public/images/covers/prayers-for-danny.jpg": {
+    "hash": "d4514163a3e4e0675d1899090265ee8792f29e7c933295597d9d35113f6e3373",
+    "config": "f924698ed6e0"
+  },
+  "public/images/covers/raw-dog-rodeo.jpg": {
+    "hash": "b417230d2c07b67ea8b86e671f88402d1a98cae5ab0732ffe480f6480fdae859",
+    "config": "f924698ed6e0"
+  },
+  "public/images/covers/setting-the-standard.jpg": {
+    "hash": "33b6f07c52b47359cd23a8b272100e2a797b64354c0aa9a2f5e43b069703ddc7",
+    "config": "f924698ed6e0"
+  },
+  "public/images/covers/trevor-s-different.jpg": {
+    "hash": "d973cbb7ec711ee5123a220f7c5572b912062505f963bf90a965817eefa83d95",
+    "config": "f924698ed6e0"
+  },
+  "public/images/covers/wrong-bull-rider.jpg": {
+    "hash": "1fa2efc9fbdec12a7094713b8ea57333eefff2133b3d23b6dc685d499c3397e9",
+    "config": "f924698ed6e0"
   }
 }
