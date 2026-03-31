@@ -93,20 +93,19 @@ export default function Footer() {
               }}
             >
               Made by{' '}
-              <Box component="span" sx={{ color: colors.amber, opacity: 1 }}>
-                Reaper
-              </Box>{' '}
               <MuiLink
                 href="https://cam.tok"
                 target="_blank"
                 rel="noopener noreferrer"
                 underline="none"
                 sx={{
-                  opacity: 1,
+                  color: colors.amber,
+                  fontWeight: 700,
+                  transition: 'opacity 0.2s',
                   '&:hover': { opacity: 0.8 },
                 }}
               >
-                ⛰️
+                Reaper ⛰️
               </MuiLink>
             </Typography>
             <Typography
