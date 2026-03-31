@@ -572,7 +572,9 @@ export default function MiniPlayer() {
                     variant="caption"
                     sx={{ color: colors.textSecondary }}
                   >
-                    {filteredQueue.indexOf(currentTrackIndex) + 1} / {filteredQueue.length}
+                    {filteredQueue.includes(currentTrackIndex)
+                      ? `${filteredQueue.indexOf(currentTrackIndex) + 1} / ${filteredQueue.length}`
+                      : `${filteredQueue.length} tracks`}
                   </Typography>
                   <IconButton
                     onClick={() => setShowTrackList(!showTrackList)}

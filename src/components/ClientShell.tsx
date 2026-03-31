@@ -10,6 +10,7 @@ import {
 } from '@/lib/analytics';
 import { reportWebVitals } from '@/lib/webVitals';
 import { useEngagementTime } from '@/lib/useEngagementTime';
+import { useAudio } from '@/lib/AudioContext';
 
 // Lazy load non-critical UI components - don't block initial paint
 const SparkleEffect = dynamic(() => import('@/components/SparkleEffect'), {
@@ -84,15 +85,15 @@ export function SparkleEffectLazy() {
 
 export function MiniPlayerLazy() {
   const pathname = usePathname();
+  const { isPlaying, currentTime } = useAudio();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Load when browser is idle
     scheduleWhenIdle(() => setIsVisible(true), 500);
   }, []);
 
-  // Hide MiniPlayer on /music page — the full Now Playing panel handles it there
-  if (!isVisible || pathname === '/music') return null;
+  const hasPlayback = isPlaying || currentTime > 0;
+  if (!isVisible || pathname === '/music' || !hasPlayback) return null;
 
   return <MiniPlayer />;
 }

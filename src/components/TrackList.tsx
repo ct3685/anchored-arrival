@@ -481,11 +481,10 @@ export default function TrackList() {
                     {currentTrack.title}
                   </Typography>
                   <Typography variant="body2" sx={{ color: colors.dust }}>
-                    {currentTrack.artist} &bull; {formatTime(currentTime)} /{' '}
-                    {formatTime(duration)}
+                    {currentTrack.artist}
                   </Typography>
                   <Typography variant="caption" sx={{ color: colors.brass }}>
-                    Created by{' '}
+                    by{' '}
                     <Box
                       component="a"
                       href={currentTrack.createdBy.url}
