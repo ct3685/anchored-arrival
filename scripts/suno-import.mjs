@@ -46,7 +46,12 @@ const COVERS_DIR = resolve(ROOT, 'public/images/covers');
 
 const CDN_BASE = 'https://cdn1.suno.ai';
 
+const RETRY_MAX_MS = 5 * 60 * 1000; // 5 minutes
+const RETRY_INTERVAL_MS = 20_000;    // 20 seconds between attempts
+
 // ─── Helpers ──────────────────────────────────────────────────────────────────
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 function slugify(title) {
   return title
@@ -136,12 +141,38 @@ async function downloadFile(url, destPath, label) {
     return;
   }
 
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`Failed to download ${label}: HTTP ${res.status} from ${url}`);
+  const deadline = Date.now() + RETRY_MAX_MS;
+  let attempt = 0;
 
-  await pipeline(Readable.fromWeb(res.body), createWriteStream(destPath));
-  const sizeMB = ((Number(res.headers.get('content-length')) || 0) / 1_048_576).toFixed(1);
-  console.log(`  ✅ ${label} → ${destPath} (${sizeMB} MB)`);
+  while (true) {
+    attempt++;
+    const res = await fetch(url);
+
+    if (res.ok) {
+      await pipeline(Readable.fromWeb(res.body), createWriteStream(destPath));
+      const sizeMB = ((Number(res.headers.get('content-length')) || 0) / 1_048_576).toFixed(1);
+      console.log(`  ✅ ${label} → ${destPath} (${sizeMB} MB)`);
+      return;
+    }
+
+    // Consume body to avoid leaking the connection
+    await res.text().catch(() => {});
+
+    const retryable = res.status === 403 || res.status === 404;
+    const remaining = deadline - Date.now();
+
+    if (!retryable || remaining <= 0) {
+      throw new Error(`Failed to download ${label}: HTTP ${res.status} from ${url}`);
+    }
+
+    const remainSec = Math.round(remaining / 1000);
+    const waitSec = Math.round(RETRY_INTERVAL_MS / 1000);
+    console.log(
+      `  ⏳ ${label} not ready (HTTP ${res.status}), attempt ${attempt}. ` +
+      `Retrying in ${waitSec}s (${remainSec}s remaining)...`
+    );
+    await sleep(RETRY_INTERVAL_MS);
+  }
 }
 
 // ─── tracks.ts Writer ─────────────────────────────────────────────────────────
