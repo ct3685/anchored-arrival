@@ -37,8 +37,15 @@ function fetchCounts() {
     .catch(() => {});
 }
 
+const _lastIncrement: Record<string, number> = {};
+const DEBOUNCE_MS = 5000;
+
 /** Fire-and-forget increment — callable from anywhere (not a hook). */
 export function incrementPlayCount(trackId: string) {
+  const now = Date.now();
+  if (now - (_lastIncrement[trackId] ?? 0) < DEBOUNCE_MS) return;
+  _lastIncrement[trackId] = now;
+
   _counts = { ..._counts, [trackId]: (_counts[trackId] ?? 0) + 1 };
   notify();
 

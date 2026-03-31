@@ -202,14 +202,22 @@ export function AudioProvider({ children }: AudioProviderProps) {
         ) {
           milestonesReachedRef.current.add(milestone);
           trackMusicMilestone(currentTrack.id, currentTrack.title, milestone);
-          if (milestone === 25) {
-            incrementPlayCount(currentTrack.id);
-            trackPlayCountIncrement(currentTrack.id, currentTrack.title);
-          }
         }
       }
     }
   }, [currentTime, duration, currentTrack.id, currentTrack.title]);
+
+  // Count a play whenever playback starts: user presses play, selects a new
+  // track, or auto-advances. Same-track replays (repeat-one / single-track
+  // repeat-all) are handled explicitly in handleEnded since neither isPlaying
+  // nor currentTrack.id change in those paths. The 5 s per-track debounce in
+  // incrementPlayCount prevents rapid pause/resume from double-counting.
+  useEffect(() => {
+    if (isPlaying) {
+      incrementPlayCount(currentTrack.id);
+      trackPlayCountIncrement(currentTrack.id, currentTrack.title);
+    }
+  }, [isPlaying, currentTrack.id, currentTrack.title]);
 
   // Set up audio element event listeners
   useEffect(() => {
@@ -228,6 +236,8 @@ export function AudioProvider({ children }: AudioProviderProps) {
       if (repeatMode === 'one') {
         milestonesReachedRef.current = new Set();
         totalListenTimeRef.current = 0;
+        incrementPlayCount(currentTrack.id);
+        trackPlayCountIncrement(currentTrack.id, currentTrack.title);
         audio.currentTime = 0;
         audio.play().catch(console.error);
         return;
@@ -237,6 +247,8 @@ export function AudioProvider({ children }: AudioProviderProps) {
         if (!hasMultipleTracks) {
           milestonesReachedRef.current = new Set();
           totalListenTimeRef.current = 0;
+          incrementPlayCount(currentTrack.id);
+          trackPlayCountIncrement(currentTrack.id, currentTrack.title);
           audio.currentTime = 0;
           audio.play().catch(console.error);
           return;
