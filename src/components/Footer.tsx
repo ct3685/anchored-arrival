@@ -81,33 +81,32 @@ export default function Footer() {
             >
               © {new Date().getFullYear()} Ranch Squad — Real Ones Only
             </Typography>
-            <Typography
-              variant="caption"
-              component="p"
+            <MuiLink
+              href="https://tiktok.com/@cam.tik"
+              target="_blank"
+              rel="noopener noreferrer"
+              underline="none"
               sx={{
-                m: 0,
-                color: colors.dust,
+                color: colors.amber,
                 letterSpacing: '0.06em',
-                opacity: 0.55,
+                opacity: 0.8,
                 textAlign: 'center',
+                fontSize: '0.75rem',
+                transition: 'all 0.2s ease',
+                '&:hover': {
+                  opacity: 1,
+                  color: colors.amber,
+                  transform: 'scale(1.05)',
+                },
+                '&:active': {
+                  opacity: 1,
+                  color: colors.amber,
+                  transform: 'scale(1.05)',
+                },
               }}
             >
-              Made by{' '}
-              <MuiLink
-                href="https://cam.tok"
-                target="_blank"
-                rel="noopener noreferrer"
-                underline="none"
-                sx={{
-                  color: colors.amber,
-                  fontWeight: 700,
-                  transition: 'opacity 0.2s',
-                  '&:hover': { opacity: 0.8 },
-                }}
-              >
-                Reaper ⛰️
-              </MuiLink>
-            </Typography>
+              Made by Reaper ⛰️
+            </MuiLink>
             <Typography
               variant="caption"
               component="p"
