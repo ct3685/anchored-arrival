@@ -119,7 +119,7 @@ export default function Footer() {
                 fontSize: '0.7rem',
               }}
             >
-              Support Reaper &mdash; recharge TikTok coins via{' '}
+              Want to support Reaper?{' '}
               <MuiLink
                 href="https://www.tiktok.com/coin?rc=ZE4A4SWN"
                 target="_blank"
@@ -132,7 +132,7 @@ export default function Footer() {
                   '&:hover': { color: colors.amber },
                 }}
               >
-                his link 🎁
+                Recharge TikTok coins here 🎁
               </MuiLink>
             </Typography>
           </Stack>
