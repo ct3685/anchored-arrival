@@ -14,6 +14,8 @@ import {
   ListItemButton,
   ListItemText,
   ListItemIcon,
+  Tabs,
+  Tab,
   useTheme,
   useMediaQuery,
 } from '@mui/material';
@@ -53,7 +55,7 @@ import {
 } from '@dnd-kit/modifiers';
 
 import { useAudio } from '@/lib/AudioContext';
-import { tracks } from '@/lib/tracks';
+import { tracks, CATEGORY_LABELS, type TrackCategory } from '@/lib/tracks';
 import { colors } from '@/theme/theme';
 import {
   trackMiniplayerExpand,
@@ -221,9 +223,15 @@ export default function MiniPlayer() {
     hasMultipleTracks,
   } = useAudio();
 
+  type FilterValue = 'all' | TrackCategory;
   const playCounts = usePlayCounts();
   const [isExpanded, setIsExpanded] = useState(false);
   const [showTrackList, setShowTrackList] = useState(false);
+  const [filter, setFilter] = useState<FilterValue>('all');
+
+  const filteredQueue = filter === 'all'
+    ? queue
+    : queue.filter((idx) => tracks[idx].category === filter);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -564,7 +572,7 @@ export default function MiniPlayer() {
                     variant="caption"
                     sx={{ color: colors.textSecondary }}
                   >
-                    {queue.indexOf(currentTrackIndex) + 1} / {tracks.length}
+                    {filteredQueue.indexOf(currentTrackIndex) + 1} / {filteredQueue.length}
                   </Typography>
                   <IconButton
                     onClick={() => setShowTrackList(!showTrackList)}
@@ -584,6 +592,35 @@ export default function MiniPlayer() {
 
               {/* Track List / Queue */}
               <Collapse in={showTrackList}>
+                {/* Category filter tabs */}
+                <Tabs
+                  value={filter}
+                  onChange={(_, v) => setFilter(v as FilterValue)}
+                  variant="fullWidth"
+                  sx={{
+                    minHeight: 28,
+                    mt: 1,
+                    '& .MuiTabs-indicator': {
+                      backgroundColor: colors.primary,
+                      height: 2,
+                    },
+                    '& .MuiTab-root': {
+                      color: colors.textSecondary,
+                      minHeight: 28,
+                      py: 0,
+                      fontSize: '0.65rem',
+                      letterSpacing: 1,
+                      fontWeight: 600,
+                      textTransform: 'uppercase',
+                      '&.Mui-selected': { color: colors.primary },
+                    },
+                  }}
+                >
+                  <Tab label="All" value="all" />
+                  <Tab label={CATEGORY_LABELS.track} value="track" />
+                  <Tab label={CATEGORY_LABELS.diss} value="diss" />
+                </Tabs>
+
                 <Box
                   sx={{
                     mt: 1,
@@ -607,11 +644,11 @@ export default function MiniPlayer() {
                     ]}
                   >
                     <SortableContext
-                      items={queue.map((idx) => tracks[idx].id)}
+                      items={filteredQueue.map((idx) => tracks[idx].id)}
                       strategy={verticalListSortingStrategy}
                     >
                       <List dense disablePadding>
-                        {queue.map((trackIdx, queuePos) => (
+                        {filteredQueue.map((trackIdx, queuePos) => (
                           <SortableMiniQueueItem
                             key={tracks[trackIdx].id}
                             trackIndex={trackIdx}

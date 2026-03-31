@@ -197,6 +197,7 @@ function buildTrackEntry(slug, title, creatorVar) {
     `    artist: 'Trevor & Ranch Squad',`,
     `    src: '/audio/${slug}.mp3',`,
     `    cover: '/images/covers/${slug}.jpg',`,
+    `    category: 'track',`,
     `    createdBy: ${creatorVar},`,
     '  },',
   ].join('\n');

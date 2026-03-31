@@ -1,3 +1,10 @@
+export type TrackCategory = 'track' | 'diss';
+
+export const CATEGORY_LABELS: Record<TrackCategory, string> = {
+  track: 'Tracks',
+  diss: 'Diss Tracks',
+};
+
 export interface TrackCredit {
   name: string;
   url: string;
@@ -10,6 +17,7 @@ export interface Track {
   src: string;
   cover: string;
   duration?: string;
+  category: TrackCategory;
   createdBy: TrackCredit;
 }
 
@@ -31,6 +39,7 @@ export const tracks: Track[] = [
     artist: 'Trevor & Ranch Squad',
     src: '/audio/droppin-on-brother-nature.mp3',
     cover: '/images/covers/droppin-on-brother-nature.jpg',
+    category: 'diss',
     createdBy: reaper,
   },
   {
@@ -39,6 +48,7 @@ export const tracks: Track[] = [
     artist: 'Trevor & Ranch Squad',
     src: '/audio/droppin-on-your-head-tom-cat.mp3',
     cover: '/images/covers/droppin-on-your-head-tom-cat.jpg',
+    category: 'diss',
     createdBy: reaper,
   },
   {
@@ -47,6 +57,7 @@ export const tracks: Track[] = [
     artist: 'Trevor & Ranch Squad',
     src: '/audio/lil-mama-distrack-all-in-fun.mp3',
     cover: '/images/covers/lil-mama-distrack-all-in-fun.jpg',
+    category: 'diss',
     createdBy: reaper,
   },
   {
@@ -55,6 +66,7 @@ export const tracks: Track[] = [
     artist: 'Trevor & Ranch Squad',
     src: '/audio/wrong-bull-rider.mp3',
     cover: '/images/covers/wrong-bull-rider.jpg',
+    category: 'track',
     createdBy: reaper,
   },
   {
@@ -63,6 +75,7 @@ export const tracks: Track[] = [
     artist: 'Trevor & Ranch Squad',
     src: '/audio/raw-dog-rodeo.mp3',
     cover: '/images/covers/raw-dog-rodeo.jpg',
+    category: 'track',
     createdBy: reaper,
   },
   {
@@ -71,6 +84,7 @@ export const tracks: Track[] = [
     artist: 'Trevor & Ranch Squad',
     src: '/audio/trevor-s-different.mp3',
     cover: '/images/covers/trevor-s-different.jpg',
+    category: 'track',
     createdBy: aaron,
   },
   {
@@ -79,6 +93,7 @@ export const tracks: Track[] = [
     artist: 'Trevor & Ranch Squad',
     src: '/audio/prayers-for-danny.mp3',
     cover: '/images/covers/prayers-for-danny.jpg',
+    category: 'track',
     createdBy: reaper,
   },
   {
@@ -87,6 +102,7 @@ export const tracks: Track[] = [
     artist: 'Trevor & Ranch Squad',
     src: '/audio/setting-the-standard.mp3',
     cover: '/images/covers/setting-the-standard.jpg',
+    category: 'track',
     createdBy: aaron,
   },
   {
@@ -95,6 +111,7 @@ export const tracks: Track[] = [
     artist: 'Trevor & Ranch Squad',
     src: '/audio/we-dont-lose-when-it-matters.mp3',
     cover: '/images/covers/we-dont-lose-when-it-matters.jpg',
+    category: 'track',
     createdBy: reaper,
   },
   {
@@ -103,6 +120,7 @@ export const tracks: Track[] = [
     artist: 'Trevor & Ranch Squad',
     src: '/audio/silent-pressure.mp3',
     cover: '/images/covers/silent-pressure.jpg',
+    category: 'track',
     createdBy: aaron,
   },
   {
@@ -111,6 +129,7 @@ export const tracks: Track[] = [
     artist: 'Trevor & Ranch Squad',
     src: '/audio/trevor-we-see-you.mp3',
     cover: '/images/covers/trevor-we-see-you.jpg',
+    category: 'track',
     createdBy: aaron,
   },
   {
@@ -119,6 +138,7 @@ export const tracks: Track[] = [
     artist: 'Trevor & Ranch Squad',
     src: '/audio/ranch-squad-win.mp3',
     cover: '/images/covers/ranch-squad-win.jpg',
+    category: 'track',
     createdBy: aaron,
   },
   {
@@ -127,6 +147,7 @@ export const tracks: Track[] = [
     artist: 'Trevor & Ranch Squad',
     src: '/audio/ranch-squad-run-it-river-diss-track.mp3',
     cover: '/images/covers/ranch-squad-run-it-river-diss-track.jpg',
+    category: 'diss',
     createdBy: aaron,
   },
   {
@@ -135,6 +156,7 @@ export const tracks: Track[] = [
     artist: 'Trevor & Ranch Squad',
     src: '/audio/the-man-they-follow.mp3',
     cover: '/images/covers/the-man-they-follow.jpg',
+    category: 'track',
     createdBy: aaron,
   },
   {
@@ -143,6 +165,7 @@ export const tracks: Track[] = [
     artist: 'Trevor & Ranch Squad',
     src: '/audio/we-just-won-reset-river.mp3',
     cover: '/images/covers/we-just-won-reset-river.jpg',
+    category: 'track',
     createdBy: reaper,
   },
   {
@@ -151,6 +174,7 @@ export const tracks: Track[] = [
     artist: 'Trevor & Ranch Squad',
     src: '/audio/lfgo-ranch-squad.mp3',
     cover: '/images/covers/lfgo-ranch-squad.jpg',
+    category: 'track',
     createdBy: reaper,
   },
   {
@@ -159,6 +183,7 @@ export const tracks: Track[] = [
     artist: 'Trevor & Ranch Squad',
     src: '/audio/roll-call-comon-ranch-squad.mp3',
     cover: '/images/covers/roll-call-comon-ranch-squad.jpg',
+    category: 'track',
     createdBy: reaper,
   },
   {
@@ -167,6 +192,7 @@ export const tracks: Track[] = [
     artist: 'Trevor & Ranch Squad',
     src: '/audio/cross-that-line.mp3',
     cover: '/images/trevor-profile.png',
+    category: 'track',
     createdBy: aaron,
   },
   {
@@ -175,6 +201,7 @@ export const tracks: Track[] = [
     artist: 'Trevor & Ranch Squad',
     src: '/audio/gooder-than-shit-ranch-anthem.mp3',
     cover: '/images/covers/gooder-than-shit-ranch-anthem.jpg',
+    category: 'track',
     createdBy: reaper,
   },
   {
@@ -183,6 +210,7 @@ export const tracks: Track[] = [
     artist: 'Trevor & Ranch Squad',
     src: '/audio/from-the-ranch-to-the-screen.mp3',
     cover: '/images/covers/from-the-ranch-to-the-screen.jpg',
+    category: 'track',
     createdBy: reaper,
   },
   {
@@ -191,6 +219,7 @@ export const tracks: Track[] = [
     artist: 'Trevor & Ranch Squad',
     src: '/audio/one-day-at-a-time-ranch-squad-anthem.mp3',
     cover: '/images/covers/one-day-at-a-time-ranch-squad-anthem.jpg',
+    category: 'track',
     createdBy: reaper,
   },
   {
@@ -199,6 +228,7 @@ export const tracks: Track[] = [
     artist: 'Trevor & Ranch Squad',
     src: '/audio/we-still-breathin.mp3',
     cover: '/images/covers/we-still-breathin.jpg',
+    category: 'track',
     createdBy: reaper,
   },
   {
@@ -207,6 +237,7 @@ export const tracks: Track[] = [
     artist: 'Trevor & Ranch Squad',
     src: '/audio/no-power-ups.mp3',
     cover: '/images/covers/no-power-ups.jpg',
+    category: 'track',
     createdBy: reaper,
   },
   {
@@ -215,6 +246,7 @@ export const tracks: Track[] = [
     artist: 'Trevor & Ranch Squad',
     src: '/audio/ranch-squad-reset-rsr.mp3',
     cover: '/images/covers/ranch-squad-reset-rsr.jpg',
+    category: 'track',
     createdBy: aaron,
   },
   {
@@ -223,6 +255,7 @@ export const tracks: Track[] = [
     artist: 'Trevor & Ranch Squad',
     src: '/audio/ranch-squad-reset-tiktok-throwdown.mp3',
     cover: '/images/covers/ranch-squad-reset-tiktok-throwdown.jpg',
+    category: 'track',
     createdBy: aaron,
   },
 ];

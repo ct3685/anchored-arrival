@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
 import {
   Box,
@@ -8,6 +9,8 @@ import {
   IconButton,
   Stack,
   Slider,
+  Tabs,
+  Tab,
 } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
@@ -40,7 +43,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 
 import { useAudio } from '@/lib/AudioContext';
-import { tracks } from '@/lib/tracks';
+import { tracks, CATEGORY_LABELS, type TrackCategory } from '@/lib/tracks';
 import { colors, clipPaths } from '@/theme/theme';
 import { useScrollDepth } from '@/lib/useScrollDepth';
 import { trackMusicDownload } from '@/lib/analytics';
@@ -269,11 +272,15 @@ export default function TrackList() {
     resetPlayed,
   } = useAudio();
 
+  type FilterValue = 'all' | TrackCategory;
+  const [filter, setFilter] = useState<FilterValue>('all');
+
   const hasHiddenTracks = playedIndices.size > 0;
 
   const visibleQueue = queue.filter((idx) => {
     if (isPlaying && idx === currentTrackIndex) return false;
     if (repeatMode === 'off' && playedIndices.has(idx)) return false;
+    if (filter !== 'all' && tracks[idx].category !== filter) return false;
     return true;
   });
 
@@ -343,6 +350,36 @@ export default function TrackList() {
             </Typography>
           </Stack>
         </motion.div>
+
+        {/* Category Filter Tabs */}
+        <Stack alignItems="center" sx={{ mb: 4 }}>
+          <Tabs
+            value={filter}
+            onChange={(_, v) => setFilter(v as FilterValue)}
+            sx={{
+              minHeight: 36,
+              '& .MuiTabs-indicator': {
+                backgroundColor: colors.amber,
+                height: 2,
+              },
+              '& .MuiTab-root': {
+                color: colors.dust,
+                minHeight: 36,
+                px: 2.5,
+                py: 0.5,
+                fontSize: '0.8rem',
+                letterSpacing: 2,
+                fontWeight: 600,
+                textTransform: 'uppercase',
+                '&.Mui-selected': { color: colors.amber },
+              },
+            }}
+          >
+            <Tab label="All" value="all" />
+            <Tab label={CATEGORY_LABELS.track} value="track" />
+            <Tab label={CATEGORY_LABELS.diss} value="diss" />
+          </Tabs>
+        </Stack>
 
         {/* Now Playing - Arena Panel */}
         {isPlaying && (
