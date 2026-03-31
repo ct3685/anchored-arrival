@@ -273,12 +273,12 @@ export default function TrackList() {
   } = useAudio();
 
   type FilterValue = 'all' | TrackCategory;
-  const [filter, setFilter] = useState<FilterValue>('all');
+  const [filter, setFilter] = useState<FilterValue>('track');
 
   const hasHiddenTracks = playedIndices.size > 0;
 
   const visibleQueue = queue.filter((idx) => {
-    if (isPlaying && idx === currentTrackIndex) return false;
+    if (idx === currentTrackIndex) return false;
     if (repeatMode === 'off' && playedIndices.has(idx)) return false;
     if (filter !== 'all' && tracks[idx].category !== filter) return false;
     return true;
@@ -382,7 +382,7 @@ export default function TrackList() {
         </Stack>
 
         {/* Now Playing - Arena Panel */}
-        {isPlaying && (
+        {currentTrack && (
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -495,6 +495,13 @@ export default function TrackList() {
                     >
                       {currentTrack.createdBy.name}
                     </Box>
+                    {(playCounts[currentTrack.id] ?? 0) > 0 && (
+                      <>
+                        {' · '}
+                        {formatPlayCount(playCounts[currentTrack.id])}{' '}
+                        {playCounts[currentTrack.id] === 1 ? 'play' : 'plays'}
+                      </>
+                    )}
                   </Typography>
                   {/* Seekable progress bar */}
                   <Stack

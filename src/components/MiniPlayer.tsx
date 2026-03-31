@@ -227,7 +227,7 @@ export default function MiniPlayer() {
   const playCounts = usePlayCounts();
   const [isExpanded, setIsExpanded] = useState(false);
   const [showTrackList, setShowTrackList] = useState(false);
-  const [filter, setFilter] = useState<FilterValue>('all');
+  const [filter, setFilter] = useState<FilterValue>('track');
 
   const filteredQueue = filter === 'all'
     ? queue
