@@ -424,26 +424,38 @@ export default function TrackList() {
                 spacing={{ xs: 2, sm: 3 }}
                 alignItems={{ xs: 'center', sm: 'center' }}
               >
-                {/* Album Art */}
-                <Box
-                  sx={{
-                    position: 'relative',
-                    width: { xs: 120, sm: 80 },
-                    height: { xs: 120, sm: 80 },
-                    clipPath: clipPaths.buckleFrame,
-                    overflow: 'hidden',
-                    flexShrink: 0,
-                    boxShadow: `0 0 20px ${colors.amber}44`,
-                  }}
+                {/* Album Art — spinning vinyl */}
+                <motion.div
+                  animate={isPlaying ? { rotate: 360 } : { rotate: 0 }}
+                  transition={
+                    isPlaying
+                      ? { duration: 8, repeat: Infinity, ease: 'linear' }
+                      : { duration: 0.3 }
+                  }
                 >
-                  <Image
-                    src={currentTrack.cover}
-                    alt={currentTrack.title}
-                    fill
-                    sizes="(max-width: 600px) 120px, 80px"
-                    style={{ objectFit: 'cover' }}
-                  />
-                </Box>
+                  <Box
+                    sx={{
+                      position: 'relative',
+                      width: { xs: 120, sm: 80 },
+                      height: { xs: 120, sm: 80 },
+                      borderRadius: '50%',
+                      overflow: 'hidden',
+                      flexShrink: 0,
+                      boxShadow: isPlaying
+                        ? `0 0 20px ${colors.amber}66`
+                        : `0 0 12px ${colors.amber}33`,
+                      transition: 'box-shadow 0.3s ease',
+                    }}
+                  >
+                    <Image
+                      src={currentTrack.cover}
+                      alt={currentTrack.title}
+                      fill
+                      sizes="(max-width: 600px) 120px, 80px"
+                      style={{ objectFit: 'cover' }}
+                    />
+                  </Box>
+                </motion.div>
 
                 {/* Track Info */}
                 <Box
