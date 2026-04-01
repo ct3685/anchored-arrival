@@ -69,7 +69,9 @@ interface AudioProviderProps {
 
 export function AudioProvider({ children }: AudioProviderProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
+  const [currentTrackIndex, setCurrentTrackIndex] = useState(
+    () => tracks.findIndex((t) => t.category === 'track') || 0
+  );
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -88,6 +90,9 @@ export function AudioProvider({ children }: AudioProviderProps) {
   // mount-only effect while keeping deps honest (no eslint-disable needed).
   const prevTrackRef = useRef<() => void>(() => {});
   const nextTrackRef = useRef<() => void>(() => {});
+  const playRef = useRef<() => void>(() => {});
+  const pauseRef = useRef<() => void>(() => {});
+  const isPlayingRef = useRef(false);
 
   // Preserves the user's manual queue order across shuffle toggles.
   // Without this, toggling shuffle off resets to default track order.
@@ -95,6 +100,7 @@ export function AudioProvider({ children }: AudioProviderProps) {
 
   const currentTrack = tracks[currentTrackIndex];
   const hasMultipleTracks = tracks.length > 1;
+  isPlayingRef.current = isPlaying;
 
   // Create audio element on mount
   useEffect(() => {
@@ -147,20 +153,8 @@ export function AudioProvider({ children }: AudioProviderProps) {
       return;
 
     const handlers: [MediaSessionAction, MediaSessionActionHandler][] = [
-      [
-        'play',
-        () => {
-          audioRef.current?.play();
-          setIsPlaying(true);
-        },
-      ],
-      [
-        'pause',
-        () => {
-          audioRef.current?.pause();
-          setIsPlaying(false);
-        },
-      ],
+      ['play', () => playRef.current()],
+      ['pause', () => pauseRef.current()],
       ['previoustrack', () => prevTrackRef.current()],
       ['nexttrack', () => nextTrackRef.current()],
     ];
@@ -239,7 +233,10 @@ export function AudioProvider({ children }: AudioProviderProps) {
         incrementPlayCount(currentTrack.id);
         trackPlayCountIncrement(currentTrack.id, currentTrack.title);
         audio.currentTime = 0;
-        audio.play().catch(console.error);
+        audio.play().catch((err) => {
+          console.error(err);
+          setIsPlaying(false);
+        });
         return;
       }
 
@@ -250,7 +247,10 @@ export function AudioProvider({ children }: AudioProviderProps) {
           incrementPlayCount(currentTrack.id);
           trackPlayCountIncrement(currentTrack.id, currentTrack.title);
           audio.currentTime = 0;
-          audio.play().catch(console.error);
+          audio.play().catch((err) => {
+            console.error(err);
+            setIsPlaying(false);
+          });
           return;
         }
         const queuePos = queue.indexOf(currentTrackIndex);
@@ -293,19 +293,47 @@ export function AudioProvider({ children }: AudioProviderProps) {
       }
     };
     const handleError = () => {
+      const code = audio.error?.code;
       trackAudioError(currentTrack.id, 'playback_error');
+      setIsPlaying(false);
+
+      if (code === MediaError.MEDIA_ERR_NETWORK) {
+        setTimeout(() => {
+          audio.load();
+          audio
+            .play()
+            .then(() => setIsPlaying(true))
+            .catch(() => {});
+        }, 2000);
+      }
+    };
+
+    const handleWaiting = () => {
+      // Playback stalled waiting for data — future: expose buffering state
+    };
+    const handleStalled = () => {
+      // Browser stopped fetching media data — future: trigger reconnection UI
+    };
+    const handlePlaying = () => {
+      if (!isPlayingRef.current) setIsPlaying(true);
     };
 
     audio.addEventListener('timeupdate', handleTimeUpdate);
     audio.addEventListener('loadedmetadata', handleLoadedMetadata);
     audio.addEventListener('ended', handleEnded);
     audio.addEventListener('error', handleError);
+    audio.addEventListener('waiting', handleWaiting);
+    audio.addEventListener('stalled', handleStalled);
+    audio.addEventListener('playing', handlePlaying);
 
     return () => {
       audio.removeEventListener('timeupdate', handleTimeUpdate);
       audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
       audio.removeEventListener('ended', handleEnded);
       audio.removeEventListener('error', handleError);
+      audio.removeEventListener('waiting', handleWaiting);
+      audio.removeEventListener('stalled', handleStalled);
+      audio.removeEventListener('playing', handlePlaying);
     };
   }, [
     currentTrackIndex,
@@ -328,8 +356,11 @@ export function AudioProvider({ children }: AudioProviderProps) {
     milestonesReachedRef.current = new Set();
     totalListenTimeRef.current = 0;
 
-    if (isPlaying) {
-      audio.play().catch(console.error);
+    if (isPlayingRef.current) {
+      audio.play().catch((err) => {
+        console.error(err);
+        setIsPlaying(false);
+      });
     }
   }, [currentTrackIndex, currentTrack.src]);
 
@@ -347,18 +378,42 @@ export function AudioProvider({ children }: AudioProviderProps) {
     };
   }, [isPlaying]);
 
+  // Sync isPlaying with actual audio element state when page visibility changes.
+  // Mobile browsers may pause media when backgrounded/locked.
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+
+    const handleVisibilityChange = () => {
+      const audio = audioRef.current;
+      if (!audio || document.visibilityState !== 'visible') return;
+
+      const actuallyPlaying = !audio.paused && !audio.ended;
+      if (isPlayingRef.current !== actuallyPlaying) {
+        setIsPlaying(actuallyPlaying);
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () =>
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+  }, []);
+
   const play = useCallback(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    audio.play().catch(console.error);
-    trackMusicPlay(
-      currentTrack.id,
-      currentTrack.title,
-      currentTrack.artist,
-      currentTime
-    );
-    setIsPlaying(true);
+    audio
+      .play()
+      .then(() => {
+        trackMusicPlay(
+          currentTrack.id,
+          currentTrack.title,
+          currentTrack.artist,
+          currentTime
+        );
+        setIsPlaying(true);
+      })
+      .catch(console.error);
   }, [currentTrack, currentTime]);
 
   const pause = useCallback(() => {
@@ -475,6 +530,8 @@ export function AudioProvider({ children }: AudioProviderProps) {
   }, [currentTrack, currentTrackIndex, currentTime, queue]);
 
   // Keep refs in sync so MediaSession handlers always call latest versions
+  playRef.current = play;
+  pauseRef.current = pause;
   nextTrackRef.current = nextTrack;
   prevTrackRef.current = prevTrack;
 
