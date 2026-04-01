@@ -7,6 +7,7 @@ import { colors, clipPaths, layout } from '@/theme/theme';
 import { trackHeroCTA, trackOutboundClick } from '@/lib/analytics';
 import { useScrollDepth } from '@/lib/useScrollDepth';
 import { useLiveStatus } from '@/lib/useLiveStatus';
+import TikTokIcon from '@/components/TikTokIcon';
 
 export default function Hero() {
   useScrollDepth();
@@ -187,17 +188,15 @@ export default function Hero() {
                   href={tiktokHref}
                   target="_blank"
                   rel="noopener noreferrer"
+                  startIcon={
+                    <TikTokIcon sx={{ fontSize: '1.35rem !important' }} />
+                  }
                   onClick={() => {
-                    trackHeroCTA(
-                      isLive ? 'Watch Live Now' : 'Join the Ranch',
-                      tiktokHref,
-                      true
-                    );
-                    trackOutboundClick(
-                      tiktokHref,
-                      isLive ? 'Watch Live Now' : 'Join the Ranch',
-                      'hero'
-                    );
+                    const tiktokCtaLabel = isLive
+                      ? 'Watch on TikTok'
+                      : 'Join on TikTok';
+                    trackHeroCTA(tiktokCtaLabel, tiktokHref, true);
+                    trackOutboundClick(tiktokHref, tiktokCtaLabel, 'hero');
                   }}
                   sx={{
                     py: 1.8,
@@ -218,7 +217,7 @@ export default function Hero() {
                     }),
                   }}
                 >
-                  {isLive ? '🔴 Watch Now' : 'Join the Ranch'}
+                  {isLive ? 'Watch on TikTok' : 'Join on TikTok'}
                 </Button>
                 <Button
                   variant="contained"

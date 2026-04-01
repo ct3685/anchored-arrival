@@ -29,6 +29,7 @@ import {
 } from '@/lib/analytics';
 import { colors } from '@/theme/theme';
 import { useLiveStatus } from '@/lib/useLiveStatus';
+import TikTokIcon from '@/components/TikTokIcon';
 
 interface NavItem {
   label: string;
@@ -46,7 +47,7 @@ export default function Navbar() {
   const navItems: NavItem[] = [
     { label: 'Ranch', href: '/' },
     {
-      label: isLive ? 'Live Now' : 'Join the Ranch',
+      label: isLive ? 'Live on TikTok' : 'Join on TikTok',
       href: tiktokHref,
       external: true,
       isLiveLink: true,
@@ -189,6 +190,15 @@ export default function Navbar() {
                         },
                       }}
                     >
+                      {item.isLiveLink && (
+                        <TikTokIcon
+                          sx={{
+                            fontSize: '1rem',
+                            opacity: 0.95,
+                            color: 'inherit',
+                          }}
+                        />
+                      )}
                       {item.isLiveLink && isLive && (
                         <Box
                           sx={{
@@ -292,6 +302,17 @@ export default function Navbar() {
                             gap: 1,
                           }}
                         >
+                          {item.isLiveLink && (
+                            <TikTokIcon
+                              sx={{
+                                fontSize: '1.35rem',
+                                color:
+                                  item.isLiveLink && isLive
+                                    ? colors.red
+                                    : colors.bone,
+                              }}
+                            />
+                          )}
                           {item.isLiveLink && isLive && (
                             <Box
                               sx={{
