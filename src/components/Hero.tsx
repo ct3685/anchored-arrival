@@ -204,20 +204,64 @@ export default function Hero() {
                     fontSize: '1.05rem',
                     clipPath: clipPaths.ticketStub,
                     border: 'none',
+                    position: 'relative',
+                    overflow: 'hidden',
                     ...(isLive && {
-                      animation: 'livePulse 2s ease-in-out infinite',
-                      '@keyframes livePulse': {
-                        '0%, 100%': {
-                          boxShadow: `0 0 20px ${colors.red}44`,
-                        },
-                        '50%': {
-                          boxShadow: `0 0 30px ${colors.red}88`,
-                        },
+                      boxShadow: `0 0 24px ${colors.red}55`,
+                      '&::after': {
+                        content: '""',
+                        position: 'absolute',
+                        top: 0,
+                        left: '-100%',
+                        width: '100%',
+                        height: '100%',
+                        background: `linear-gradient(90deg, transparent, ${colors.bone}15, transparent)`,
+                        animation: 'liveSweep 3s ease-in-out infinite alternate',
+                      },
+                      '@keyframes liveSweep': {
+                        '0%': { left: '-100%' },
+                        '100%': { left: '100%' },
                       },
                     }),
                   }}
                 >
-                  {isLive ? 'Watch on TikTok' : 'Join on TikTok'}
+                  {isLive ? (
+                    <>
+                      <Box
+                        component="span"
+                        sx={{
+                          position: 'relative',
+                          display: 'inline-block',
+                          width: 10,
+                          height: 10,
+                          mr: 1,
+                          '& .dot': {
+                            position: 'absolute',
+                            inset: 0,
+                            borderRadius: '50%',
+                            backgroundColor: '#ff3b30',
+                          },
+                          '& .ring': {
+                            position: 'absolute',
+                            inset: -3,
+                            borderRadius: '50%',
+                            border: '2px solid #ff3b30',
+                            animation: 'liveRing 1.6s ease-out infinite',
+                          },
+                          '@keyframes liveRing': {
+                            '0%': { transform: 'scale(0.8)', opacity: 0.8 },
+                            '100%': { transform: 'scale(2)', opacity: 0 },
+                          },
+                        }}
+                      >
+                        <span className="dot" />
+                        <span className="ring" />
+                      </Box>
+                      Watch Live
+                    </>
+                  ) : (
+                    'Join on TikTok'
+                  )}
                 </Button>
                 <Button
                   variant="contained"

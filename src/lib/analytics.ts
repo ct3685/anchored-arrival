@@ -59,9 +59,49 @@ declare global {
 
 const IS_DEV = process.env.NODE_ENV === 'development';
 
-const gtag = (...args: Parameters<typeof window.gtag>) => {
-  if (typeof window !== 'undefined' && window.gtag) {
+type GtagArgs = Parameters<NonNullable<Window['gtag']>>;
+
+/** Events fired before the layout gtag stub runs (Script ordering vs first useEffect). */
+const gtagPending: GtagArgs[] = [];
+let gtagFlushTimer: ReturnType<typeof setTimeout> | null = null;
+let gtagFlushAttempts = 0;
+const GTAG_FLUSH_INTERVAL_MS = 50;
+const GTAG_FLUSH_MAX_ATTEMPTS = 100;
+
+function flushGtagQueue() {
+  if (typeof window === 'undefined') {
+    gtagFlushTimer = null;
+    return;
+  }
+  const cmd = window.gtag;
+  if (cmd) {
+    gtagFlushTimer = null;
+    gtagFlushAttempts = 0;
+    while (gtagPending.length) {
+      const args = gtagPending.shift()!;
+      cmd(...args);
+    }
+    return;
+  }
+  gtagFlushAttempts += 1;
+  if (gtagFlushAttempts >= GTAG_FLUSH_MAX_ATTEMPTS) {
+    gtagPending.length = 0;
+    gtagFlushAttempts = 0;
+    gtagFlushTimer = null;
+    return;
+  }
+  gtagFlushTimer = setTimeout(flushGtagQueue, GTAG_FLUSH_INTERVAL_MS);
+}
+
+const gtag = (...args: GtagArgs) => {
+  if (typeof window === 'undefined') return;
+  if (window.gtag) {
     window.gtag(...args);
+  } else {
+    gtagPending.push(args);
+    if (gtagFlushTimer === null) {
+      gtagFlushTimer = setTimeout(flushGtagQueue, 0);
+    }
   }
   if (IS_DEV && args[0] === 'event') {
     console.log(

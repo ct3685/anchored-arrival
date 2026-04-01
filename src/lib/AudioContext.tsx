@@ -7,9 +7,10 @@ import {
   useRef,
   useEffect,
   useCallback,
+  useMemo,
   ReactNode,
 } from 'react';
-import { tracks, Track } from './tracks';
+import { tracks, Track, type TrackCategory } from './tracks';
 import {
   trackMusicPlay,
   trackMusicPause,
@@ -20,8 +21,11 @@ import {
   trackAudioError,
   trackPlayCountIncrement,
 } from './analytics';
-import { incrementPlayCount } from './usePlayCounts';
+import { incrementPlayCount, usePlayCounts } from './usePlayCounts';
+
 type RepeatMode = 'off' | 'all' | 'one';
+export type SortMode = 'default' | 'name-asc' | 'name-desc' | 'plays-desc' | 'plays-asc';
+export type FilterValue = 'all' | TrackCategory;
 
 interface AudioContextType {
   // State
@@ -31,9 +35,12 @@ interface AudioContextType {
   currentTime: number;
   duration: number;
   queue: number[];
+  visibleQueue: number[];
   shuffle: boolean;
   repeatMode: RepeatMode;
-  playedIndices: Set<number>;
+  filter: FilterValue;
+  sortMode: SortMode;
+  playCounts: Record<string, number>;
 
   // Actions
   play: () => void;
@@ -46,7 +53,8 @@ interface AudioContextType {
   moveTrackInQueue: (fromPos: number, toPos: number) => void;
   toggleShuffle: () => void;
   cycleRepeat: () => void;
-  resetPlayed: () => void;
+  setFilter: (filter: FilterValue) => void;
+  setSortMode: (mode: SortMode) => void;
 
   // Utilities
   formatTime: (time: number) => string;
@@ -78,8 +86,10 @@ export function AudioProvider({ children }: AudioProviderProps) {
   const [queue, setQueue] = useState<number[]>(() => tracks.map((_, i) => i));
   const [shuffle, setShuffle] = useState(false);
   const [repeatMode, setRepeatMode] = useState<RepeatMode>('off');
-  const [playedIndices, setPlayedIndices] = useState<Set<number>>(new Set());
-  const playedIndicesRef = useRef<Set<number>>(new Set());
+  const [filter, setFilter] = useState<FilterValue>('track');
+  const [sortMode, setSortMode] = useState<SortMode>('default');
+
+  const playCounts = usePlayCounts();
 
   // Analytics tracking refs
   const playStartTimeRef = useRef<number>(0);
@@ -95,12 +105,45 @@ export function AudioProvider({ children }: AudioProviderProps) {
   const isPlayingRef = useRef(false);
 
   // Preserves the user's manual queue order across shuffle toggles.
-  // Without this, toggling shuffle off resets to default track order.
   const userQueueRef = useRef<number[]>(tracks.map((_, i) => i));
 
   const currentTrack = tracks[currentTrackIndex];
   const hasMultipleTracks = tracks.length > 1;
   isPlayingRef.current = isPlaying;
+
+  // Derived visible queue: filter by category, then sort.
+  // Both TrackList and MiniPlayer consume this single source of truth.
+  const visibleQueue = useMemo(() => {
+    let filtered = queue.filter(
+      (idx) => filter === 'all' || tracks[idx].category === filter
+    );
+
+    if (sortMode === 'name-asc') {
+      filtered = [...filtered].sort((a, b) =>
+        tracks[a].title.localeCompare(tracks[b].title)
+      );
+    } else if (sortMode === 'name-desc') {
+      filtered = [...filtered].sort((a, b) =>
+        tracks[b].title.localeCompare(tracks[a].title)
+      );
+    } else if (sortMode === 'plays-desc') {
+      filtered = [...filtered].sort(
+        (a, b) =>
+          (playCounts[tracks[b].id] ?? 0) - (playCounts[tracks[a].id] ?? 0)
+      );
+    } else if (sortMode === 'plays-asc') {
+      filtered = [...filtered].sort(
+        (a, b) =>
+          (playCounts[tracks[a].id] ?? 0) - (playCounts[tracks[b].id] ?? 0)
+      );
+    }
+
+    return filtered;
+  }, [queue, filter, sortMode, playCounts]);
+
+  // Ref stays in sync so event-listener closures always see latest visibleQueue
+  const visibleQueueRef = useRef(visibleQueue);
+  visibleQueueRef.current = visibleQueue;
 
   // Create audio element on mount
   useEffect(() => {
@@ -111,7 +154,6 @@ export function AudioProvider({ children }: AudioProviderProps) {
   }, []);
 
   // ─── Media Session API ───
-  // Updates lock screen / CarPlay / Bluetooth with track info & controls
   useEffect(() => {
     if (typeof navigator === 'undefined' || !('mediaSession' in navigator))
       return;
@@ -135,7 +177,6 @@ export function AudioProvider({ children }: AudioProviderProps) {
     });
   }, [currentTrack]);
 
-  // Update Media Session playback state
   // NOTE: setPositionState is intentionally omitted — on iOS Safari, calling it
   // causes the lock screen to show seek-forward/back buttons instead of
   // prev/next track buttons.
@@ -146,8 +187,6 @@ export function AudioProvider({ children }: AudioProviderProps) {
   }, [isPlaying]);
 
   // Media Session action handlers (CarPlay/lock screen controls)
-  // Uses refs for prev/next to always invoke the latest callback without
-  // needing to re-register handlers on every render.
   useEffect(() => {
     if (typeof navigator === 'undefined' || !('mediaSession' in navigator))
       return;
@@ -201,17 +240,32 @@ export function AudioProvider({ children }: AudioProviderProps) {
     }
   }, [currentTime, duration, currentTrack.id, currentTrack.title]);
 
-  // Count a play whenever playback starts: user presses play, selects a new
-  // track, or auto-advances. Same-track replays (repeat-one / single-track
-  // repeat-all) are handled explicitly in handleEnded since neither isPlaying
-  // nor currentTrack.id change in those paths. The 5 s per-track debounce in
-  // incrementPlayCount prevents rapid pause/resume from double-counting.
+  // Count a play whenever playback starts
   useEffect(() => {
     if (isPlaying) {
       incrementPlayCount(currentTrack.id);
       trackPlayCountIncrement(currentTrack.id, currentTrack.title);
     }
   }, [isPlaying, currentTrack.id, currentTrack.title]);
+
+  // Helper: find next track index in visibleQueue relative to current track.
+  // Returns -1 when there is no valid next (end of list with repeat=off).
+  const findNextInVisible = useCallback(
+    (curIdx: number, mode: RepeatMode): number => {
+      const vq = visibleQueueRef.current;
+      if (vq.length === 0) return -1;
+
+      const pos = vq.indexOf(curIdx);
+      if (pos === -1) return vq[0];
+
+      if (pos < vq.length - 1) return vq[pos + 1];
+
+      // At end of visible list
+      if (mode === 'all') return vq[0];
+      return -1; // repeat=off — stop
+    },
+    []
+  );
 
   // Set up audio element event listeners
   useEffect(() => {
@@ -253,50 +307,28 @@ export function AudioProvider({ children }: AudioProviderProps) {
           });
           return;
         }
-        const queuePos = queue.indexOf(currentTrackIndex);
-        const nextTrackIdx =
-          queuePos < queue.length - 1 ? queue[queuePos + 1] : queue[0];
-        setQueue((prev) => {
-          const next = [...prev];
-          const pos = next.indexOf(currentTrackIndex);
-          const [moved] = next.splice(pos, 1);
-          next.push(moved);
-          if (!shuffle) userQueueRef.current = next;
-          return next;
-        });
-        setCurrentTrackIndex(nextTrackIdx);
+        const nextIdx = findNextInVisible(currentTrackIndex, 'all');
+        if (nextIdx !== -1) {
+          setCurrentTrackIndex(nextIdx);
+        } else {
+          setIsPlaying(false);
+        }
         return;
       }
 
-      // repeatMode === 'off' — hide played track, advance to next unplayed
-      const newPlayed = new Set(playedIndicesRef.current);
-      newPlayed.add(currentTrackIndex);
-
-      const queuePos = queue.indexOf(currentTrackIndex);
-      let nextIdx = -1;
-      for (let i = 1; i < queue.length; i++) {
-        const candidate = queue[(queuePos + i) % queue.length];
-        if (!newPlayed.has(candidate)) {
-          nextIdx = candidate;
-          break;
-        }
-      }
-
+      // repeatMode === 'off' — advance to next in visible queue, stop at end
+      const nextIdx = findNextInVisible(currentTrackIndex, 'off');
       if (nextIdx !== -1) {
-        playedIndicesRef.current = newPlayed;
-        setPlayedIndices(newPlayed);
         setCurrentTrackIndex(nextIdx);
       } else {
-        playedIndicesRef.current = new Set();
-        setPlayedIndices(new Set());
         setIsPlaying(false);
       }
     };
     const handleError = () => {
-      const code = audio.error?.code;
       trackAudioError(currentTrack.id, 'playback_error');
       setIsPlaying(false);
 
+      const code = audio.error?.code;
       if (code === MediaError.MEDIA_ERR_NETWORK) {
         setTimeout(() => {
           audio.load();
@@ -308,12 +340,8 @@ export function AudioProvider({ children }: AudioProviderProps) {
       }
     };
 
-    const handleWaiting = () => {
-      // Playback stalled waiting for data — future: expose buffering state
-    };
-    const handleStalled = () => {
-      // Browser stopped fetching media data — future: trigger reconnection UI
-    };
+    const handleWaiting = () => {};
+    const handleStalled = () => {};
     const handlePlaying = () => {
       if (!isPlayingRef.current) setIsPlaying(true);
     };
@@ -340,9 +368,8 @@ export function AudioProvider({ children }: AudioProviderProps) {
     hasMultipleTracks,
     currentTrack.id,
     currentTrack.title,
-    queue,
     repeatMode,
-    shuffle,
+    findNextInVisible,
   ]);
 
   // Update audio source when track changes
@@ -379,7 +406,6 @@ export function AudioProvider({ children }: AudioProviderProps) {
   }, [isPlaying]);
 
   // Sync isPlaying with actual audio element state when page visibility changes.
-  // Mobile browsers may pause media when backgrounded/locked.
   useEffect(() => {
     if (typeof document === 'undefined') return;
 
@@ -454,64 +480,31 @@ export function AudioProvider({ children }: AudioProviderProps) {
 
   const nextTrack = useCallback(() => {
     const fromTrack = currentTrack;
-    const queuePos = queue.indexOf(currentTrackIndex);
+    const vq = visibleQueueRef.current;
 
-    if (repeatMode === 'all' && hasMultipleTracks) {
-      const nextTrackIdx =
-        queuePos < queue.length - 1 ? queue[queuePos + 1] : queue[0];
-      const toTrack = tracks[nextTrackIdx];
+    if (repeatMode === 'one' || !hasMultipleTracks) {
+      const pos = vq.indexOf(currentTrackIndex);
+      const nextPos = pos < vq.length - 1 ? pos + 1 : 0;
+      const toIndex = vq.length > 0 ? vq[nextPos] : currentTrackIndex;
+      const toTrack = tracks[toIndex];
       trackMusicTrackChange(fromTrack.id, toTrack.id, toTrack.title, 'next');
-      setQueue((prev) => {
-        const next = [...prev];
-        const pos = next.indexOf(currentTrackIndex);
-        const [moved] = next.splice(pos, 1);
-        next.push(moved);
-        if (!shuffle) userQueueRef.current = next;
-        return next;
-      });
-      setCurrentTrackIndex(nextTrackIdx);
+      setCurrentTrackIndex(toIndex);
       return;
     }
 
-    if (repeatMode === 'off' && hasMultipleTracks) {
-      const newPlayed = new Set(playedIndicesRef.current);
-      newPlayed.add(currentTrackIndex);
-
-      let nextIdx = -1;
-      for (let i = 1; i < queue.length; i++) {
-        const candidate = queue[(queuePos + i) % queue.length];
-        if (!newPlayed.has(candidate)) {
-          nextIdx = candidate;
-          break;
-        }
-      }
-
-      if (nextIdx !== -1) {
-        playedIndicesRef.current = newPlayed;
-        setPlayedIndices(newPlayed);
-        const toTrack = tracks[nextIdx];
-        trackMusicTrackChange(fromTrack.id, toTrack.id, toTrack.title, 'next');
-        setCurrentTrackIndex(nextIdx);
-      } else {
-        playedIndicesRef.current = new Set();
-        setPlayedIndices(new Set());
-        setIsPlaying(false);
-      }
-      return;
+    const nextIdx = findNextInVisible(currentTrackIndex, repeatMode);
+    if (nextIdx !== -1) {
+      const toTrack = tracks[nextIdx];
+      trackMusicTrackChange(fromTrack.id, toTrack.id, toTrack.title, 'next');
+      setCurrentTrackIndex(nextIdx);
+    } else {
+      setIsPlaying(false);
     }
-
-    // repeat === 'one' or single track — simple wrap
-    const nextPos = queuePos < queue.length - 1 ? queuePos + 1 : 0;
-    const toIndex = queue[nextPos];
-    const toTrack = tracks[toIndex];
-    trackMusicTrackChange(fromTrack.id, toTrack.id, toTrack.title, 'next');
-    setCurrentTrackIndex(toIndex);
-  }, [currentTrack, currentTrackIndex, queue, repeatMode, hasMultipleTracks, shuffle]);
+  }, [currentTrack, currentTrackIndex, repeatMode, hasMultipleTracks, findNextInVisible]);
 
   const prevTrack = useCallback(() => {
     const audio = audioRef.current;
 
-    // If more than 3 seconds in, restart current track
     if (currentTime > 3) {
       if (audio) {
         trackMusicSeek(currentTrack.id, currentTime, 0);
@@ -520,14 +513,15 @@ export function AudioProvider({ children }: AudioProviderProps) {
       }
     } else {
       const fromTrack = currentTrack;
-      const queuePos = queue.indexOf(currentTrackIndex);
-      const prevPos = queuePos > 0 ? queuePos - 1 : queue.length - 1;
-      const toIndex = queue[prevPos];
+      const vq = visibleQueueRef.current;
+      const pos = vq.indexOf(currentTrackIndex);
+      const prevPos = pos > 0 ? pos - 1 : vq.length - 1;
+      const toIndex = vq.length > 0 ? vq[prevPos] : currentTrackIndex;
       const toTrack = tracks[toIndex];
       trackMusicTrackChange(fromTrack.id, toTrack.id, toTrack.title, 'prev');
       setCurrentTrackIndex(toIndex);
     }
-  }, [currentTrack, currentTrackIndex, currentTime, queue]);
+  }, [currentTrack, currentTrackIndex, currentTime]);
 
   // Keep refs in sync so MediaSession handlers always call latest versions
   playRef.current = play;
@@ -546,30 +540,13 @@ export function AudioProvider({ children }: AudioProviderProps) {
           toTrack.title,
           'select'
         );
-
-        if (repeatMode === 'off') {
-          const newPlayed = new Set(playedIndicesRef.current);
-          newPlayed.add(currentTrackIndex);
-          playedIndicesRef.current = newPlayed;
-          setPlayedIndices(newPlayed);
-        } else if (repeatMode === 'all' && hasMultipleTracks) {
-          setQueue((prev) => {
-            const next = [...prev];
-            const pos = next.indexOf(currentTrackIndex);
-            const [moved] = next.splice(pos, 1);
-            next.push(moved);
-            if (!shuffle) userQueueRef.current = next;
-            return next;
-          });
-        }
-
         setCurrentTrackIndex(index);
         setIsPlaying(true);
       } else if (index === currentTrackIndex) {
         togglePlay();
       }
     },
-    [currentTrack, currentTrackIndex, togglePlay, repeatMode, hasMultipleTracks, shuffle]
+    [currentTrack, currentTrackIndex, togglePlay]
   );
 
   const moveTrackInQueue = useCallback(
@@ -620,13 +597,6 @@ export function AudioProvider({ children }: AudioProviderProps) {
       if (prev === 'all') return 'one';
       return 'off';
     });
-    playedIndicesRef.current = new Set();
-    setPlayedIndices(new Set());
-  }, []);
-
-  const resetPlayed = useCallback(() => {
-    playedIndicesRef.current = new Set();
-    setPlayedIndices(new Set());
   }, []);
 
   const formatTime = useCallback((time: number) => {
@@ -642,9 +612,12 @@ export function AudioProvider({ children }: AudioProviderProps) {
     currentTime,
     duration,
     queue,
+    visibleQueue,
     shuffle,
     repeatMode,
-    playedIndices,
+    filter,
+    sortMode,
+    playCounts,
     play,
     pause,
     togglePlay,
@@ -655,7 +628,8 @@ export function AudioProvider({ children }: AudioProviderProps) {
     moveTrackInQueue,
     toggleShuffle,
     cycleRepeat,
-    resetPlayed,
+    setFilter,
+    setSortMode,
     formatTime,
     hasMultipleTracks,
   };

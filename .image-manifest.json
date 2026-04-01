@@ -134,5 +134,17 @@
   "public/images/covers/wrong-bull-rider.jpg": {
     "hash": "bfe1efca6fbdb304222c5f589348686b2e06b1cdf02d94e65b908638c9d4d7d2",
     "config": "f924698ed6e0"
+  },
+  "public/images/covers/droppin-on-brother-nature.jpg": {
+    "hash": "3b0a2f79b757a697c8728407338592d3ab7e1fb7ab1361cb3bc3725551d8f874",
+    "config": "f924698ed6e0"
+  },
+  "public/images/covers/droppin-on-your-head-tom-cat.jpg": {
+    "hash": "ca1c2a415f4626c533afbc4bbb4506818113dc3171071db4882e5a01d18415cb",
+    "config": "f924698ed6e0"
+  },
+  "public/images/covers/lil-mama-distrack-all-in-fun.jpg": {
+    "hash": "3b7cef552932d11388d03454eb94e4c6a9de8d488747f4359228045638978884",
+    "config": "f924698ed6e0"
   }
 }

@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
 import {
   Box,
@@ -11,17 +10,22 @@ import {
   Slider,
   Tabs,
   Tab,
+  ToggleButtonGroup,
+  ToggleButton,
 } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-import DownloadIcon from '@mui/icons-material/Download';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import RepeatIcon from '@mui/icons-material/Repeat';
 import RepeatOneIcon from '@mui/icons-material/RepeatOne';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
-import RefreshIcon from '@mui/icons-material/Refresh';
+import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import SwapVertIcon from '@mui/icons-material/SwapVert';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   DndContext,
@@ -42,21 +46,22 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 
-import { useAudio } from '@/lib/AudioContext';
-import { tracks, CATEGORY_LABELS, type TrackCategory } from '@/lib/tracks';
+import { useAudio, type SortMode, type FilterValue } from '@/lib/AudioContext';
+import { tracks, CATEGORY_LABELS } from '@/lib/tracks';
 import { colors, clipPaths } from '@/theme/theme';
 import { useScrollDepth } from '@/lib/useScrollDepth';
-import { trackMusicDownload } from '@/lib/analytics';
-import { usePlayCounts, formatPlayCount } from '@/lib/usePlayCounts';
+import { formatPlayCount } from '@/lib/usePlayCounts';
 
 function SortableTrackCard({
   trackIndex,
   queuePos,
   playCount,
+  isDndEnabled,
 }: {
   trackIndex: number;
   queuePos: number;
   playCount: number;
+  isDndEnabled: boolean;
 }) {
   const { currentTrackIndex, isPlaying, selectTrack } = useAudio();
   const track = tracks[trackIndex];
@@ -70,17 +75,19 @@ function SortableTrackCard({
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: track.id });
+  } = useSortable({ id: track.id, disabled: !isDndEnabled });
 
   return (
     <div
       ref={setNodeRef}
+      {...(isDndEnabled ? { ...attributes, ...listeners } : {})}
       style={{
         transform: CSS.Transform.toString(transform),
         transition,
         opacity: isDragging ? 0.5 : 1,
         zIndex: isDragging ? 1 : 0,
         position: 'relative',
+        touchAction: isDndEnabled ? 'none' : undefined,
       }}
     >
       <motion.div
@@ -96,38 +103,30 @@ function SortableTrackCard({
             gap: 2.5,
             p: 2,
             clipPath: clipPaths.clippedCornerSm,
-            cursor: 'pointer',
+            cursor: isDndEnabled ? 'grab' : 'pointer',
             backgroundColor: isCurrentTrack
               ? colors.darkLeather
               : colors.coalBrown,
-            border: `1px solid ${isCurrentTrack ? colors.amber + '44' : colors.brass + '22'}`,
+            border: `1px solid ${isCurrentTrack ? colors.amber + '66' : colors.brass + '22'}`,
+            boxShadow: isCurrentTrack
+              ? `inset 0 0 30px ${colors.amber}15, 0 0 12px ${colors.amber}10`
+              : 'none',
             transition: 'all 0.2s ease',
             '&:hover': {
               backgroundColor: colors.darkLeather,
               boxShadow: `inset 0 0 20px ${colors.amber}08`,
             },
+            '&:active': isDndEnabled ? { cursor: 'grabbing' } : {},
           }}
         >
-          {/* Drag Handle */}
-          <Box
-            {...attributes}
-            {...listeners}
-            onClick={(e: React.MouseEvent) => e.stopPropagation()}
-            sx={{
-              cursor: 'grab',
-              touchAction: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              color: colors.dust,
-              mr: -1,
-              '&:hover': { color: colors.amber },
-              '&:active': { cursor: 'grabbing' },
-            }}
-          >
-            <DragIndicatorIcon sx={{ fontSize: 20 }} />
-          </Box>
+          {/* Drag indicator — visual hint only, whole card is draggable */}
+          {isDndEnabled && (
+            <DragIndicatorIcon
+              sx={{ fontSize: 20, color: colors.dust, flexShrink: 0, mr: -1 }}
+            />
+          )}
 
-          {/* Album Art - Metal Plate Frame */}
+          {/* Album Art */}
           <Box
             sx={{
               position: 'relative',
@@ -144,21 +143,39 @@ function SortableTrackCard({
               fill
               sizes="50px"
               style={{ objectFit: 'cover' }}
+              priority={queuePos < 3}
             />
           </Box>
 
           {/* Track Info */}
           <Box sx={{ flex: 1, minWidth: 0 }}>
-            <Typography
-              variant="h6"
-              sx={{
-                color: isCurrentTrack ? colors.amber : colors.bone,
-                fontWeight: isCurrentTrack ? 700 : 500,
-                fontSize: '1rem',
-              }}
-            >
-              {track.title}
-            </Typography>
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <Typography
+                variant="h6"
+                sx={{
+                  color: isCurrentTrack ? colors.amber : colors.bone,
+                  fontWeight: isCurrentTrack ? 700 : 500,
+                  fontSize: '1rem',
+                }}
+              >
+                {track.title}
+              </Typography>
+              {isTrackPlaying && (
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: colors.red,
+                    fontSize: '0.6rem',
+                    fontWeight: 700,
+                    letterSpacing: 2,
+                    textTransform: 'uppercase',
+                    flexShrink: 0,
+                  }}
+                >
+                  PLAYING
+                </Typography>
+              )}
+            </Stack>
             <Typography variant="caption" sx={{ color: colors.dust }}>
               {track.artist}
             </Typography>
@@ -201,28 +218,6 @@ function SortableTrackCard({
             )}
           </Box>
 
-          {/* Download Button — disabled for now
-          <IconButton
-            component="a"
-            href={track.src}
-            download={`${track.title} - ${track.artist}.mp3`}
-            aria-label={`Download ${track.title}`}
-            onClick={(e: React.MouseEvent) => {
-              e.stopPropagation();
-              trackMusicDownload(track.id, track.title, track.artist);
-            }}
-            sx={{
-              color: colors.dust,
-              '&:hover': {
-                color: colors.brass,
-                backgroundColor: `${colors.brass}11`,
-              },
-            }}
-          >
-            <DownloadIcon fontSize="small" />
-          </IconButton>
-          */}
-
           {/* Play Button */}
           <IconButton
             aria-label={isTrackPlaying ? 'Pause' : 'Play'}
@@ -248,7 +243,6 @@ function SortableTrackCard({
 
 export default function TrackList() {
   useScrollDepth();
-  const playCounts = usePlayCounts();
   const {
     currentTrack,
     currentTrackIndex,
@@ -267,26 +261,32 @@ export default function TrackList() {
     cycleRepeat,
     seek,
     queue,
+    visibleQueue,
     moveTrackInQueue,
-    playedIndices,
-    resetPlayed,
+    filter,
+    setFilter,
+    sortMode,
+    setSortMode,
+    playCounts,
   } = useAudio();
 
-  type FilterValue = 'all' | TrackCategory;
-  const [filter, setFilter] = useState<FilterValue>('track');
+  const isDndEnabled = sortMode === 'default';
+  const sortGroup = sortMode === 'default' ? 'default' : sortMode.startsWith('name') ? 'name' : 'plays';
 
-  const hasHiddenTracks = playedIndices.size > 0;
+  const handleSortClick = (group: string) => {
+    if (group === 'default') {
+      setSortMode('default');
+    } else if (group === 'name') {
+      setSortMode(sortMode === 'name-asc' ? 'name-desc' : 'name-asc');
+    } else {
+      setSortMode(sortMode === 'plays-desc' ? 'plays-asc' : 'plays-desc');
+    }
+  };
 
   const hasPlayback = isPlaying || currentTime > 0;
-  const currentTrackMatchesFilter =
+  const nowPlayingMatchesFilter =
     filter === 'all' || tracks[currentTrackIndex].category === filter;
-
-  const visibleQueue = queue.filter((idx) => {
-    if (hasPlayback && currentTrackMatchesFilter && idx === currentTrackIndex) return false;
-    if (repeatMode === 'off' && playedIndices.has(idx)) return false;
-    if (filter !== 'all' && tracks[idx].category !== filter) return false;
-    return true;
-  });
+  const showNowPlaying = hasPlayback && nowPlayingMatchesFilter;
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -297,6 +297,7 @@ export default function TrackList() {
   );
 
   const handleDragEnd = (event: DragEndEvent) => {
+    if (!isDndEnabled) return;
     const { active, over } = event;
     if (!over || active.id === over.id) return;
     const oldIndex = queue.findIndex((idx) => tracks[idx].id === active.id);
@@ -356,7 +357,7 @@ export default function TrackList() {
         </motion.div>
 
         {/* Category Filter Tabs */}
-        <Stack alignItems="center" sx={{ mb: 4 }}>
+        <Stack alignItems="center" sx={{ mb: 2 }}>
           <Tabs
             value={filter}
             onChange={(_, v) => setFilter(v as FilterValue)}
@@ -385,8 +386,70 @@ export default function TrackList() {
           </Tabs>
         </Stack>
 
+        {/* Sort Controls */}
+        <Stack alignItems="center" sx={{ mb: 4 }}>
+          <ToggleButtonGroup
+            value={sortGroup}
+            exclusive
+            onChange={(_, v) => { if (v !== null) handleSortClick(v); }}
+            size="small"
+            sx={{
+              '& .MuiToggleButton-root': {
+                color: colors.dust,
+                borderColor: `${colors.brass}33`,
+                px: 2,
+                py: 0.5,
+                fontSize: '0.7rem',
+                letterSpacing: 1,
+                fontWeight: 600,
+                textTransform: 'uppercase',
+                '&.Mui-selected': {
+                  color: colors.amber,
+                  backgroundColor: `${colors.amber}15`,
+                  borderColor: `${colors.amber}44`,
+                  '&:hover': {
+                    backgroundColor: `${colors.amber}22`,
+                  },
+                },
+                '&:hover': {
+                  backgroundColor: `${colors.brass}11`,
+                },
+              },
+            }}
+          >
+            <ToggleButton value="default">
+              <SwapVertIcon sx={{ fontSize: 16, mr: 0.5 }} />
+              Default
+            </ToggleButton>
+            <ToggleButton
+              value="name"
+              onClick={() => { if (sortGroup === 'name') handleSortClick('name'); }}
+            >
+              <SortByAlphaIcon sx={{ fontSize: 16, mr: 0.5 }} />
+              Name
+              {sortGroup === 'name' && (
+                sortMode === 'name-asc'
+                  ? <ArrowUpwardIcon sx={{ fontSize: 14, ml: 0.5 }} />
+                  : <ArrowDownwardIcon sx={{ fontSize: 14, ml: 0.5 }} />
+              )}
+            </ToggleButton>
+            <ToggleButton
+              value="plays"
+              onClick={() => { if (sortGroup === 'plays') handleSortClick('plays'); }}
+            >
+              <BarChartIcon sx={{ fontSize: 16, mr: 0.5 }} />
+              Plays
+              {sortGroup === 'plays' && (
+                sortMode === 'plays-desc'
+                  ? <ArrowDownwardIcon sx={{ fontSize: 14, ml: 0.5 }} />
+                  : <ArrowUpwardIcon sx={{ fontSize: 14, ml: 0.5 }} />
+              )}
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </Stack>
+
         {/* Now Playing - Arena Panel */}
-        {hasPlayback && (
+        {showNowPlaying && (
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -417,7 +480,6 @@ export default function TrackList() {
                 },
               }}
             >
-              {/* Desktop: horizontal layout */}
               <Stack
                 direction={{ xs: 'column', sm: 'row' }}
                 spacing={{ xs: 2, sm: 3 }}
@@ -571,7 +633,7 @@ export default function TrackList() {
                   </Stack>
                 </Box>
 
-                {/* Playback Controls with Shuffle & Repeat */}
+                {/* Playback Controls */}
                 <Stack
                   direction="row"
                   alignItems="center"
@@ -660,8 +722,9 @@ export default function TrackList() {
           </motion.div>
         )}
 
-        {/* Track Cards - Metal Plate Style (Queue Order) */}
+        {/* Track Cards */}
         <DndContext
+          id="tracklist-dnd"
           sensors={sensors}
           collisionDetection={closestCenter}
           onDragEnd={handleDragEnd}
@@ -684,6 +747,7 @@ export default function TrackList() {
                       trackIndex={trackIndex}
                       queuePos={queuePos}
                       playCount={playCounts[tracks[trackIndex].id] ?? 0}
+                      isDndEnabled={isDndEnabled}
                     />
                   </motion.div>
                 ))}
@@ -691,37 +755,6 @@ export default function TrackList() {
             </Stack>
           </SortableContext>
         </DndContext>
-
-        {/* Reset hidden tracks */}
-        {hasHiddenTracks && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.4, delay: 0.2 }}
-          >
-            <Stack
-              direction="row"
-              alignItems="center"
-              justifyContent="center"
-              spacing={1}
-              onClick={resetPlayed}
-              sx={{
-                mt: 2,
-                py: 1.5,
-                cursor: 'pointer',
-                color: colors.dust,
-                opacity: 0.6,
-                transition: 'all 0.2s ease',
-                '&:hover': { opacity: 1, color: colors.amber },
-              }}
-            >
-              <RefreshIcon sx={{ fontSize: 16 }} />
-              <Typography variant="caption" sx={{ letterSpacing: 1 }}>
-                Show all tracks
-              </Typography>
-            </Stack>
-          </motion.div>
-        )}
 
         {/* Coming Soon */}
         {tracks.length <= 1 && (

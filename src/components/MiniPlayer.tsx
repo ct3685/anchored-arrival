@@ -16,6 +16,8 @@ import {
   ListItemIcon,
   Tabs,
   Tab,
+  ToggleButtonGroup,
+  ToggleButton,
   useTheme,
   useMediaQuery,
 } from '@mui/material';
@@ -31,6 +33,11 @@ import ShuffleIcon from '@mui/icons-material/Shuffle';
 import QueueMusicIcon from '@mui/icons-material/QueueMusic';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
+import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import SwapVertIcon from '@mui/icons-material/SwapVert';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   DndContext,
@@ -54,22 +61,24 @@ import {
   restrictToParentElement,
 } from '@dnd-kit/modifiers';
 
-import { useAudio } from '@/lib/AudioContext';
-import { tracks, CATEGORY_LABELS, type TrackCategory } from '@/lib/tracks';
+import { useAudio, type SortMode, type FilterValue } from '@/lib/AudioContext';
+import { tracks, CATEGORY_LABELS } from '@/lib/tracks';
 import { colors } from '@/theme/theme';
 import {
   trackMiniplayerExpand,
   trackMiniplayerCollapse,
   trackLinkClick,
 } from '@/lib/analytics';
-import { usePlayCounts, formatPlayCount } from '@/lib/usePlayCounts';
+import { formatPlayCount } from '@/lib/usePlayCounts';
 
 function SortableMiniQueueItem({
   trackIndex,
   queuePos,
+  isDndEnabled,
 }: {
   trackIndex: number;
   queuePos: number;
+  isDndEnabled: boolean;
 }) {
   const { currentTrackIndex, isPlaying, selectTrack } = useAudio();
   const trk = tracks[trackIndex];
@@ -83,17 +92,19 @@ function SortableMiniQueueItem({
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: trk.id });
+  } = useSortable({ id: trk.id, disabled: !isDndEnabled });
 
   return (
     <div
       ref={setNodeRef}
+      {...(isDndEnabled ? { ...attributes, ...listeners } : {})}
       style={{
         transform: CSS.Transform.toString(transform),
         transition,
         opacity: isDragging ? 0.5 : 1,
         zIndex: isDragging ? 1 : 0,
         position: 'relative',
+        touchAction: isDndEnabled ? 'none' : undefined,
       }}
     >
       <ListItemButton
@@ -102,28 +113,17 @@ function SortableMiniQueueItem({
           py: 0.75,
           px: 1,
           borderRadius: 1,
+          cursor: isDndEnabled ? 'grab' : 'pointer',
           backgroundColor: isActive ? `${colors.primary}15` : 'transparent',
           '&:hover': { backgroundColor: `${colors.primary}22` },
+          '&:active': isDndEnabled ? { cursor: 'grabbing' } : {},
         }}
       >
-        {/* Drag Handle */}
-        <Box
-          {...attributes}
-          {...listeners}
-          onClick={(e: React.MouseEvent) => e.stopPropagation()}
-          sx={{
-            cursor: 'grab',
-            touchAction: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            mr: 0.5,
-            color: colors.textSecondary,
-            '&:hover': { color: colors.primary },
-            '&:active': { cursor: 'grabbing' },
-          }}
-        >
-          <DragIndicatorIcon sx={{ fontSize: 16 }} />
-        </Box>
+        {isDndEnabled && (
+          <DragIndicatorIcon
+            sx={{ fontSize: 16, color: colors.textSecondary, flexShrink: 0, mr: 0.5 }}
+          />
+        )}
         <ListItemIcon sx={{ minWidth: 32 }}>
           {isTrackPlaying ? (
             <Box
@@ -209,8 +209,14 @@ export default function MiniPlayer() {
     currentTime,
     duration,
     queue,
+    visibleQueue,
     shuffle,
     repeatMode,
+    filter,
+    setFilter,
+    sortMode,
+    setSortMode,
+    playCounts,
     togglePlay,
     seek,
     nextTrack,
@@ -223,15 +229,21 @@ export default function MiniPlayer() {
     hasMultipleTracks,
   } = useAudio();
 
-  type FilterValue = 'all' | TrackCategory;
-  const playCounts = usePlayCounts();
   const [isExpanded, setIsExpanded] = useState(false);
   const [showTrackList, setShowTrackList] = useState(false);
-  const [filter, setFilter] = useState<FilterValue>('track');
 
-  const filteredQueue = filter === 'all'
-    ? queue
-    : queue.filter((idx) => tracks[idx].category === filter);
+  const isDndEnabled = sortMode === 'default';
+  const sortGroup = sortMode === 'default' ? 'default' : sortMode.startsWith('name') ? 'name' : 'plays';
+
+  const handleSortClick = (group: string) => {
+    if (group === 'default') {
+      setSortMode('default');
+    } else if (group === 'name') {
+      setSortMode(sortMode === 'name-asc' ? 'name-desc' : 'name-asc');
+    } else {
+      setSortMode(sortMode === 'plays-desc' ? 'plays-asc' : 'plays-desc');
+    }
+  };
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -242,6 +254,7 @@ export default function MiniPlayer() {
   );
 
   const handleDragEnd = (event: DragEndEvent) => {
+    if (!isDndEnabled) return;
     const { active, over } = event;
     if (!over || active.id === over.id) return;
     const oldIndex = queue.findIndex((idx) => tracks[idx].id === active.id);
@@ -483,7 +496,7 @@ export default function MiniPlayer() {
                 </Typography>
               </Stack>
 
-              {/* Controls: Shuffle, Prev, Play, Next, Repeat */}
+              {/* Controls */}
               <Stack
                 direction="row"
                 justifyContent="center"
@@ -572,9 +585,9 @@ export default function MiniPlayer() {
                     variant="caption"
                     sx={{ color: colors.textSecondary }}
                   >
-                    {filteredQueue.includes(currentTrackIndex)
-                      ? `${filteredQueue.indexOf(currentTrackIndex) + 1} / ${filteredQueue.length}`
-                      : `${filteredQueue.length} tracks`}
+                    {visibleQueue.includes(currentTrackIndex)
+                      ? `${visibleQueue.indexOf(currentTrackIndex) + 1} / ${visibleQueue.length}`
+                      : `${visibleQueue.length} tracks`}
                   </Typography>
                   <IconButton
                     onClick={() => setShowTrackList(!showTrackList)}
@@ -623,6 +636,68 @@ export default function MiniPlayer() {
                   <Tab label={CATEGORY_LABELS.diss} value="diss" />
                 </Tabs>
 
+                {/* Sort controls */}
+                <Stack alignItems="center" sx={{ mt: 1 }}>
+                  <ToggleButtonGroup
+                    value={sortGroup}
+                    exclusive
+                    onChange={(_, v) => { if (v !== null) handleSortClick(v); }}
+                    size="small"
+                    sx={{
+                      '& .MuiToggleButton-root': {
+                        color: colors.textSecondary,
+                        borderColor: `${colors.primary}22`,
+                        px: 1.5,
+                        py: 0.25,
+                        fontSize: '0.6rem',
+                        letterSpacing: 0.5,
+                        fontWeight: 600,
+                        textTransform: 'uppercase',
+                        '&.Mui-selected': {
+                          color: colors.primary,
+                          backgroundColor: `${colors.primary}15`,
+                          borderColor: `${colors.primary}44`,
+                          '&:hover': {
+                            backgroundColor: `${colors.primary}22`,
+                          },
+                        },
+                        '&:hover': {
+                          backgroundColor: `${colors.primary}11`,
+                        },
+                      },
+                    }}
+                  >
+                    <ToggleButton value="default">
+                      <SwapVertIcon sx={{ fontSize: 14, mr: 0.5 }} />
+                      Default
+                    </ToggleButton>
+                    <ToggleButton
+                      value="name"
+                      onClick={() => { if (sortGroup === 'name') handleSortClick('name'); }}
+                    >
+                      <SortByAlphaIcon sx={{ fontSize: 14, mr: 0.5 }} />
+                      Name
+                      {sortGroup === 'name' && (
+                        sortMode === 'name-asc'
+                          ? <ArrowUpwardIcon sx={{ fontSize: 12, ml: 0.5 }} />
+                          : <ArrowDownwardIcon sx={{ fontSize: 12, ml: 0.5 }} />
+                      )}
+                    </ToggleButton>
+                    <ToggleButton
+                      value="plays"
+                      onClick={() => { if (sortGroup === 'plays') handleSortClick('plays'); }}
+                    >
+                      <BarChartIcon sx={{ fontSize: 14, mr: 0.5 }} />
+                      Plays
+                      {sortGroup === 'plays' && (
+                        sortMode === 'plays-desc'
+                          ? <ArrowDownwardIcon sx={{ fontSize: 12, ml: 0.5 }} />
+                          : <ArrowUpwardIcon sx={{ fontSize: 12, ml: 0.5 }} />
+                      )}
+                    </ToggleButton>
+                  </ToggleButtonGroup>
+                </Stack>
+
                 <Box
                   sx={{
                     mt: 1,
@@ -637,6 +712,7 @@ export default function MiniPlayer() {
                   }}
                 >
                   <DndContext
+                    id="miniplayer-dnd"
                     sensors={sensors}
                     collisionDetection={closestCenter}
                     onDragEnd={handleDragEnd}
@@ -646,15 +722,16 @@ export default function MiniPlayer() {
                     ]}
                   >
                     <SortableContext
-                      items={filteredQueue.map((idx) => tracks[idx].id)}
+                      items={visibleQueue.map((idx) => tracks[idx].id)}
                       strategy={verticalListSortingStrategy}
                     >
                       <List dense disablePadding>
-                        {filteredQueue.map((trackIdx, queuePos) => (
+                        {visibleQueue.map((trackIdx, queuePos) => (
                           <SortableMiniQueueItem
                             key={tracks[trackIdx].id}
                             trackIndex={trackIdx}
                             queuePos={queuePos}
+                            isDndEnabled={isDndEnabled}
                           />
                         ))}
                       </List>
