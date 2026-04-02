@@ -1,40 +1,71 @@
 'use client';
 
 import { Box, Typography, Container, Grid, Button } from '@mui/material';
+import Image from 'next/image';
 import Link from 'next/link';
 import { colors, sectionSpace } from '@/theme/theme';
 import SectionDivider from './SectionDivider';
 
-const services = [
+type ServiceItem = {
+  title: string;
+  description: string;
+  accent: string;
+  image: string;
+  imageAlt: string;
+  href?: string;
+  learnMoreLabel?: string;
+};
+
+const services: ServiceItem[] = [
   {
     title: 'Doula support',
     description:
       'Attuned physical and emotional care through pregnancy, labor, and the first hours after birth—so you are never scanning the room for an anchor.',
     accent: colors.clay,
+    image: '/images/birth-support-doula.png',
+    imageAlt: 'Doula offering steady, compassionate support during labor.',
   },
   {
     title: 'Birth education',
     description:
       'Private and small-group immersions in physiology, coping, and decision-making—designed for adults who want substance, not scare tactics.',
     accent: colors.gold,
+    image: '/images/maternity-portrait-seated.png',
+    imageAlt: 'Pregnant person at rest in a serene room, hands resting on their belly.',
   },
   {
     title: 'Lactation counseling',
     description:
       'Practical, judgment-free feeding support: latch, supply, pumping plans, and the emotional weight that rides alongside.',
     accent: colors.clay,
+    image: '/images/maternity-portrait-standing.png',
+    imageAlt: 'Pregnant person in soft light, a quiet moment of embodiment and care.',
   },
   {
     title: '3D ultrasound imaging',
     description:
       'Intimate imaging sessions to meet your baby in detail—held with reverence, never rush.',
     accent: colors.gold,
+    image: '/images/anchor-still-life.png',
+    imageAlt: 'Artful anchor and soft light, evoking meeting your baby with intention.',
   },
   {
     title: 'Postpartum care',
     description:
       'Recovery check-ins, mood monitoring, and resource navigation when the world goes quiet and the work gets real.',
     accent: colors.clay,
+    image: '/images/postpartum-mother-newborn.png',
+    imageAlt: 'Parent holding a newborn close in a warm, peaceful home setting.',
+  },
+  {
+    title: 'In-home rest visits',
+    description:
+      'Vetted team presence so you can nap, shower, or step out—nap coverage and hands-on help when you are the default adult on duty.',
+    accent: colors.gold,
+    image: '/images/abstract-earth-layers.png',
+    imageAlt: 'Soft layered textures in warm earth tones suggesting rest and grounding.',
+    href: '/services/in-home-rest',
+    learnMoreLabel: 'Learn more',
   },
 ];
 
@@ -95,8 +126,8 @@ function EditorialServices() {
                 lineHeight: 1.7,
               }}
             >
-              Every package is tailored. You do not need a polished plan to reach out—only a next
-            honest step.
+              Every package is tailored. You do not need a polished plan to reach out—only an
+              honest next step.
             </Typography>
           </Box>
           <Button
@@ -129,8 +160,8 @@ function EditorialServices() {
               <Box
                 sx={{
                   order: { xs: 0, md: index % 2 === 0 ? 0 : 1 },
-                  height: { xs: 4, md: 200 },
-                  minHeight: { xs: 4, md: 140 },
+                  height: { xs: 4, md: 220 },
+                  minHeight: { xs: 4, md: 160 },
                   bgcolor: { xs: 'transparent', md: colors.sand },
                   position: 'relative',
                   overflow: 'hidden',
@@ -142,7 +173,23 @@ function EditorialServices() {
                     display: { xs: 'none', md: 'block' },
                     position: 'absolute',
                     inset: 0,
-                    background: `linear-gradient(145deg, ${service.accent}22 0%, transparent 55%)`,
+                  }}
+                >
+                  <Image
+                    src={service.image}
+                    alt={service.imageAlt}
+                    fill
+                    sizes="(max-width: 900px) 0vw, 45vw"
+                    style={{ objectFit: 'cover', objectPosition: 'center' }}
+                  />
+                </Box>
+                <Box
+                  sx={{
+                    display: { xs: 'none', md: 'block' },
+                    position: 'absolute',
+                    inset: 0,
+                    background: `linear-gradient(145deg, ${service.accent}28 0%, transparent 50%)`,
+                    pointerEvents: 'none',
                   }}
                 />
               </Box>
@@ -169,6 +216,27 @@ function EditorialServices() {
                 >
                   {service.description}
                 </Typography>
+                {service.href ? (
+                  <Button
+                    variant="text"
+                    color="primary"
+                    component={Link}
+                    href={service.href}
+                    sx={{
+                      mt: 2,
+                      p: 0,
+                      minWidth: 0,
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '0.88rem',
+                      fontWeight: 600,
+                      letterSpacing: '0.12em',
+                      textTransform: 'uppercase',
+                      alignSelf: 'flex-start',
+                    }}
+                  >
+                    {service.learnMoreLabel ?? 'Learn more'}
+                  </Button>
+                ) : null}
               </Box>
             </Box>
           ))}
@@ -263,6 +331,27 @@ export default function Services({
                 >
                   {service.description}
                 </Typography>
+                {service.href ? (
+                  <Button
+                    variant="text"
+                    color="primary"
+                    component={Link}
+                    href={service.href}
+                    sx={{
+                      mt: 2,
+                      p: 0,
+                      minWidth: 0,
+                      display: 'block',
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '0.82rem',
+                      fontWeight: 600,
+                      letterSpacing: '0.1em',
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    {service.learnMoreLabel ?? 'Learn more'}
+                  </Button>
+                ) : null}
                 {detailed && (
                   <Typography
                     sx={{

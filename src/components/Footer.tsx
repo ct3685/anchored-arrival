@@ -16,8 +16,11 @@ export default function Footer() {
     <Box
       component="footer"
       sx={{
+        position: 'relative',
+        zIndex: 1,
+        isolation: 'isolate',
         py: { xs: 7, md: 9 },
-        bgcolor: colors.ink,
+        backgroundColor: `${colors.ink} !important`,
         color: colors.ivory,
         borderTop: `1px solid rgba(212,201,168,0.12)`,
       }}
@@ -37,7 +40,7 @@ export default function Footer() {
           {/* Logo + tagline */}
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: { xs: 'center', md: 'flex-start' } }}>
             <Image
-              src="/logo.png"
+              src="/images/logo.png"
               alt="Anchored Arrival"
               width={56}
               height={56}
@@ -47,9 +50,10 @@ export default function Footer() {
               sx={{
                 fontFamily: 'var(--font-sans)',
                 fontSize: '0.72rem',
+                fontWeight: 500,
                 letterSpacing: '0.22em',
                 textTransform: 'uppercase',
-                color: 'rgba(250,246,241,0.5)',
+                color: 'rgba(250,246,241,0.82)',
                 mb: 0.5,
               }}
             >
@@ -59,10 +63,10 @@ export default function Footer() {
               sx={{
                 fontFamily: 'var(--font-accent)',
                 fontStyle: 'italic',
-                fontSize: '1.02rem',
+                fontSize: '1.05rem',
+                fontWeight: 500,
                 color: colors.goldLight,
                 mb: 1,
-                opacity: 0.92,
               }}
             >
               Grounded&ensp;&middot;&ensp;Sacred&ensp;&middot;&ensp;Becoming
@@ -84,16 +88,15 @@ export default function Footer() {
                 component={Link}
                 href={item.href}
                 sx={{
-                  color: colors.ivory,
-                  opacity: 0.7,
+                  color: 'rgba(250,246,241,0.92)',
                   textDecoration: 'none',
                   fontFamily: 'var(--font-body)',
                   fontSize: '0.82rem',
+                  fontWeight: 600,
                   letterSpacing: '0.12em',
                   textTransform: 'uppercase',
-                  transition: 'opacity 0.3s ease, color 0.3s ease',
+                  transition: 'color 0.3s ease',
                   '&:hover': {
-                    opacity: 1,
                     color: colors.gold,
                   },
                 }}
@@ -115,13 +118,16 @@ export default function Footer() {
 
         <Typography
           variant="caption"
+          component="p"
           sx={{
             display: 'block',
-            opacity: 0.5,
             mb: 1.5,
-            fontSize: '0.75rem',
-            lineHeight: 1.7,
+            fontSize: '0.8125rem',
+            lineHeight: 1.65,
+            fontFamily: 'var(--font-body)',
+            color: 'rgba(250,246,241,0.82)',
             textAlign: { xs: 'center', md: 'left' },
+            maxWidth: { md: 'min(100%, 52rem)' },
           }}
         >
           Disclaimer: The services provided are not a substitute for
@@ -132,10 +138,12 @@ export default function Footer() {
 
         <Typography
           variant="caption"
+          component="p"
           sx={{
             display: 'block',
-            opacity: 0.45,
-            fontSize: '0.75rem',
+            fontSize: '0.8125rem',
+            fontFamily: 'var(--font-body)',
+            color: 'rgba(250,246,241,0.72)',
             textAlign: { xs: 'center', md: 'left' },
           }}
         >

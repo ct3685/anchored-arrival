@@ -1,6 +1,7 @@
 'use client';
 
 import { Box, Typography, Button, Container, Stack } from '@mui/material';
+import Image from 'next/image';
 import Link from 'next/link';
 import { colors } from '@/theme/theme';
 
@@ -15,12 +16,21 @@ export default function ClosingCta() {
         overflow: 'hidden',
       }}
     >
+      <Box sx={{ position: 'absolute', inset: 0, zIndex: 0 }} aria-hidden>
+        <Image
+          src="/images/maternity-portrait-seated.png"
+          alt=""
+          fill
+          sizes="100vw"
+          style={{ objectFit: 'cover', objectPosition: '22% center' }}
+        />
+      </Box>
       <Box
         sx={{
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(120deg, rgba(245,237,227,0.98) 0%, rgba(238,218,210,0.35) 42%, rgba(232,222,210,0.92) 100%)',
+            'linear-gradient(95deg, rgba(245,237,227,0.96) 0%, rgba(245,237,227,0.88) 38%, rgba(245,237,227,0.62) 52%, rgba(232,222,210,0.45) 72%, rgba(232,222,210,0.35) 100%)',
           zIndex: 0,
         }}
         aria-hidden

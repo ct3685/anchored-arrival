@@ -1,6 +1,7 @@
 'use client';
 
 import { Box, Typography, Container, Grid } from '@mui/material';
+import Image from 'next/image';
 import { colors } from '@/theme/theme';
 
 export default function About({ full = false }: { full?: boolean }) {
@@ -18,17 +19,12 @@ export default function About({ full = false }: { full?: boolean }) {
           alignItems="center"
           direction={{ xs: 'column-reverse', md: 'row' }}
         >
-          {/* Photo placeholder */}
           <Grid size={{ xs: 12, md: 5 }}>
             <Box
               sx={{
                 width: '100%',
                 aspectRatio: '4 / 5',
-                bgcolor: colors.blushLight,
                 borderRadius: '2px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
                 boxShadow: '0 8px 32px rgba(44,38,34,0.08)',
                 position: 'relative',
                 overflow: 'hidden',
@@ -37,22 +33,19 @@ export default function About({ full = false }: { full?: boolean }) {
                   position: 'absolute',
                   inset: 0,
                   background:
-                    'radial-gradient(ellipse at center, rgba(201,150,123,0.1) 0%, transparent 70%)',
+                    'radial-gradient(ellipse at center, rgba(201,150,123,0.08) 0%, transparent 65%)',
+                  pointerEvents: 'none',
+                  zIndex: 1,
                 },
               }}
             >
-              <Typography
-                sx={{
-                  fontFamily: 'var(--font-accent)',
-                  fontStyle: 'italic',
-                  fontSize: '1rem',
-                  color: colors.warmGray,
-                  opacity: 0.6,
-                  zIndex: 1,
-                }}
-              >
-                Photo coming soon
-              </Typography>
+              <Image
+                src="/images/maternity-portrait-standing.png"
+                alt="Pregnant person in a linen drape, holding their belly in calm, natural light."
+                fill
+                sizes="(max-width: 900px) 100vw, 38vw"
+                style={{ objectFit: 'cover', objectPosition: 'center 20%' }}
+              />
             </Box>
           </Grid>
 

@@ -1,6 +1,7 @@
 'use client';
 
 import { Box, Typography, Container, Button } from '@mui/material';
+import Image from 'next/image';
 import Link from 'next/link';
 import { colors, sectionSpace } from '@/theme/theme';
 
@@ -18,8 +19,8 @@ export default function PhilosophySection() {
         <Box
           sx={{
             display: 'grid',
-            gridTemplateColumns: { xs: '1fr', md: 'auto 1fr' },
-            gap: { xs: 4, md: 8 },
+            gridTemplateColumns: { xs: '1fr', md: 'auto 1fr minmax(220px, 320px)' },
+            gap: { xs: 4, md: 6 },
             alignItems: 'start',
           }}
         >
@@ -36,12 +37,13 @@ export default function PhilosophySection() {
               transform: { md: 'rotate(180deg)' },
               whiteSpace: 'nowrap',
               pt: { md: 1 },
+              gridColumn: { xs: '1', md: '1' },
             }}
           >
             Philosophy
           </Typography>
 
-          <Box sx={{ maxWidth: { md: 720 } }}>
+          <Box sx={{ maxWidth: { md: 720 }, gridColumn: { xs: '1', md: '2' } }}>
             <Typography
               variant="h2"
               sx={{
@@ -106,6 +108,28 @@ export default function PhilosophySection() {
             >
               Read the full story
             </Button>
+          </Box>
+
+          <Box
+            sx={{
+              display: { xs: 'none', md: 'block' },
+              gridColumn: '3',
+              position: 'relative',
+              width: '100%',
+              aspectRatio: '4 / 5',
+              borderRadius: '2px',
+              overflow: 'hidden',
+              boxShadow: '0 12px 40px rgba(44,38,34,0.08)',
+              mt: 1,
+            }}
+          >
+            <Image
+              src="/images/abstract-earth-layers.png"
+              alt="Layered earth tones and soft textures suggesting landscape and calm depth."
+              fill
+              sizes="320px"
+              style={{ objectFit: 'cover', objectPosition: 'center 45%' }}
+            />
           </Box>
         </Box>
       </Container>
