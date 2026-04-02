@@ -741,7 +741,10 @@ export default function TrackList() {
                     key={tracks[trackIndex].id}
                     layout
                     exit={{ opacity: 0, x: -60 }}
-                    transition={{ duration: 0.3 }}
+                    transition={{
+                      layout: { duration: 0.15, ease: [0.2, 0, 0, 1] },
+                      duration: 0.3,
+                    }}
                   >
                     <SortableTrackCard
                       trackIndex={trackIndex}
