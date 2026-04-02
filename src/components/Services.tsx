@@ -20,18 +20,18 @@ const services: ServiceItem[] = [
   {
     title: 'Doula support',
     description:
-      'Attuned physical and emotional care through pregnancy, labor, and the first hours after birth—so you are never scanning the room for an anchor.',
+      'Physical and emotional support through pregnancy, labor, and the first hours after birth, so you are not alone looking for someone steady.',
     accent: colors.clay,
     image: '/images/birth-support-doula.png',
-    imageAlt: 'Doula offering steady, compassionate support during labor.',
+    imageAlt: 'Doula beside someone in labor.',
   },
   {
     title: 'Birth education',
     description:
-      'Private and small-group immersions in physiology, coping, and decision-making—designed for adults who want substance, not scare tactics.',
+      'Private and small-group sessions on physiology, coping, and decisions—for adults who want depth, not fear.',
     accent: colors.gold,
     image: '/images/maternity-portrait-seated.png',
-    imageAlt: 'Pregnant person at rest in a serene room, hands resting on their belly.',
+    imageAlt: 'Pregnant person resting, hands on belly.',
   },
   {
     title: 'Lactation counseling',
@@ -39,31 +39,31 @@ const services: ServiceItem[] = [
       'Practical, judgment-free feeding support: latch, supply, pumping plans, and the emotional weight that rides alongside.',
     accent: colors.clay,
     image: '/images/maternity-portrait-standing.png',
-    imageAlt: 'Pregnant person in soft light, a quiet moment of embodiment and care.',
+    imageAlt: 'Pregnant person in soft light.',
   },
   {
     title: '3D ultrasound imaging',
     description:
-      'Intimate imaging sessions to meet your baby in detail—held with reverence, never rush.',
+      'Quiet 3D imaging so you can meet your baby in detail. Unhurried; no assembly-line energy.',
     accent: colors.gold,
     image: '/images/anchor-still-life.png',
-    imageAlt: 'Artful anchor and soft light, evoking meeting your baby with intention.',
+    imageAlt: 'Anchor still life in soft light.',
   },
   {
     title: 'Postpartum care',
     description:
-      'Recovery check-ins, mood monitoring, and resource navigation when the world goes quiet and the work gets real.',
+      'Recovery check-ins, mood check-ins, and help finding resources when the house goes quiet and the work is still heavy.',
     accent: colors.clay,
     image: '/images/postpartum-mother-newborn.png',
-    imageAlt: 'Parent holding a newborn close in a warm, peaceful home setting.',
+    imageAlt: 'Parent holding a newborn at home.',
   },
   {
     title: 'In-home rest visits',
     description:
-      'Vetted team presence so you can nap, shower, or step out—nap coverage and hands-on help when you are the default adult on duty.',
+      'Vetted team members in your home while you nap, shower, or step out—real coverage when you are the default adult.',
     accent: colors.gold,
     image: '/images/abstract-earth-layers.png',
-    imageAlt: 'Soft layered textures in warm earth tones suggesting rest and grounding.',
+    imageAlt: 'Soft layered textures in warm earth tones.',
     href: '/services/in-home-rest',
     learnMoreLabel: 'Learn more',
   },
@@ -116,7 +116,7 @@ function EditorialServices() {
                 mb: 2,
               }}
             >
-              Care that scales with the moment.
+              Care that matches how heavy the day is.
             </Typography>
             <Typography
               sx={{
@@ -126,8 +126,8 @@ function EditorialServices() {
                 lineHeight: 1.7,
               }}
             >
-              Every package is tailored. You do not need a polished plan to reach out—only an
-              honest next step.
+              Packages are built around you. You do not need a perfect plan to write—just a real
+              next step.
             </Typography>
           </Box>
           <Button
@@ -289,7 +289,7 @@ export default function Services({
             lineHeight: 1.7,
           }}
         >
-          Holistic care from pregnancy through postpartum—with room for your story in every step.
+          Support from pregnancy through postpartum, with space for your story along the way.
         </Typography>
 
         <Grid container spacing={{ xs: 3, md: 4 }}>
@@ -364,7 +364,7 @@ export default function Services({
                       fontFamily: 'var(--font-accent)',
                     }}
                   >
-                    In-home and virtual appointments. Contact for availability and investment.
+                    In-home and virtual appointments. Email for availability and current rates.
                   </Typography>
                 )}
               </Box>

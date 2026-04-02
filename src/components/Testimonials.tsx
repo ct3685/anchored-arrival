@@ -7,19 +7,19 @@ import SectionDivider from './SectionDivider';
 const testimonials = [
   {
     quote:
-      'Alissa was the steadiness we did not know we would need. In the chaos, she made eye contact like an anchor—no drama, just truth.',
+      'Alissa was steady in a way we did not know we would need. In the mess, she looked us in the eye—no drama, just the truth.',
     name: 'Sarah M.',
     context: 'First birth',
   },
   {
     quote:
-      'The education was not fluffy encouragement. It was sharp, honest, and it changed how I spoke to my providers—and to myself.',
+      'The education was not soft reassurance for its own sake. It was direct and honest, and it changed how I talked to my providers and to myself.',
     name: 'Jenna T.',
     context: 'Birth education',
   },
   {
     quote:
-      'Postpartum was lonelier than I expected. Having someone who normalized the grief alongside the joy saved my sense of self.',
+      'Postpartum was lonelier than I expected. Having someone treat the grief as real beside the joy helped me feel like myself again.',
     name: 'Rachel K.',
     context: 'Postpartum care',
   },

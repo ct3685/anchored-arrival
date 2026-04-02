@@ -64,9 +64,9 @@ export default function PhilosophySection() {
                 mb: 3,
               }}
             >
-              My work is to help you stay tethered to your own knowing—through education that respects
-              your intelligence, advocacy that honors your voice, and a steady presence when the room
-              gets loud.
+              I help you stay close to your own judgment: education that treats you as capable,
+              advocacy that keeps your voice in the room, and a steady presence when the noise piles
+              up.
             </Typography>
             <Typography
               sx={{
@@ -80,8 +80,8 @@ export default function PhilosophySection() {
                 mb: 4,
               }}
             >
-              Luxury, here, is not excess. It is clarity, slowness, and the relief of being held by
-              someone who does not flinch.
+              Luxury, here, is not excess. It is room to think, slowness on purpose, and the relief
+              of someone who does not flinch when it gets real.
             </Typography>
             <Button
               variant="text"
@@ -125,7 +125,7 @@ export default function PhilosophySection() {
           >
             <Image
               src="/images/abstract-earth-layers.png"
-              alt="Layered earth tones and soft textures suggesting landscape and calm depth."
+              alt="Layered earth tones and soft textures."
               fill
               sizes="320px"
               style={{ objectFit: 'cover', objectPosition: 'center 45%' }}

@@ -95,8 +95,8 @@ export default function ClosingCta() {
               mx: { xs: 'auto', md: 0 },
             }}
           >
-            When you are ready, we map a path that feels honest—then walk it at your pace. No
-            performance, no pressure to be &ldquo;ready&rdquo; before you are.
+            When you are ready, we sketch an honest path and move at your speed. No performance,
+            no pretending you are &ldquo;ready&rdquo; before you are.
           </Typography>
           <Stack
             direction={{ xs: 'column', sm: 'row' }}
