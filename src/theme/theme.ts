@@ -2,27 +2,34 @@
 
 import { createTheme } from '@mui/material/styles';
 
-const colors = {
+/** Anchored Arrival — earthy luxury design tokens */
+export const colors = {
   parchment: '#F5EDE3',
-  terraCotta: '#C9967B',
-  terraCottaDark: '#A67A5B',
+  linen: '#F0E8DE',
+  sand: '#E8DED2',
+  clay: '#C9967B',
+  clayDeep: '#A67A5B',
   blushLight: '#EEDAD2',
   charcoal: '#3A3530',
+  espresso: '#2C2622',
   warmGray: '#7A7168',
+  warmGrayMuted: '#9A9188',
+  bronze: '#8B6914',
+  bronzeMuted: '#9A7B4F',
   gold: '#B8986A',
   goldLight: '#D4C9A8',
   ivory: '#FAF6F1',
-  espresso: '#2C2622',
   warmWhite: '#FFFDF9',
+  ink: '#1E1A17',
 };
 
 export const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: colors.terraCotta,
+      main: colors.clay,
       light: colors.blushLight,
-      dark: colors.terraCottaDark,
+      dark: colors.clayDeep,
     },
     secondary: {
       main: colors.gold,
@@ -39,77 +46,104 @@ export const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: 'var(--font-body)',
+    fontFamily: 'var(--font-sans), system-ui, sans-serif',
     h1: {
-      fontFamily: 'var(--font-display)',
-      fontWeight: 700,
-      letterSpacing: '0.04em',
-      lineHeight: 1.15,
+      fontFamily: 'var(--font-display), Georgia, serif',
+      fontWeight: 600,
+      letterSpacing: '-0.02em',
+      lineHeight: 1.05,
     },
     h2: {
-      fontFamily: 'var(--font-display)',
+      fontFamily: 'var(--font-display), Georgia, serif',
       fontWeight: 600,
-      letterSpacing: '0.02em',
-      lineHeight: 1.2,
+      letterSpacing: '-0.015em',
+      lineHeight: 1.12,
     },
     h3: {
-      fontFamily: 'var(--font-display)',
+      fontFamily: 'var(--font-display), Georgia, serif',
       fontWeight: 600,
-      lineHeight: 1.25,
+      lineHeight: 1.2,
     },
     h4: {
-      fontFamily: 'var(--font-display)',
+      fontFamily: 'var(--font-display), Georgia, serif',
+      fontWeight: 500,
+      lineHeight: 1.25,
+    },
+    h5: {
+      fontFamily: 'var(--font-display), Georgia, serif',
       fontWeight: 500,
       lineHeight: 1.3,
     },
-    h5: {
-      fontFamily: 'var(--font-display)',
+    h6: {
+      fontFamily: 'var(--font-display), Georgia, serif',
       fontWeight: 500,
       lineHeight: 1.35,
     },
-    h6: {
-      fontFamily: 'var(--font-display)',
-      fontWeight: 500,
-      lineHeight: 1.4,
+    body1: {
+      fontSize: '1.0625rem',
+      lineHeight: 1.65,
+    },
+    body2: {
+      fontSize: '0.9375rem',
+      lineHeight: 1.65,
     },
     button: {
-      fontFamily: 'var(--font-body)',
+      fontFamily: 'var(--font-sans), system-ui, sans-serif',
       fontWeight: 600,
       textTransform: 'none' as const,
-      letterSpacing: '0.04em',
+      letterSpacing: '0.06em',
     },
   },
   shape: {
-    borderRadius: 4,
+    borderRadius: 2,
+  },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1400,
+    },
   },
   components: {
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 100,
-          padding: '14px 36px',
-          fontSize: '0.95rem',
+          borderRadius: 0,
+          padding: '14px 32px',
+          fontSize: '0.8125rem',
           boxShadow: 'none',
-          transition: 'all 0.3s ease',
+          transition: 'transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.35s ease, border-color 0.35s ease, color 0.35s ease',
           '&:hover': {
             boxShadow: 'none',
           },
+          '&:active': {
+            transform: 'scale(0.98)',
+          },
         },
         containedPrimary: {
-          background: colors.terraCotta,
-          color: colors.warmWhite,
+          background: colors.espresso,
+          color: colors.ivory,
           '&:hover': {
-            background: colors.terraCottaDark,
+            background: colors.ink,
           },
         },
         outlinedPrimary: {
-          borderColor: colors.terraCotta,
-          color: colors.terraCotta,
-          borderWidth: 1.5,
+          borderColor: colors.espresso,
+          color: colors.espresso,
+          borderWidth: 1,
+          backgroundColor: 'transparent',
           '&:hover': {
-            borderColor: colors.terraCottaDark,
-            borderWidth: 1.5,
-            background: 'rgba(201,150,123,0.06)',
+            borderWidth: 1,
+            borderColor: colors.charcoal,
+            backgroundColor: 'rgba(44,38,34,0.04)',
+          },
+        },
+        textPrimary: {
+          color: colors.clayDeep,
+          '&:hover': {
+            backgroundColor: 'rgba(201,150,123,0.08)',
           },
         },
       },
@@ -119,13 +153,13 @@ export const theme = createTheme({
         root: {
           backgroundImage: 'none',
           backgroundColor: colors.ivory,
-          borderRadius: 2,
-          border: 'none',
-          boxShadow: '0 1px 8px rgba(44,38,34,0.05)',
-          transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+          borderRadius: 0,
+          border: '1px solid rgba(58,53,48,0.06)',
+          boxShadow: '0 24px 48px rgba(30,26,23,0.06)',
+          transition: 'transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s ease',
           '&:hover': {
             transform: 'translateY(-2px)',
-            boxShadow: '0 6px 20px rgba(44,38,34,0.08)',
+            boxShadow: '0 32px 64px rgba(30,26,23,0.08)',
           },
         },
       },
@@ -133,10 +167,10 @@ export const theme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: 'rgba(245,237,227,0.92)',
-          backdropFilter: 'blur(16px)',
+          backgroundColor: 'rgba(250,246,241,0.88)',
+          backdropFilter: 'blur(20px)',
           boxShadow: 'none',
-          borderBottom: '1px solid rgba(184,152,106,0.15)',
+          borderBottom: '1px solid rgba(58,53,48,0.08)',
           color: colors.charcoal,
         },
       },
@@ -151,14 +185,23 @@ export const theme = createTheme({
             borderBottomColor: colors.gold,
           },
           '& .MuiInput-underline:after': {
-            borderBottomColor: colors.terraCotta,
+            borderBottomColor: colors.clay,
           },
           '& .MuiInputLabel-root': {
             color: colors.warmGray,
-            fontFamily: 'var(--font-body)',
+            fontFamily: 'var(--font-sans), system-ui, sans-serif',
           },
           '& .MuiInputLabel-root.Mui-focused': {
-            color: colors.terraCotta,
+            color: colors.clay,
+          },
+        },
+      },
+    },
+    MuiContainer: {
+      styleOverrides: {
+        maxWidthLg: {
+          '@media (min-width:1200px)': {
+            maxWidth: 1140,
           },
         },
       },
@@ -170,4 +213,8 @@ export const layout = {
   navbarHeight: { xs: 56, sm: 64 },
 };
 
-export { colors };
+/** Semantic spacing rhythm (px) for sections */
+export const sectionSpace = {
+  y: { xs: 10, md: 14 },
+  yTight: { xs: 8, md: 11 },
+};

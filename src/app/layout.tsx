@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Playfair_Display, Lora, Cormorant_Garamond } from 'next/font/google';
+import { Playfair_Display, DM_Sans, Cormorant_Garamond } from 'next/font/google';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,10 +15,10 @@ const displayFont = Playfair_Display({
   display: 'swap',
 });
 
-const bodyFont = Lora({
+const sansFont = DM_Sans({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
-  variable: '--font-body',
+  variable: '--font-sans',
   display: 'swap',
 });
 
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     template: '%s | Anchored Arrival',
   },
   description:
-    'Strong, steady support for a confident birth. Doula services, birth education, lactation counseling, and postpartum support by Alissa Thorson.',
+    'Editorial, grounded doula care and maternal support—birth education, lactation counseling, and postpartum guidance with calm conviction. Anchored Arrival by Alissa Thorson.',
   keywords: [
     'doula',
     'birth support',
@@ -52,14 +52,14 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#C9967B',
+  themeColor: '#2C2622',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"
-      className={`${displayFont.variable} ${bodyFont.variable} ${accentFont.variable}`}
+      className={`${displayFont.variable} ${sansFont.variable} ${accentFont.variable}`}
     >
       <body>
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>

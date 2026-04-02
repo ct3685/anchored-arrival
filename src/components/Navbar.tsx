@@ -5,6 +5,7 @@ import {
   Toolbar,
   Button,
   Box,
+  Typography,
   IconButton,
   Drawer,
   List,
@@ -36,21 +37,37 @@ export default function Navbar() {
           <Box
             component={Link}
             href="/"
+            aria-label="Anchored Arrival home"
             sx={{
               flexGrow: 1,
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
+              gap: 2,
             }}
           >
             <Image
               src="/logo.png"
-              alt="Anchored Arrival"
-              width={48}
-              height={48}
+              alt=""
+              width={44}
+              height={44}
               style={{ objectFit: 'contain' }}
               priority
             />
+            <Typography
+              aria-hidden
+              sx={{
+                display: { xs: 'none', sm: 'block' },
+                fontFamily: 'var(--font-display)',
+                fontSize: '1.05rem',
+                fontWeight: 600,
+                letterSpacing: '0.04em',
+                color: colors.espresso,
+                lineHeight: 1.2,
+              }}
+            >
+              Anchored Arrival
+            </Typography>
           </Box>
           <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 0.5 }}>
             {navItems.map((item) => (

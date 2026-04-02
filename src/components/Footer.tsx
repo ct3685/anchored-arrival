@@ -16,9 +16,10 @@ export default function Footer() {
     <Box
       component="footer"
       sx={{
-        py: { xs: 6, md: 8 },
-        bgcolor: colors.espresso,
+        py: { xs: 7, md: 9 },
+        bgcolor: colors.ink,
         color: colors.ivory,
+        borderTop: `1px solid rgba(212,201,168,0.12)`,
       }}
     >
       <Container maxWidth="lg">
@@ -44,11 +45,24 @@ export default function Footer() {
             />
             <Typography
               sx={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: '0.72rem',
+                letterSpacing: '0.22em',
+                textTransform: 'uppercase',
+                color: 'rgba(250,246,241,0.5)',
+                mb: 0.5,
+              }}
+            >
+              Doula care & maternal support
+            </Typography>
+            <Typography
+              sx={{
                 fontFamily: 'var(--font-accent)',
                 fontStyle: 'italic',
-                fontSize: '1.05rem',
+                fontSize: '1.02rem',
                 color: colors.goldLight,
                 mb: 1,
+                opacity: 0.92,
               }}
             >
               Grounded&ensp;&middot;&ensp;Sacred&ensp;&middot;&ensp;Becoming
