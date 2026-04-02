@@ -135,12 +135,12 @@ export default function Hero() {
         </Stack>
       </Box>
 
-      {/* Visual column — logo as monument + depth */}
+      {/* Visual column — anchor still life, warm panel */}
       <Box
         sx={{
           position: 'relative',
           minHeight: { xs: 300, md: 'auto' },
-          bgcolor: { xs: 'rgba(232,222,210,0.45)', md: colors.espresso },
+          bgcolor: { xs: 'rgba(232,222,210,0.45)', md: colors.sand },
           borderTop: { xs: `1px solid rgba(58,53,48,0.06)`, md: 'none' },
           display: 'flex',
           alignItems: 'center',
@@ -155,25 +155,29 @@ export default function Hero() {
             inset: 0,
             opacity: { xs: 0, md: 1 },
             background:
-              'radial-gradient(ellipse 80% 60% at 70% 40%, rgba(201,150,123,0.22) 0%, transparent 55%), radial-gradient(circle at 20% 80%, rgba(212,201,168,0.12) 0%, transparent 45%)',
+              'radial-gradient(ellipse 85% 65% at 60% 35%, rgba(201,150,123,0.18) 0%, transparent 55%), radial-gradient(circle at 15% 85%, rgba(212,201,168,0.2) 0%, transparent 42%)',
             pointerEvents: 'none',
           }}
         />
         <Box
-          aria-hidden
           sx={{
             position: 'relative',
-            width: { xs: 200, sm: 240, md: 'min(72%, 380px)' },
-            aspectRatio: '1',
+            width: { xs: 200, sm: 240, md: 'min(78%, 400px)' },
+            aspectRatio: '3 / 4',
             zIndex: 1,
             '& img': {
               objectFit: 'contain',
-              filter: { xs: 'none', md: 'brightness(0) invert(1)' },
-              opacity: { xs: 1, md: 0.94 },
+              objectPosition: 'center',
             },
           }}
         >
-          <Image src="/logo.png" alt="" fill sizes="(max-width: 600px) 240px, (max-width: 900px) 280px, 380px" priority />
+          <Image
+            src="/images/anchor-still-life.png"
+            alt="Sculptural anchor in sand with soft fabric and warm light, symbolizing steadiness."
+            fill
+            sizes="(max-width: 600px) 240px, (max-width: 900px) 280px, 400px"
+            priority
+          />
         </Box>
         <Typography
           sx={{
@@ -185,10 +189,11 @@ export default function Hero() {
             fontFamily: 'var(--font-accent)',
             fontStyle: 'italic',
             fontSize: '0.95rem',
-            color: 'rgba(250,246,241,0.45)',
+            color: colors.warmGray,
             letterSpacing: '0.12em',
             textAlign: 'center',
             px: 2,
+            opacity: 0.85,
           }}
           aria-hidden
         >

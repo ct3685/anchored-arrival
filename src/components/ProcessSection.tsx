@@ -1,6 +1,7 @@
 'use client';
 
 import { Box, Typography, Container } from '@mui/material';
+import Image from 'next/image';
 import { colors, sectionSpace } from '@/theme/theme';
 import SectionDivider from './SectionDivider';
 
@@ -81,6 +82,29 @@ export default function ProcessSection() {
           One relationship, one thread of context—from first call through the fourth trimester.
         </Typography>
         <SectionDivider ornament={false} />
+
+        <Box
+          sx={{
+            position: 'relative',
+            width: '100%',
+            maxWidth: 880,
+            mx: 'auto',
+            height: { xs: 140, sm: 168, md: 200 },
+            borderRadius: '2px',
+            overflow: 'hidden',
+            mt: { xs: 2, md: 3 },
+            mb: { xs: 1, md: 2 },
+            boxShadow: '0 16px 48px rgba(44,38,34,0.06)',
+          }}
+        >
+          <Image
+            src="/images/abstract-earth-layers.png"
+            alt=""
+            fill
+            sizes="(max-width: 900px) 100vw, 880px"
+            style={{ objectFit: 'cover', objectPosition: 'center 42%' }}
+          />
+        </Box>
 
         <Box
           sx={{
