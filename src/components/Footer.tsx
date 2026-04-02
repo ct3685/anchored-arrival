@@ -1,141 +1,60 @@
 'use client';
 
-import {
-  Box,
-  Container,
-  Typography,
-  Stack,
-  Link as MuiLink,
-} from '@mui/material';
-import { colors } from '@/theme/theme';
+import { Box, Typography, Container, Link as MuiLink } from '@mui/material';
+import Link from 'next/link';
 
 export default function Footer() {
   return (
     <Box
       component="footer"
       sx={{
-        pt: 5,
-        pb: 13,
-        px: 2,
-        mt: 'auto',
-        backgroundColor: colors.smokeBlack,
-        borderTop: `1px solid ${colors.brass}33`,
-        position: 'relative',
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: '1px',
-          background: `linear-gradient(90deg, transparent 0%, ${colors.amber}44 50%, transparent 100%)`,
-        },
+        py: 5,
+        bgcolor: '#5C7E60',
+        color: '#fff',
       }}
     >
       <Container maxWidth="lg">
-        <Stack alignItems="center" spacing={2}>
-          <Typography
-            variant="h5"
-            sx={{
-              color: colors.amber,
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              textAlign: 'center',
-            }}
-          >
-            Trevor / Ranch Squad
-          </Typography>
-
-          <Typography
-            variant="body2"
-            sx={{
-              color: colors.dust,
-              textAlign: 'center',
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              fontSize: '0.75rem',
-            }}
-          >
-            No Power Ups. Just Power.
-          </Typography>
-
-          <Box
-            sx={{
-              width: 60,
-              height: 1,
-              my: 0.5,
-              background: `linear-gradient(90deg, ${colors.brass}44, ${colors.amber}, ${colors.brass}44)`,
-            }}
-          />
-
-          <Stack alignItems="center" spacing={0.75}>
-            <Typography
-              variant="caption"
-              suppressHydrationWarning
-              sx={{
-                color: colors.dust,
-                letterSpacing: '0.06em',
-                opacity: 0.6,
-                textAlign: 'center',
-              }}
-            >
-              © {new Date().getFullYear()} Ranch Squad — Real Ones Only
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: 4,
+            justifyContent: 'space-between',
+            mb: 4,
+          }}
+        >
+          <Box>
+            <Typography variant="h6" sx={{ fontFamily: 'var(--font-display)', mb: 1 }}>
+              Tender Beginnings Wellness
             </Typography>
-            <MuiLink
-              href="https://tiktok.com/@cam.tok"
-              target="_blank"
-              rel="noopener noreferrer"
-              underline="none"
-              sx={{
-                color: colors.amber,
-                letterSpacing: '0.06em',
-                opacity: 0.8,
-                textAlign: 'center',
-                fontSize: '0.75rem',
-                transition: 'all 0.2s ease',
-                '&:hover': {
-                  opacity: 1,
-                  color: colors.amber,
-                  transform: 'scale(1.05)',
-                },
-                '&:active': {
-                  opacity: 1,
-                  color: colors.amber,
-                  transform: 'scale(1.05)',
-                },
-              }}
-            >
-              Made by Reaper ⛰️
-            </MuiLink>
-            <Typography
-              variant="caption"
-              component="p"
-              sx={{
-                m: 0,
-                color: colors.amber,
-                textAlign: 'center',
-                letterSpacing: '0.05em',
-                fontSize: '0.7rem',
-              }}
-            >
-              Want to support Reaper?{' '}
+            <Typography variant="body2" sx={{ opacity: 0.85 }}>
+              Compassionate doula & maternal wellness services
+            </Typography>
+          </Box>
+          <Box sx={{ display: 'flex', gap: 3 }}>
+            {['Services', 'About', 'Contact'].map((item) => (
               <MuiLink
-                href="https://www.tiktok.com/coin?rc=ZE4A4SWN"
-                target="_blank"
-                rel="noopener noreferrer"
-                underline="none"
-                sx={{
-                  color: '#fff',
-                  fontWeight: 700,
-                  transition: 'color 0.2s',
-                  '&:hover': { color: colors.amber },
-                }}
+                key={item}
+                component={Link}
+                href={`/${item.toLowerCase()}`}
+                sx={{ color: '#fff', opacity: 0.85, textDecoration: 'none', '&:hover': { opacity: 1 } }}
               >
-                Recharge TikTok coins here 🎁
+                {item}
               </MuiLink>
-            </Typography>
-          </Stack>
-        </Stack>
+            ))}
+          </Box>
+        </Box>
+        <Box sx={{ borderTop: '1px solid rgba(255,255,255,0.2)', pt: 3 }}>
+          <Typography variant="caption" sx={{ opacity: 0.7, display: 'block', mb: 1 }}>
+            Disclaimer: The services provided are not a substitute for professional medical
+            advice, diagnosis, or treatment. Always seek the advice of your physician or
+            other qualified health provider with any questions regarding a medical condition.
+          </Typography>
+          <Typography variant="caption" sx={{ opacity: 0.7, display: 'block' }}>
+            © {new Date().getFullYear()} Tender Beginnings Wellness. All rights reserved.
+            Your privacy is important to us.
+          </Typography>
+        </Box>
       </Container>
     </Box>
   );

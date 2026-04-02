@@ -1,5 +1,5 @@
 {
-  "name": "trevor-ranchsquad",
+  "name": "alissa-thorson",
   "version": "0.1.0",
   "private": true,
   "packageManager": "pnpm@10.33.0",
@@ -8,32 +8,21 @@
   },
   "scripts": {
     "dev": "next dev --turbopack",
-    "prebuild": "node scripts/optimize-images.js",
     "build": "next build",
     "start": "next start",
     "lint": "eslint src/",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
-    "optimize-images": "node scripts/optimize-images.js",
-    "import-suno": "node scripts/suno-import.mjs"
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,md}\""
   },
   "dependencies": {
-    "@dnd-kit/core": "^6.3.1",
-    "@dnd-kit/modifiers": "^9.0.0",
-    "@dnd-kit/sortable": "^10.0.0",
-    "@dnd-kit/utilities": "^3.2.2",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.3.9",
     "@mui/material": "^7.3.9",
     "@mui/material-nextjs": "^7.3.9",
-    "@netlify/blobs": "^10.7.4",
-    "motion": "^12.38.0",
     "next": "^16.2.1",
     "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "web-vitals": "^5.2.0",
-    "yet-another-react-lightbox": "^3.30.1"
+    "react-dom": "^19.2.4"
   },
   "pnpm": {
     "overrides": {

@@ -2,138 +2,106 @@
 
 import { createTheme } from '@mui/material/styles';
 
-// Neon Rodeo Panic -- Spec-aligned palette
 const colors = {
-  // Base
-  smokeBlack: '#0D0A09',
-  coalBrown: '#18110E',
-  darkLeather: '#241813',
-  // Primary accents
-  amber: '#F5A623',
-  red: '#D33A2C',
-  turquoise: '#33C6C0',
-  // Support
-  bone: '#F2E6D8',
-  brass: '#B88746',
-  dust: '#8B7463',
-
-  // Aliases used throughout components
-  primary: '#F5A623',
-  secondary: '#D33A2C',
-  accent: '#33C6C0',
-  neon: '#F5A623', // legacy alias → amber
-  background: '#0D0A09',
-  surface: '#18110E',
-  surfaceAlt: '#241813',
-  text: '#F2E6D8',
-  textSecondary: '#8B7463',
-  gold: '#B88746',
+  sage: '#7A9E7E',
+  sageDark: '#5C7E60',
+  sageLight: '#A8C5AB',
+  blush: '#E8B4B8',
+  blushDark: '#D4949A',
+  rose: '#C27882',
+  cream: '#FDF8F0',
+  ivory: '#FAF5ED',
+  warmWhite: '#FFFFFF',
+  gold: '#C5A55A',
+  goldLight: '#D4BE82',
+  charcoal: '#3D3D3D',
+  textPrimary: '#2C2C2C',
+  textSecondary: '#6B6B6B',
 };
 
 export const theme = createTheme({
   palette: {
-    mode: 'dark',
+    mode: 'light',
     primary: {
-      main: colors.amber,
-      light: '#F7BD5E',
-      dark: '#C4841C',
+      main: colors.sage,
+      light: colors.sageLight,
+      dark: colors.sageDark,
     },
     secondary: {
-      main: colors.red,
-      light: '#E05A4D',
-      dark: '#A82E22',
+      main: colors.blush,
+      light: '#F0CDD0',
+      dark: colors.blushDark,
     },
     background: {
-      default: colors.smokeBlack,
-      paper: colors.coalBrown,
+      default: colors.cream,
+      paper: colors.warmWhite,
     },
     text: {
-      primary: colors.bone,
-      secondary: colors.dust,
+      primary: colors.textPrimary,
+      secondary: colors.textSecondary,
     },
   },
   typography: {
     fontFamily: 'var(--font-body)',
     h1: {
       fontFamily: 'var(--font-display)',
-      fontWeight: 800,
-      letterSpacing: '0.04em',
-      textTransform: 'uppercase' as const,
-      lineHeight: 1,
+      fontWeight: 700,
+      letterSpacing: '-0.01em',
+      lineHeight: 1.15,
     },
     h2: {
       fontFamily: 'var(--font-display)',
-      fontWeight: 700,
-      letterSpacing: '0.03em',
-      textTransform: 'uppercase' as const,
-      lineHeight: 1.1,
+      fontWeight: 600,
+      letterSpacing: '-0.005em',
+      lineHeight: 1.2,
     },
     h3: {
       fontFamily: 'var(--font-display)',
-      fontWeight: 700,
-      letterSpacing: '0.02em',
-      textTransform: 'uppercase' as const,
-      lineHeight: 1.15,
+      fontWeight: 600,
+      lineHeight: 1.25,
     },
     h4: {
       fontFamily: 'var(--font-display)',
-      fontWeight: 600,
-      letterSpacing: '0.02em',
-      lineHeight: 1.2,
+      fontWeight: 500,
+      lineHeight: 1.3,
     },
     h5: {
       fontFamily: 'var(--font-display)',
-      fontWeight: 600,
-      letterSpacing: '0.01em',
-      lineHeight: 1.25,
+      fontWeight: 500,
+      lineHeight: 1.35,
     },
     h6: {
       fontFamily: 'var(--font-display)',
-      fontWeight: 600,
-      lineHeight: 1.3,
+      fontWeight: 500,
+      lineHeight: 1.4,
     },
     button: {
-      fontFamily: 'var(--font-display)',
-      fontWeight: 700,
-      textTransform: 'uppercase' as const,
-      letterSpacing: '0.08em',
-    },
-    overline: {
-      fontFamily: 'var(--font-display)',
+      fontFamily: 'var(--font-body)',
       fontWeight: 600,
-      letterSpacing: '0.15em',
+      textTransform: 'none' as const,
+      letterSpacing: '0.02em',
     },
   },
   shape: {
-    borderRadius: 4,
+    borderRadius: 12,
   },
   components: {
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 2,
-          padding: '14px 32px',
+          borderRadius: 8,
+          padding: '12px 28px',
           fontSize: '0.95rem',
           boxShadow: 'none',
-          border: `1px solid ${colors.brass}44`,
-          position: 'relative' as const,
           '&:hover': {
-            boxShadow: `0 0 24px ${colors.amber}44`,
-            borderColor: colors.amber,
+            boxShadow: '0 2px 8px rgba(122,158,126,0.25)',
           },
         },
         containedPrimary: {
-          background: `linear-gradient(135deg, ${colors.amber} 0%, ${colors.brass} 100%)`,
-          color: colors.smokeBlack,
-          '&:hover': {
-            background: `linear-gradient(135deg, ${colors.amber} 20%, ${colors.brass} 120%)`,
-          },
-        },
-        containedSecondary: {
-          background: `linear-gradient(135deg, ${colors.red} 0%, #E05A4D 100%)`,
+          background: colors.sage,
           color: '#fff',
           '&:hover': {
-            background: `linear-gradient(135deg, ${colors.red} 20%, #E05A4D 120%)`,
+            background: colors.sageDark,
           },
         },
       },
@@ -142,19 +110,21 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           backgroundImage: 'none',
-          backgroundColor: colors.coalBrown,
-          borderRadius: 2,
-          border: `1px solid ${colors.brass}33`,
+          backgroundColor: colors.warmWhite,
+          borderRadius: 16,
+          border: `1px solid ${colors.ivory}`,
+          boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
         },
       },
     },
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: `${colors.smokeBlack}EE`,
+          backgroundColor: 'rgba(253,248,240,0.95)',
           backdropFilter: 'blur(12px)',
           boxShadow: 'none',
-          borderBottom: `1px solid ${colors.brass}33`,
+          borderBottom: `1px solid rgba(0,0,0,0.06)`,
+          color: colors.textPrimary,
         },
       },
     },
@@ -163,20 +133,6 @@ export const theme = createTheme({
 
 export const layout = {
   navbarHeight: { xs: 56, sm: 64 },
-};
-
-// Reusable clip-path definitions
-export const clipPaths = {
-  ticketStub:
-    'polygon(0% 8%, 4% 8%, 4% 0%, 96% 0%, 96% 8%, 100% 8%, 100% 92%, 96% 92%, 96% 100%, 4% 100%, 4% 92%, 0% 92%)',
-  cattleTag:
-    'polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%)',
-  clippedCorner:
-    'polygon(0% 0%, calc(100% - 16px) 0%, 100% 16px, 100% 100%, 16px 100%, 0% calc(100% - 16px))',
-  clippedCornerSm:
-    'polygon(0% 0%, calc(100% - 10px) 0%, 100% 10px, 100% 100%, 10px 100%, 0% calc(100% - 10px))',
-  buckleFrame:
-    'polygon(8% 0%, 92% 0%, 100% 8%, 100% 92%, 92% 100%, 8% 100%, 0% 92%, 0% 8%)',
 };
 
 export { colors };
