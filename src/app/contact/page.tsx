@@ -1,38 +1,68 @@
 import type { Metadata } from 'next';
-import { Box, Typography, Container, Card, CardContent } from '@mui/material';
-import VideocamIcon from '@mui/icons-material/Videocam';
+import { Box, Typography, Container } from '@mui/material';
 import { ContactForm } from './ContactForm';
 
 export const metadata: Metadata = {
   title: 'Contact',
-  description: 'Get in touch for a consultation. In-home and Zoom appointments available.',
+  description:
+    'Get in touch for a consultation. In-home and Zoom appointments available.',
 };
 
 export default function ContactPage() {
   return (
-    <Box sx={{ py: { xs: 6, md: 10 }, bgcolor: 'background.default' }}>
+    <Box sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.default' }}>
       <Container maxWidth="sm">
-        <Typography variant="h3" textAlign="center" sx={{ mb: 2 }}>
+        {/* Decorative ornament */}
+        <Box sx={{ textAlign: 'center', mb: 4 }}>
+          <Box
+            component="svg"
+            viewBox="0 0 24 24"
+            sx={{
+              width: 28,
+              height: 28,
+              color: 'secondary.main',
+              opacity: 0.5,
+            }}
+          >
+            <path
+              fill="currentColor"
+              d="M12 2C12 2 9 6 9 10C9 12.5 10 14 10 14L8.5 18H10L11 15.5V22H13V15.5L14 18H15.5L14 14C14 14 15 12.5 15 10C15 6 12 2 12 2Z"
+            />
+          </Box>
+        </Box>
+
+        <Typography
+          variant="h2"
+          textAlign="center"
+          sx={{ mb: 2, fontSize: { xs: '2rem', md: '2.6rem' } }}
+        >
           Get in Touch
         </Typography>
-        <Typography textAlign="center" color="text.secondary" sx={{ mb: 4 }}>
-          Ready to start your journey? We&apos;d love to hear from you. Reach out for a
-          free initial consultation — available in-home or via Zoom.
+
+        <Typography
+          textAlign="center"
+          sx={{
+            fontFamily: 'var(--font-accent)',
+            fontStyle: 'italic',
+            fontSize: { xs: '1.05rem', md: '1.15rem' },
+            color: 'text.secondary',
+            mb: 6,
+            lineHeight: 1.7,
+          }}
+        >
+          Ready to start your journey? Reach out for a free initial
+          consultation — available in-home or via Zoom.
         </Typography>
 
-        <Card sx={{ mb: 4 }}>
-          <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <VideocamIcon sx={{ color: 'primary.main', fontSize: 32 }} />
-            <Box>
-              <Typography variant="h6">Zoom Consultations Available</Typography>
-              <Typography variant="body2" color="text.secondary">
-                Can&apos;t meet in person? We offer virtual appointments for your convenience.
-              </Typography>
-            </Box>
-          </CardContent>
-        </Card>
-
-        <ContactForm />
+        <Box
+          sx={{
+            bgcolor: 'background.paper',
+            p: { xs: 4, md: 5 },
+            boxShadow: '0 2px 16px rgba(44,38,34,0.06)',
+          }}
+        >
+          <ContactForm />
+        </Box>
       </Container>
     </Box>
   );

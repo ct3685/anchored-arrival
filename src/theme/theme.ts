@@ -3,42 +3,39 @@
 import { createTheme } from '@mui/material/styles';
 
 const colors = {
-  sage: '#7A9E7E',
-  sageDark: '#5C7E60',
-  sageLight: '#A8C5AB',
-  blush: '#E8B4B8',
-  blushDark: '#D4949A',
-  rose: '#C27882',
-  cream: '#FDF8F0',
-  ivory: '#FAF5ED',
-  warmWhite: '#FFFFFF',
-  gold: '#C5A55A',
-  goldLight: '#D4BE82',
-  charcoal: '#3D3D3D',
-  textPrimary: '#2C2C2C',
-  textSecondary: '#6B6B6B',
+  parchment: '#F5EDE3',
+  terraCotta: '#C9967B',
+  terraCottaDark: '#A67A5B',
+  blushLight: '#EEDAD2',
+  charcoal: '#3A3530',
+  warmGray: '#7A7168',
+  gold: '#B8986A',
+  goldLight: '#D4C9A8',
+  ivory: '#FAF6F1',
+  espresso: '#2C2622',
+  warmWhite: '#FFFDF9',
 };
 
 export const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: colors.sage,
-      light: colors.sageLight,
-      dark: colors.sageDark,
+      main: colors.terraCotta,
+      light: colors.blushLight,
+      dark: colors.terraCottaDark,
     },
     secondary: {
-      main: colors.blush,
-      light: '#F0CDD0',
-      dark: colors.blushDark,
+      main: colors.gold,
+      light: colors.goldLight,
+      dark: '#96774E',
     },
     background: {
-      default: colors.cream,
-      paper: colors.warmWhite,
+      default: colors.parchment,
+      paper: colors.ivory,
     },
     text: {
-      primary: colors.textPrimary,
-      secondary: colors.textSecondary,
+      primary: colors.charcoal,
+      secondary: colors.warmGray,
     },
   },
   typography: {
@@ -46,13 +43,13 @@ export const theme = createTheme({
     h1: {
       fontFamily: 'var(--font-display)',
       fontWeight: 700,
-      letterSpacing: '-0.01em',
+      letterSpacing: '0.04em',
       lineHeight: 1.15,
     },
     h2: {
       fontFamily: 'var(--font-display)',
       fontWeight: 600,
-      letterSpacing: '-0.005em',
+      letterSpacing: '0.02em',
       lineHeight: 1.2,
     },
     h3: {
@@ -79,29 +76,40 @@ export const theme = createTheme({
       fontFamily: 'var(--font-body)',
       fontWeight: 600,
       textTransform: 'none' as const,
-      letterSpacing: '0.02em',
+      letterSpacing: '0.04em',
     },
   },
   shape: {
-    borderRadius: 12,
+    borderRadius: 4,
   },
   components: {
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 8,
-          padding: '12px 28px',
+          borderRadius: 100,
+          padding: '14px 36px',
           fontSize: '0.95rem',
           boxShadow: 'none',
+          transition: 'all 0.3s ease',
           '&:hover': {
-            boxShadow: '0 2px 8px rgba(122,158,126,0.25)',
+            boxShadow: 'none',
           },
         },
         containedPrimary: {
-          background: colors.sage,
-          color: '#fff',
+          background: colors.terraCotta,
+          color: colors.warmWhite,
           '&:hover': {
-            background: colors.sageDark,
+            background: colors.terraCottaDark,
+          },
+        },
+        outlinedPrimary: {
+          borderColor: colors.terraCotta,
+          color: colors.terraCotta,
+          borderWidth: 1.5,
+          '&:hover': {
+            borderColor: colors.terraCottaDark,
+            borderWidth: 1.5,
+            background: 'rgba(201,150,123,0.06)',
           },
         },
       },
@@ -110,14 +118,14 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           backgroundImage: 'none',
-          backgroundColor: colors.warmWhite,
-          borderRadius: 16,
-          border: `1px solid ${colors.ivory}`,
-          boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
-          transition: 'transform 0.25s ease, box-shadow 0.25s ease',
+          backgroundColor: colors.ivory,
+          borderRadius: 2,
+          border: 'none',
+          boxShadow: '0 1px 8px rgba(44,38,34,0.05)',
+          transition: 'transform 0.3s ease, box-shadow 0.3s ease',
           '&:hover': {
-            transform: 'translateY(-4px)',
-            boxShadow: '0 8px 24px rgba(0,0,0,0.10)',
+            transform: 'translateY(-2px)',
+            boxShadow: '0 6px 20px rgba(44,38,34,0.08)',
           },
         },
       },
@@ -125,11 +133,33 @@ export const theme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: 'rgba(253,248,240,0.95)',
-          backdropFilter: 'blur(12px)',
+          backgroundColor: 'rgba(245,237,227,0.92)',
+          backdropFilter: 'blur(16px)',
           boxShadow: 'none',
-          borderBottom: `1px solid rgba(0,0,0,0.06)`,
-          color: colors.textPrimary,
+          borderBottom: '1px solid rgba(184,152,106,0.15)',
+          color: colors.charcoal,
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& .MuiInput-underline:before': {
+            borderBottomColor: colors.goldLight,
+          },
+          '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
+            borderBottomColor: colors.gold,
+          },
+          '& .MuiInput-underline:after': {
+            borderBottomColor: colors.terraCotta,
+          },
+          '& .MuiInputLabel-root': {
+            color: colors.warmGray,
+            fontFamily: 'var(--font-body)',
+          },
+          '& .MuiInputLabel-root.Mui-focused': {
+            color: colors.terraCotta,
+          },
         },
       },
     },

@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from 'next';
-import { Playfair_Display, Inter } from 'next/font/google';
+import { Playfair_Display, Lora, Cormorant_Garamond } from 'next/font/google';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { theme } from '@/theme/theme';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import './globals.css';
 
 const displayFont = Playfair_Display({
   subsets: ['latin'],
@@ -14,10 +15,18 @@ const displayFont = Playfair_Display({
   display: 'swap',
 });
 
-const bodyFont = Inter({
+const bodyFont = Lora({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   variable: '--font-body',
+  display: 'swap',
+});
+
+const accentFont = Cormorant_Garamond({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600'],
+  style: ['normal', 'italic'],
+  variable: '--font-accent',
   display: 'swap',
 });
 
@@ -43,18 +52,21 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#7A9E7E',
+  themeColor: '#C9967B',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${displayFont.variable} ${bodyFont.variable}`}>
-      <body style={{ margin: 0, background: '#FDF8F0' }}>
+    <html
+      lang="en"
+      className={`${displayFont.variable} ${bodyFont.variable} ${accentFont.variable}`}
+    >
+      <body>
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
           <ThemeProvider theme={theme}>
             <CssBaseline />
             <Navbar />
-            <main style={{ minHeight: '100vh' }}>{children}</main>
+            <main>{children}</main>
             <Footer />
           </ThemeProvider>
         </AppRouterCacheProvider>
