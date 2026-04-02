@@ -1,45 +1,196 @@
 'use client';
 
-import { Box, Typography, Container, Grid } from '@mui/material';
-import { colors } from '@/theme/theme';
+import { Box, Typography, Container, Grid, Button } from '@mui/material';
+import Link from 'next/link';
+import { colors, sectionSpace } from '@/theme/theme';
 import SectionDivider from './SectionDivider';
 
 const services = [
   {
-    title: 'Doula Support',
+    title: 'Doula support',
     description:
-      'Continuous emotional, physical, and informational support throughout your pregnancy, labor, and delivery.',
-    accent: colors.terraCotta,
+      'Attuned physical and emotional care through pregnancy, labor, and the first hours after birth—so you are never scanning the room for an anchor.',
+    accent: colors.clay,
   },
   {
-    title: 'Birth Education',
+    title: 'Birth education',
     description:
-      'Comprehensive childbirth education classes available via Zoom, covering breathing techniques, labor stages, and birth planning.',
+      'Private and small-group immersions in physiology, coping, and decision-making—designed for adults who want substance, not scare tactics.',
     accent: colors.gold,
   },
   {
-    title: 'Lactation Counseling',
+    title: 'Lactation counseling',
     description:
-      'Personalized breastfeeding support and guidance to help you and your baby thrive from day one.',
-    accent: colors.terraCotta,
+      'Practical, judgment-free feeding support: latch, supply, pumping plans, and the emotional weight that rides alongside.',
+    accent: colors.clay,
   },
   {
-    title: '3D Ultrasound Imaging',
+    title: '3D ultrasound imaging',
     description:
-      'Beautiful 3D imaging sessions so you can see and bond with your baby before birth.',
+      'Intimate imaging sessions to meet your baby in detail—held with reverence, never rush.',
     accent: colors.gold,
   },
   {
-    title: 'Postpartum Support',
+    title: 'Postpartum care',
     description:
-      'Emotional and practical support during the postpartum period, including resources for postpartum depression.',
-    accent: colors.terraCotta,
+      'Recovery check-ins, mood monitoring, and resource navigation when the world goes quiet and the work gets real.',
+    accent: colors.clay,
   },
 ];
 
-export default function Services({ detailed = false }: { detailed?: boolean }) {
+function EditorialServices() {
   return (
     <Box
+      component="section"
+      id="offerings"
+      aria-labelledby="offerings-heading"
+      sx={{
+        py: sectionSpace.y,
+        bgcolor: 'background.default',
+        scrollMarginTop: 88,
+      }}
+    >
+      <Container maxWidth="lg">
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', md: 'row' },
+            alignItems: { md: 'flex-end' },
+            justifyContent: 'space-between',
+            gap: 3,
+            mb: { xs: 2, md: 1 },
+          }}
+        >
+          <Box sx={{ maxWidth: 640 }}>
+            <Typography
+              sx={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: '0.7rem',
+                letterSpacing: '0.22em',
+                textTransform: 'uppercase',
+                color: colors.bronzeMuted,
+                fontWeight: 600,
+                mb: 2,
+              }}
+            >
+              Offerings
+            </Typography>
+            <Typography
+              id="offerings-heading"
+              variant="h2"
+              sx={{
+                fontSize: { xs: '2.1rem', md: 'clamp(2.35rem, 3.8vw, 3.4rem)' },
+                color: colors.espresso,
+                fontWeight: 600,
+                mb: 2,
+              }}
+            >
+              Care that scales with the moment.
+            </Typography>
+            <Typography
+              sx={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: { xs: '1.02rem', md: '1.08rem' },
+                color: colors.warmGray,
+                lineHeight: 1.7,
+              }}
+            >
+              Each engagement is bespoke. Start where you are—we will build the rest together.
+            </Typography>
+          </Box>
+          <Button
+            variant="outlined"
+            color="primary"
+            component={Link}
+            href="/services"
+            sx={{ alignSelf: { xs: 'flex-start', md: 'flex-end' }, flexShrink: 0 }}
+          >
+            Full service detail
+          </Button>
+        </Box>
+
+        <SectionDivider ornament />
+
+        <Box component="ul" sx={{ listStyle: 'none', m: 0, p: 0 }}>
+          {services.map((service, index) => (
+            <Box
+              component="li"
+              key={service.title}
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: { xs: '1fr', md: index % 2 === 0 ? '1fr 1.15fr' : '1.15fr 1fr' },
+                gap: { xs: 2, md: 6 },
+                alignItems: 'center',
+                py: { xs: 4, md: 5 },
+                borderBottom: `1px solid rgba(58,53,48,0.08)`,
+              }}
+            >
+              <Box
+                sx={{
+                  order: { xs: 0, md: index % 2 === 0 ? 0 : 1 },
+                  height: { xs: 4, md: 200 },
+                  minHeight: { xs: 4, md: 140 },
+                  bgcolor: { xs: 'transparent', md: colors.sand },
+                  position: 'relative',
+                  overflow: 'hidden',
+                  borderLeft: { xs: `3px solid ${service.accent}`, md: 'none' },
+                }}
+              >
+                <Box
+                  sx={{
+                    display: { xs: 'none', md: 'block' },
+                    position: 'absolute',
+                    inset: 0,
+                    background: `linear-gradient(145deg, ${service.accent}22 0%, transparent 55%)`,
+                  }}
+                />
+              </Box>
+              <Box sx={{ order: { xs: 1, md: index % 2 === 0 ? 1 : 0 } }}>
+                <Typography
+                  sx={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: { xs: '1.65rem', md: '1.85rem' },
+                    color: colors.espresso,
+                    fontWeight: 600,
+                    mb: 2,
+                  }}
+                >
+                  {service.title}
+                </Typography>
+                <Typography
+                  sx={{
+                    fontFamily: 'var(--font-sans)',
+                    fontSize: '0.98rem',
+                    color: colors.warmGray,
+                    lineHeight: 1.75,
+                    maxWidth: 480,
+                  }}
+                >
+                  {service.description}
+                </Typography>
+              </Box>
+            </Box>
+          ))}
+        </Box>
+      </Container>
+    </Box>
+  );
+}
+
+export default function Services({
+  detailed = false,
+  variant = 'default',
+}: {
+  detailed?: boolean;
+  variant?: 'default' | 'editorial';
+}) {
+  if (variant === 'editorial') {
+    return <EditorialServices />;
+  }
+
+  return (
+    <Box
+      component="section"
       sx={{
         py: { xs: 8, md: 12 },
         bgcolor: detailed ? 'background.default' : 'background.paper',
@@ -49,9 +200,9 @@ export default function Services({ detailed = false }: { detailed?: boolean }) {
         <Typography
           variant="h2"
           textAlign="center"
-          sx={{ mb: 1, fontSize: { xs: '2rem', md: '2.8rem' } }}
+          sx={{ mb: 1, fontSize: { xs: '2rem', md: '2.8rem' }, color: colors.espresso }}
         >
-          Our Services
+          Services
         </Typography>
 
         <SectionDivider />
@@ -69,8 +220,7 @@ export default function Services({ detailed = false }: { detailed?: boolean }) {
             lineHeight: 1.7,
           }}
         >
-          Holistic care for every stage of your maternal journey — from
-          pregnancy through postpartum and beyond.
+          Holistic care from pregnancy through postpartum—with room for your story in every step.
         </Typography>
 
         <Grid container spacing={{ xs: 3, md: 4 }}>
@@ -83,10 +233,11 @@ export default function Services({ detailed = false }: { detailed?: boolean }) {
                   height: '100%',
                   borderTop: `3px solid ${service.accent}`,
                   boxShadow: '0 1px 8px rgba(44,38,34,0.05)',
-                  transition: 'all 0.3s ease',
+                  border: '1px solid rgba(58,53,48,0.06)',
+                  transition: 'transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease',
                   '&:hover': {
                     transform: 'translateY(-3px)',
-                    boxShadow: '0 8px 24px rgba(44,38,34,0.08)',
+                    boxShadow: '0 20px 40px rgba(30,26,23,0.07)',
                   },
                 }}
               >
@@ -96,6 +247,7 @@ export default function Services({ detailed = false }: { detailed?: boolean }) {
                     mb: 2,
                     fontSize: { xs: '1.15rem', md: '1.25rem' },
                     fontWeight: 600,
+                    color: colors.espresso,
                   }}
                 >
                   {service.title}
@@ -105,6 +257,7 @@ export default function Services({ detailed = false }: { detailed?: boolean }) {
                     color: 'text.secondary',
                     lineHeight: 1.75,
                     fontSize: '0.95rem',
+                    fontFamily: 'var(--font-sans)',
                   }}
                 >
                   {service.description}
@@ -121,8 +274,7 @@ export default function Services({ detailed = false }: { detailed?: boolean }) {
                       fontFamily: 'var(--font-accent)',
                     }}
                   >
-                    Available in-home and via Zoom. Contact us for pricing and
-                    availability.
+                    In-home and virtual appointments. Contact for availability and investment.
                   </Typography>
                 )}
               </Box>

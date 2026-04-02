@@ -1,88 +1,197 @@
 'use client';
 
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography, Button, Stack } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
+import { colors } from '@/theme/theme';
 
 export default function Hero() {
   return (
     <Box
+      component="section"
+      aria-label="Introduction"
       sx={{
-        minHeight: { xs: '85vh', md: '100vh' },
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        textAlign: 'center',
+        minHeight: { xs: 'auto', md: 'min(100vh, 920px)' },
+        display: 'grid',
+        gridTemplateColumns: { xs: '1fr', md: 'minmax(0, 1.05fr) minmax(0, 0.85fr)' },
+        alignItems: 'stretch',
         position: 'relative',
         overflow: 'hidden',
-        background:
-          'radial-gradient(ellipse 70% 60% at 50% 45%, rgba(238,218,210,0.6) 0%, rgba(201,150,123,0.12) 40%, rgba(245,237,227,0) 70%)',
-        py: { xs: 8, md: 0 },
+        pt: { xs: 3, md: 0 },
+        pb: { xs: 8, md: 0 },
       }}
     >
+      {/* Editorial column */}
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          px: { xs: 3, sm: 5, md: 8, lg: 10 },
+          py: { xs: 6, md: 10 },
+          position: 'relative',
+          zIndex: 1,
+        }}
+      >
+        <Typography
+          className="aa-fade-up"
+          sx={{
+            fontFamily: 'var(--font-sans)',
+            fontSize: { xs: '0.68rem', sm: '0.72rem' },
+            letterSpacing: '0.28em',
+            textTransform: 'uppercase',
+            color: colors.bronzeMuted,
+            mb: { xs: 3, md: 4 },
+            fontWeight: 600,
+          }}
+        >
+          Anchored Arrival
+        </Typography>
+
+        <Typography
+          variant="h1"
+          className="aa-fade-up aa-fade-up-delay-1"
+          sx={{
+            fontFamily: 'var(--font-display)',
+            fontSize: { xs: '2.65rem', sm: '3.35rem', md: 'clamp(3.25rem, 5.2vw, 4.75rem)' },
+            fontWeight: 600,
+            color: colors.espresso,
+            maxWidth: { md: '12ch' },
+            mb: { xs: 3, md: 4 },
+            lineHeight: { xs: 1.05, md: 1.02 },
+          }}
+        >
+          Hold steady.
+          <Box
+            component="span"
+            sx={{
+              display: 'block',
+              mt: { xs: 0.5, md: 0.75 },
+              color: colors.clayDeep,
+              fontStyle: 'italic',
+              fontFamily: 'var(--font-accent)',
+              fontWeight: 500,
+              fontSize: { xs: '0.92em', md: '0.9em' },
+            }}
+          >
+            Arrive whole.
+          </Box>
+        </Typography>
+
+        <Box
+          className="aa-fade-up aa-fade-up-delay-2"
+          sx={{
+            width: { xs: 48, md: 64 },
+            height: '2px',
+            bgcolor: colors.clay,
+            mb: { xs: 3, md: 4 },
+            opacity: 0.85,
+          }}
+        />
+
+        <Typography
+          className="aa-fade-up aa-fade-up-delay-2"
+          sx={{
+            fontFamily: 'var(--font-sans)',
+            fontSize: { xs: '1.05rem', md: '1.125rem' },
+            fontWeight: 400,
+            color: colors.warmGray,
+            maxWidth: 440,
+            lineHeight: 1.7,
+            mb: { xs: 4, md: 5 },
+          }}
+        >
+          One-to-one doula care, birth education, and postpartum guidance—clear-eyed, unhurried, and
+          rooted in evidence. For when the moment is too sacred to navigate on adrenaline alone.
+        </Typography>
+
+        <Stack
+          direction={{ xs: 'column', sm: 'row' }}
+          spacing={2}
+          className="aa-fade-up aa-fade-up-delay-3"
+          sx={{ alignItems: { xs: 'stretch', sm: 'center' } }}
+        >
+          <Button
+            variant="contained"
+            color="primary"
+            component={Link}
+            href="/contact"
+            size="large"
+            sx={{ minWidth: { sm: 200 } }}
+          >
+            Request a consultation
+          </Button>
+          <Button
+            variant="outlined"
+            color="primary"
+            component={Link}
+            href="#offerings"
+            size="large"
+            sx={{ minWidth: { sm: 200 } }}
+          >
+            View offerings
+          </Button>
+        </Stack>
+      </Box>
+
+      {/* Visual column — logo as monument + depth */}
       <Box
         sx={{
           position: 'relative',
-          width: { xs: 220, sm: 280, md: 340 },
-          height: { xs: 220, sm: 280, md: 340 },
-          mb: { xs: 3, md: 4 },
+          minHeight: { xs: 320, md: 'auto' },
+          bgcolor: { xs: 'transparent', md: colors.espresso },
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflow: 'hidden',
         }}
       >
-        <Image
-          src="/logo.png"
-          alt="Anchored Arrival — Grounded, Sacred, Becoming"
-          fill
-          sizes="(max-width: 600px) 220px, (max-width: 900px) 280px, 340px"
-          style={{ objectFit: 'contain' }}
-          priority
+        <Box
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            opacity: { xs: 0, md: 1 },
+            background:
+              'radial-gradient(ellipse 80% 60% at 70% 40%, rgba(201,150,123,0.22) 0%, transparent 55%), radial-gradient(circle at 20% 80%, rgba(212,201,168,0.12) 0%, transparent 45%)',
+            pointerEvents: 'none',
+          }}
         />
+        <Box
+          aria-hidden
+          sx={{
+            position: 'relative',
+            width: { xs: 240, sm: 280, md: 'min(72%, 380px)' },
+            aspectRatio: '1',
+            zIndex: 1,
+            '& img': {
+              objectFit: 'contain',
+              filter: { xs: 'none', md: 'brightness(0) invert(1)' },
+              opacity: { xs: 1, md: 0.94 },
+            },
+          }}
+        >
+          <Image src="/logo.png" alt="" fill sizes="(max-width: 900px) 280px, 380px" priority />
+        </Box>
+        <Typography
+          sx={{
+            display: { xs: 'none', md: 'block' },
+            position: 'absolute',
+            bottom: 48,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            fontFamily: 'var(--font-accent)',
+            fontStyle: 'italic',
+            fontSize: '0.95rem',
+            color: 'rgba(250,246,241,0.45)',
+            letterSpacing: '0.12em',
+            textAlign: 'center',
+            px: 2,
+          }}
+          aria-hidden
+        >
+          Grounded · Sacred · Becoming
+        </Typography>
       </Box>
-
-      <Typography
-        sx={{
-          fontFamily: 'var(--font-body)',
-          fontSize: { xs: '0.72rem', md: '0.82rem' },
-          letterSpacing: '0.22em',
-          textTransform: 'uppercase',
-          color: 'text.secondary',
-          mb: 2.5,
-        }}
-      >
-        Grounded&ensp;&middot;&ensp;Sacred&ensp;&middot;&ensp;Becoming
-      </Typography>
-
-      <Typography
-        sx={{
-          fontFamily: 'var(--font-accent)',
-          fontStyle: 'italic',
-          fontSize: { xs: '1.15rem', sm: '1.35rem', md: '1.55rem' },
-          fontWeight: 400,
-          color: 'text.secondary',
-          maxWidth: 520,
-          px: 3,
-          mb: 5,
-          lineHeight: 1.6,
-        }}
-      >
-        Compassionate doula care, birth education, and postpartum
-        wellness&mdash;because no one should navigate this journey alone.
-      </Typography>
-
-      <Button
-        variant="contained"
-        color="primary"
-        component={Link}
-        href="/contact"
-        size="large"
-        sx={{
-          px: { xs: 5, md: 6 },
-          py: 1.8,
-          fontSize: '0.92rem',
-        }}
-      >
-        Begin Your Journey
-      </Button>
     </Box>
   );
 }

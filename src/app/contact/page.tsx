@@ -50,8 +50,9 @@ export default function ContactPage() {
             lineHeight: 1.7,
           }}
         >
-          Ready to start your journey? Reach out for a free initial
-          consultation — available in-home or via Zoom.
+          Tell me where you are in the arc—pregnancy, planning, or already
+          home with a newborn. Initial consults are unhurried, in-home or on
+          Zoom.
         </Typography>
 
         <Box

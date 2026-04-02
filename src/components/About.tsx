@@ -98,9 +98,8 @@ export default function About({ full = false }: { full?: boolean }) {
                   lineHeight: 1.7,
                 }}
               >
-                Every family deserves to feel grounded, informed, and fully
-                supported during one of life&apos;s most transformative
-                experiences.
+                You are not fragile for wanting care that matches the gravity of
+                what you are doing.
               </Typography>
             </Box>
 
@@ -112,9 +111,9 @@ export default function About({ full = false }: { full?: boolean }) {
                 fontSize: '0.98rem',
               }}
             >
-              At Anchored Arrival, my mission is to empower birthing people with
-              knowledge, comfort, and unwavering advocacy so they can approach
-              pregnancy, birth, and postpartum with confidence.
+              Anchored Arrival exists so you do not have to borrow courage from
+              thin air. I bring preparation, advocacy, and a calm that does not
+              depend on everything going to plan.
             </Typography>
 
             {full && (
@@ -127,12 +126,10 @@ export default function About({ full = false }: { full?: boolean }) {
                     fontSize: '0.98rem',
                   }}
                 >
-                  I&apos;m Alissa Thorson — a certified doula passionate about
-                  maternal wellness and helping families feel anchored through
-                  every stage of their journey. My practice offers a holistic
-                  approach that honors each family&apos;s unique story. Whether
-                  you&apos;re a first-time parent or expanding your family, I
-                  provide personalized care tailored to your needs.
+                  I&apos;m Alissa Thorson. My practice sits at the intersection
+                  of rigor and tenderness—clinical literacy without coldness,
+                  warmth without fluff. First baby or fourth, every arc deserves
+                  its own map.
                 </Typography>
                 <Typography
                   sx={{
@@ -142,10 +139,9 @@ export default function About({ full = false }: { full?: boolean }) {
                     fontSize: '0.98rem',
                   }}
                 >
-                  I offer both in-home visits and virtual consultations via
-                  Zoom, making expert support accessible no matter where you
-                  are. From birth education classes to lactation counseling and
-                  postpartum check-ins, I&apos;m with you every step of the way.
+                  In-home and Zoom sessions keep expert support within reach.
+                  Education, lactation, labor, and postpartum are woven as one
+                  continuum—not disconnected add-ons.
                 </Typography>
               </>
             )}

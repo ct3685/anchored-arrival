@@ -1,87 +1,102 @@
 'use client';
 
 import { Box, Typography, Container, Grid } from '@mui/material';
-import { colors } from '@/theme/theme';
+import { colors, sectionSpace } from '@/theme/theme';
 import SectionDivider from './SectionDivider';
 
 const testimonials = [
   {
     quote:
-      'Alissa made us feel so safe and prepared. Her presence during labor was an anchor in the most beautiful storm of our lives.',
+      'Alissa was the steadiness we did not know we would need. In the chaos, she made eye contact like an anchor—no drama, just truth.',
     name: 'Sarah M.',
-    context: 'First-time mother',
+    context: 'First birth',
   },
   {
     quote:
-      'I went from feeling overwhelmed to feeling powerful. The birth education classes changed everything about how I approached my delivery.',
+      'The education was not fluffy encouragement. It was sharp, honest, and it changed how I spoke to my providers—and to myself.',
     name: 'Jenna T.',
-    context: 'Birth education client',
+    context: 'Birth education',
   },
   {
     quote:
-      'The postpartum support was a lifeline. Having someone who truly understood what I was going through made all the difference.',
+      'Postpartum was lonelier than I expected. Having someone who normalized the grief alongside the joy saved my sense of self.',
     name: 'Rachel K.',
-    context: 'Postpartum support client',
+    context: 'Postpartum care',
   },
 ];
 
 export default function Testimonials() {
   return (
     <Box
+      component="section"
+      aria-labelledby="testimonials-heading"
       sx={{
-        py: { xs: 8, md: 12 },
-        bgcolor: 'background.paper',
+        py: sectionSpace.y,
+        bgcolor: colors.linen,
+        position: 'relative',
       }}
     >
       <Container maxWidth="lg">
         <Typography
           sx={{
-            fontFamily: 'var(--font-body)',
-            fontSize: '0.78rem',
-            letterSpacing: '0.18em',
+            fontFamily: 'var(--font-sans)',
+            fontSize: '0.7rem',
+            letterSpacing: '0.22em',
             textTransform: 'uppercase',
-            color: colors.gold,
+            color: colors.bronzeMuted,
             textAlign: 'center',
+            fontWeight: 600,
             mb: 1,
           }}
         >
-          Testimonials
+          Proof of presence
         </Typography>
 
         <Typography
+          id="testimonials-heading"
           variant="h2"
           textAlign="center"
-          sx={{ mb: 1, fontSize: { xs: '2rem', md: '2.8rem' } }}
+          sx={{
+            mb: 0,
+            fontSize: { xs: '2rem', md: '2.65rem' },
+            color: colors.espresso,
+            fontWeight: 600,
+          }}
         >
-          Words from Families
+          Voices from the threshold
         </Typography>
 
-        <SectionDivider />
+        <SectionDivider ornament={false} />
 
-        <Grid container spacing={{ xs: 3, md: 4 }} sx={{ mt: { xs: 2, md: 4 } }}>
+        <Grid container spacing={{ xs: 3, md: 2 }} sx={{ mt: { xs: 1, md: 2 } }}>
           {testimonials.map((t) => (
             <Grid key={t.name} size={{ xs: 12, md: 4 }}>
               <Box
                 sx={{
-                  p: { xs: 3.5, md: 4 },
+                  p: { xs: 3, md: 3.5 },
                   height: '100%',
                   display: 'flex',
                   flexDirection: 'column',
-                  position: 'relative',
+                  bgcolor: 'rgba(250,246,241,0.55)',
+                  border: '1px solid rgba(58,53,48,0.06)',
+                  transition: 'box-shadow 0.45s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1)',
+                  '&:hover': {
+                    boxShadow: '0 28px 56px rgba(30,26,23,0.06)',
+                    transform: 'translateY(-2px)',
+                  },
                 }}
               >
-                {/* Gold open-quote */}
                 <Typography
                   sx={{
                     fontFamily: 'var(--font-display)',
-                    fontSize: '4rem',
+                    fontSize: '3rem',
                     lineHeight: 1,
-                    color: colors.gold,
+                    color: colors.clay,
                     opacity: 0.35,
-                    mb: -2,
+                    mb: -1,
                     userSelect: 'none',
                   }}
-                  aria-hidden="true"
+                  aria-hidden
                 >
                   &ldquo;
                 </Typography>
@@ -90,9 +105,9 @@ export default function Testimonials() {
                   sx={{
                     fontFamily: 'var(--font-accent)',
                     fontStyle: 'italic',
-                    fontSize: { xs: '1.05rem', md: '1.12rem' },
+                    fontSize: { xs: '1.05rem', md: '1.08rem' },
                     lineHeight: 1.75,
-                    color: 'text.primary',
+                    color: colors.charcoal,
                     flex: 1,
                     mb: 3,
                   }}
@@ -102,27 +117,28 @@ export default function Testimonials() {
 
                 <Box
                   sx={{
-                    borderTop: `1px solid rgba(184,152,106,0.25)`,
+                    borderTop: `1px solid rgba(184,152,106,0.22)`,
                     pt: 2,
                   }}
                 >
                   <Typography
                     sx={{
-                      fontFamily: 'var(--font-body)',
+                      fontFamily: 'var(--font-sans)',
                       fontWeight: 600,
-                      fontSize: '0.88rem',
-                      color: 'text.primary',
-                      letterSpacing: '0.04em',
+                      fontSize: '0.82rem',
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase',
+                      color: colors.espresso,
                     }}
                   >
                     {t.name}
                   </Typography>
                   <Typography
                     sx={{
-                      fontFamily: 'var(--font-accent)',
-                      fontStyle: 'italic',
-                      fontSize: '0.85rem',
-                      color: 'text.secondary',
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '0.8rem',
+                      color: colors.warmGray,
+                      mt: 0.5,
                     }}
                   >
                     {t.context}
