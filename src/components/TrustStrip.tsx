@@ -36,7 +36,7 @@ export default function TrustStrip() {
                 sx={{
                   fontFamily: 'var(--font-sans)',
                   fontSize: '0.7rem',
-                  letterSpacing: '0.2em',
+                  letterSpacing: '0.22em',
                   textTransform: 'uppercase',
                   color: colors.bronzeMuted,
                   fontWeight: 600,

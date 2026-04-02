@@ -91,7 +91,7 @@ export const theme = createTheme({
       fontFamily: 'var(--font-sans), system-ui, sans-serif',
       fontWeight: 600,
       textTransform: 'none' as const,
-      letterSpacing: '0.06em',
+      letterSpacing: '0.09em',
     },
   },
   shape: {
@@ -125,8 +125,10 @@ export const theme = createTheme({
         containedPrimary: {
           background: colors.espresso,
           color: colors.ivory,
+          border: `1px solid ${colors.espresso}`,
           '&:hover': {
             background: colors.ink,
+            borderColor: colors.ink,
           },
         },
         outlinedPrimary: {

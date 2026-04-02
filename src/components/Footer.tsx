@@ -70,7 +70,14 @@ export default function Footer() {
           </Box>
 
           {/* Nav links */}
-          <Box sx={{ display: 'flex', gap: 4 }}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', sm: 'row' },
+              alignItems: 'center',
+              gap: { xs: 2, sm: 4 },
+            }}
+          >
             {footerLinks.map((item) => (
               <MuiLink
                 key={item.label}

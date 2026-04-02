@@ -95,7 +95,8 @@ function EditorialServices() {
                 lineHeight: 1.7,
               }}
             >
-              Each engagement is bespoke. Start where you are—we will build the rest together.
+              Every package is tailored. You do not need a polished plan to reach out—only a next
+            honest step.
             </Typography>
           </Box>
           <Button
@@ -105,7 +106,7 @@ function EditorialServices() {
             href="/services"
             sx={{ alignSelf: { xs: 'flex-start', md: 'flex-end' }, flexShrink: 0 }}
           >
-            Full service detail
+            Every offering, in detail
           </Button>
         </Box>
 
