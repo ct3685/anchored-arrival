@@ -1,141 +1,126 @@
 'use client';
 
-import {
-  Box,
-  Container,
-  Typography,
-  Stack,
-  Link as MuiLink,
-} from '@mui/material';
+import { Box, Typography, Container, Link as MuiLink } from '@mui/material';
+import Image from 'next/image';
+import Link from 'next/link';
 import { colors } from '@/theme/theme';
+
+const footerLinks = [
+  { label: 'Services', href: '/services' },
+  { label: 'About', href: '/about' },
+  { label: 'Contact', href: '/contact' },
+];
 
 export default function Footer() {
   return (
     <Box
       component="footer"
       sx={{
-        pt: 5,
-        pb: 13,
-        px: 2,
-        mt: 'auto',
-        backgroundColor: colors.smokeBlack,
-        borderTop: `1px solid ${colors.brass}33`,
-        position: 'relative',
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: '1px',
-          background: `linear-gradient(90deg, transparent 0%, ${colors.amber}44 50%, transparent 100%)`,
-        },
+        py: { xs: 6, md: 8 },
+        bgcolor: colors.espresso,
+        color: colors.ivory,
       }}
     >
       <Container maxWidth="lg">
-        <Stack alignItems="center" spacing={2}>
-          <Typography
-            variant="h5"
-            sx={{
-              color: colors.amber,
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              textAlign: 'center',
-            }}
-          >
-            Trevor / Ranch Squad
-          </Typography>
-
-          <Typography
-            variant="body2"
-            sx={{
-              color: colors.dust,
-              textAlign: 'center',
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              fontSize: '0.75rem',
-            }}
-          >
-            No Power Ups. Just Power.
-          </Typography>
-
-          <Box
-            sx={{
-              width: 60,
-              height: 1,
-              my: 0.5,
-              background: `linear-gradient(90deg, ${colors.brass}44, ${colors.amber}, ${colors.brass}44)`,
-            }}
-          />
-
-          <Stack alignItems="center" spacing={0.75}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', md: 'row' },
+            alignItems: { xs: 'center', md: 'flex-start' },
+            justifyContent: 'space-between',
+            gap: { xs: 4, md: 0 },
+            mb: 5,
+            textAlign: { xs: 'center', md: 'left' },
+          }}
+        >
+          {/* Logo + tagline */}
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: { xs: 'center', md: 'flex-start' } }}>
+            <Image
+              src="/logo.png"
+              alt="Anchored Arrival"
+              width={56}
+              height={56}
+              style={{ objectFit: 'contain', opacity: 0.9, marginBottom: 12 }}
+            />
             <Typography
-              variant="caption"
-              suppressHydrationWarning
               sx={{
-                color: colors.dust,
-                letterSpacing: '0.06em',
-                opacity: 0.6,
-                textAlign: 'center',
+                fontFamily: 'var(--font-accent)',
+                fontStyle: 'italic',
+                fontSize: '1.05rem',
+                color: colors.goldLight,
+                mb: 1,
               }}
             >
-              © {new Date().getFullYear()} Ranch Squad — Real Ones Only
+              Grounded&ensp;&middot;&ensp;Sacred&ensp;&middot;&ensp;Becoming
             </Typography>
-            <MuiLink
-              href="https://tiktok.com/@cam.tok"
-              target="_blank"
-              rel="noopener noreferrer"
-              underline="none"
-              sx={{
-                color: colors.amber,
-                letterSpacing: '0.06em',
-                opacity: 0.8,
-                textAlign: 'center',
-                fontSize: '0.75rem',
-                transition: 'all 0.2s ease',
-                '&:hover': {
-                  opacity: 1,
-                  color: colors.amber,
-                  transform: 'scale(1.05)',
-                },
-                '&:active': {
-                  opacity: 1,
-                  color: colors.amber,
-                  transform: 'scale(1.05)',
-                },
-              }}
-            >
-              Made by Reaper ⛰️
-            </MuiLink>
-            <Typography
-              variant="caption"
-              component="p"
-              sx={{
-                m: 0,
-                color: colors.amber,
-                textAlign: 'center',
-                letterSpacing: '0.05em',
-                fontSize: '0.7rem',
-              }}
-            >
-              Want to support Reaper?{' '}
+          </Box>
+
+          {/* Nav links */}
+          <Box sx={{ display: 'flex', gap: 4 }}>
+            {footerLinks.map((item) => (
               <MuiLink
-                href="https://www.tiktok.com/coin?rc=ZE4A4SWN"
-                target="_blank"
-                rel="noopener noreferrer"
-                underline="none"
+                key={item.label}
+                component={Link}
+                href={item.href}
                 sx={{
-                  color: '#fff',
-                  fontWeight: 700,
-                  transition: 'color 0.2s',
-                  '&:hover': { color: colors.amber },
+                  color: colors.ivory,
+                  opacity: 0.7,
+                  textDecoration: 'none',
+                  fontFamily: 'var(--font-body)',
+                  fontSize: '0.82rem',
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                  transition: 'opacity 0.3s ease, color 0.3s ease',
+                  '&:hover': {
+                    opacity: 1,
+                    color: colors.gold,
+                  },
                 }}
               >
-                Recharge TikTok coins here 🎁
+                {item.label}
               </MuiLink>
-            </Typography>
-          </Stack>
-        </Stack>
+            ))}
+          </Box>
+        </Box>
+
+        {/* Gold divider */}
+        <Box
+          sx={{
+            height: '1px',
+            background: `linear-gradient(to right, transparent, ${colors.gold}40, transparent)`,
+            mb: 3,
+          }}
+        />
+
+        <Typography
+          variant="caption"
+          sx={{
+            display: 'block',
+            opacity: 0.5,
+            mb: 1.5,
+            fontSize: '0.75rem',
+            lineHeight: 1.7,
+            textAlign: { xs: 'center', md: 'left' },
+          }}
+        >
+          Disclaimer: The services provided are not a substitute for
+          professional medical advice, diagnosis, or treatment. Always seek the
+          advice of your physician or other qualified health provider with any
+          questions regarding a medical condition.
+        </Typography>
+
+        <Typography
+          variant="caption"
+          sx={{
+            display: 'block',
+            opacity: 0.45,
+            fontSize: '0.75rem',
+            textAlign: { xs: 'center', md: 'left' },
+          }}
+        >
+          &copy; {new Date().getFullYear()} Anchored Arrival. All rights
+          reserved.
+        </Typography>
       </Container>
     </Box>
   );

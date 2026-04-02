@@ -2,106 +2,81 @@
 
 import { createTheme } from '@mui/material/styles';
 
-// Neon Rodeo Panic -- Spec-aligned palette
 const colors = {
-  // Base
-  smokeBlack: '#0D0A09',
-  coalBrown: '#18110E',
-  darkLeather: '#241813',
-  // Primary accents
-  amber: '#F5A623',
-  red: '#D33A2C',
-  turquoise: '#33C6C0',
-  // Support
-  bone: '#F2E6D8',
-  brass: '#B88746',
-  dust: '#8B7463',
-
-  // Aliases used throughout components
-  primary: '#F5A623',
-  secondary: '#D33A2C',
-  accent: '#33C6C0',
-  neon: '#F5A623', // legacy alias → amber
-  background: '#0D0A09',
-  surface: '#18110E',
-  surfaceAlt: '#241813',
-  text: '#F2E6D8',
-  textSecondary: '#8B7463',
-  gold: '#B88746',
+  parchment: '#F5EDE3',
+  terraCotta: '#C9967B',
+  terraCottaDark: '#A67A5B',
+  blushLight: '#EEDAD2',
+  charcoal: '#3A3530',
+  warmGray: '#7A7168',
+  gold: '#B8986A',
+  goldLight: '#D4C9A8',
+  ivory: '#FAF6F1',
+  espresso: '#2C2622',
+  warmWhite: '#FFFDF9',
 };
 
 export const theme = createTheme({
   palette: {
-    mode: 'dark',
+    mode: 'light',
     primary: {
-      main: colors.amber,
-      light: '#F7BD5E',
-      dark: '#C4841C',
+      main: colors.terraCotta,
+      light: colors.blushLight,
+      dark: colors.terraCottaDark,
     },
     secondary: {
-      main: colors.red,
-      light: '#E05A4D',
-      dark: '#A82E22',
+      main: colors.gold,
+      light: colors.goldLight,
+      dark: '#96774E',
     },
     background: {
-      default: colors.smokeBlack,
-      paper: colors.coalBrown,
+      default: colors.parchment,
+      paper: colors.ivory,
     },
     text: {
-      primary: colors.bone,
-      secondary: colors.dust,
+      primary: colors.charcoal,
+      secondary: colors.warmGray,
     },
   },
   typography: {
     fontFamily: 'var(--font-body)',
     h1: {
       fontFamily: 'var(--font-display)',
-      fontWeight: 800,
+      fontWeight: 700,
       letterSpacing: '0.04em',
-      textTransform: 'uppercase' as const,
-      lineHeight: 1,
-    },
-    h2: {
-      fontFamily: 'var(--font-display)',
-      fontWeight: 700,
-      letterSpacing: '0.03em',
-      textTransform: 'uppercase' as const,
-      lineHeight: 1.1,
-    },
-    h3: {
-      fontFamily: 'var(--font-display)',
-      fontWeight: 700,
-      letterSpacing: '0.02em',
-      textTransform: 'uppercase' as const,
       lineHeight: 1.15,
     },
-    h4: {
+    h2: {
       fontFamily: 'var(--font-display)',
       fontWeight: 600,
       letterSpacing: '0.02em',
       lineHeight: 1.2,
     },
-    h5: {
+    h3: {
       fontFamily: 'var(--font-display)',
       fontWeight: 600,
-      letterSpacing: '0.01em',
       lineHeight: 1.25,
+    },
+    h4: {
+      fontFamily: 'var(--font-display)',
+      fontWeight: 500,
+      lineHeight: 1.3,
+    },
+    h5: {
+      fontFamily: 'var(--font-display)',
+      fontWeight: 500,
+      lineHeight: 1.35,
     },
     h6: {
       fontFamily: 'var(--font-display)',
-      fontWeight: 600,
-      lineHeight: 1.3,
+      fontWeight: 500,
+      lineHeight: 1.4,
     },
     button: {
-      fontFamily: 'var(--font-display)',
-      fontWeight: 700,
-      textTransform: 'uppercase' as const,
-      letterSpacing: '0.08em',
-    },
-    overline: {
-      fontFamily: 'var(--font-display)',
+      fontFamily: 'var(--font-body)',
       fontWeight: 600,
-      letterSpacing: '0.15em',
+      textTransform: 'none' as const,
+      letterSpacing: '0.04em',
     },
   },
   shape: {
@@ -111,29 +86,30 @@ export const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 2,
-          padding: '14px 32px',
+          borderRadius: 100,
+          padding: '14px 36px',
           fontSize: '0.95rem',
           boxShadow: 'none',
-          border: `1px solid ${colors.brass}44`,
-          position: 'relative' as const,
+          transition: 'all 0.3s ease',
           '&:hover': {
-            boxShadow: `0 0 24px ${colors.amber}44`,
-            borderColor: colors.amber,
+            boxShadow: 'none',
           },
         },
         containedPrimary: {
-          background: `linear-gradient(135deg, ${colors.amber} 0%, ${colors.brass} 100%)`,
-          color: colors.smokeBlack,
+          background: colors.terraCotta,
+          color: colors.warmWhite,
           '&:hover': {
-            background: `linear-gradient(135deg, ${colors.amber} 20%, ${colors.brass} 120%)`,
+            background: colors.terraCottaDark,
           },
         },
-        containedSecondary: {
-          background: `linear-gradient(135deg, ${colors.red} 0%, #E05A4D 100%)`,
-          color: '#fff',
+        outlinedPrimary: {
+          borderColor: colors.terraCotta,
+          color: colors.terraCotta,
+          borderWidth: 1.5,
           '&:hover': {
-            background: `linear-gradient(135deg, ${colors.red} 20%, #E05A4D 120%)`,
+            borderColor: colors.terraCottaDark,
+            borderWidth: 1.5,
+            background: 'rgba(201,150,123,0.06)',
           },
         },
       },
@@ -142,19 +118,48 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           backgroundImage: 'none',
-          backgroundColor: colors.coalBrown,
+          backgroundColor: colors.ivory,
           borderRadius: 2,
-          border: `1px solid ${colors.brass}33`,
+          border: 'none',
+          boxShadow: '0 1px 8px rgba(44,38,34,0.05)',
+          transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+          '&:hover': {
+            transform: 'translateY(-2px)',
+            boxShadow: '0 6px 20px rgba(44,38,34,0.08)',
+          },
         },
       },
     },
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: `${colors.smokeBlack}EE`,
-          backdropFilter: 'blur(12px)',
+          backgroundColor: 'rgba(245,237,227,0.92)',
+          backdropFilter: 'blur(16px)',
           boxShadow: 'none',
-          borderBottom: `1px solid ${colors.brass}33`,
+          borderBottom: '1px solid rgba(184,152,106,0.15)',
+          color: colors.charcoal,
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& .MuiInput-underline:before': {
+            borderBottomColor: colors.goldLight,
+          },
+          '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
+            borderBottomColor: colors.gold,
+          },
+          '& .MuiInput-underline:after': {
+            borderBottomColor: colors.terraCotta,
+          },
+          '& .MuiInputLabel-root': {
+            color: colors.warmGray,
+            fontFamily: 'var(--font-body)',
+          },
+          '& .MuiInputLabel-root.Mui-focused': {
+            color: colors.terraCotta,
+          },
         },
       },
     },
@@ -163,20 +168,6 @@ export const theme = createTheme({
 
 export const layout = {
   navbarHeight: { xs: 56, sm: 64 },
-};
-
-// Reusable clip-path definitions
-export const clipPaths = {
-  ticketStub:
-    'polygon(0% 8%, 4% 8%, 4% 0%, 96% 0%, 96% 8%, 100% 8%, 100% 92%, 96% 92%, 96% 100%, 4% 100%, 4% 92%, 0% 92%)',
-  cattleTag:
-    'polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%)',
-  clippedCorner:
-    'polygon(0% 0%, calc(100% - 16px) 0%, 100% 16px, 100% 100%, 16px 100%, 0% calc(100% - 16px))',
-  clippedCornerSm:
-    'polygon(0% 0%, calc(100% - 10px) 0%, 100% 10px, 100% 100%, 10px 100%, 0% calc(100% - 10px))',
-  buckleFrame:
-    'polygon(8% 0%, 92% 0%, 100% 8%, 100% 92%, 92% 100%, 8% 100%, 0% 92%, 0% 8%)',
 };
 
 export { colors };

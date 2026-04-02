@@ -1,375 +1,88 @@
 'use client';
 
+import { Box, Typography, Button } from '@mui/material';
 import Image from 'next/image';
-import { Box, Container, Typography, Button, Stack } from '@mui/material';
-import { motion } from 'motion/react';
-import { colors, clipPaths, layout } from '@/theme/theme';
-import { trackHeroCTA, trackOutboundClick } from '@/lib/analytics';
-import { useScrollDepth } from '@/lib/useScrollDepth';
-import { useLiveStatus } from '@/lib/useLiveStatus';
-import TikTokIcon from '@/components/TikTokIcon';
+import Link from 'next/link';
 
 export default function Hero() {
-  useScrollDepth();
-  const { isLive, tiktokHref } = useLiveStatus();
-
   return (
     <Box
       sx={{
-        position: 'relative',
-        minHeight: {
-          xs: `calc(100dvh - ${layout.navbarHeight.xs}px)`,
-          sm: `calc(100dvh - ${layout.navbarHeight.sm}px)`,
-        },
+        minHeight: { xs: '85vh', md: '100vh' },
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
-        background: `linear-gradient(180deg, ${colors.smokeBlack} 0%, ${colors.coalBrown} 40%, ${colors.smokeBlack} 100%)`,
+        justifyContent: 'center',
+        textAlign: 'center',
+        position: 'relative',
         overflow: 'hidden',
+        background:
+          'radial-gradient(ellipse 70% 60% at 50% 45%, rgba(238,218,210,0.6) 0%, rgba(201,150,123,0.12) 40%, rgba(245,237,227,0) 70%)',
+        py: { xs: 8, md: 0 },
       }}
     >
-      {/* Arena haze / stage light effects — intensify when live */}
       <Box
-        sx={{
-          display: { xs: 'none', md: 'block' },
-          position: 'absolute',
-          top: '-10%',
-          left: '20%',
-          width: 500,
-          height: 500,
-          background: `radial-gradient(circle, ${colors.red}${isLive ? '30' : '18'} 0%, transparent 70%)`,
-          filter: 'blur(80px)',
-          transition: 'background 1s ease',
-        }}
-      />
-      <Box
-        sx={{
-          display: { xs: 'none', md: 'block' },
-          position: 'absolute',
-          bottom: '5%',
-          right: '5%',
-          width: 600,
-          height: 600,
-          background: `radial-gradient(circle, ${colors.amber}${isLive ? '28' : '14'} 0%, transparent 70%)`,
-          filter: 'blur(100px)',
-          transition: 'background 1s ease',
-        }}
-      />
-      <Box
-        sx={{
-          position: 'absolute',
-          top: '30%',
-          right: '30%',
-          width: 200,
-          height: 200,
-          background: `radial-gradient(circle, ${colors.turquoise}08 0%, transparent 70%)`,
-          filter: 'blur(60px)',
-        }}
-      />
-
-      <Container
-        maxWidth="lg"
         sx={{
           position: 'relative',
-          zIndex: 1,
-          py: { xs: 4, sm: 5, md: 8 },
+          width: { xs: 220, sm: 280, md: 340 },
+          height: { xs: 220, sm: 280, md: 340 },
+          mb: { xs: 3, md: 4 },
         }}
       >
-        <Stack
-          direction={{ xs: 'column-reverse', md: 'row' }}
-          spacing={{ xs: 4, md: 8 }}
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          {/* Text Content - Left Side */}
-          <Box
-            sx={{
-              textAlign: { xs: 'center', md: 'left' },
-              maxWidth: 560,
-              flex: 1,
-            }}
-          >
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              <Typography
-                variant="overline"
-                sx={{
-                  color: isLive ? colors.red : colors.brass,
-                  letterSpacing: 6,
-                  fontWeight: 600,
-                  mb: 1,
-                  display: 'block',
-                  fontSize: '0.85rem',
-                  ...(isLive && {
-                    animation: 'flicker 2s ease-in-out infinite',
-                    '@keyframes flicker': {
-                      '0%, 100%': { opacity: 1 },
-                      '50%': { opacity: 0.6 },
-                    },
-                  }),
-                }}
-              >
-                {isLive ? '🔴 Live Right Now' : 'Tonight at the Ranch'}
-              </Typography>
-            </motion.div>
+        <Image
+          src="/logo.png"
+          alt="Anchored Arrival — Grounded, Sacred, Becoming"
+          fill
+          sizes="(max-width: 600px) 220px, (max-width: 900px) 280px, 340px"
+          style={{ objectFit: 'contain' }}
+          priority
+        />
+      </Box>
 
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-            >
-              <Typography
-                variant="h1"
-                sx={{
-                  fontSize: { xs: '3.5rem', sm: '5rem', md: '6rem' },
-                  color: colors.amber,
-                  mb: 2,
-                  textShadow: isLive
-                    ? `0 0 60px ${colors.red}44, 0 0 30px ${colors.amber}33`
-                    : `0 0 40px ${colors.amber}33`,
-                  transition: 'text-shadow 1s ease',
-                }}
-              >
-                {isLive ? (
-                  <>
-                    The Ranch
-                    <br />
-                    Is Live
-                  </>
-                ) : (
-                  <>
-                    Com&apos;On.
-                    <br />
-                    Pull Up.
-                  </>
-                )}
-              </Typography>
-            </motion.div>
+      <Typography
+        sx={{
+          fontFamily: 'var(--font-body)',
+          fontSize: { xs: '0.72rem', md: '0.82rem' },
+          letterSpacing: '0.22em',
+          textTransform: 'uppercase',
+          color: 'text.secondary',
+          mb: 2.5,
+        }}
+      >
+        Grounded&ensp;&middot;&ensp;Sacred&ensp;&middot;&ensp;Becoming
+      </Typography>
 
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-            >
-              <Typography
-                variant="body1"
-                sx={{
-                  color: colors.dust,
-                  fontWeight: 400,
-                  mb: 5,
-                  fontSize: { xs: '1rem', md: '1.1rem' },
-                  lineHeight: 1.7,
-                  maxWidth: 420,
-                  mx: { xs: 'auto', md: 0 },
-                }}
-              >
-                {isLive
-                  ? "Trevor is LIVE right now on TikTok. The ranch is open. Pull up — you're missing it."
-                  : 'Country-fried live chaos, rally cries, and real ones only. Pull up for the live. Stay for the madness.'}
-              </Typography>
-            </motion.div>
+      <Typography
+        sx={{
+          fontFamily: 'var(--font-accent)',
+          fontStyle: 'italic',
+          fontSize: { xs: '1.15rem', sm: '1.35rem', md: '1.55rem' },
+          fontWeight: 400,
+          color: 'text.secondary',
+          maxWidth: 520,
+          px: 3,
+          mb: 5,
+          lineHeight: 1.6,
+        }}
+      >
+        Compassionate doula care, birth education, and postpartum
+        wellness&mdash;because no one should navigate this journey alone.
+      </Typography>
 
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-            >
-              <Stack
-                direction={{ xs: 'column', sm: 'row' }}
-                spacing={2}
-                justifyContent={{ xs: 'center', md: 'flex-start' }}
-              >
-                <Button
-                  variant="contained"
-                  color={isLive ? 'secondary' : 'primary'}
-                  size="large"
-                  href={tiktokHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  startIcon={
-                    <TikTokIcon sx={{ fontSize: '1.35rem !important' }} />
-                  }
-                  onClick={() => {
-                    const tiktokCtaLabel = isLive
-                      ? 'Watch on TikTok'
-                      : 'Join on TikTok';
-                    trackHeroCTA(tiktokCtaLabel, tiktokHref, true);
-                    trackOutboundClick(tiktokHref, tiktokCtaLabel, 'hero');
-                  }}
-                  sx={{
-                    py: 1.8,
-                    px: 5,
-                    fontSize: '1.05rem',
-                    clipPath: clipPaths.ticketStub,
-                    border: 'none',
-                    position: 'relative',
-                    overflow: 'hidden',
-                    ...(isLive && {
-                      boxShadow: `0 0 24px ${colors.red}55`,
-                      '&::after': {
-                        content: '""',
-                        position: 'absolute',
-                        top: 0,
-                        left: '-100%',
-                        width: '100%',
-                        height: '100%',
-                        background: `linear-gradient(90deg, transparent, ${colors.bone}15, transparent)`,
-                        animation: 'liveSweep 3s ease-in-out infinite alternate',
-                      },
-                      '@keyframes liveSweep': {
-                        '0%': { left: '-100%' },
-                        '100%': { left: '100%' },
-                      },
-                    }),
-                  }}
-                >
-                  {isLive ? (
-                    <>
-                      <Box
-                        component="span"
-                        sx={{
-                          position: 'relative',
-                          display: 'inline-block',
-                          width: 10,
-                          height: 10,
-                          mr: 1,
-                          '& .dot': {
-                            position: 'absolute',
-                            inset: 0,
-                            borderRadius: '50%',
-                            backgroundColor: '#ff3b30',
-                          },
-                          '& .ring': {
-                            position: 'absolute',
-                            inset: -3,
-                            borderRadius: '50%',
-                            border: '2px solid #ff3b30',
-                            animation: 'liveRing 1.6s ease-out infinite',
-                          },
-                          '@keyframes liveRing': {
-                            '0%': { transform: 'scale(0.8)', opacity: 0.8 },
-                            '100%': { transform: 'scale(2)', opacity: 0 },
-                          },
-                        }}
-                      >
-                        <span className="dot" />
-                        <span className="ring" />
-                      </Box>
-                      Watch Live
-                    </>
-                  ) : (
-                    'Join on TikTok'
-                  )}
-                </Button>
-                <Button
-                  variant="contained"
-                  color={isLive ? 'primary' : 'secondary'}
-                  size="large"
-                  href="https://kingstreetcowboys.com/affiliates/trevorbfit"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => {
-                    trackHeroCTA(
-                      'Shop the Gear',
-                      'https://kingstreetcowboys.com/affiliates/trevorbfit',
-                      true
-                    );
-                    trackOutboundClick(
-                      'https://kingstreetcowboys.com/affiliates/trevorbfit',
-                      'Shop the Gear',
-                      'hero'
-                    );
-                  }}
-                  sx={{
-                    py: 1.8,
-                    px: 5,
-                    fontSize: '1.05rem',
-                    clipPath: clipPaths.ticketStub,
-                    border: 'none',
-                  }}
-                >
-                  Shop the Gear
-                </Button>
-              </Stack>
-            </motion.div>
-          </Box>
-
-          {/* Portrait - Right Side - Buckle-plate frame */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
-          >
-            <Box
-              sx={{
-                position: 'relative',
-                width: { xs: 280, sm: 320, md: 380 },
-                height: { xs: 340, sm: 390, md: 460 },
-              }}
-            >
-              {/* Outer glow — red pulse when live */}
-              <Box
-                sx={{
-                  position: 'absolute',
-                  inset: -8,
-                  clipPath: clipPaths.buckleFrame,
-                  background: isLive
-                    ? `linear-gradient(135deg, ${colors.red}88, ${colors.amber}66, ${colors.red}88)`
-                    : `linear-gradient(135deg, ${colors.amber}66, ${colors.red}44, ${colors.turquoise}33)`,
-                  filter: 'blur(2px)',
-                  transition: 'background 1s ease',
-                  ...(isLive && {
-                    animation: 'frameGlow 2s ease-in-out infinite',
-                    '@keyframes frameGlow': {
-                      '0%, 100%': { opacity: 0.8 },
-                      '50%': { opacity: 1 },
-                    },
-                  }),
-                }}
-              />
-              {/* Brass border */}
-              <Box
-                sx={{
-                  position: 'absolute',
-                  inset: -3,
-                  clipPath: clipPaths.buckleFrame,
-                  background: `linear-gradient(135deg, ${colors.brass}, ${colors.amber}, ${colors.brass})`,
-                }}
-              />
-              {/* Image container */}
-              <Box
-                sx={{
-                  position: 'relative',
-                  width: '100%',
-                  height: '100%',
-                  clipPath: clipPaths.buckleFrame,
-                  overflow: 'hidden',
-                }}
-              >
-                <Image
-                  src="/images/trevor-horseback-portrait.jpeg"
-                  alt="Trevor on horseback - Ranch Squad"
-                  fill
-                  sizes="(max-width: 768px) 280px, 380px"
-                  style={{ objectFit: 'cover' }}
-                  priority
-                  fetchPriority="high"
-                />
-                {/* Vignette overlay on portrait */}
-                <Box
-                  sx={{
-                    position: 'absolute',
-                    inset: 0,
-                    background: `linear-gradient(to top, ${colors.smokeBlack}88 0%, transparent 40%)`,
-                  }}
-                />
-              </Box>
-            </Box>
-          </motion.div>
-        </Stack>
-      </Container>
+      <Button
+        variant="contained"
+        color="primary"
+        component={Link}
+        href="/contact"
+        size="large"
+        sx={{
+          px: { xs: 5, md: 6 },
+          py: 1.8,
+          fontSize: '0.92rem',
+        }}
+      >
+        Begin Your Journey
+      </Button>
     </Box>
   );
 }
