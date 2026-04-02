@@ -34,7 +34,7 @@ export function ContactForm() {
         rows={4}
         fullWidth
         variant="standard"
-        placeholder="Timeline, what you are weighing, what you need from me…"
+        placeholder="Due date or baby’s age, what you are weighing, what would help this week…"
       />
       <Button
         variant="contained"
@@ -60,8 +60,8 @@ export function ContactForm() {
           lineHeight: 1.65,
         }}
       >
-        Replies usually land within one business day. Nothing you share is used for marketing or
-        passed along without your consent.
+        I usually reply within one business day. What you send stays here—no marketing lists, no
+        sharing without your OK.
       </Typography>
     </Box>
   );

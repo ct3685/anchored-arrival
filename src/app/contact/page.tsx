@@ -6,7 +6,7 @@ import { ContactForm } from './ContactForm';
 export const metadata: Metadata = {
   title: 'Contact',
   description:
-    'Request a consultation. In-home and Zoom appointments; thoughtful, confidential follow-up.',
+    'Request a consultation. In-home or Zoom. Replies are confidential and unhurried.',
 };
 
 export default function ContactPage() {
@@ -40,7 +40,7 @@ export default function ContactPage() {
               lineHeight: 1.12,
             }}
           >
-            Say where you are. We&apos;ll take it from there.
+            Say where you are. We will take it from there.
           </Typography>
 
           <Typography
@@ -54,8 +54,8 @@ export default function ContactPage() {
               lineHeight: 1.72,
             }}
           >
-            Pregnancy, planning, or already home with a newborn—initial consults are unhurried, in
-            person or on Zoom.
+            Pregnant, planning, or already home with a newborn. First consults are slow on purpose,
+            in person or on Zoom.
           </Typography>
 
           <Box

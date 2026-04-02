@@ -6,15 +6,15 @@ import { colors, sectionSpace } from '@/theme/theme';
 const pillars = [
   {
     title: 'Depth over scripts',
-    body: 'No recycled birth-plan templates or one-size care. We build strategy from your history, your values, and what your body is telling you.',
+    body: 'No recycled birth-plan templates or one-size care. Strategy comes from your history, your values, and what your body is doing—not a generic script.',
   },
   {
     title: 'Advocacy with grace',
-    body: 'I translate clinical language, make space for questions, and help you practice the hard conversations before the day arrives.',
+    body: 'I translate clinical language, leave room for questions, and help you rehearse the hard conversations before the day arrives.',
   },
   {
     title: 'Continuity you can feel',
-    body: 'The same hands at prenatal visits, in labor when possible, and in the fragile first weeks—so you are never re-explaining yourself.',
+    body: 'The same person at prenatal visits, in labor when I can, and in the fragile first weeks—so you are not reintroducing yourself every time.',
   },
 ];
 

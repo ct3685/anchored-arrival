@@ -101,9 +101,8 @@ export default function Hero() {
             mb: { xs: 4, md: 5 },
           }}
         >
-          Private doula care, birth education, and postpartum guidance—clear-eyed, unhurried, and
-          rooted in evidence. For when the threshold deserves someone who will not rush you through
-          it.
+          Doula care, birth education, and postpartum support. I work slowly, with evidence, and
+          without theater. For a crossing this heavy, you deserve someone who will not rush you.
         </Typography>
 
         <Stack
@@ -173,7 +172,7 @@ export default function Hero() {
         >
           <Image
             src="/images/anchor-still-life.png"
-            alt="Sculptural anchor in sand with soft fabric and warm light, symbolizing steadiness."
+            alt="Sculptural anchor in sand with soft fabric and warm light."
             fill
             sizes="(max-width: 600px) 240px, (max-width: 900px) 280px, 400px"
             priority

@@ -4,7 +4,7 @@ import Services from '@/components/Services';
 export const metadata: Metadata = {
   title: 'Services',
   description:
-    'Doula support, birth education, lactation counseling, 3D ultrasounds, postpartum care, and in-home rest visits.',
+    'Doula support, birth education, lactation help, 3D ultrasound, postpartum care, and in-home rest visits.',
 };
 
 export default function ServicesPage() {

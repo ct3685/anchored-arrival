@@ -6,7 +6,7 @@ import { colors, sectionSpace } from '@/theme/theme';
 export const metadata: Metadata = {
   title: 'In-home rest visits',
   description:
-    'Respite and in-home presence for parents who need a real break—vetted team members, flexible blocks, and clear boundaries alongside Anchored Arrival doula care.',
+    'In-home rest for parents who need a real break: vetted team, flexible blocks, clear scope. Works alongside Anchored Arrival doula care.',
   keywords: [
     'in-home respite',
     'postpartum respite',
@@ -20,23 +20,23 @@ export const metadata: Metadata = {
 const faqItems = [
   {
     q: 'How is this different from postpartum doula care?',
-    a: 'Postpartum doula visits center on recovery, feeding strategy, emotional processing, and navigation. Rest visits prioritize practical presence—another capable adult in the home so you can nap, shower, run an errand, or simply not be the only person on duty.',
+    a: 'Postpartum doula visits focus on recovery, feeding, feelings, and figuring out what comes next. Rest visits are simpler: another capable adult in the house so you can nap, shower, run a quick errand, or stop being the only person on duty.',
   },
   {
     q: 'Who provides the visits?',
-    a: 'Our in-home rest team is vetted and aligned with Anchored Arrival standards. We match you with someone whose experience fits your household and your baby’s age.',
+    a: 'The rest team is vetted to the same standards as the rest of the practice. We match you with someone whose experience fits your household and how old your baby is.',
   },
   {
     q: 'How long can a visit be?',
-    a: 'Blocks are flexible—often two to four hours, sometimes longer depending on need and availability. Tell us what would actually help; we’ll propose realistic options.',
+    a: 'Blocks are flexible. Often two to four hours; sometimes longer if need and schedule allow. Say what would actually help and we will suggest what is realistic.',
   },
   {
     q: 'Do you offer full housekeeping or long-term nanny placement?',
-    a: 'We are not a cleaning service or a nanny agency. Visits can include light, baby-adjacent tidying when it supports the parent’s rest—not whole-home deep cleans or exclusive long-term childcare contracts.',
+    a: 'We are not a cleaning company or a nanny agency. Light tidying near the baby zone is fine when it helps you rest. We do not do whole-home deep cleans or long-term sole-care contracts.',
   },
   {
     q: 'Where do we start?',
-    a: 'Send an inquiry with your neighborhood, baby’s age, and the kind of window you’re hoping for (e.g. nap coverage, sibling help, solo-parent relief). We’ll follow up with next steps and availability.',
+    a: 'Send a note with your neighborhood, baby’s age, and the window you need (nap coverage, sibling help, solo-parent stretch). We reply with next steps and what we have open.',
   },
 ];
 
@@ -104,9 +104,9 @@ export default function InHomeRestPage() {
               mb: 3,
             }}
           >
-            Sometimes what you need is not another article or pep talk—it is another pair of hands
-            in your actual home, while you close your eyes, take a shower, or step out for an hour
-            without doing mental calculus about who is watching the baby.
+            Sometimes you do not need another article or pep talk. You need another pair of hands in
+            your own home while you shut your eyes, shower, or step out for an hour without running
+            the math on who has the baby.
           </Typography>
 
           <Typography
@@ -118,10 +118,9 @@ export default function InHomeRestPage() {
               mb: 3,
             }}
           >
-            Our team offers scheduled in-home presence for parents who are solo, short on backup,
-            between partners’ travel, or simply running on fumes. Think nap coverage,
-            nanny-style continuity for a defined block of time, and calm company for little ones—not
-            a rushed drop-in, and not a substitute for medical care.
+            Scheduled in-home help for parents who are solo, short on backup, covering a partner’s
+            trip, or running on fumes. Nap coverage, the same person for a set block, calm company
+            for little kids. Not a rushed drop-in. Not medical care.
           </Typography>
 
           <Typography
@@ -134,7 +133,7 @@ export default function InHomeRestPage() {
               mb: 5,
             }}
           >
-            You are allowed to want rest without earning it first.
+            Rest is not something you have to earn first.
           </Typography>
 
           <Typography
@@ -193,10 +192,9 @@ export default function InHomeRestPage() {
               mb: 5,
             }}
           >
-            Single parents, solo weeks while a partner is away, families without relatives nearby,
-            and anyone whose village is thin on the ground. If you have been white-knuckling
-            through sleep debt and pretending you do not need backup, you are exactly who we had in
-            mind.
+            Single parents, weeks alone while a partner travels, families without relatives close by,
+            anyone whose village is thin. If you have been white-knuckling through sleep debt and
+            telling yourself you should not need help, you are who we built this for.
           </Typography>
 
           <Typography
@@ -213,9 +211,9 @@ export default function InHomeRestPage() {
           </Typography>
           <Box component="ol" sx={{ m: 0, pl: 2.5, mb: 5 }}>
             {[
-              'You reach out with your location, baby’s age, and what kind of window would help.',
-              'We confirm fit, explain investment, and match you with a team member.',
-              'We schedule your block(s). You get predictable relief—not a vague “let us know.”',
+              'You write with your location, baby’s age, and the kind of window that would help.',
+              'We confirm fit, explain cost, and match you with someone on the team.',
+              'We put your block(s) on the calendar. Relief with a date on it, not a vague “circle back.”',
             ].map((item) => (
               <Typography
                 key={item}
@@ -244,8 +242,8 @@ export default function InHomeRestPage() {
               borderBottom: `1px solid rgba(58,53,48,0.1)`,
             }}
           >
-            Every rest visit is held to the same care standards as the rest of Anchored Arrival. We
-            vet experience, judgment, and alignment with how families deserve to be treated.
+            Rest visits meet the same bar as the rest of Anchored Arrival: experience, judgment,
+            and how we believe families should be treated.
           </Typography>
 
           <Typography

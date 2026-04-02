@@ -9,22 +9,22 @@ const steps = [
   {
     phase: 'I',
     title: 'Discovery call',
-    text: 'A no-pressure conversation about your timeline, hopes, and what “supported” means to you.',
+    text: 'A no-pressure call about your timeline, what you hope for, and what “supported” means to you.',
   },
   {
     phase: 'II',
     title: 'Prenatal depth work',
-    text: 'Education, birth preferences, comfort measures, and rehearsal for the decisions that often arrive unannounced.',
+    text: 'Education, birth preferences, comfort tools, and practice for decisions that tend to land without warning.',
   },
   {
     phase: 'III',
     title: 'Labor & birth',
-    text: 'Continuous presence, positional support, emotional grounding, and partnership with your clinical team.',
+    text: 'Continuous presence, hands-on positioning, steadiness, and clear coordination with your clinical team.',
   },
   {
     phase: 'IV',
     title: 'Fourth trimester',
-    text: 'Lactation guidance, recovery check-ins, and gentle navigation of the identity shift that follows.',
+    text: 'Feeding help, recovery check-ins, and patient support through the identity shift afterward.',
   },
 ];
 
@@ -79,7 +79,7 @@ export default function ProcessSection() {
             mb: 0,
           }}
         >
-          One relationship, one thread of context—from first call through the fourth trimester.
+          One relationship and one through-line from first call through the fourth trimester.
         </Typography>
         <SectionDivider ornament={false} />
 

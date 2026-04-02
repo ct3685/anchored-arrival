@@ -41,7 +41,7 @@ export default function About({ full = false }: { full?: boolean }) {
             >
               <Image
                 src="/images/maternity-portrait-standing.png"
-                alt="Pregnant person in a linen drape, holding their belly in calm, natural light."
+                alt="Pregnant person in a linen drape, hands on belly, soft light."
                 fill
                 sizes="(max-width: 900px) 100vw, 38vw"
                 style={{ objectFit: 'cover', objectPosition: 'center 20%' }}
@@ -105,9 +105,9 @@ export default function About({ full = false }: { full?: boolean }) {
                 fontSize: '0.98rem',
               }}
             >
-              Anchored Arrival exists so you do not have to borrow courage from
-              thin air. I bring preparation, advocacy, and a calm that does not
-              depend on everything going to plan.
+              You should not have to invent courage out of thin air. I show up
+              with preparation and advocacy, and with calm that does not require
+              a perfect plan.
             </Typography>
 
             {full && (
@@ -120,10 +120,9 @@ export default function About({ full = false }: { full?: boolean }) {
                     fontSize: '0.98rem',
                   }}
                 >
-                  I&apos;m Alissa Thorson. My practice sits at the intersection
-                  of rigor and tenderness—clinical literacy without coldness,
-                  warmth without fluff. First baby or fourth, every arc deserves
-                  its own map.
+                  I&apos;m Alissa Thorson. I hold rigor and tenderness together:
+                  clinical literacy without ice, warmth without fluff. First baby
+                  or fourth, your story still needs its own map.
                 </Typography>
                 <Typography
                   sx={{
@@ -133,9 +132,9 @@ export default function About({ full = false }: { full?: boolean }) {
                     fontSize: '0.98rem',
                   }}
                 >
-                  In-home and Zoom sessions keep expert support within reach.
-                  Education, lactation, labor, and postpartum are woven as one
-                  continuum—not disconnected add-ons.
+                  We meet at home or on Zoom. Education, feeding, labor, and
+                  postpartum stay one thread—not separate add-ons you tack on at
+                  the end.
                 </Typography>
               </>
             )}

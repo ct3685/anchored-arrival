@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     template: '%s | Anchored Arrival',
   },
   description:
-    'Editorial, grounded doula care and maternal support—birth education, lactation counseling, and postpartum guidance with calm conviction. Anchored Arrival by Alissa Thorson.',
+    'Grounded doula care and maternal support: birth education, lactation counseling, and postpartum guidance. Alissa Thorson, Anchored Arrival.',
   keywords: [
     'doula',
     'birth support',

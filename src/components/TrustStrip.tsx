@@ -4,9 +4,9 @@ import { Box, Typography, Container } from '@mui/material';
 import { colors } from '@/theme/theme';
 
 const items = [
-  { label: 'Continuous labor support', detail: 'Presence when intensity peaks' },
-  { label: 'Evidence-informed guidance', detail: 'No fear-mongering, no noise' },
-  { label: 'In-home & virtual', detail: 'Care that meets you where you are' },
+  { label: 'Continuous labor support', detail: 'There when the waves stack up' },
+  { label: 'Evidence-informed guidance', detail: 'Facts without fear as a sales tactic' },
+  { label: 'In-home & virtual', detail: 'Your living room or your screen—your call' },
 ];
 
 export default function TrustStrip() {
