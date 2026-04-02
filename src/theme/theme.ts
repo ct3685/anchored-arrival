@@ -114,6 +114,11 @@ export const theme = createTheme({
           borderRadius: 16,
           border: `1px solid ${colors.ivory}`,
           boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+          transition: 'transform 0.25s ease, box-shadow 0.25s ease',
+          '&:hover': {
+            transform: 'translateY(-4px)',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.10)',
+          },
         },
       },
     },

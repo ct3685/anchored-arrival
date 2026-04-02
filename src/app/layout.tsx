@@ -7,17 +7,6 @@ import { theme } from '@/theme/theme';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
-/*
- * Business Name Ideas:
- * 1. Tender Beginnings Wellness
- * 2. Rooted in Birth
- * 3. The Bloom Collective — Maternal Wellness
- * 4. Nestled Support Doula Services
- * 5. Gentle Passage Birth & Wellness
- * 6. Willow & Bloom Maternal Care
- * 7. Cradle & Sage Doula Services
- */
-
 const displayFont = Playfair_Display({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
@@ -34,11 +23,11 @@ const bodyFont = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Tender Beginnings Wellness — Doula & Maternal Support',
-    template: '%s | Tender Beginnings Wellness',
+    default: 'Anchored Arrival — Doula & Maternal Support',
+    template: '%s | Anchored Arrival',
   },
   description:
-    'Compassionate doula services, birth education, lactation counseling, and postpartum support. Empowering families through every stage of their journey.',
+    'Strong, steady support for a confident birth. Doula services, birth education, lactation counseling, and postpartum support by Alissa Thorson.',
   keywords: [
     'doula',
     'birth support',

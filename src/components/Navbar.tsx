@@ -14,6 +14,7 @@ import {
   ListItemText,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import AnchorIcon from '@mui/icons-material/Anchor';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -31,20 +32,29 @@ export default function Navbar() {
     <>
       <AppBar position="sticky">
         <Toolbar sx={{ maxWidth: 1200, mx: 'auto', width: '100%' }}>
-          <Typography
-            variant="h5"
+          <Box
             component={Link}
             href="/"
             sx={{
               flexGrow: 1,
               textDecoration: 'none',
-              color: 'primary.dark',
-              fontFamily: 'var(--font-display)',
-              fontWeight: 700,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 1,
             }}
           >
-            Tender Beginnings
-          </Typography>
+            <AnchorIcon sx={{ color: 'primary.dark', fontSize: 28 }} />
+            <Typography
+              variant="h5"
+              sx={{
+                color: 'primary.dark',
+                fontFamily: 'var(--font-display)',
+                fontWeight: 700,
+              }}
+            >
+              Anchored Arrival
+            </Typography>
+          </Box>
           <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1 }}>
             {navItems.map((item) => (
               <Button

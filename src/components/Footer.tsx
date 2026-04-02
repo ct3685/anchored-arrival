@@ -25,10 +25,10 @@ export default function Footer() {
         >
           <Box>
             <Typography variant="h6" sx={{ fontFamily: 'var(--font-display)', mb: 1 }}>
-              Tender Beginnings Wellness
+              Anchored Arrival
             </Typography>
-            <Typography variant="body2" sx={{ opacity: 0.85 }}>
-              Compassionate doula & maternal wellness services
+            <Typography variant="body2" sx={{ opacity: 0.85, fontStyle: 'italic' }}>
+              Strong, steady support for a confident birth
             </Typography>
           </Box>
           <Box sx={{ display: 'flex', gap: 3 }}>
@@ -51,7 +51,7 @@ export default function Footer() {
             other qualified health provider with any questions regarding a medical condition.
           </Typography>
           <Typography variant="caption" sx={{ opacity: 0.7, display: 'block' }}>
-            © {new Date().getFullYear()} Tender Beginnings Wellness. All rights reserved.
+            © {new Date().getFullYear()} Anchored Arrival. All rights reserved.
             Your privacy is important to us.
           </Typography>
         </Box>
