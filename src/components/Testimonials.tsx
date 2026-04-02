@@ -49,7 +49,7 @@ export default function Testimonials() {
             mb: 1,
           }}
         >
-          Proof of presence
+          From families
         </Typography>
 
         <Typography
@@ -79,10 +79,10 @@ export default function Testimonials() {
                   flexDirection: 'column',
                   bgcolor: 'rgba(250,246,241,0.55)',
                   border: '1px solid rgba(58,53,48,0.06)',
-                  transition: 'box-shadow 0.45s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1)',
+                  transition: 'box-shadow 0.4s ease, border-color 0.4s ease',
                   '&:hover': {
-                    boxShadow: '0 28px 56px rgba(30,26,23,0.06)',
-                    transform: 'translateY(-2px)',
+                    boxShadow: '0 24px 48px rgba(30,26,23,0.05)',
+                    borderColor: 'rgba(58,53,48,0.1)',
                   },
                 }}
               >

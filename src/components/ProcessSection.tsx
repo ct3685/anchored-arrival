@@ -59,11 +59,26 @@ export default function ProcessSection() {
           sx={{
             fontSize: { xs: '1.9rem', md: '2.5rem' },
             color: colors.espresso,
-            mb: 0,
+            mb: 1.5,
             fontWeight: 600,
+            lineHeight: 1.12,
           }}
         >
           How we move together
+        </Typography>
+        <Typography
+          sx={{
+            fontFamily: 'var(--font-sans)',
+            fontSize: { xs: '0.95rem', md: '1rem' },
+            color: colors.warmGray,
+            lineHeight: 1.65,
+            textAlign: 'center',
+            maxWidth: 520,
+            mx: 'auto',
+            mb: 0,
+          }}
+        >
+          One relationship, one thread of context—from first call through the fourth trimester.
         </Typography>
         <SectionDivider ornament={false} />
 

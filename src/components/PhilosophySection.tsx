@@ -81,8 +81,30 @@ export default function PhilosophySection() {
               Luxury, here, is not excess. It is clarity, slowness, and the relief of being held by
               someone who does not flinch.
             </Typography>
-            <Button variant="text" color="primary" component={Link} href="/about" sx={{ px: 0 }}>
-              Read the full story →
+            <Button
+              variant="text"
+              color="primary"
+              component={Link}
+              href="/about"
+              sx={{
+                px: 0,
+                minWidth: 0,
+                color: colors.clayDeep,
+                fontWeight: 600,
+                letterSpacing: '0.12em',
+                fontSize: '0.78rem',
+                textTransform: 'uppercase',
+                borderBottom: `1px solid rgba(201,150,123,0.35)`,
+                borderRadius: 0,
+                pb: 0.25,
+                '&:hover': {
+                  backgroundColor: 'transparent',
+                  borderBottomColor: colors.clayDeep,
+                  color: colors.espresso,
+                },
+              }}
+            >
+              Read the full story
             </Button>
           </Box>
         </Box>

@@ -61,14 +61,15 @@ export default function About({ full = false }: { full?: boolean }) {
             <Typography
               sx={{
                 fontFamily: 'var(--font-body)',
-                fontSize: '0.78rem',
-                letterSpacing: '0.18em',
+                fontSize: '0.7rem',
+                letterSpacing: '0.22em',
                 textTransform: 'uppercase',
-                color: colors.gold,
+                color: colors.bronzeMuted,
+                fontWeight: 600,
                 mb: 2,
               }}
             >
-              {full ? 'Our Story' : 'About'}
+              {full ? 'Our story' : 'About'}
             </Typography>
 
             <Typography

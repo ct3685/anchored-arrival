@@ -95,20 +95,20 @@ img {
 
 @media (prefers-reduced-motion: no-preference) {
   .aa-fade-up {
-    animation: aa-fade-up 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: aa-fade-up 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     opacity: 0;
   }
 
   .aa-fade-up-delay-1 {
-    animation-delay: 0.12s;
+    animation-delay: 0.08s;
   }
 
   .aa-fade-up-delay-2 {
-    animation-delay: 0.22s;
+    animation-delay: 0.16s;
   }
 
   .aa-fade-up-delay-3 {
-    animation-delay: 0.32s;
+    animation-delay: 0.24s;
   }
 }
 
@@ -125,7 +125,7 @@ img {
 @keyframes aa-fade-up {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;

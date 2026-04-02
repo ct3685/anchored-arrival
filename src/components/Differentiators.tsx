@@ -88,13 +88,15 @@ export default function Differentiators() {
             <Box component="li" key={p.title}>
               <Typography
                 sx={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '3.5rem',
+                  fontFamily: 'var(--font-accent)',
+                  fontSize: '2rem',
                   lineHeight: 1,
-                  color: colors.clay,
-                  opacity: 0.45,
+                  color: colors.goldLight,
+                  opacity: 0.4,
                   mb: 2,
-                  fontWeight: 500,
+                  fontWeight: 400,
+                  fontStyle: 'italic',
+                  letterSpacing: '0.06em',
                 }}
                 aria-hidden
               >

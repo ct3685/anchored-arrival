@@ -38,14 +38,14 @@ export default function Hero() {
           sx={{
             fontFamily: 'var(--font-sans)',
             fontSize: { xs: '0.68rem', sm: '0.72rem' },
-            letterSpacing: '0.28em',
+            letterSpacing: '0.24em',
             textTransform: 'uppercase',
             color: colors.bronzeMuted,
             mb: { xs: 3, md: 4 },
             fontWeight: 600,
           }}
         >
-          Anchored Arrival
+          Alissa Thorson · Doula practice
         </Typography>
 
         <Typography
@@ -101,8 +101,9 @@ export default function Hero() {
             mb: { xs: 4, md: 5 },
           }}
         >
-          One-to-one doula care, birth education, and postpartum guidance—clear-eyed, unhurried, and
-          rooted in evidence. For when the moment is too sacred to navigate on adrenaline alone.
+          Private doula care, birth education, and postpartum guidance—clear-eyed, unhurried, and
+          rooted in evidence. For when the threshold deserves someone who will not rush you through
+          it.
         </Typography>
 
         <Stack
@@ -138,12 +139,14 @@ export default function Hero() {
       <Box
         sx={{
           position: 'relative',
-          minHeight: { xs: 320, md: 'auto' },
-          bgcolor: { xs: 'transparent', md: colors.espresso },
+          minHeight: { xs: 300, md: 'auto' },
+          bgcolor: { xs: 'rgba(232,222,210,0.45)', md: colors.espresso },
+          borderTop: { xs: `1px solid rgba(58,53,48,0.06)`, md: 'none' },
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           overflow: 'hidden',
+          py: { xs: 5, md: 0 },
         }}
       >
         <Box
@@ -160,7 +163,7 @@ export default function Hero() {
           aria-hidden
           sx={{
             position: 'relative',
-            width: { xs: 240, sm: 280, md: 'min(72%, 380px)' },
+            width: { xs: 200, sm: 240, md: 'min(72%, 380px)' },
             aspectRatio: '1',
             zIndex: 1,
             '& img': {
@@ -170,7 +173,7 @@ export default function Hero() {
             },
           }}
         >
-          <Image src="/logo.png" alt="" fill sizes="(max-width: 900px) 280px, 380px" priority />
+          <Image src="/logo.png" alt="" fill sizes="(max-width: 600px) 240px, (max-width: 900px) 280px, 380px" priority />
         </Box>
         <Typography
           sx={{

@@ -15,7 +15,7 @@ export default function SectionDivider({ ornament = true }: SectionDividerProps)
         alignItems: 'center',
         justifyContent: 'center',
         gap: 2.5,
-        py: { xs: 4, md: 6 },
+        py: { xs: 3, md: 5 },
         px: 4,
       }}
     >

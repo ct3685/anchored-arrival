@@ -29,12 +29,12 @@ export function ContactForm() {
         variant="standard"
       />
       <TextField
-        label="Tell us about your needs"
+        label="What would help right now?"
         multiline
         rows={4}
         fullWidth
         variant="standard"
-        placeholder="Due date, services you're interested in, questions..."
+        placeholder="Timeline, what you are weighing, what you need from me…"
       />
       <Button
         variant="contained"
@@ -43,12 +43,12 @@ export function ContactForm() {
         type="submit"
         sx={{
           mt: 1,
-          alignSelf: 'center',
-          px: 6,
+          alignSelf: { xs: 'stretch', sm: 'center' },
+          px: { xs: 4, sm: 6 },
           py: 1.8,
         }}
       >
-        Send Message
+        Send inquiry
       </Button>
       <Typography
         sx={{
@@ -57,10 +57,11 @@ export function ContactForm() {
           fontSize: '0.88rem',
           color: colors.warmGray,
           textAlign: 'center',
+          lineHeight: 1.65,
         }}
       >
-        We typically respond within 24 hours. Your information is kept strictly
-        confidential.
+        Replies usually land within one business day. Nothing you share is used for marketing or
+        passed along without your consent.
       </Typography>
     </Box>
   );
